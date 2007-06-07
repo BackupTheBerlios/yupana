@@ -1,0 +1,8 @@
+syntax: glob
+*.swp
+*~
+*.tmp.
+*.orig
+*.rej
+.htaccess
+includes/conf.inc.php
