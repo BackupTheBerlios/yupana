@@ -1,30 +1,29 @@
-<?
-include "conf.inc.php";
-print '
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/1999/REC-html401-19991224/loose.dtd">
-<html>
-<head>
-        <title>'.$conference_name.'</title>
-        <meta HTTP-EQUIV="Pragma" content="no-cache">
-        <meta NAME="ROBOTS" CONTENT="INDEX,FOLLOW">
-        <meta HTTP-EQUIV="Content-Language" CONTENT="ES">
-        <meta HTTP-EQUIV="Content-Type" content="text/html; charset=ISO-8859-1">
-        <meta NAME="description" CONTENT="'.$conference_name.'">
-        <meta NAME="keywords" CONTENT="Hispalinux,hipalinux,festival,software,libre,software libre,festival de software libre,2004,FSL,linux,gnu,gpl,openbsd,freebsd,netbsd,gnu/linux">
-        <meta NAME="author" CONTENT="Patux & Kako)">
-        <meta NAME="copyright" CONTENT="Copyrigth Geronimo Orozco (Patux)">
-        <meta NAME="audience" CONTENT="All">
-        <meta NAME="distribution" content="Global">
-        <meta NAME="rating" content="General">
-        <meta HTTP-EQUIV="Reply-to" CONTENT="'.$general_mail.'">
-        <meta NAME="revisit-after" CONTENT="1 days">
-        <link rel="SHORTCUT ICON" href="'.$rootpath.'/images/favicon.ico"> 
-        <link rel="icon" href="'.$rootpath.'/images/favicon.ico"">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 
+<head>
+    <title><?=$CFG->conference_name ?></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="Content-Language" content="es" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta name="robots" content="index,follow" />
+    <meta NAME="audience" CONTENT="All">
+    <meta NAME="distribution" content="Global">
+    <meta NAME="rating" content="General">
+    <meta name="revisit-after" content="1 days">
+    <meta name="description" content="<?=$CFG->conference_name ?>">
+    <meta NAME="keywords" CONTENT="Hispalinux,hipalinux,festival,software,libre,software libre,festival de software libre,2004,FSL,linux,gnu,gpl,openbsd,freebsd,netbsd,gnu/linux">
+    <link rel="icon" href="<?=$CFG->wwwroot ?>/images/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="<?=$CFG->wwwroot ?>/includes/style.css" media="all">
 </head>
 
-<link rel="stylesheet" href="'.$rootpath.'/style1.css" type="text/css">
+<body>
 
-';
-print ' <body bgcolor="'.$bgcolor.'" link="#a6a141"> ';
-?>
+<div id="container">
+
+<div id="header">
+    <a href="<?=$CFG->conference_link ?>"><img src="<?=$CFG->wwwroot ?>/images/logo.jpg" /></a>
+    <h1><?=$CFG->conference_name ?></h1>
+</div> <!-- #header -->
+
+<div id="content">
