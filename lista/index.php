@@ -1,4 +1,4 @@
-<?
-	include "lista_propuestas.php";
+<?php
+	require('lista_propuestas.php');
 ?>
 
