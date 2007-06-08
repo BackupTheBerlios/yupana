@@ -11,7 +11,7 @@ $CFG->conference_link="http://random.conference.site";
 //
 //$CFG->wwwroot = 'http://yacomas.conference.site';
 
-$CFG->wwwroot = '/yacomas-rho';
+$CFG->wwwroot = '/yacomas';
 
 //
 // db settings
@@ -26,7 +26,7 @@ $CFG->dbhost='localhost';
 // The place where the files from the speakers will be stored   
 // The directory must be created and give the specific permissions in order to apache can write inside that directory
 
-$CFG->files = "/home/rolando/www/yacomas-documentos/";
+$CFG->files = "/full/path/to/archives/";
 
 // The mail to provide users who have PROBLEMS, WARNINGS with Yacomas.
 
@@ -41,7 +41,7 @@ $CFG->general_mail='noreply@yourdomain';
 //      7 for normal operation 
 //      2047 for full debugging 
 
-$CFG->debug = 2047;
+$CFG->debug = 7;
 
 // Workshops max limit to be used 
 
@@ -63,7 +63,7 @@ $CFG->max_inscripcionTU=3;
 
 // The mail that should be used for send emails IP or domain name is valid
 
-$CFG->smtp="your.smpt.domain";
+//$CFG->smtp="your.smpt.domain";
 
 // This constant will be used to enable or disable the feature to send mails(spam?) patux@patux.net
 
