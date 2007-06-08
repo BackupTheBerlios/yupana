@@ -1,8 +1,9 @@
 <?php
 // This file is taked from elgg
 
-require('datalib.php');
-require('constants.php');
+require(dirname(__FILE__).'/displaylib.php');
+require(dirname(__FILE__).'/datalib.php');
+require(dirname(__FILE__).'/constants.php');
 
 global $db;
 global $CFG;
@@ -38,7 +39,11 @@ if ($CFG->debug & E_USER_ERROR) {
 }
 require_once('adodb/adodb.inc.php'); // Database access functions
 
-$db = &ADONewConnection('mysql'); //only support for mysql
+if (empty($CFG->dbtype)) {
+    $CFG->dbtype = 'mysql';
+}
+
+$db = &ADONewConnection($CFG->dbtype);
 $ADODB_FETCH_MODE = ADODB_FETCH_ASSOC;
 
 error_reporting(0);  // Hide errors
