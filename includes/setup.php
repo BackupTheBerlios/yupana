@@ -1,6 +1,7 @@
 <?php
 // This file is taked from elgg
 
+require(dirname(__FILE__).'/config.php');
 require(dirname(__FILE__).'/displaylib.php');
 require(dirname(__FILE__).'/datalib.php');
 require(dirname(__FILE__).'/constants.php');
