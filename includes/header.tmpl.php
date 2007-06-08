@@ -12,8 +12,8 @@
     <meta NAME="rating" content="General">
     <meta name="revisit-after" content="1 days">
     <meta name="description" content="<?=$CFG->conference_name ?>">
-    <meta NAME="keywords" CONTENT="Hispalinux,hipalinux,festival,software,libre,software libre,festival de software libre,2004,FSL,linux,gnu,gpl,openbsd,freebsd,netbsd,gnu/linux">
-    <link rel="icon" href="<?=$CFG->wwwroot ?>/images/favicon.ico">
+    <meta NAME="keywords" content="congreso,bolivia,festival,software,libre,software libre,festival de software libre,2004,FSL,linux,gnu,gpl,openbsd,freebsd,netbsd,gnu/linux">
+    <link rel="icon" href="<?=$CFG->wwwroot ?>/images/yacomas.ico">
     <link rel="stylesheet" type="text/css" href="<?=$CFG->wwwroot ?>/includes/style.css" media="all">
 </head>
 
@@ -27,3 +27,4 @@
 </div> <!-- #header -->
 
 <div id="content">
+<!-- main body -->

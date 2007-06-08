@@ -1,10 +1,7 @@
-        </td>
-    </tr>
-</table>
-
-<br><br>
-
+<!-- end body content -->
 </div><!-- #content -->
+
+<div class="clear"></div>
 
 <div id="footer">
     <p>
