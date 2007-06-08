@@ -33,14 +33,11 @@ function execute_sql($command, $feedback=true) {
         $db->debug = false;
     }
     
-    if (defined('ELGG_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
-
     $result = $db->Execute($command);
 
     $db->debug = $olddebug;
 
     if ($result) {
-        // elggcache_purge(); // TODO - should probably be here, given function can do anything, but very inefficient
         if ($feedback) {
             notify(__gettext('Success'), 'notifysuccess');
         }
@@ -49,17 +46,9 @@ function execute_sql($command, $feedback=true) {
         if ($feedback) {
             echo '<p><span class="error">'. __gettext('Error') .'</span></p>';
         }
-        if (!empty($CFG->dblogerror)) {
-            $debug = debug_backtrace();
-            foreach ($debug as $d) {
-                if (strpos($d['file'],'datalib') === false) {
-                    error_log("SQL ".$db->ErrorMsg()." in {$d['file']} on line {$d['line']}. STATEMENT:  $command");
-                    break;
-                }
-            }
-        }
-        return false;
     }
+
+    return false;
 }
 /**
 * on DBs that support it, switch to transaction mode and begin a transaction
@@ -216,15 +205,6 @@ function record_exists_sql($sql,$values=null) {
         if (isset($CFG->debug) and $CFG->debug > 7) {
             notify($db->ErrorMsg().'<br /><br />'.$sql);
         }
-        if (!empty($CFG->dblogerror)) {
-            $debug = debug_backtrace();
-            foreach ($debug as $d) {
-                if (strpos($d['file'],'datalib') === false) {
-                    error_log("SQL ".$db->ErrorMsg()." in {$d['file']} on line {$d['line']}. STATEMENT:  $sql");
-                    break;
-                }
-            }
-        }
         return false;
     }
 
@@ -294,8 +274,6 @@ function count_records_sql($sql, $values=null) {
 
     global $CFG, $db;
 
-    if (defined('ELGG_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
-
     $rs = false;
     if (!empty($values) && is_array($values) && count($values) > 0) {
         $stmt = $db->Prepare($sql);
@@ -306,15 +284,6 @@ function count_records_sql($sql, $values=null) {
     if (!$rs) {
         if (isset($CFG->debug) and $CFG->debug > 7) {
             notify($db->ErrorMsg() .'<br /><br />'. $sql);
-        }
-        if (!empty($CFG->dblogerror)) {
-            $debug = debug_backtrace();
-            foreach ($debug as $d) {
-                if (strpos($d['file'],'datalib') === false) {
-                    error_log("SQL ".$db->ErrorMsg()." in {$d['file']} on line {$d['line']}. STATEMENT:  $sql");
-                    break;
-                }
-            }
         }
         return 0;
     }
@@ -343,28 +312,12 @@ function count_records_sql($sql, $values=null) {
 function get_record($table, $field1=null, $value1=null, $field2=null, $value2=null, $field3=null, $value3=null, $fields='*') {
 
     global $CFG;
-    $trycache = false;
     
-    //just cache things by primary key for now
-    if ($field1 == "ident" && $value1 == intval($value1) && empty($field2)  && empty($value2) && empty($field3) && empty($value3) && $fields == "*") {
-        $trycache = true;
-        $cacheval = elggcache_get($table, $field1 . "_" . intval($value1));
-        if (!is_null($cacheval)) {
-            return $cacheval;
-        } else {
-            
-        }
-    }
-
     $select = where_clause_prepared($field1, $field2, $field3);
 
     $values = where_values_prepared($value1, $value2, $value3);
     
     $returnvalue = get_record_sql('SELECT '.$fields.' FROM '. $CFG->prefix . $table .' '. $select, $values);
-    
-    if ($trycache) {
-        $setres = elggcache_set($table, $field1 . "_" . $value1, $returnvalue);
-    }
     
     return $returnvalue;
 }
@@ -394,8 +347,6 @@ function get_record_sql($sql, $values=null, $expectmultiple=false, $nolimit=fals
        $limit = ' LIMIT 1';    // Workaround - limit to one record
     }
 
-    if (defined('ELGG_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
-
     $rs = false;
     if (!empty($values) && is_array($values) && count($values) > 0) {
         $stmt = $db->Prepare($sql. $limit);
@@ -406,15 +357,6 @@ function get_record_sql($sql, $values=null, $expectmultiple=false, $nolimit=fals
     if (!$rs) {
         if (isset($CFG->debug) and $CFG->debug > 7) {    // Debugging mode - print checks
             notify( $db->ErrorMsg() . '<br /><br />'. $sql . $limit );
-        }
-        if (!empty($CFG->dblogerror)) {
-            $debug = debug_backtrace();
-            foreach ($debug as $d) {
-                if (strpos($d['file'],'datalib') === false) {
-                    error_log("SQL ".$db->ErrorMsg()." in {$d['file']} on line {$d['line']}. STATEMENT:  $sql$limit");
-                    break;
-                }
-            }
         }
         return false;
     }
@@ -436,7 +378,7 @@ function get_record_sql($sql, $values=null, $expectmultiple=false, $nolimit=fals
             notify('Very strange error in get_record_sql !');
             print_object($rs);
         }
-        print_continue("$CFG->wwwroot/$CFG->admin/config.php");
+//        print_continue("$CFG->wwwroot/$CFG->admin/config.php");
     }
 }
 
@@ -596,8 +538,6 @@ function get_recordset_sql($sql,$values=null) {
 
     global $CFG, $db;
 
-    if (defined('ELGG_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
-
     if (!empty($CFG->vardumpsql)) {
         var_dump($sql);
     }
@@ -612,15 +552,6 @@ function get_recordset_sql($sql,$values=null) {
     if (!$rs) {
         if (isset($CFG->debug) and $CFG->debug > 7) {
             notify($db->ErrorMsg() .'<br /><br />'. $sql);
-        }
-        if (!empty($CFG->dblogerror)) {
-            $debug = debug_backtrace();
-            foreach ($debug as $d) {
-                if (strpos($d['file'],'datalib') === false) {
-                    error_log("SQL ".$db->ErrorMsg()." in {$d['file']} on line {$d['line']}. STATEMENT:  $sql");
-                    break;
-                }
-            }
         }
         return false;
     }
@@ -828,8 +759,6 @@ function get_field($table, $return, $field1, $value1, $field2=null, $value2=null
 
     $values = where_values_prepared($value1, $value2, $value3);
 
-    if (defined('ELGG_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
-    
     // this always generates a where query, so there must always be values to look up
     if (count($values)) {
         $stmt = $db->Prepare('SELECT '. $return .' FROM '. $CFG->prefix . $table .' '. $select);
@@ -837,15 +766,6 @@ function get_field($table, $return, $field1, $value1, $field2=null, $value2=null
         if (!$rs) {
             if (isset($CFG->debug) and $CFG->debug > 7) {
                 notify($db->ErrorMsg() .'<br /><br />SELECT '. $return .' FROM '. $CFG->prefix . $table .' '. $select);
-            }
-            if (!empty($CFG->dblogerror)) {
-                $debug = debug_backtrace();
-                foreach ($debug as $d) {
-                    if (strpos($d['file'],'datalib') === false) {
-                        error_log("SQL ".$db->ErrorMsg()." in {$d['file']} on line {$d['line']}. STATEMENT:  SELECT $return FROM $CFG->prefix$table $select");
-                        break;
-                    }
-                }
             }
             return false;
         }
@@ -874,8 +794,6 @@ function get_field_sql($sql, $values=null) {
 
     global $db, $CFG;
 
-    if (defined('ELGG_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
-
     $rs = false;
     if (!empty($values) && is_array($values) && count($values) > 0) {
         $stmt = $db->Prepare($sql);
@@ -886,15 +804,6 @@ function get_field_sql($sql, $values=null) {
     if (!$rs) {
         if (isset($CFG->debug) and $CFG->debug > 7) {
             notify($db->ErrorMsg() .'<br /><br />'. $sql);
-        }
-        if (!empty($CFG->dblogerror)) {
-            $debug = debug_backtrace();
-            foreach ($debug as $d) {
-                if (strpos($d['file'],'datalib') === false) {
-                    error_log("SQL ".$db->ErrorMsg()." in {$d['file']} on line {$d['line']}. STATEMENT:  $sql");
-                    break;
-                }
-            }
         }
         return false;
     }
@@ -926,21 +835,11 @@ function set_field($table, $newfield, $newvalue, $field1, $value1, $field2=null,
 
     global $db, $CFG;
 
-    if (defined('ELGG_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
-
     $select = where_clause_prepared($field1, $field2, $field3);
     $values = where_values_prepared($newvalue, $value1, $value2, $value3);
     
     $stmt = $db->Prepare('UPDATE '. $CFG->prefix . $table .' SET '. $newfield  .' = ? '. $select);
     $returnvalue = $db->Execute($stmt,$values);
-    
-    if ($field1 == "ident") {
-         // updating by primary key
-        elggcache_delete($table, $field1 . "_" . $value1);
-    } else {
-        // sledgehammer :(
-        elggcache_cachepurgetype($table);
-    }
     
     return $returnvalue;
 }
@@ -963,21 +862,11 @@ function delete_records($table, $field1=null, $value1=null, $field2=null, $value
 
     global $db, $CFG;
 
-    if (defined('ELGG_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
-
     $select = where_clause_prepared($field1, $field2, $field3);
     $values = where_values_prepared($value1, $value2, $value3);
     
     $stmt = $db->Prepare('DELETE FROM '. $CFG->prefix . $table .' '. $select);
     $returnvalue = $db->Execute($stmt,$values);
-    
-    if ($field1 == "ident") {
-         // updating by primary key
-        elggcache_delete($table, $field1 . "_" . $value1);
-    } else {
-        // sledgehammer :(
-        elggcache_cachepurgetype($table);
-    }
     
     return $returnvalue;
 }
@@ -996,8 +885,6 @@ function delete_records_select($table, $select='',$values=null) {
 
     global $CFG, $db;
 
-    if (defined('ELGG_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
-
     if ($select) {
         $select = 'WHERE '.$select;
     }
@@ -1009,8 +896,6 @@ function delete_records_select($table, $select='',$values=null) {
     } else {
         $result = $db->Execute('DELETE FROM '. $CFG->prefix . $table .' '. $select);
     }
-    
-    elggcache_cachepurgetype($table);
     
     return $result;
 }
@@ -1044,8 +929,6 @@ function insert_record($table, $dataobject, $returnid=true, $primarykey='ident')
     }
     
 
-    if (defined('ELGG_PERFDB')) { global $PERF ; $PERF->dbqueries++; };
-
     /// Postgres doesn't have the concept of primary key built in
     /// and will return the OID which isn't what we want.
     /// The efficient and transaction-safe strategy is to 
@@ -1065,7 +948,7 @@ function insert_record($table, $dataobject, $returnid=true, $primarykey='ident')
 
   // Pull out data matching these fields
     foreach ($columns as $column) {
-        if ($column->name <> 'ident' and isset($data[$column->name]) ) {
+        if ($column->name <> 'id' and isset($data[$column->name]) ) {
             $ddd[$column->name] = $data[$column->name];
         } else if($column->name == 'created' && $column->type == 'int') {
 			$ddd['created'] = time();
@@ -1073,7 +956,7 @@ function insert_record($table, $dataobject, $returnid=true, $primarykey='ident')
     }
 
     if (!empty($setfromseq)) {
-        $ddd['ident'] = $dataobject->ident;
+        $ddd['id'] = $dataobject->id;
     }
 
     // Construct SQL queries
@@ -1098,15 +981,6 @@ function insert_record($table, $dataobject, $returnid=true, $primarykey='ident')
     if (!$rs = $db->Execute($stmt,$ddd)) {
         if (isset($CFG->debug) and $CFG->debug > 7) {
             notify($db->ErrorMsg() .'<br /><br />'.$insertSQL);
-        }
-        if (!empty($CFG->dblogerror)) {
-            $debug = debug_backtrace();
-            foreach ($debug as $d) {
-                if (strpos($d['file'],'datalib') === false) {
-                    error_log("SQL ".$db->ErrorMsg()." in {$d['file']} on line {$d['line']}. STATEMENT:  $insertSQL");
-                    break;
-                }
-            }
         }
         return false;
     }
@@ -1220,11 +1094,10 @@ function update_record($table, $dataobject) {
 
     $stmt = $db->Prepare('UPDATE '. $table .' SET '. $update .' WHERE id = \''. $dataobject->id .'\'');
     if ($rs = $db->Execute($stmt,$ddd)) {
-//        elggcache_delete($table, "ident_" . $dataobject->ident);
         return true;
     } else {
         if (isset($CFG->debug) and $CFG->debug > 7) {
-            notify($db->ErrorMsg() .'<br /><br />UPDATE '. $CFG->prefix . $table .' SET '. $update .' WHERE ident = \''. $dataobject->ident .'\'');
+            notify($db->ErrorMsg() .'<br /><br />UPDATE '. $CFG->prefix . $table .' SET '. $update .' WHERE ident = \''. $dataobject->id .'\'');
         }
         return false;
     }
