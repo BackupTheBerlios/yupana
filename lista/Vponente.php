@@ -1,52 +1,53 @@
-<? 
-include "../includes/lib.php";
-include "../includes/conf.inc.php";
-imprimeEncabezado();
+<?php
+require('../includes/lib.php');
 
+do_header();
 
+//FIXME: better use own variables for each arg
+$vopc = optional_param('vopc');
 $tok = strtok ($_GET['vopc']," ");
-$idponente=$tok;
+$idponente = (int)$tok;
+
 $tok = strtok (" ");
 $regresa='';
 	while ($tok) {
 		$regresa .=' '.$tok;
 		$tok=strtok(" ");
 	}
+?>
 
-$link=conectaBD();
-$userQuery = 'SELECT nombrep, apellidos, resume FROM ponente WHERE id="'.$idponente.'"';
-$userRecords = mysql_query($userQuery) or err("No se pudo checar el ponente".mysql_errno($userRecords));
-$p = mysql_fetch_array($userRecords);
+<h1>Datos de ponente</h2>
 
-$msg='Datos de ponente <br><small>-- '.$p['nombrep'].' '.$p['apellidos'].' --</small><hr>';
-imprimeCajaTop("100",$msg);
+<?php
+$user = get_record('ponente', 'id', $idponente);
 
-// Inicio datos de Ponencias
-/*    print '
-     		<table width=100%>
-		<tr>
-		<td class="name">Resumen Curricular: </td>
-		<td align=justify class="resultado">
-		'.$p['resume'].'
-		</td>
-		</tr>
+if (empty($user)) {
+?>
+<p class="yacomas_error">Usuario no encontrado</p>
+<?php
+} else {
+    
+?>
 
-		</table>';
-*/
-	print '<center><b> Resumen Curricular </b></center>
-		<br><br>
-		<table width=100%>
-		<tr>
-		<td align=justify class="resultado">
-		'.$p['resume'].'
-		</td>
-		</tr>
-		</table>
-		';
-	retorno();
-	retorno();
-	print '<center>
-		<br><big><a class="boton" href="'.$regresa.'" onMouseOver="window.status=\'Volver\';return true" onFocus="window.status=\'Volver\';return true" onMouseOut="window.status=\'\';return true">[ Volver ]</a></big>
-	</center>';
-imprimeCajaBottom();
-imprimePie();?>
+<h2><?=$user->nombrep ?> <?=$user->apellidos ?></h2>
+
+<?php
+    if (empty($user->resume)) {
+        $user->resume = '--';
+    }
+
+    $values = array(
+        'Resumen Curricular' => $user->resume,
+    );
+
+    do_table_values($values, 'table1');
+}
+?>
+
+<p id="buttons">
+    <input type="submit" value="Regresar" onClick="location.href='../'" />
+</p>
+
+<?php
+do_footer();
+?>
