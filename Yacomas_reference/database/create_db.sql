@@ -1,14 +1,14 @@
 -- We create the database and the user that is gonna be permissions to use it
 
-DROP DATABASE dbname; 
--- CREATE DATABASE fsldb;
+CREATE DATABASE IF NOT EXISTS yacomas;
 GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP
-ON fsldb.* TO 'dbuser'@'your.db.host' IDENTIFIED BY 'dbpwd';
+ON yacomas.* TO 'yacomas'@'localhost' IDENTIFIED BY 'yacomas';
 
 -- We start to create all the tables
 
-USE dbname;
+USE yacomas;
 
+DROP TABLE IF EXISTS administrador;
 CREATE TABLE administrador (
   id int(10) unsigned NOT NULL auto_increment,
   login varchar(15) NOT NULL default '',
@@ -26,12 +26,13 @@ CREATE TABLE administrador (
 -- Default user:   admin
 -- Default passwd: admin
 
-INSERT INTO administrador VALUES (1,'admin',md5('admin'),'Administrador','Principal','admin-fsl@glo.org.mx',1);
+INSERT INTO administrador VALUES (1,'admin',md5('admin'),'Administrador','Principal','admin@softwarelibre.org.bo',1);
 
 --
 -- Table structure for table 'asistente'
 --
 
+DROP TABLE IF EXISTS asistente;
 CREATE TABLE asistente (
   id int(10) unsigned NOT NULL auto_increment,
   login varchar(15) NOT NULL default '',
@@ -56,6 +57,7 @@ CREATE TABLE asistente (
 -- Table structure for table 'config'
 --
 
+DROP TABLE IF EXISTS config;
 CREATE TABLE config (
   id int(11) NOT NULL auto_increment,
   descr varchar(100) default NULL,
@@ -78,6 +80,7 @@ INSERT INTO config VALUES (4,'Inscripcion talleres',1);
 -- Table structure for table 'encuesta'
 --
 
+DROP TABLE IF EXISTS  encuesta;
 CREATE TABLE encuesta (
   id int(10) unsigned NOT NULL auto_increment,
   pregunta varchar(80) default NULL,
@@ -95,6 +98,7 @@ INSERT INTO encuesta VALUES (1,'Que taller o tutorial te gustaria que se repitie
 -- Table structure for table 'encuesta_opc'
 --
 
+DROP TABLE IF EXISTS encuesta_opc;
 CREATE TABLE encuesta_opc (
   id int(10) unsigned NOT NULL auto_increment,
   id_encuesta int(10) NOT NULL default '0',
@@ -124,6 +128,7 @@ INSERT INTO encuesta_opc VALUES (10,1,'Técnicas para generar y manipular sitios 
 --
 -- Only registered users can vote, and they only can vote once.
 
+DROP TABLE IF EXISTS voto;
 CREATE TABLE encuesta_voto (
   id_encuesta int(10) NOT NULL default '0',
   id_opcion int(10) NOT NULL default '0',
@@ -135,6 +140,7 @@ CREATE TABLE encuesta_voto (
 -- Table structure for table 'estado'
 --
 
+DROP TABLE IF EXISTS estado;
 CREATE TABLE estado (
   id int(10) unsigned NOT NULL auto_increment,
   descr varchar(100) default NULL,
@@ -145,44 +151,23 @@ CREATE TABLE estado (
 -- Dumping data for table 'estado'
 --
 
-INSERT INTO estado VALUES (1,'Aguascalientes');
-INSERT INTO estado VALUES (2,'Baja California');
-INSERT INTO estado VALUES (3,'Baja California Sur');
-INSERT INTO estado VALUES (4,'Campeche');
-INSERT INTO estado VALUES (5,'Chiapas');
-INSERT INTO estado VALUES (6,'Chihuahua');
-INSERT INTO estado VALUES (7,'Coahuila');
-INSERT INTO estado VALUES (8,'Colima');
-INSERT INTO estado VALUES (9,'Distrito Federal');
-INSERT INTO estado VALUES (10,'Durango');
-INSERT INTO estado VALUES (11,'Guanajuato');
-INSERT INTO estado VALUES (12,'Guerrero');
-INSERT INTO estado VALUES (13,'Hidalgo');
-INSERT INTO estado VALUES (14,'Jalisco');
-INSERT INTO estado VALUES (15,'M&eacute;xico');
-INSERT INTO estado VALUES (16,'Michoac&aacute;n');
-INSERT INTO estado VALUES (17,'Morelos');
-INSERT INTO estado VALUES (18,'Nayarit');
-INSERT INTO estado VALUES (19,'Nuevo Le&oacute;n');
-INSERT INTO estado VALUES (20,'Oaxaca');
-INSERT INTO estado VALUES (21,'Puebla');
-INSERT INTO estado VALUES (22,'Quer&eacute;taro');
-INSERT INTO estado VALUES (23,'Quintana Roo');
-INSERT INTO estado VALUES (24,'San Luis Potos&iacute;');
-INSERT INTO estado VALUES (25,'Sinaloa');
-INSERT INTO estado VALUES (26,'Sonora');
-INSERT INTO estado VALUES (27,'Tabasco');
-INSERT INTO estado VALUES (28,'Tamaulipas');
-INSERT INTO estado VALUES (29,'Tlaxcala');
-INSERT INTO estado VALUES (30,'Veracruz');
-INSERT INTO estado VALUES (31,'Yucat&aacute;n');
-INSERT INTO estado VALUES (32,'Zacatecas');
-INSERT INTO estado VALUES (33,'Fuera de M&eacute;xico');
+INSERT INTO estado VALUES (1,'Beni');
+INSERT INTO estado VALUES (2,'Cochabamba');
+INSERT INTO estado VALUES (3,'La Paz');
+INSERT INTO estado VALUES (4,'Santa Cruz');
+INSERT INTO estado VALUES (5,'Chuquisaca');
+INSERT INTO estado VALUES (6,'Tarija');
+INSERT INTO estado VALUES (7,'Oruro');
+INSERT INTO estado VALUES (8,'Potosi');
+INSERT INTO estado VALUES (9,'Pando');
+INSERT INTO estado VALUES (10,'Otro');
+INSERT INTO estado VALUES (11,'Extranjero');
 
 --
 -- Table structure for table 'estudios'
 --
 
+DROP TABLE IF EXISTS estudios;
 CREATE TABLE estudios (
   id int(10) unsigned NOT NULL auto_increment,
   descr varchar(100) default NULL,
@@ -204,6 +189,7 @@ INSERT INTO estudios VALUES (6,'Otro');
 -- Table structure for table 'evento'
 --
 
+DROP TABLE IF EXISTS evento;
 CREATE TABLE evento (
   id int(10) unsigned NOT NULL auto_increment,
   id_propuesta int(10) unsigned NOT NULL default '0',
@@ -217,6 +203,7 @@ CREATE TABLE evento (
 -- Table structure for table 'evento_ocupa'
 --
 
+DROP TABLE IF EXISTS evento_ocupa;
 CREATE TABLE evento_ocupa (
   id_evento tinyint(4) NOT NULL default '0',
   hora tinyint(4) NOT NULL default '0',
@@ -229,6 +216,7 @@ CREATE TABLE evento_ocupa (
 -- Table structure for table 'fecha_evento'
 --
 
+DROP TABLE IF EXISTS fecha_evento;
 CREATE TABLE fecha_evento (
   id int(11) NOT NULL auto_increment,
   fecha date default NULL,
@@ -240,6 +228,7 @@ CREATE TABLE fecha_evento (
 -- Table structure for table 'inscribe'
 --
 
+DROP TABLE IF EXISTS inscribe;
 CREATE TABLE inscribe (
   id_asistente int(10) unsigned NOT NULL default '0',
   id_evento int(10) unsigned NOT NULL default '0',
@@ -252,6 +241,7 @@ CREATE TABLE inscribe (
 -- Table structure for table 'lugar'
 --
 
+DROP TABLE IF EXISTS lugar;
 CREATE TABLE lugar (
   id int(10) unsigned NOT NULL auto_increment,
   cupo int(11) NOT NULL default '99999',
@@ -264,6 +254,7 @@ CREATE TABLE lugar (
 -- Table structure for table 'orientacion'
 --
 
+DROP TABLE IF EXISTS orientacion;
 CREATE TABLE orientacion (
   id int(10) unsigned NOT NULL auto_increment,
   descr varchar(100) default NULL,
@@ -287,6 +278,7 @@ INSERT INTO orientacion VALUES (7,'Otro');
 -- Table structure for table 'ponente'
 --
 
+DROP TABLE IF EXISTS ponente;
 CREATE TABLE ponente (
   id int(10) unsigned NOT NULL auto_increment,
   login varchar(15) NOT NULL default '',
@@ -313,6 +305,7 @@ CREATE TABLE ponente (
 -- Table structure for table 'prop_nivel'
 --
 
+DROP TABLE IF EXISTS prop_nivel;
 CREATE TABLE prop_nivel (
   id int(11) NOT NULL auto_increment,
   descr varchar(100) default NULL,
@@ -332,6 +325,7 @@ INSERT INTO prop_nivel VALUES (3,'Avanzado');
 -- Table structure for table 'prop_status'
 --
 
+DROP TABLE IF EXISTS prop_status;
 CREATE TABLE prop_status (
   id int(10) unsigned NOT NULL auto_increment,
   descr varchar(100) default NULL,
@@ -354,7 +348,7 @@ INSERT INTO prop_status VALUES (8,'Programada');
 --
 -- Table structure for table 'prop_tipo'
 --
-
+DROP TABLE IF EXISTS prop_tipo;
 CREATE TABLE prop_tipo (
   id int(10) unsigned NOT NULL default '0',
   descr varchar(100) NOT NULL default '',
@@ -376,6 +370,7 @@ INSERT INTO prop_tipo VALUES (101,'Evento organizacion');
 -- Table structure for table 'propuesta'
 --
 
+DROP TABLE IF EXISTS propuesta;
 CREATE TABLE propuesta (
   id int(10) unsigned NOT NULL auto_increment,
   nombre varchar(150) NOT NULL default '',
@@ -401,6 +396,7 @@ CREATE TABLE propuesta (
 -- Table structure for table 'tadmin'
 --
 
+DROP TABLE IF EXISTS tadmin;
 CREATE TABLE tadmin (
   id int(10) unsigned NOT NULL auto_increment,
   descr varchar(100) default NULL,
@@ -420,6 +416,7 @@ INSERT INTO tadmin VALUES (3,'Evaluador',NULL);
 -- Table structure for table 'tasistente'
 --
 
+DROP TABLE IF EXISTS tasistente;
 CREATE TABLE tasistente (
   id int(10) unsigned NOT NULL auto_increment,
   descr varchar(100) default NULL,
