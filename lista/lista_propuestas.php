@@ -5,7 +5,7 @@
 
 <h1>Lista de propuestas enviadas</h1>
 
-<?    
+<?php
 //
 // Status 7 es Eliminado
 // Seleccionamos todos los que no esten eliminados ni esten programados
@@ -20,6 +20,8 @@ $query ='SELECT P.id AS id_ponencia, P.nombre AS ponencia,
         ORDER BY P.id_prop_tipo,P.id_ponente,P.reg_time';
 
     $props = get_records_sql($query);
+
+if (!empty($props)) {
 
     $table_data = array();
 
@@ -36,9 +38,14 @@ END;
         $table_data[] = array($tponencia, $prop->prop_tipo, $prop->status);
     }
 
-    do_table($table_data, 'table-proposed');
+    do_table($table_data, 'wide');
 
+} else {
 ?>
+
+<p class="error center">Todavía no se registraron ponencias</p>
+
+<?php } ?>
 
 <p id="buttons">
     <input type="button" value="Regresar" onClick="location.href='../'" />
