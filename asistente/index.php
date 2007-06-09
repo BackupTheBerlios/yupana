@@ -1,11 +1,14 @@
-<?
-include_once "../includes/conf.inc.php";
-		if (isset($_GET['opc']))
-			switch ($_GET['opc']) 
-			{
-				case NASISTENTE:include "Nasistente.php";
-					break;
-			}	
-		else
+<?php
+    require_once('../includes/lib.php');
+
+    $option = optional_param('opc');
+
+    switch ($option) {
+        case NASISTENTE:
+            include "Nasistente.php";
+            break;
+
+        default:
 			include "signin.php";
+    }
 ?>

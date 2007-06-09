@@ -1,31 +1,35 @@
-<? 
-include_once "../includes/lib.php";
-include_once "../includes/conf.inc.php";
-beginSession('A');
-imprimeEncabezado();
+<?php
+// menu principal asistentes
+require_once('header-common.php');
 
-$link=conectaBD();
-$idponente=$_SESSION['YACOMASVARS']['asiid'];
-$userQuery = 'SELECT nombrep,apellidos FROM asistente WHERE id="'.$idponente.'"';
-$userRecords = mysql_query($userQuery) or err("No se pudo checar el login asistente".mysql_errno($userRecords));
-$p = mysql_fetch_array($userRecords);
-$msg='Asistentes<br><small>Bienvenido '.stripslashes($p['nombrep']).' '.stripslashes($p['apellidos']).'</small>';
-print '<P class="yacomas_login">Login: '.$_SESSION['YACOMASVARS']['asilogin'].'&nbsp;<a class="precaucion" href=signout.php>Desconectarme</a></P>';
-imprimeCajaTop("100",$msg);
-print '<hr>';
-retorno();
-print '<font size=+1 color=#000000 face=arial>
-<a href="asistente.php?opc='.MASISTENTE.'">Modificar mis datos</a> <br><br>
-<a href="asistente.php?opc='.LEVENTOS.'">Listar eventos programados</a> <br><br>
-';
-//<a href="asistente.php?opc='.LTALLERES.'">Listar/Inscribirme a talleres y tutoriales</a> <br><br>
-print ' 
-<a href="asistente.php?opc='.LTALLERESREG.'">Listar/Darme de baja de talleres y tutoriales registrados</a> <br><br>
-<a href="asistente.php?opc='.HOJAREGISTRO.'">Imprimir hoja de registro</a><br><br>
-';
-//print '<hr>';
-//print '<a href="asistente.php?opc='.ENCUESTA.'">Encuestas </a> <br><br>';
-//print '</font>';
+// who am i?
+$idasistente = $_SESSION['YACOMASVARS']['asiid'];
 
-imprimeCajaBottom();
-imprimePie();?>
+// user data
+$user = get_record('asistente', 'id', $idasistente);
+
+?>
+<h1>Asistentes</h1>
+<h3>Bienvenido <?=$user->nombrep ?> <?=$user->apellidos ?></h3>
+
+<div id="menu-asistente">
+    <div class="column">
+        <ul>
+            <li><a href="asistente.php?opc=<?=MASISTENTE ?>">Modificar mis datos</a></li> 
+            <li><a href="asistente.php?opc=<?=HOJAREGISTRO ?>">Imprimir hoja de registro</a></li>
+            <li><a href="asistente.php?opc=<?=ENCUESTA ?>">Encuestas</a></li>
+        </ul>
+    </div>
+
+    <div class="column">
+        <ul>
+            <li><a href="asistente.php?opc=<?=LEVENTOS ?>">Listas eventos programados</a></li>
+            <li><a href="asistente.php?opc=<?=LTALLERES ?>">Listar/Inscribirme a talleres y/o tutoriales</a></li>
+            <li><a href="asistente.php?opc=<?=LTALLERESREG ?>">Listar/Baja de talleres y/o tutoriales registrados</a></li>
+        </ul>
+    </div>
+</div>
+
+<?php
+do_footer();
+?>

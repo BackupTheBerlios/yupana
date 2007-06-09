@@ -1,6 +1,9 @@
 <?
-include_once "../includes/conf.inc.php";
-		switch ($_GET['opc']) 
+    require_once("../includes/lib.php");
+
+    $option = optional_param('opc');
+    
+    switch ($_GET['opc']) 
 		{
 			case MASISTENTE: include "Masistente.php";
 				break;

@@ -1,15 +1,15 @@
 <? 
-include_once "../includes/lib.php";
-include_once "../includes/conf.inc.php";
-beginSession('A');
-imprimeEncabezadoR();
-
+require_once('header-common.php');
 
 $idasistente=$_SESSION['YACOMASVARS']['asiid'];
+
 $link=conectaBD();
 $userQuery = 'SELECT * FROM asistente WHERE id="'.$idasistente.'"';
 $userRecords = mysql_query($userQuery) or err("No se pudo checar el asistente".mysql_errno($userRecords));
 $p = mysql_fetch_array($userRecords);
+
+$user = get_record('asistente', 'id', $idasistente);
+
 //
 // Status 7 es Eliminado
 // Seleccionamos todos los que no esten eliminados
@@ -49,126 +49,47 @@ $userQueryP='	SELECT 	AI.reg_time,
 		GROUP BY AI.id_evento 
 		ORDER BY F.fecha, AI.id_evento, EO.hora';
 $userRecordsP = mysql_query($userQueryP) or err("No se pudo listar talleres del asistente".mysql_errno($userRecords));
-$msg='Hoja de registro<br><small>-- '.stripslashes($p['apellidos']).' '.stripslashes($p['nombrep']).' --</small><hr>';
-print '<p class="yacomas_login">Login: '.$_SESSION['YACOMASVARS']['asilogin'].'&nbsp;<a class="precaucion" href=signout.php>Desconectarme</a></P>';
-imprimeCajaTop("100",$msg);
+?>
+<div id="record-page">
+
+<h2 class="center">Hoja de Registro</h2>
+<h3 class="center"><?=$user->apellidos ?> <?=$user->nombrep ?></h3>
+
+<?php
+$values = array(
+    'Nombre de Usuario' => $user->login,
+    'Correo Electrónico' => $user->mail,
+    'Sexo' => ($user->sexo == 'M') ? 'Masculino' : 'Femenino',
+    'Organización' => $user->org,
+    'Estudios' => get_field('estudios', 'descr', 'id', $user->id_estudios),
+    'Tipo Asistente' => get_field('tasistente', 'descr', 'id', $user->id_tasistente),
+    'Ciudad' => $user->ciudad,
+    'Estado' => get_field('estado', 'descr', 'id', $user->id_estado),
+    );
 
 // Inicio datos de Ponencias
     print '	<p class="yacomas_error">No tires esta hoja, te servira para asistir a cualquier Conferencia y Platica Informal, Ademas de los talleres y tutoriales que tengas registrados.<br>
 		Tambien sirve para confirmar tus participaciones en eventos y extender tu constancia de asistencia.
     		</p>';
-    print '
-     		<table width=100%>
-		<tr>
-		<td class="name">Usuario: *</td>
-		<td class="resultado">
-		'.$p["login"].'
-		</td>
-		</tr>
 
-		<tr>
-		<td class="name">Correo Electr&oacute;nico: *</td>
-		<td class="resultado">
-		'.$p["mail"].'
-		</td>
-		</tr>
-
-		<tr>
-		<td class="name">Sexo: * </td>
-		<td class="resultado">';
-		
-		if ($p['sexo']=="M")
-		    echo "Masculino";
-		else
-		    echo "Femenino";
-		    
-	print '
-		</td>
-		</tr>
-
-		<tr>
-		<td class="name">Organizaci&oacute;n: </td>
-		<td class="resultado">
-		'.stripslashes($p['org']).'
-		</td>
-		</tr>
-
-		<tr>
-		<td class="name">Estudios: * </td>
-		<td class="resultado">';
-		
-		$query = 'SELECT * FROM estudios WHERE id="'.$p['id_estudios'].'"';
-		$result=mysql_query($query);
-	 	while($fila=mysql_fetch_array($result)) {
-			printf ("%s",$fila["descr"]);
-  		}
-		mysql_free_result($result);
-
-	print '	
-		</td>
-		</tr>
-		
-		<tr>
-		<td class="name">Tipo Asistente:  </td>
-		<td class="resultado">';
-		
-		$query = 'SELECT * FROM tasistente WHERE id="'.$p['id_tasistente'].'"';
-		$result=mysql_query($query);
-	 	while($fila=mysql_fetch_array($result)) {
-			printf ("%s",$fila["descr"]);
-  		}
-		mysql_free_result($result);
-
-	print '	
-		</td>
-		</tr>
-		
-		<tr>
-		<td class="name">Ciudad: </td>
-		<td class="resultado">
-		'.$p['ciudad'].'
-		</td>
-		</tr>
-
-		<tr>
-		<td class="name">Provincia: * </td>
-		<td class="resultado">';
-		
-		$query= "select * from estado where id='".$p['id_estado']."'";
-		$result=mysql_query($query);
- 		while($fila=mysql_fetch_array($result)) {
-			printf ("%s",$fila["descr"]);
-  		}
-		mysql_free_result($result);
-	print '
-		</td>
-		</tr>
-
-		<tr>
-		<td class="name">Fecha de Nacimiento: </td>
-		<td class="resultado">';
-		print $p['fecha_nac'];
-	print '	
-		</td>
-		</tr>
-
-		</table>
-		<br>
-		<hr>';
+do_table_values($values);
 // Fin datos de usuario
 // Inicio datos de Talleres inscritos 
-print '<p class="yacomas_error">Talleres y/o Tutoriales Inscritos</p>';
-print '
-	<table border=0 align=center width=100%>
-	<tr>
-	<td bgcolor='.$colortitle.'><b>Taller/Tutorial</b></td>
-	<td bgcolor='.$colortitle.'><b>Orientacion</b></td>
-	<td bgcolor='.$colortitle.'><b>Fecha</b></td>
-	<td bgcolor='.$colortitle.'><b>Hora</b></td>
-	<td bgcolor='.$colortitle.'><b>Lugar</b></td>
-	<td bgcolor='.$colortitle.'><b>Fecha Inscripcion</b></td>
+?>
+
+<h2 class="center">Talleres y/o Tutoriales Inscritos</h2>
+
+<table width=99%>
+    <tr class="table-headers">
+	<td>Taller/Tutorial</td>
+	<td>Orientacion</td>
+	<td>Fecha</td>
+	<td>Hora</td>
+	<td>Lugar</td>
+	<td>Fecha Inscripcion</td>
 	</tr>';
 
+<?php
 	$color=1;
 	while ($fila = mysql_fetch_array($userRecordsP))
 	{
@@ -196,12 +117,14 @@ print '
 		print '</td></tr>';
 		
 	}
-	print '</table>';
-	retorno();
-	retorno();
-	print '<center>';
-	print '<input type="button" value="Volver al menu" onClick=location.href="'.$fslpath.$rootpath.'/asistente/menuasistente.php">
-	</center>';
-imprimeCajaBottom();
-imprimePie();
+?>
+	</table>
+
+	<p id="buttons">
+        <input type="button" value="Volver al menu" onClick="location.href='<?=$CFG->wwwroot ?>/asistente/menuasistente.php'" />
+    </p>
+
+</div> <!-- #recordpage -->
+<?php
+    do_footer();
 ?>

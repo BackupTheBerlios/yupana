@@ -1,12 +1,11 @@
 <? 
-	include_once "../includes/lib.php";
-	include_once "../includes/conf.inc.php";
-	beginSession('A');
+	require_once('header-common.php');
 	$idasistente=$_SESSION['YACOMASVARS']['asiid'];
-	imprimeEncabezado();
-	
-	print '<P class="yacomas_login">Login: '.$_SESSION['YACOMASVARS']['asilogin'].'&nbsp;<a class="precaucion" href=signout.php>Desconectarme</a></P>';
-	imprimeCajaTop("100","Modificar Informacion de Asistentes");
+?>
+
+<h1>Modificar Información Asistentes</h1>
+
+<?php
 	$link=conectaBD();
 
 function imprime_valoresOk() {
