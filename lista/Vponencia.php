@@ -67,13 +67,13 @@ if (!empty($user) && !empty($ponencia)) {
         'Prerequisitos del Asistente' => $ponencia->reqasistente
         );
 
-    do_table_values($datos_ponencia);
-    do_table_values($datos_resumen);
+    do_table_values($datos_ponencia, 'narrow');
+    do_table_values($datos_resumen, 'narrow');
 
 } else {
 ?>
     
-<h2 class="center">Usuario o ponencia no encontrado.</h2>
+<p class="error center">Usuario o ponencia no encontrado.</p>
 
 <?php } ?>
 
