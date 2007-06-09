@@ -1,20 +1,275 @@
-<?
-include_once "conf.inc.php";
-function send_mail($myname, $myemail, $contactname, $contactemail, $subject, $message, $bcc) {
-	$headers .= "MIME-Version: 1.0\n";
-	$headers .= "Content-type: text/html; charset=iso-8859-1\n";
-	$headers .= "From: \"".$myname."\" <".$myemail.">\n";
-	if ($bcc != "")
-		$headers .= "Bcc: ".$bcc."\n";   
-	$output = $message;                $output = wordwrap($output, 72);
-	return(mail("\"".$contactname."\" <".$contactemail.">", $subject, $output, $headers));
+<?php
+require_once(dirname(__FILE__).'/setup.php');
+
+global $CFG;
+
+function clean_text($text, $format=FORMAT_MOODLE) {
+
+    global $ALLOWED_TAGS;
+
+    switch ($format) {
+        case FORMAT_PLAIN:
+            return $text;
+
+        default:
+
+        /// Remove tags that are not allowed
+//            $text = strip_tags($text, $ALLOWED_TAGS);
+            $text = strip_tags($text);
+            
+        /// Add some breaks into long strings of &nbsp;
+            $text = preg_replace('/((&nbsp;){10})&nbsp;/', '\\1 ', $text);
+
+        /// Remove script events
+            $text = eregi_replace("([^a-z])language([[:space:]]*)=", "\\1Xlanguage=", $text);
+            $text = eregi_replace("([^a-z])on([a-z]+)([[:space:]]*)=", "\\1Xon\\2=", $text);
+
+            return $text;
+    }
 }
-//--------------------------------
+
+// returns particular value for the named variable taken from
+// POST or GET, otherwise returning a given default.
+
+function optional_param ($varname, $default=NULL, $options=PARAM_CLEAN) {
+
+    if (isset($_POST[$varname])) {  // POST has precedence
+        $param = $_POST[$varname];
+    } else if (isset($_GET[$varname])){
+        $param = $_GET[$varname];
+    } else {
+        return $default;
+    }
+
+    return clean_param($param, $options);
+}
+
+// clean the variables and/or cast to specific types, based on
+// an options field
+
+function clean_param ($param, $options) {
+
+    global $CFG;
+
+    if (is_array($param)) {              // Let's loop
+        $newparam = array();
+        foreach ($param as $key => $value) {
+            $newparam[$key] = clean_param($value, $options);
+        }
+        return $newparam;
+    }
+
+    if (!$options) {
+        return $param;                   // Return raw value
+    }
+
+    //this corrupts data - Sven
+    //if ((string)$param == (string)(int)$param) {  // It's just an integer
+    //    return (int)$param;
+    //}
+
+    if ($options & PARAM_CLEAN) {
+// this breaks backslashes in user input
+//        $param = stripslashes($param);   // Needed by kses to work fine
+        $param = clean_text($param);     // Sweep for scripts, etc
+// and this unnecessarily escapes quotes, etc in user input
+//        $param = addslashes($param);     // Restore original request parameter slashes
+    }
+
+    if ($options & PARAM_INT) {
+        $param = (int)$param;            // Convert to integer
+    }
+
+    if ($options & PARAM_ALPHA) {        // Remove everything not a-z
+        $param = eregi_replace('[^a-zA-Z]', '', $param);
+    }
+
+    if ($options & PARAM_ALPHANUM) {     // Remove everything not a-zA-Z0-9
+        $param = eregi_replace('[^A-Za-z0-9]', '', $param);
+    }
+
+    if ($options & PARAM_ALPHAEXT) {     // Remove everything not a-zA-Z/_-
+        $param = eregi_replace('[^a-zA-Z/_-]', '', $param);
+    }
+
+    if ($options & PARAM_BOOL) {         // Convert to 1 or 0
+        $tempstr = strtolower($param);
+        if ($tempstr == 'on') {
+            $param = 1;
+        } else if ($tempstr == 'off') {
+            $param = 0;
+        } else {
+            $param = empty($param) ? 0 : 1;
+        }
+    }
+
+    if ($options & PARAM_NOTAGS) {       // Strip all tags completely
+        $param = strip_tags($param);
+    }
+
+    if ($options & PARAM_SAFEDIR) {     // Remove everything not a-zA-Z0-9_-
+        $param = eregi_replace('[^a-zA-Z0-9_-]', '', $param);
+    }
+
+    if ($options & PARAM_FILE) {         // Strip all suspicious characters from filename
+        $param = ereg_replace('[[:cntrl:]]|[<>"`\|\':\\/]', '', $param);
+        $param = ereg_replace('\.\.+', '', $param);
+        if($param == '.') {
+            $param = '';
+        }
+    }
+
+    if ($options & PARAM_PATH) {         // Strip all suspicious characters from file path
+        $param = str_replace('\\\'', '\'', $param);
+        $param = str_replace('\\"', '"', $param);
+        $param = str_replace('\\', '/', $param);
+        $param = ereg_replace('[[:cntrl:]]|[<>"`\|\':]', '', $param);
+        $param = ereg_replace('\.\.+', '', $param);
+        $param = ereg_replace('//+', '/', $param);
+        $param = ereg_replace('/(\./)+', '/', $param);
+    }
+
+    if ($options & PARAM_HOST) {         // allow FQDN or IPv4 dotted quad
+        preg_replace('/[^\.\d\w-]/','', $param ); // only allowed chars
+        // match ipv4 dotted quad
+        if (preg_match('/(\d{1,3})\.(\d{1,3})\.(\d{1,3})\.(\d{1,3})/',$param, $match)){
+            // confirm values are ok
+            if ( $match[0] > 255
+                 || $match[1] > 255
+                 || $match[3] > 255
+                 || $match[4] > 255 ) {
+                // hmmm, what kind of dotted quad is this?
+                $param = '';
+            }
+        } elseif ( preg_match('/^[\w\d\.-]+$/', $param) // dots, hyphens, numbers
+                   && !preg_match('/^[\.-]/',  $param) // no leading dots/hyphens
+                   && !preg_match('/[\.-]$/',  $param) // no trailing dots/hyphens
+                   ) {
+            // all is ok - $param is respected
+        } else {
+            // all is not ok...
+            $param='';
+        }
+    }
+
+    if ($options & PARAM_CLEANHTML) {
+//        $param = stripslashes($param);         // Remove any slashes 
+        $param = clean_text($param);           // Sweep for scripts, etc
+//        $param = trim($param);                 // Sweep for scripts, etc
+    }
+
+    return $param;
+}
+
+// send mail
+function send_mail($contactname, $contactemail, $subject, $message, $myname='', $mymail='', $bcc='', $replyto='', $replytoname='') {
+
+    // include mailer library
+    include_once(dirname(__FILE__).'/phpmailer/class.phpmailer.php');
+
+    $mail = new phpmailer;
+
+    $mail->Version = 'Yacomas (Rho)';
+    $mail->PluginDir = dirname(__FILE__) . '/phpmailer/';
+
+    $mail->CharSet = 'UTF-8';
+
+    if (empty($CFG->smtp)) {
+        $mail->IsMail();
+    } else {
+        $mail->IsSMTP();
+
+        $mail->Host = $CFG->smtp;
+
+        if (!empty($CFG->smtpuser) && !empty($CFG->smtppass)) {
+            $mail->SMTPAuth = true;
+            $mail->Username = $CFG->smtpuser;
+            $mail->Password = $CFG->smtppass;
+        }
+    }
+
+    $mail->Sender = $CFG->adminmail;
+
+    if (!empty($myname) && !empty($mymail)) {
+        $mail->From = $mymail;
+        $mail->FromName = $myname;
+    } elseif (!empty($myname)) {
+        $mail->From = $CFG->adminmail;
+        $mail->FronNAme = $myname;
+    } else {
+        $mail->From = $CFG->general_mail;
+        $mail->FromName = $CFG->conference_name;
+    }
+
+    if (!empty($replyto) && !empty($replytoname)) {
+        $mail->AddReplyTo($replyto, $replytoname);
+    }
+
+    $mail->Subject = substr(stripslashes($subject),0,900);
+
+    $mail->WordWrap = 79;
+
+    $mail->IsHTML(false);
+    $mail->Body = "\n$message\n";
+
+    if (SEND_MAIL == 1) {
+        if ($mail->Send()) {
+            return true;
+        } else {
+            mtrace('Error: ' . $mail->ErrorInfo);
+            return false;
+        }
+    } 
+
+    if ($CFG->debug > 7) {
+        print_object($mail);
+    }
+}
+
+function request_password($login, $type) {
+    if ($type == 'A') {
+        $user_type = 'asistente';
+    } elseif ($type == 'P') {
+        $user_type = 'ponente';
+    } else {
+        // duh!
+        return false;
+    }
+
+    $user = get_record($table, 'login', $login);
+
+    if (empty($user)) {
+        return false;
+    }
+
+    $pwreq = new StdClass;
+    $pwreq->user_id = $user->id;
+    $pwreq->user_type = $table;
+    $pwreq->code = 'req' . substr(base_convert(md5(time() . $user->login), 16, 24), 0, 30);
+
+    if (!update_record('password_requests', $pwreq)) {
+        return false;
+    } else {
+       $subject = "{$CFG->conference_name}: Cambio de contraseña {$table}";
+
+       $message = "";
+       $message .= "Has solicitado un cambio de contraseña para el usuario {$user->login}\n";
+       $message .= "Para confirmarlo ingrese a la siguiente dirección:\n";
+       $message .= "  {$CFG->wwwroot}/{$pwreq->user_type}/reset.php?code={$pwreq->code}\n\n";
+       $message .= "--";
+       $message .= "{$CFG->conference_name}\n";
+       $message .= "{$CFG->conference_link}\n";
+    }
+
+    return send_mail($user->namep.' '.$user->apellidos, $user->mail, $subject, $message);
+}
+
 function generatePassword() {
 
     $salt = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     srand((double)microtime()*1000000);  
     $i = 0;
+    $pass = '';
     while ($i < 15) {  // change for other length
         $num = rand() % 33;
         $tmp = substr($salt, $num, 1);
@@ -23,7 +278,7 @@ function generatePassword() {
     }
     return $pass;
 }
-//--------------------------------
+
 function strftime_caste($formato, $fecha){
 // strftime por Marcos A. Botta
 // $fromato: como se quiere mostrar la fecha
@@ -72,151 +327,23 @@ function err ($errmsg) {
   print "<p><span class=\"err\">Se han encontrado problemas : <i>$errmsg</i>.<p>Por favor conctacte al <a href=\"mailto:".$adminmail."?subject=Problema con Yacomas- $errmsg\">Administrador</a>.</span><p>";
   exit;
 }
-//--------------------------------
-function showError($errmsg) {
-  print "<p><span class=\"err\">Por favor verifique lo siguiente:<ul>$errmsg</ul></span><p><hr><p>\n";
-}
-//--------------------------------
-//--------------------------------
-function imprimeEncabezado()
-{
-global $confName;
-require_once "header.inc.php";
-retorno();
-alinearIzq("center");
-if ( ! empty ($conference_logo) ) {
-    print '<a href="'.$conference_link.'"><img src="'.$rootpath.'/images/'.$conference_logo.'" border="0"></a>';
-}
-alinearFin();
-retorno();
-print ("<table border=0 cellpading=0 cellspacing=5 width=100% align=center>");
-print ("<tr></td><td valign=top>");
-retorno();
-}
-//--------------------------------
-//--------------------------------
-function imprimeEncabezadoR()
-{
-require_once "header.inc.php";
-retorno();
-alinearIzq("center"); 
-print '<table border=0 width=100%>';
-print '<tr><td width=10%>&nbsp;</td>';
-print '<td width=80% align="center">';
-if ( ! empty ($conference_logo) ) {
-    print '<a href="'.$conference_link.'"><img src="'.$rootpath.'/images/'.$conference_logo.'" border="0"></a>';
-}
-print '<td width=10% valign="bottom">';
-print '</tr></table>';
-alinearFin();
-retorno();
-print ("<table border=0 cellpading=0 cellspacing=5 width=100% align=center>");
-print ("<td valign=top>");
-retorno();
-}
-//--------------------------------
-//--------------------------------
-function alinearIzq($pos)
-{
- print ("<div align=$pos>");
-}
-//--------------------------------
 
-function alinearFin()
-{
- print ("</div>");
-}
-//--------------------------------
-
-//--------------------------------
-function retorno()
-{
- print("<br>");
-}
-//--------------------------------
-//--------------------------------
-function retorno_esp()
-{
- print("<br>&nbsp;");
-}
-
-//--------------------------------
-
-//--------------------------------
-function imprimePie()
-{
-	include "footer.inc.php";
-}
-//--------------------------------
-//--------------------------------
-function imprimeCaja($percent, $titulo,$texto)
-{
- global $colorBorder;
- print ("<table border=0 cellpading=0 cellspacing=0 width=$percent% align=center>");
-   print ("<tr><td bgcolor=$colorBorder>");
-      print ("<table border=0 cellpading=1 cellspacing=1 width=100%>");
-          print ("<tr><td bgcolor=#FFFFFF><center><font face=arial size=6>$titulo</font></center>
-	<font face=arial size2=><div algin=center><p>$texto</p></td></tr>");
-      print ("</table>");
-   print("</td></tr>");
-print("</table>");
-}
-//--------------------------------
-//--------------------------------
-function imprimeCajaTop($percent, $titulo)
-{
- global $colorBorder;
- print ("<table border=0 cellpading=0 cellspacing=0 width=$percent% align=center>");
-   print ("<tr><td bgcolor=$colorBorder>");
-      print ("<table border=0 cellpading=1 cellspacing=1 width=100%>");
-          print ("<tr><td bgcolor=#FFFFFF><center><font face=arial size=6>$titulo</font></center>");
-	  retorno();
-}
-//--------------------------------
-//--------------------------------
-function imprimeCajaBottom()
-{
-	retorno();
-      print ("</table>");
-   print("</td></tr>");
-print("</table>");
-
-}
-//--------------------------------
-//--------------------------------
-function imprimeCajaTop1($percent, $titulo)
-{
- global $colorBorder;
- print ("<table border=0 cellpading=0 cellspacing=0 width=$percent% align=center>");
-   print ("<tr><td bgcolor=$colorBorder>");
-      print ("<table border=0 cellpading=1 cellspacing=1 width=100%>");
-          print ("<tr><td bgcolor=#FFFFFF><center><font face=arial size=6>$titulo</font></center>");
-      retorno();
-}
-//--------------------------------
-function imprimeCajaBottom1()
-{
-	retorno();
-      print ("</td></tr></table>");
-   print("</td></tr>");
-print("</table>");
-}
-//-------------------------------
-//-------------------------------
+// DELETEME: BD conection moved to adodb
 function conectaBD()
 {
-include "db.inc.php";
-   if(!($link=mysql_pconnect($dbhost,$dbuser,$dbpwd)))
-   {
-    print("No se puede hacer la conexion a la Base de Datos");
-    exit();
-   }
-   mysql_select_db($dbname) or die (mysql_error());
+    global $CFG;
+
+    if(!($link=mysql_pconnect($CFG->dbhost,$CFG->dbuser,$CFG->dbpass)))
+    {
+        print("No se puede hacer la conexion a la Base de Datos");
+        die();
+    } 
+    mysql_select_db($CFG->dbname) or die (mysql_error());
 
 }
-//--------------------------------
+
 function beginSessionP() {
-        session_start();
+    session_start();
 	session_register("YACOMASVARS");
 	if (empty($_SESSION['YACOMASVARS']['ponlogin']) || empty($_SESSION['YACOMASVARS']['ponid']) || 
 	   ((time() - $_SESSION['YACOMASVARS']['ponlast']) > (60*60))) {    # 1 hour exp.
@@ -226,7 +353,7 @@ function beginSessionP() {
 	$_SESSION['YACOMASVARS']['ponlast'] = time();
 }
 function beginSession($tipo) {
-        session_start();
+    session_start();
 	session_register("YACOMASVARS");
 	switch ($tipo)
 	{
@@ -247,9 +374,18 @@ function beginSession($tipo) {
 			  $level='rootlevel';
 			  break;
 	}
-	$t_transcurrido=(time() - $_SESSION['YACOMASVARS'][$last]);
-	$hora=3600;
-	if ($tipo=='R')
+
+    // Check if $last index exists, if not set to 0
+    if (!empty($_SESSION['YACOMASVARS'][$last])) {
+        $last_time = $_SESSION['YACOMASVARS'][$last];
+    } else {
+        $last_time = 0; 
+    }
+
+	$t_transcurrido = time() - $last_time;
+	$hora = 3600;
+
+	if ($tipo == 'R')
 	{
 		if (empty($_SESSION['YACOMASVARS'][$login]) || empty($_SESSION['YACOMASVARS'][$id]) || 
 		    empty($_SESSION['YACOMASVARS'][$level]) ||
@@ -270,7 +406,10 @@ function beginSession($tipo) {
 			exit;
 		}
 	}
+
+	$_SESSION['YACOMASVARS'][$last] = time();
 }
+
 function verificaForm($id_tipo_usuario, $tabla){
 		   // Verificar si todos los campos obligatorios no estan vacios
 		  $errmsg="";
@@ -311,5 +450,4 @@ function verificaForm($id_tipo_usuario, $tabla){
 		  return $errmsg;
 		  // Si hubo error(es) muestra los errores que se acumularon.
 }	
-	$_SESSION['YACOMASVARS'][$last] = time();
 ?>
