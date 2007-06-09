@@ -4,6 +4,8 @@
     do_header();
 ?>
 
+<div id="frontpage">
+
 <h1>Modalidades</h1>
 
 <h2>Conferencias</h2>
@@ -24,6 +26,7 @@ Se les dedica tipicamente sesiones de 1 hora (algunas 2 horas).</p>
 
 En las conferencias magistrales se expondr&aacute;n los temas o t&oacute;picos que vayan de acuerdo al hilo central del evento.</p>
 
-<p class="center"><input type="button" value="Regresar" onClick=location.href="../"></p>
+<p id="buttons"><input type="button" value="Regresar" onClick=location.href="../"></p>
 
+</div>
 <?php do_footer(); ?>
