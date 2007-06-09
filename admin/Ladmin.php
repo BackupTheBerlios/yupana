@@ -2,77 +2,80 @@
     // list admins
     require_once('header-common.php');
 
-    $idadmin=(int) $_SESSION['YACOMASVARS']['rootid'];
+    $idadmin = (int) $_SESSION['YACOMASVARS']['rootid'];
 
     // list of admin users
-    $users = get_records_sql('SELECT adm.*, t.descr as tdescr 
-    FROM administrador adm
-    LEFT JOIN tadmin t 
-    ON adm.id_tadmin = t.id
-    WHERE adm.id NOT IN (?,?)', array($idadmin, 1));
+    $query = 'SELECT adm.*, t.descr as tdescr 
+            FROM administrador adm
+            LEFT JOIN tadmin t 
+            ON adm.id_tadmin = t.id
+            WHERE adm.id NOT IN (?,?)';
 
-    // list of admin levels/types
-    $admin_levels = get_records('tadmin');
+    $users = get_records_sql($query, array($idadmin, 1));
+
 ?>
 
 <h1>Listado de administradores</h1>
 
-<table border=0 align=center width=100%>
-    <tr class="table-headers">
-        <td>Login</td>
-        <td>Nombre</td>
-        <td>Apellidos</td>
-        <td>Correo</td>
-	    <td>Tipo admin</td>
-	    <td>&nbsp;</td>
-	</tr>
-
 <?php
-
 if (!empty($users)) {
-    $trclass = 'even';
+    $admin_levels = get_records('tadmin');
+
+    $table_data = array();
+    $table_data[] = array(
+        'Login',
+        'Nombre',
+        'Apellidos',
+        'Correo',
+        'Tipo Admin',
+        'Acción'
+    );
 
     foreach ($users as $user) {
-?>
+        $tipo_admin = '';
 
-<tr class="<?=($trclass=='even') ? 'even' : 'odd' ?>">
-    <td><?=$user->login ?></td>
-    <td><?=$user->nombrep ?></td>
-    <td><?=$user->apellidos ?></td>
-    <td><?=$user->mail ?></td>
-    <td>
-<?php
-    foreach ($admin_levels as $level) {
-        if ($level->id != $user->id_tadmin) {
-?>
+        foreach ($admin_levels as $level) {
 
-    <a class="verde" href="act_admin.php?admin=<?=$user->id ?>&level=<?=$level->id ?>&return_path=<?=$_SERVER['REQUEST_URI'] ?>"><?=$level->descr ?></a> |
+            if ($level->id == $user->id_tadmin) {
 
-<?php
-        } else {
-?>
-    <strong><?=$level->descr ?></strong> |
-<?php
+                $tipo_admin .= <<< END
+<strong>{$level->descr}</strong> |
+END;
+            } else {
+
+                $tipo_admin .= <<< END
+<a class="verde" href="act_admin.php?admin={$user->id}&level={$level->id}&return_path={$_SERVER['REQUEST_URI']}">{$level->descr}</a> |
+END;
+            }
         }
+
+        $action = <<< END
+<a class="precaucion" href="Badmin.php?admin={$user->id}">Eliminar</a>
+END;
+
+        $table_data[] = array(
+            $user->login,
+            $user->nombrep,
+            $user->apellidos,
+            $user->mail,
+            $tipo_admin,
+            $action
+        );
     }
+
+    do_table($table_data, 'wide');
 ?>
 
-    </td>
-    <td><a class="precaucion" href="Badmin.php?admin=<?=$user->id ?>">Eliminar</a></td>
-</tr>
 
-<?php
-        // Toggle class even<->odd
-        $trclass = ($trclass=='even') ? 'odd' : 'even';
-    }
-}
-?>
+<?php } else { ?>
 
-</table>
+<p class="error center">No se encontro ningún usuario administrador.</p>
 
-<div id="buttons">
+<?php } ?>
+
+<p id="buttons">
     <input type="button" value="Volver al menu" onClick="location.href='<?=$CFG->wwwroot ?>/admin/menuadmin.php'" />
-</div>
+</p>
 
 <?php
 do_footer();
