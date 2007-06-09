@@ -39,12 +39,12 @@ function execute_sql($command, $feedback=true) {
 
     if ($result) {
         if ($feedback) {
-            notify(__gettext('Success'), 'notifysuccess');
+            notify('Success', 'notifysuccess');
         }
         return true;
     } else {
         if ($feedback) {
-            echo '<p><span class="error">'. __gettext('Error') .'</span></p>';
+            echo '<p><span class="error">Error</span></p>';
         }
     }
 
