@@ -77,25 +77,23 @@ $startyear=strftime("%Y");
 <form method="POST" action="<?=$_SERVER['REQUEST_URI'] ?>">
     <p class="notice center">Campos marcados con un asterisco son obligatorios. En caso de que el congreso tenga descripciones especiales para cada dia entonces llenar el campo descripción</p>
 
-    <table>
+    <table class="narrow">
         <tr>
         <td class="name">Fecha evento*:</td>
         <td class="input">
-        Dia:<select name="I_e_day">
-            <option name="unset" value="0" <?=(empty($day)) ? 'selected="selected"' : '' ?>></option>
-
-<?php 
-    for ($Idia=1;$Idia<=31;$Idia++) {
-        $Nday = sprintf("%02d", $Idia);
+        Año:<select name="I_e_year">
+            <option name="unset" value="0" <?=(empty($year)) ? 'selected="selected"' : '' ?>></option>
+<?php
+    for ($Ianio=$startyear;$Ianio<=$startyear+1;$Ianio++) {
+        $Nyear = sprintf("%02d", $Ianio);
 ?>
-            <option value="<?=$Nday ?>" <?=($day == $Idia) ? 'selected="selected"' : '' ?>><?=$Nday ?></option>
+            <option value="<?=$Nyear ?>" <?=($year == $Ianio) ? 'selected="selected"' : '' ?>><?=$Nyear ?></option>
 
 <?php } ?>
             </select>
 
         Mes:<select name="I_e_month">
             <option name="unset" value="0" <?=(empty($month)) ? 'selected="selected"' : '' ?>></option>
-
 <?php
     for ($Imes=1;$Imes<=12;$Imes++) {
         $Nmonth = sprintf("%02d", $Imes);
@@ -105,17 +103,17 @@ $startyear=strftime("%Y");
 <?php } ?>
             </select>
 
-        Año:<select name="I_e_year">
-            <option name="unset" value="0" <?=(empty($year)) ? 'selected="selected"' : '' ?>></option>
-
-<?php
-    for ($Ianio=$startyear;$Ianio<=$startyear+1;$Ianio++) {
-        $Nyear = sprintf("%02d", $Ianio);
+        Dia:<select name="I_e_day">
+            <option name="unset" value="0" <?=(empty($day)) ? 'selected="selected"' : '' ?>></option>
+<?php 
+    for ($Idia=1;$Idia<=31;$Idia++) {
+        $Nday = sprintf("%02d", $Idia);
 ?>
-            <option value="<?=$Nyear ?>" <?=($year == $Ianio) ? 'selected="selected"' : '' ?>><?=$Nyear ?></option>
+            <option value="<?=$Nday ?>" <?=($day == $Idia) ? 'selected="selected"' : '' ?>><?=$Nday ?></option>
 
 <?php } ?>
             </select>
+
         </td>
         <td></td>
         </tr>
