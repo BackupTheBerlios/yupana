@@ -11,7 +11,7 @@ $idponente = (int)$tok;
 $tok = strtok (" ");
 $regresa='';
 	while ($tok) {
-		$regresa .=' '.$tok;
+		$regresa .= $tok;
 		$tok=strtok(" ");
 	}
 ?>
@@ -46,7 +46,7 @@ if (!empty($user)) {
 <?php } ?>
 
 <p id="buttons">
-    <input type="submit" value="Regresar" onClick="location.href='../'" />
+    <input type="submit" value="Regresar" onClick="location.href='<?=$regresa ?>'" />
 </p>
 
 <?php
