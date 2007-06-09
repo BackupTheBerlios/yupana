@@ -59,7 +59,7 @@ if (!empty($user) && !empty($ponencia)) {
             'Hora' => $desc_hora
             );
 
-        $datos_ponencia = array_merge($datos_ponencia, $datos_tmp);
+        $datos_ponencia = array_merge($datos_ponencia, $datos_pub);
     }
 
     $datos_resumen = array(
