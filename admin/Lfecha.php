@@ -39,8 +39,12 @@ END;
     }
 
     do_table($table_data, 'wide');
-}
+} else {
 ?>
+
+<p class="error center">No se encontro ningún registro.</p>
+
+<?php } ?>
 
 <p id="buttons">
     <input type="button" value="Volver al menu" onClick="location.href='<?=$CFG->wwwroot ?>/admin/menuadmin.php#lugares'" />
