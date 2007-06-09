@@ -21,12 +21,8 @@ $regresa='';
 <?php
 $user = get_record('ponente', 'id', $idponente);
 
-if (empty($user)) {
-?>
-<p class="yacomas_error">Usuario no encontrado</p>
-<?php
-} else {
-    
+if (!empty($user)) {
+   
 ?>
 
 <h2><?=$user->nombrep ?> <?=$user->apellidos ?></h2>
@@ -41,8 +37,13 @@ if (empty($user)) {
     );
 
     do_table_values($values, 'table1');
-}
+
+} else {
 ?>
+
+<p class="error center">Usuario no encontrado</p>
+ 
+<?php } ?>
 
 <p id="buttons">
     <input type="submit" value="Regresar" onClick="location.href='../'" />
