@@ -36,7 +36,7 @@ if (!empty($user)) {
         'Resumen Curricular' => $user->resume,
     );
 
-    do_table_values($values, 'table1');
+    do_table_values($values, 'narrow');
 
 } else {
 ?>
