@@ -81,7 +81,7 @@ END;
 <?php } ?>
 
 <p id="buttons">
-<input type="button" value="Volver al menu" onClick="location.href='<?=$CFG->wwwroot ?>/admin/admin.php?vopc=12'" />
+<input type="button" value="Volver" onClick="location.href='<?=$CFG->wwwroot ?>/admin/admin.php?opc=12'" />
 </p>
 
 <?php
