@@ -16,7 +16,7 @@ $regresa='';
 	}
 ?>
 
-<h1>Datos de ponente</h2>
+<h1>Datos de ponente</h1>
 
 <?php
 $user = get_record('ponente', 'id', $idponente);
@@ -25,7 +25,7 @@ if (!empty($user)) {
    
 ?>
 
-<h2><?=$user->nombrep ?> <?=$user->apellidos ?></h2>
+<h2 class="center"><?=$user->nombrep ?> <?=$user->apellidos ?></h2>
 
 <?php
     if (empty($user->resume)) {
