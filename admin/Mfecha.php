@@ -111,7 +111,7 @@ if (!empty($fecha_evento)) {
     for ($Imes=1;$Imes<=12;$Imes++) {
         $Nmonth = sprintf("%02d", $Imes);
 ?>
-            <option value="<?=$Nmonth ?>" <?=($month == $Imes) ? 'selected="selected"' : '' ?>><?=$Nmonth ?></option>
+            <option value="<?=$Nmonth ?>" <?=($month == $Imes) ? 'selected="selected"' : '' ?>><?=month2name($Nmonth) ?></option>
 
 <?php } ?>
             </select>
