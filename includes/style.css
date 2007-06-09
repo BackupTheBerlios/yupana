@@ -1,12 +1,11 @@
 html * {
-/*	margin: 0;
-	padding: 0;*/
+	margin: 0;
+	padding: 0;
 }
 
 body {
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 14px;
-	margin: 60px;
 }
 
 h1 {
@@ -18,6 +17,10 @@ h1 {
 	text-align: center;
 }	
 
+h1, h2, h3, h4 {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
 a:link, a:visited {
         color: #000000;
         text-decoration: none;
@@ -203,18 +206,23 @@ p.yacomas_msg {
 }
 
 table.name {        
-	width: 30%;
+/*	width: 30%;*/
 }
 
+td {
+	padding: 3px 6px;
+}
 td.input {        
-	width: 55%;
+/*	width: 50;*/
+	margin: 0;
+	padding: 0;
 }
 
 td.error {
 	width: 20%;
 }
-td.resultado {
-	width:55%;
+td.result {
+	/*width:55%;*/
 	color:darkslategray;
 }
 
@@ -260,6 +268,7 @@ a.rojo:hover {
 a.ponente {
 	color: red;
 	text-decoration: none;
+	font-size: 0.8em;
 }
 
 a.ponente:hover {
@@ -308,6 +317,7 @@ p.yacomas_login{
 #footer {
 	text-align: center;
 	font-size: 0.8em;
+	margin: 20px auto;
 }
 
 tr.table-headers {
@@ -338,7 +348,7 @@ img {
 .notice {
 	color: #333;
 	font-size: 0.8em;
-	border-left: 3px #333 solid;
+	text-transform: italic;
 }
 
 .block {
@@ -350,4 +360,116 @@ img {
 }
 #login-form p {
 	width: 60%;
+}
+
+table {
+/*	width: 100%;*/
+	border: 0;
+	margin: 20px auto;
+}
+
+table.wide {
+	width: 100%;
+}
+
+table.narrow {
+	width: 60%;
+}
+
+td.name {
+	text-align: right;
+	font-weight: bold;
+}
+.column {
+	float: left;
+}
+
+.clear {
+	clear: both;
+}
+
+#container {
+	width: 80%;
+	margin: 0 auto;
+}
+
+ul {
+	margin-left: 30px;
+}
+
+ul li {
+	margin: 2px 0px 5px 4px;
+}
+
+.messages {
+	margin: 20px 30px;
+}
+
+p {
+	line-height: 1.4em;
+	margin: 4px;
+}
+
+#menuadmin {
+}
+
+.menuadmin {
+	width: 20%;
+	margin-left: 4%;
+}
+
+h3 {
+	text-align: left;
+}
+
+.menuadmin h3 {
+	border-bottom: 1px #333 solid;
+}
+
+.table-proposed {
+	width: 100%;
+}
+
+#buttons {
+	margin: 30px auto;
+	text-align: center;
+}
+
+#frontpage {
+/*	font-size: 1.2em;*/
+	line-height: 1.6em;
+}
+
+#frontpage p {
+/*	padding: 10px; */
+	margin: 0px;
+}
+
+#frontpage h3 {
+	margin: 5px 0px;
+}
+
+select {
+	min-width: 5em;
+}
+
+#ponente-details table {
+	width: 60%;	
+}
+
+#ponente-details table tr td.name {
+	width: 30%;
+}
+
+table.table1 {
+	width: 550px;
+}
+
+td.table1-name {
+	font-weight: bold;
+	width: 150px;
+}
+
+td.table1-result {
+	text-align: justify;
 }
