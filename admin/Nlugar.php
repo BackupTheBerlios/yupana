@@ -51,7 +51,7 @@ if ($submit == "Registrar") {
 // Si todo esta bien vamos a darlo de alta
 else { // Todas las validaciones Ok 
  	 // vamos a darlo de alta
-
+    
     $room = new StdClass;
     $room->nombre_lug = $nombre_lugar;
     $room->ubicacion = $ubicacion;
@@ -61,22 +61,26 @@ else { // Todas las validaciones Ok
         $room->cupo = $cupo;
 	}
 
-    if (!insert_record('lugar', $room)) {
-        err('No se puede insertar los datos.');
-    }
+    if ($rs = insert_record('lugar', $room)) {
 ?>
-
 <p>Lugar para evento agregado, ahora ya podra asignarlo a cualquier propuesta aceptada.</p>
 <p>Si tienes preguntas o no sirve adecuadamente la pagina, por favor contacta a <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->conference_name ?></a></p>
 
 <?php
-    $values = array(
-        'Nombre' => $nombre_lugar,
-        'Ubicación' => $ubicacion,
-        'Cupo' => $cupo,
-        );
+        $values = array(
+            'Nombre' => $nombre_lugar,
+            'Ubicación' => $ubicacion,
+            'Cupo' => $cupo,
+            );
 
-    do_table_values($values);
+        do_table_values($values);
+    } else {
+?>
+
+<p class="error center">No se pudo insertar los datos.</p>
+
+<?php
+    }
 ?>
 
 <p id="buttons">
@@ -92,7 +96,7 @@ else { // Todas las validaciones Ok
 ?>
 
 <form method="POST" action="<?=$_SERVER['REQUEST_URI'] ?>">
-	<p><i>Campos marcados con un asterisco son obligatorios</i></p>
+    <p class="notice center">Campos marcados con un asterisco son obligatorios</p>
 
     <table>
 		<tr>
