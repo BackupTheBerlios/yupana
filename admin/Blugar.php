@@ -17,9 +17,9 @@ Los eventos regresarán al status de Ponencia Aceptada, las inscripciones de los
 if ($submit == "Eliminar") {
 
     // check if record exists
-    if (record_exists('lugar', 'id', $idlugar)) {
+    if ($rs = record_exists('lugar', 'id', $idlugar)) {
 
-        if ($rs = delete_records('evento_ocupa', 'id_lugar', $idlugar)) {
+        if ($rs = record_exists('evento_ocupa', 'id_lugar', $idlugar)) {
 
             $query = 'SELECT id_evento 
                 FROM evento_ocupa 
@@ -53,9 +53,14 @@ if ($submit == "Eliminar") {
                 }
             }
 
-            if (!$rs = delete_records('lugar', 'id', $idlugar)) {
+            if (!$rs = delete_records('evento_ocupa', 'id_lugar', $idlugar)) {
                 //TODO: debug error
             }
+        }
+
+        if (!$rs = delete_records('lugar', 'id', $idlugar)) {
+            //TODO: debug error
+        }
 ?>
     <p>El lugar ha sido eliminado.<br/>
     Los espacios que ocupaban en los tallereslos asistentes inscritos han sido liberados. <br />
@@ -65,17 +70,14 @@ if ($submit == "Eliminar") {
     contacta a <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->conference_name ?>.</a>
     </p>
 
-<?php
-        }
-    } else {
-?>
+<?php } else { ?>
 
 <p class="error center">El lugar no existe.</p>
 
 <?php } ?>
 
 <p id="buttons">
-<input type="button" value="Volver a listado" onClick="location.href='<?=$CFG->wwwroot ?>/admin/admin.php?opc=5'" />
+    <input type="button" value="Volver a listado" onClick="location.href='<?=$CFG->wwwroot ?>/admin/admin.php?opc=5'" />
 </p>
 	
 <?php
