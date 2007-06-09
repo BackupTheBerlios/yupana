@@ -1,8 +1,6 @@
 <?php  
     // add new admin page
-
     require_once('header-common.php');
-    global $CFG;
 
     $submit = optional_param('submit');
     $login = strtolower(optional_param('S_login'));
@@ -65,10 +63,8 @@ if (!empty($submit) && $submit == "Registrar") {
     // Si hubo error(es) muestra los errores que se acumularon.
     if (!empty($errmsg)) {
         showError($errmsg);
-    }
-    
-    // Si todo esta bien vamos a darlo de alta
-    else { 
+    } else { 
+        // Si todo esta bien vamos a darlo de alta
         $newadmin = new stdClass();
         $newadmin->login = $login;
         $newadmin->passwd = md5($passwd);
@@ -79,51 +75,38 @@ if (!empty($submit) && $submit == "Registrar") {
 
         if (!insert_record('administrador', $newadmin)) {
 ?>  
-<p class="error center">
-    Ocurrió un error al insertar los datos. Por favor intenta de nuevo o contacta con el administrador.
-</p>
+
+<p class="error center">Ocurrió un error al insertar los datos. Por favor intenta de nuevo o contacta con el administrador.</p>
+
+<?php   } else { ?>
+
+<h3>Administrador agregado, ahora ya podrá utilizar la cuenta.</h3>
+<p>Si tienes preguntas o no sirve adecuadamente la pagina, por favor contacta a <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->conference_name ?></a></p>
+
 <?php
-        } else {
-            
+            $values = array(
+                'Administrador Login' => $newadmin->login,
+                'Nombre(s)' => $newadmin->nombrep,
+                'Apellidos' => $newadmin->apellidos,
+                'Correo Electrónico' => $newadmin->mail,
+                'Tipo de administrador' => get_field('tadmin', 'descr', 'id', $newadmin->id_tadmin)
+            );
+
+            do_table_values($values);
 ?>
-        <h3>Administrador agregado, ahora ya podrá utilizar la cuenta.</h3>
- 		<p>Si tienes preguntas o no sirve adecuadamente la pagina, por favor contacta a <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->conference_name ?></a></p>
 
-        <table id="admin-add-results">
-        <tbody>
-            <tr>
-                <td class="name">Administrador Login:</td>
-                <td class="result"><?=$newadmin->login ?></td>
-            </tr>
-            <tr> 
-                <td class="name">Nombre(s):</td>
-                <td class="result"><?=$newadmin->nombrep ?></td>
-            </tr>
-            <tr>
-                <td class="name">Apellidos:</td>
-                <td class="result"><?=$newadmin->apellidos ?></td>
-            </tr>
-            <tr>
-                <td class="name">Correo Electrónico:</td>
-                <td class="result"><?=$newadmin->mail ?></td>
-            </tr>
-            <tr>
-                <td class="name">Tipo de administrador:</td>
-                <td class="result"><?=get_field('tadmin', 'descr', 'id', $newadmin->id_tadmin) ?></td>
-            </tr>
-        </tbody>
-        </table>
+<p id="buttons">
+    <input type="button" value="Volver al Menu" onClick="location.href='<?=$CFG->wwwroot ?>/admin/menuadmin.php#admin'" />
+</p>
 
-        <div class="buttons">
-            <input type="button" value="Volver al Menu" onClick="location.href='<?=$CFG->wwwroot ?>/admin/menuadmin.php#admin'" />
-        </div>
 <?php
         }
- 	do_footer(); 
 
-//	Necesitamos este exit para salirse ya de este programa y evitar que se imprima la forma porque 
-//	los datos ya fueron intruducidos y la transaccion se realizo con exito
-	exit;
+        do_footer(); 
+
+        //	Necesitamos este exit para salirse ya de este programa y evitar que se imprima la forma porque 
+        //	los datos ya fueron intruducidos y la transaccion se realizo con exito
+        exit;
     }
 }
 
@@ -132,99 +115,73 @@ if (!empty($submit) && $submit == "Registrar") {
 // de lo contrario la imprimira para poder introducir los datos si es que todavia no hemos introducido nada
 // o para corregir datos que ya hayamos tratado de introducir
 ?>
-		<form method="POST" action="">
-        <p class="center"><em>Campos marcados con un asterisco son obligatorios</em></p>
-		<table>
-		<tr>
 
-		<td class="name">Administrador Login: * </td>
-		<td class="input">
-		<input TYPE="text" name="S_login" size="15" 
-        value="<?=$login ?>"></td>
-		<td> 4 a 15 caracteres
-		</td>
-		</tr>
+<form method="POST" action="<?=$_SERVER['REQUEST_URI'] ?>">
 
-		<tr>
-		<td class="name">Contraseña: * </td>
-		<td class="input">
-		<input type="password" name="S_passwd" size="15" 
-		value=""></td>
-		<td> 6 a 15 caracteres
-		</td>
-		</tr>
+    <p class="notice center">Campos marcados con un asterisco son obligatorios</p>
 
-		<tr>
-		<td class="name">Confirmación de Contraseña: * </td>
-		<td class="input"><input type="password" name="S_passwd2" size="15"
-		value=""></td>
-		<td> 
+    <table>
+        <tr>
+            <td class="name">Administrador Login: * </td>
+            <td class="input"><input TYPE="text" name="S_login" size="15" value="<?=$login ?>" /></td>
+            <td> 4 a 15 caracteres</td>
+        </tr>
 
-		</td>
-		</tr>
+        <tr>
+            <td class="name">Contraseña: * </td>
+            <td class="input"><input type="password" name="S_passwd" size="15" value="" /></td>
+            <td> 6 a 15 caracteres</td>
+        </tr>
 
-		<tr>
-		<td class="name">Nombre(s): * </td>
-		<td class="input"><input type="text" name="S_nombrep" size="30"
-        value="<?=$nombrep ?>"></td>
+        <tr>
+            <td class="name">Confirmación de Contraseña: * </td>
+            <td class="input"><input type="password" name="S_passwd2" size="15" value="" /></td>
+            <td></td>
+        </tr>
 
-		<td> 
-		</td>
-		</tr>
+        <tr>
+            <td class="name">Nombre(s): * </td>
+            <td class="input"><input type="text" name="S_nombrep" size="30" value="<?=$nombrep ?>" /></td>
+            <td></td>
+        </tr>
 
-		<tr>
-		<td class="name">Apellidos: * </td>
-		<td class="input"><input type="text" name="S_apellidos" size="30"
-        value="<?=$apellidos ?>"></td>
-		<td>
-		</td>
-		</tr>
+        <tr>
+            <td class="name">Apellidos: * </td>
+            <td class="input"><input type="text" name="S_apellidos" size="30" value="<?=$apellidos ?>" /></td>
+            <td></td>
+        </tr>
 
-		<tr>
-		<td class="name">Correo Electrónico: *</td>
-		<td class="input"><input type="text" name="S_mail" size="15"
-        value="<?=$mail ?>"></td>
-		<td>
-		</td>
-		</tr>
-		
-		<tr>
-		<td class="name">Tipo de administrador: * </td>
-		<td class="input">
-		<select name="I_id_tadmin">
-		<option name="unset" value="0"
-<?php
+        <tr>
+            <td class="name">Correo Electrónico: *</td>
+            <td class="input"><input type="text" name="S_mail" size="15" value="<?=$mail ?>" /></td>
+            <td></td>
+        </tr>
 
-		if (empty($tadmin)) 
-			echo " selected";
-	print '
-		></option>';
-	
-		$result=mysql_query("select * from tadmin order by id");
-	 	while($fila=mysql_fetch_array($result)) {
-			
-			print '<option value='.$fila["id"];
-			if ($tadmin==$fila["id"])
-				echo " selected";
-			print '>'.$fila["descr"].'</option>';
-  		}
-		mysql_free_result($result);
+        <tr>
+            <td class="name">Tipo de administrador: * </td>
+            <td class="input">
+                <select name="I_id_tadmin">
+                <option name="unset" value="0" <?=(!empty($tadmin)) ? 'selected="selected"' : ''?> ></option>
+<?php 
+
+$options = get_records('tadmin');
+foreach($options as $option) { 
 
 ?>
-		</select>
-		</td>
-		</tr>
+                <option value="<?=$option->id ?>" <?=($option->id == $tadmin) ? 'selected="selected"' : '' ?>><?=$option->descr ?></option>
+<?php } ?>
+                </select>
+            </td>
+        </tr>
+    </table>
 
-		</table>
+    <p id="buttons">
+        <input type="submit" name="submit" value="Registrar" />
+        <input type="button" value="Cancelar" onClick="location.href='<?=$CFG->wwwroot ?>/admin/menuadmin.php#admin'" />
+    </p>
 
-		<div id="buttons">
-    		<input type="submit" name="submit" value="Registrar">
-            <input type="button" value="Cancelar" onClick="location.href='<?=$CFG->wwwroot ?>/admin/menuadmin.php#admin'">
-		</div>
-
-		</form>
+</form>
 
 <?php
 do_footer(); 
-
 ?>
