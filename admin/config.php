@@ -6,36 +6,34 @@ require_once('header-common.php');
 
 <h1>Configuración Yacomas</h1>
 
-<table>
-    <tr class="table-headers">
-        <td>Nombre</td><td>Estado</td>
-        <td>Acción</td>
-	</tr>
-
 <?php
-    if ($conf_vals=get_records('config')) {
-        $trclass = 'even';
-        foreach ($conf_vals as $conf) {
-?>
+if ($conf_values=get_records('config')) {
 
-    <tr class="<?=($trclass=='even') ? $trclass : 'odd' ?>">
+    $table_data = array();
+    $table_data[] = array('Nombre', 'Estado', 'Acción');
 
-        <td><?=$conf->descr ?></td>
-        <td><?=($conf->status==1) ? 'Abierto' : 'Cerrado' ?></td>
+    foreach($conf_values as $conf) {
+        $status_desc = ($conf->status) ? 'Abierto' : 'Cerrado';
+        // toggle status
+        $status_toggle = ($conf->status) ? 0 : 1;
 
-        <td><a class="<?=($conf->status==1) ? 'precaucion' : 'verde' ?>" href="act_conf.php?vconf=<?=$conf->id ?> <?=($conf->status==1) ? 0 : 1 ?>"><?=($conf->status==1) ? 'Cerrar' : 'Abrir' ?></a>
-        </td>
+        $action_desc = ($conf->status) ? 'Cerrar' : 'Abrir';
+        $action_class = ($conf->status) ? 'precaucion' : 'verde';
 
-    </tr>
+        $action = <<< END
+<a class="{$action_class}" href="act_conf.php?vconf={$conf->id} {$status_toggle}">{$action_desc}</a>
+END;
 
-<?php
-            // toggle trclass
-            $trclass = ($trclass=='even') ? 'odd' : 'even';
-        }
+        $table_data[] = array($conf->descr, $status_desc, $action);
     }
+
+    do_table($table_data);
+} else {
 ?>
 
-</table>
+<h2 class="error center">No se pudo obtener los valores de configuración. Consulte a su administrador</h2>
+
+<?php } ?>
     
 <p id="buttons">
     <input type="button" value="Volver al menu" onClick="location.href='<?=$CFG->wwwroot ?>/admin/menuadmin.php'" />
