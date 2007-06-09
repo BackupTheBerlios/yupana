@@ -1,3 +1,3 @@
-<?
-	include "programa_preliminar.php";
+<?php
+    require('programa_preliminar.php');
 ?>
