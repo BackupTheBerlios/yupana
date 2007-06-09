@@ -1,6 +1,5 @@
 <? 
 	include "../includes/lib.php";
-	include "../includes/conf.inc.php";
 	beginSession('R');
 	$idadmin=$_SESSION['YACOMASVARS']['rootid'];
 	imprimeEncabezado();
@@ -82,7 +81,7 @@ else { // Todas las validaciones Ok
 
  	imprime_valoresOk();
  	imprimeCajaBottom(); 
- 	imprimePie(); 
+ 	footer(); 
 //	Necesitamos este exit para salirse ya de este programa y evitar que se imprima la forma porque 
 //	los datos ya fueron intruducidos y la transaccion se realizo con exito
 	exit;
@@ -172,5 +171,5 @@ else { // Todas las validaciones Ok
 		</form>';
 
 imprimeCajaBottom(); 
-imprimePie(); 
+footer(); 
 ?>

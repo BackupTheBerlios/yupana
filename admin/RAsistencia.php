@@ -1,6 +1,5 @@
 <? 
 include "../includes/lib.php";
-include "../includes/conf.inc.php";
 beginSession('R');
 imprimeEncabezado();
 
@@ -27,7 +26,6 @@ imprimeCajaTop("100","Control de Asistencia");
 		<br>
 		</form>';
 function busca($patron){
-include "../includes/conf.inc.php";
 $userQueryA = 'SELECT 	A.id, A.login,A.nombrep, A.apellidos, 
 			A.reg_time,  E.descr AS estado,  
 			TA.descr AS tasistente,A.asistencia 

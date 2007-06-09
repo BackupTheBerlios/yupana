@@ -1,15 +1,13 @@
-<? 
-	include_once "../includes/lib.php";
-	include_once "../includes/conf.inc.php";
-	beginSession('R');
-	imprimeEncabezado();
+<?php 
+    require_once('header-common.php');
 	
 	$idadmin=$_SESSION['YACOMASVARS']['rootid'];
-	print '<P class="yacomas_login">Login: '.$_SESSION['YACOMASVARS']['rootlogin'].'&nbsp;<a class="precaucion" href=signout.php>Desconectarme</a></P>';
-	imprimeCajaTop("100","Registro de Propuesta de Ponencias/Talleres");
+?>
+<h1>Registro de propuestas de Ponencias/Talleres</h1>
+
+<?php
 	$link=conectaBD();
 function imprime_valoresOk() {
-	include "../includes/conf.inc.php";
 
     print '
      <table width=100%>
@@ -226,8 +224,7 @@ if (isset ($_POST['submit']) && $_POST['submit'] == "Registrar") {
 		 Si tienes preguntas o no sirve adecuadamente la pagina, por favor contacta a 
 		 <a href="mailto:'.$adminmail.'">Administraci&oacute;n '.$conference_name.'</a><br><br>';
  	imprime_valoresOk();
- 	imprimeCajaBottom(); 
- 	imprimePie(); 
+ 	do_footer(); 
 //	Necesitamos este exit para salirse ya de este programa y evitar que se imprima la forma porque 
 //	los datos ya fueron intruducidos y la transaccion se realizo con exito
 	exit;
@@ -379,6 +376,5 @@ if (isset ($_POST['submit']) && $_POST['submit'] == "Registrar") {
 		</center>
 		</form>';
 
-imprimeCajaBottom(); 
-imprimePie(); 
+do_footer(); 
 ?>

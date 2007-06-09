@@ -1,6 +1,8 @@
 <? 
 	include_once "../includes/lib.php";
-	include_once "../includes/conf.inc.php";
+    
+    global $CFG;
+
 	imprimeEncabezado();
 	
 	imprimeCajaTop("100","Registro de Ponentes");
@@ -29,7 +31,6 @@ if (!isset($_POST['submit']))
 }
 
 function imprime_valoresOk() {
-	include "../includes/conf.inc.php";
 
     print '
      		<table width=100%>
@@ -156,7 +157,7 @@ function imprime_valoresOk() {
 		</table>
 		<br>
 		<center>
-		<input type="button" value="Volver al menu" onClick=location.href="'.$fslpath.$rootpath.'/admin/menuadmin.php#ponencias">
+		<input type="button" value="Volver al menu" onClick=location.href="'.$CFG->wwwroot.'/admin/menuadmin.php#ponencias">
 		</center>';
 
 }
@@ -241,7 +242,7 @@ if ($_POST['submit'] == "Registrar") {
 
  	imprime_valoresOk();
  	imprimeCajaBottom(); 
- 	imprimePie(); 
+ 	footer(); 
 //	Necesitamos este exit para salirse ya de este programa y evitar que se imprima la forma porque 
 //	los datos ya fueron intruducidos y la transaccion se realizo con exito
 	exit;
@@ -488,10 +489,10 @@ if ($_POST['submit'] == "Registrar") {
 		<br>
 		<center>
 		<input type="submit" name="submit" value="Registrar">&nbsp;&nbsp;
-		<input type="button" value="Volver al menu" onClick=location.href="'.$fslpath.$rootpath.'/admin/menuadmin.php#ponencias">
+		<input type="button" value="Volver al menu" onClick=location.href="'.$CFG->wwwroot.'/admin/menuadmin.php#ponencias">
 		</center>
 		</form>';
 
 imprimeCajaBottom(); 
-imprimePie(); 
+footer(); 
 ?>

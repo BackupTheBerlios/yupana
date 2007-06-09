@@ -1,6 +1,5 @@
 <? 
 include "../includes/lib.php";
-include "../includes/conf.inc.php";
 beginSession('R');
 $idadmin=$_SESSION['YACOMASVARS']['rootid'];
 imprimeEncabezado();

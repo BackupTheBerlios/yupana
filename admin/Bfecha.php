@@ -1,6 +1,5 @@
 <? 
-	include "../includes/lib.php";
-	include "../includes/conf.inc.php";
+	require_once("../includes/lib.php");
 	beginSession('R');
 	imprimeEncabezado();
 	
@@ -184,7 +183,7 @@ if (isset ($_POST['submit']) && $_POST['submit'] == "Eliminar") {
 		 </center>';
 	
  	imprimeCajaBottom(); 
- 	imprimePie(); 
+ 	footer(); 
 //	Necesitamos este exit para salirse ya de este programa y evitar que se imprima la forma porque 
 //	los datos ya fueron intruducidos y la transaccion se realizo con exito
 	exit;
@@ -203,5 +202,5 @@ if (isset ($_POST['submit']) && $_POST['submit'] == "Eliminar") {
 		</form>';
 
 imprimeCajaBottom(); 
-imprimePie(); 
+footer(); 
 ?>

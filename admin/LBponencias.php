@@ -1,11 +1,12 @@
-<? 
-include "../includes/lib.php";
-include "../includes/conf.inc.php";
-beginSession('R');
+<?php
+require_once('header-common.php');
+?>
+
+<h1>Listado de ponencias eliminadas</h1>
+
+<?php
 $link=conectaBD();
  
-
-imprimeEncabezado();
 
 // Seleccionamos los status disponibles
 $QSquery = 'SELECT * FROM prop_status ORDER BY ID'; 
@@ -37,17 +38,18 @@ $userQueryP = 'SELECT 	P.act_time, A.login, P.id AS id_ponencia, P.nombre AS pon
 		ORDER BY P.id_ponente,P.act_time';
 
 $userRecordsP = mysql_query($userQueryP) or err("No se pudo listar ponencias".mysql_errno($userRecords));
-print '<p class="yacomas_login">Login: '.$_SESSION['YACOMASVARS']['rootlogin'].'&nbsp;<a class="precaucion" href=signout.php>Desconectarme</a></P>';
-imprimeCajaTop("100","Listado de ponencias eliminadas");
 
-// Inicio datos de Ponencias
-print '
-	<table border=0 align=center width=100%>
-	<tr>
-	<td bgcolor='.$colortitle.'><b>Ponencia</b></td><td bgcolor='.$colortitle.'><b>Modificado por</b></td>
-	<td bgcolor='.$colortitle.'><b>Fecha de Modif</b></td></td><td bgcolor='.$colortitle.'><b>Tipo</b></td>
-	<td bgcolor='.$colortitle.'><b>Ponente</b></td></td>
-	</tr>';
+?>
+    <table class="wide">
+    <tr class="table-headers">
+        <td>Ponencia</td>
+        <td>Modificado por</td>
+        <td>Fecha de Modif</td>
+        <td>Tipo</td>
+        <td>Ponente</td>
+	</tr>
+
+<?php
 	
 
 	$color=1;
@@ -86,12 +88,13 @@ print '
 		print '</tr>';
 		
 	}
-	print '</table>';
-	retorno();
-	retorno();
-	print '<center>
-	<input type="button" value="Volver al menu" onClick=location.href="'.$fslpath.$rootpath.'/admin/menuadmin.php#admin">
-	</center>';
-imprimeCajaBottom();
-imprimePie();
+?>
+	</table>
+
+<p id="buttons">
+    <input type="button" value="Volver al menu" onClick="location.href='<?=$CFG->wwwroot ?>/admin/menuadmin.php#admin'" />
+</p>
+
+<?php
+do_footer();
 ?>

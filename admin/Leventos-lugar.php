@@ -1,20 +1,15 @@
-<? 
-include "../includes/lib.php";
-include "../includes/conf.inc.php";
-beginSession('R');
-$idlugar=$_GET['idlugar'];
-$idponente=$_SESSION['YACOMASVARS']['rootid'];
+<?php
+require_once('header-common.php');
+$idlugar = optional_param('idlugar', 0, PARAM_INT);
+?>
 
+<h1>Listado de eventos por lugar</h1>
+
+<?php
 $link=conectaBD();
 $lugarQueryE='SELECT * FROM lugar WHERE id='.$idlugar;
 $lugarRecords = mysql_query($lugarQueryE) or err("No se pudo listar lugar de eventos ".mysql_errno($lugarRecords));
 
-imprimeEncabezado();
-
-print '<p class="yacomas_login">Login: '.$_SESSION['YACOMASVARS']['rootlogin'].'&nbsp;<a class="precaucion" href=signout.php>Desconectarme</a></P>';
-$msg="Listado de eventos por lugar<br>";
-
-imprimeCajaTop("100",$msg);
 // Inicio datos de Ponencias
 // Ordenadas por dia 
 print '<FORM method="POST" action="'.$_SERVER['REQUEST_URI'].'">';
@@ -24,7 +19,7 @@ while ($Ql_evento = mysql_fetch_array($lugarRecords))
 		print '<H1>'.$Ql_evento['nombre_lug'].'</H1>';
 		if (!empty($Ql_evento['ubicacion']))
 			print '<H3>Ubicacion: '.$Ql_evento['ubicacion'].'</H3>';
-		if ($Ql_evento['cupo'] > $limite) 
+		if ($Ql_evento['cupo'] > $CFG->limite) 
 			print '<H2> Salon para Conferencias</H2>';
 		else
 			print '<H2> Aula para Talleres y/o Tutoriales</H2>';
@@ -32,12 +27,12 @@ while ($Ql_evento = mysql_fetch_array($lugarRecords))
 		// Comienzo de detalle de ponencias para este dia
 		print '
 			<table border=0 align=center width=100%>
-			<tr>
-			<td bgcolor='.$colortitle.'><b>Ponencia</b></td>
-			</td></td><td bgcolor='.$colortitle.'><b>Fecha</b>
-			</td></td><td bgcolor='.$colortitle.'><b>Hora</b>
-			</td><td bgcolor='.$colortitle.'><b>Disp</b></td>
-			</td><td bgcolor='.$colortitle.'><b>&nbsp;</b></td>
+            <tr class="table-headers">
+                <td>Ponencia</td>
+                <td>Fecha</td>
+			    <td>Hora</td>
+			    <td>Disp</td>
+			    <td></td>
 			</tr>';
 		$Qehs='
 			SELECT  E.id_propuesta, P.id_ponente, P.duracion, L.cupo, EO.id_evento, 
@@ -69,7 +64,7 @@ while ($Ql_evento = mysql_fetch_array($lugarRecords))
 				$color=1;
 			}
 			print '<td bgcolor='.$bgcolor.'><a class="azul" href="Vponencia.php?vopc='.$Qf_event['id_ponente'].' '.$Qf_event['id_propuesta'].' '.$_SERVER['REQUEST_URI'].'">'.$Qf_event["nombre"].'</a>';
-			retorno();
+
 			print '<small><a class="ponente" href="Vponente.php?vopc='.$Qf_event['id_ponente'].' '.$_SERVER['REQUEST_URI'].'">'.$Qf_event["nombrep"].' '.$Qf_event["apellidos"].'</a></small>';
 			print '</td><td bgcolor='.$bgcolor.'>'.strftime_caste("%A %d de %B",strtotime($Qf_event['fecha']));
 			print '</td><td bgcolor='.$bgcolor.'>'.$Qf_event["hora"].':00 - ';
@@ -100,11 +95,11 @@ while ($Ql_evento = mysql_fetch_array($lugarRecords))
 		print '</table>';	
 	}
 	mysql_free_result($lugarRecords);
-	retorno();
-	retorno();
-	print '<center>';
-	print '<input type="button" value="Volver al menu" onClick=location.href="'.$fslpath.$rootpath.'/admin/admin.php?opc=5">
-	</center>';
-imprimeCajaBottom();
-imprimePie();
+?>
+<p id="buttons">
+    <input type="button" value="Volver al menu" onClick="location.href='<?=$CFG->wwwroot ?>/admin/admin.php?opc=5'" />
+</p>
+
+<?php
+    do_footer();
 ?>

@@ -1,65 +1,79 @@
-<? 
-include "../includes/lib.php";
-include "../includes/conf.inc.php";
-beginSession('R');
-imprimeEncabezado();
+<?php
+    // list admins
+    require_once('header-common.php');
 
-$link=conectaBD();
-$idadmin=$_SESSION['YACOMASVARS']['rootid'];
-$userQueryP = 'SELECT * FROM administrador WHERE id!="'.$idadmin.'" AND id!="1" ORDER BY id';
-$userRecordsP = mysql_query($userQueryP) or err("No se pudo listar administradores".mysql_errno($userRecords));
-print '<P class="yacomas_login">Login: '.$_SESSION['YACOMASVARS']['rootlogin'].'&nbsp;<a class="precaucion" href=signout.php>Desconectarme</a></P>';
-imprimeCajaTop("100","Listado de administradores");
-print '
-	<table border=0 align=center width=100%>
-	<tr>
-	<td bgcolor='.$colortitle.'><b>Login</b></td><td bgcolor='.$colortitle.'><b>Nombre</b></td>
-	<td bgcolor='.$colortitle.'><b>Apellidos</b></td><td bgcolor='.$colortitle.'><b>Correo</b></td>
-	<td bgcolor='.$colortitle.'><b>Tipo admin</b></td>
-	<td bgcolor='.$colortitle.'>&nbsp;</td>
-	</tr>';
-	$color=1;
-	while ($fila = mysql_fetch_array($userRecordsP))
-	{
-		if ($color==1) 
-		{
-			$bgcolor=$color_renglon1;
-			$color=2;
-		}
-		else 
-		{
-			$bgcolor=$color_renglon2;
-			$color=1;
-		}
-		print '<tr>
-		<td bgcolor='.$bgcolor.'>'.$fila['login'].'</td>
-		<td bgcolor='.$bgcolor.'>'.$fila['nombrep'].'</td>
-		<td bgcolor='.$bgcolor.'>'.$fila['apellidos'].'</td>
-		<td bgcolor='.$bgcolor.'>'.$fila['mail'].'</td>
-		<td bgcolor='.$bgcolor.'>';
-		$query = 'SELECT descr FROM tadmin WHERE id="'.$fila['id_tadmin'].'"';
-		$result=mysql_query($query);
-	 	$ftadmin=mysql_fetch_array($result);
-		print $ftadmin['descr'];
-		mysql_free_result($result);
-		
-		print '</td><td bgcolor='.$bgcolor.'><a class="precaucion" href="Badmin.php?admin='.$fila['id'].'">Eliminar</td>';
-		print '</tr><tr><td>'; 
-		$QSquery = 'SELECT * FROM tadmin ORDER BY ID'; 
-		$resultQS=mysql_query($QSquery);
-		print '<small>';
-		while ($QSfila=mysql_fetch_array($resultQS)) 
-		{
-			print '| <a class="verde" href="act_admin.php?vact='.$fila['id'].' '.$QSfila['id'].' '.$_SERVER['REQUEST_URI'].'" onMouseOver="window.status=\''.$QSfila['descr'].'\';return true" onFocus="window.status=\''.$QSfila['descr'].'\';return true" onMouseOut="window.status=\'\';return true">'.$QSfila['descr'].' |</a>';
-		}
-		mysql_free_result($resultQS);
-		print '</small></td></tr>';
-	}
-	print '</table>';
-	retorno();
-	retorno();
-	print '<center>
-	<input type="button" value="Volver al menu" onClick=location.href="'.$fslpath.$rootpath.'/admin/menuadmin.php">
-	</center>';
-imprimeCajaBottom();
-imprimePie();?>
+    $idadmin=(int) $_SESSION['YACOMASVARS']['rootid'];
+
+    // list of admin users
+    $users = get_records_sql('SELECT adm.*, t.descr as tdescr 
+    FROM administrador adm
+    LEFT JOIN tadmin t 
+    ON adm.id_tadmin = t.id
+    WHERE adm.id NOT IN (?,?)', array($idadmin, 1));
+
+    // list of admin levels/types
+    $admin_levels = get_records('tadmin');
+?>
+
+<h1>Listado de administradores</h1>
+
+<table border=0 align=center width=100%>
+    <tr class="table-headers">
+        <td>Login</td>
+        <td>Nombre</td>
+        <td>Apellidos</td>
+        <td>Correo</td>
+	    <td>Tipo admin</td>
+	    <td>&nbsp;</td>
+	</tr>
+
+<?php
+
+if (!empty($users)) {
+    $trclass = 'even';
+
+    foreach ($users as $user) {
+?>
+
+<tr class="<?=($trclass=='even') ? 'even' : 'odd' ?>">
+    <td><?=$user->login ?></td>
+    <td><?=$user->nombrep ?></td>
+    <td><?=$user->apellidos ?></td>
+    <td><?=$user->mail ?></td>
+    <td>
+<?php
+    foreach ($admin_levels as $level) {
+        if ($level->id != $user->id_tadmin) {
+?>
+
+    <a class="verde" href="act_admin.php?admin=<?=$user->id ?>&level=<?=$level->id ?>&return_path=<?=$_SERVER['REQUEST_URI'] ?>"><?=$level->descr ?></a> |
+
+<?php
+        } else {
+?>
+    <strong><?=$level->descr ?></strong> |
+<?php
+        }
+    }
+?>
+
+    </td>
+    <td><a class="precaucion" href="Badmin.php?admin=<?=$user->id ?>">Eliminar</a></td>
+</tr>
+
+<?php
+        // Toggle class even<->odd
+        $trclass = ($trclass=='even') ? 'odd' : 'even';
+    }
+}
+?>
+
+</table>
+
+<div id="buttons">
+    <input type="button" value="Volver al menu" onClick="location.href='<?=$CFG->wwwroot ?>/admin/menuadmin.php'" />
+</div>
+
+<?php
+do_footer();
+?>

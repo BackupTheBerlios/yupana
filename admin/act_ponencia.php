@@ -1,6 +1,5 @@
 <?
-include "../includes/lib.php";
-include "../includes/conf.inc.php";
+require_once("../includes/lib.php");
 include_once "Mail.php";
 beginSession('R');
 $link=conectaBD();

@@ -1,96 +1,93 @@
-<?	
-	include_once "../includes/lib.php";
-	include_once "../includes/conf.inc.php";
-	$link=conectaBD();
+<?php	
+    require_once('../includes/lib.php');
 
-$errmsg = "";
-if (empty($_POST['submit']))
-{
-	//Inicializa variables
-	$_POST['S_login']='';	
-}
+    global $CFG;
+    global $db;
 
-// para poder autorizar la insercion del registro
-if (isset ($_POST['submit']) && ($_POST['submit'] == "Iniciar")) {
-  if (!preg_match("/^\w{4,15}$/",$_POST['S_login']) || empty($_POST['S_passwd'])) {
-  	$errmsg .= "<li>Usuario y/o password no validos. Por favor trate de nuevo";
-  }
-  else {
-      $lowlogin = strtolower($_POST['S_login']);
-      $userQuery = 'SELECT id,login,passwd,id_tadmin FROM administrador WHERE login="'.$lowlogin.'"';
-      $userRecords = mysql_query($userQuery) or err("No se pudo checar el login".mysql_errno($userRecords));
+    $errmsg = "";
 
-      $rnum=mysql_num_rows($userRecords);
-      if ($rnum == 0) { 
-      	$errmsg = '<span class="error">No existe ese Administrador.  Trate de nuevo.';
-      }
-      else {
-      	$p = mysql_fetch_array($userRecords);
-      	//Checar el password
-       	if ($p['passwd'] != substr(md5($_POST['S_passwd']),0,32)) {
-        	$errmsg =  ' <span class="err">Usuario y/o Login incorrectos. 
-	       	Por favor intente de nuevo o <a href="reset.php">Presiona aqui para resetear tu password</a>.</span>
-	       	<p><br>';
-	}
-	else {  # We have a winner!
-	        # begin session
-		session_start();
-		session_register("YACOMASVARS");
-		$_SESSION['YACOMASVARS']['rootlogin'] = $lowlogin;
-		$_SESSION['YACOMASVARS']['rootid'] = $p['id'];
-		$_SESSION['YACOMASVARS']['rootlevel'] = $p['id_tadmin'];
-		$_SESSION['YACOMASVARS']['rootlast'] = time();
-		# re-route user
-		header('Location: menuadmin.php');
-		exit;
-	     }
-	}
-    } 
-}
+    $login = optional_param('S_login', '');
+    $pass = optional_param('S_passwd', '');
+    $submit = (optional_param('submit') == 'Iniciar') ? true : false;
 
-// Aqui imprimimos la forma
-// Solo deja de imprimirse cuando todos los valores han sido introducidos correctamente
-// de lo contrario la imprimira para poder introducir los datos si es que todavia no hemos introducido nada
-// o para corregir datos que ya hayamos tratado de introducir
-imprimeEncabezado();
+    $exp = optional_param('e');
 
-	imprimeCajaTop("50","Modulo de Administracion<br>Inicio de Sesion<hr>");
+    // check if has already session then redirect to main admin menu
+    session_start();
+    if (!empty($_SESSION['YACOMASVARS']['rootid']) && $exp != 'exp') {
+        header('Location: menuadmin.php');
+        exit;
+    }
 
+    // para poder autorizar la insercion del registro
+    if ($submit) {
+        if (!preg_match("/^\w{4,15}$/",$login) || empty($pass)) {
 
-if (!empty($errmsg)) {
-        print $errmsg;
-}
-elseif (isset($_GET['e']) && ($_GET['e'] == "exp")) { print '<span class="err">Su session ha caducado o no inicio session correctamente.  Por favor trate de nuevo.</span><p>'; }
-	print'
-		<FORM method="POST" action="'.$_SERVER['PHP_SELF'].'">
-		<center>
-		<p class="yacomas_error">Las Cookies deben ser habilitadas pasado este punto.</p>
-		<table width=50%>
-		<tr>
+            $errmsg .= 'Usuario y/o password no válidos. Por favor trate de nuevo.';
 
-		<td class="name">Administrador: </td>
-		<td class="input">
-		<input TYPE="text" name="S_login" size="15" 
-		value="'.$_POST['S_login'].'"></td>
-		</tr>
+        } else {
 
-		<tr>
-		<td class="name">Contrase&ntilde;a: </td>
-		<td class="input">
-		<input type="password" name="S_passwd" size="15" 
-		value=""></td>
-		</tr>
-		<br>
-		</table>
-		<br></br>
-		<input type="submit" name="submit" value="Iniciar">&nbsp;&nbsp;
-		<input type="button" value="Cancelar" onClick=location.href="../">
-		</center>
-		</form>
-		<span class="note">Su session caducara despues de 1 hora de inactividad</span>
-		</center>
-		';
+            $admin = get_record_select('administrador', 'login=' . $db->qstr($login) . ' AND passwd=' . $db->qstr(md5($pass)));
 
-imprimeCajaBottom(); 
-imprimePie();
+            if (!empty($admin)) {
+                # We have a winner!
+                # begin session
+//                session_start();
+                session_register("YACOMASVARS");
+                $_SESSION['YACOMASVARS']['rootlogin'] = $admin->login;
+                $_SESSION['YACOMASVARS']['rootid'] = $admin->id;
+                $_SESSION['YACOMASVARS']['rootlevel'] = $admin->id_tadmin;
+                $_SESSION['YACOMASVARS']['rootlast'] = time();
+                # re-route user
+                header('Location: menuadmin.php');
+                exit;
+            } else {
+                $errmsg .= 'Usuario y/o password no válidos. Por favor trate de nuevo.';
+            }
+        }
+    }
+
+    // Aqui imprimimos la forma
+    // Solo deja de imprimirse cuando todos los valores han sido introducidos correctamente
+    // de lo contrario la imprimira para poder introducir los datos si es que todavia no hemos introducido nada
+    // o para corregir datos que ya hayamos tratado de introducir
+    do_header();
+?>
+
+    <h1>Módulo de administración</h1>
+    <h1>Inicio de Sesión</h1>
+
+<?php
+
+    if (!empty($errmsg)) {
+?>
+    <p class="error center"><?=$errmsg ?></p>
+
+<?php
+    }
+    elseif (isset($_GET['e']) && ($_GET['e'] == "exp")) { print '<span class="err">Su session ha caducado o no inicio session correctamente.  Por favor trate de nuevo.</span><p>'; }
+?>
+    <form method="POST" action="">
+        <div id="login-form" class="center">
+            <p>
+            <label for="S_login">Administrador: </label>
+            <input TYPE="text" name="S_login" size="15" value="<?=$login ?>" />
+            </p>
+
+            <p>
+            <label for="S_passwd">Contraseña: </label>
+            <input type="password" name="S_passwd" size="15" value="" />
+            </p>
+
+            <div id="buttons"> 
+                <input type="submit" name="submit" value="Iniciar">
+                <input type="button" value="Cancelar" onClick="location.href='../'">
+            </div>
+        </div>
+    </form>
+
+    <p class="notice center">Las Cookies deben ser habilitadas pasado este punto.<br/>Su sesión caducará despues de 1 hora de inactividad.</p>
+
+<?php
+    do_footer();
 ?>

@@ -1,18 +1,24 @@
-<?
-include "../includes/lib.php";
-include "../includes/conf.inc.php";
-beginSession('R');
-$link=conectaBD();
-	$tok = strtok ($_GET['vact']," ");
-	$idadmin=$tok;
-	$tok = strtok (" ");
-	$idtadmin=$tok;
-	$tok = strtok (" ");
-	$regresa=$tok;
-	$Query_actualiza= "UPDATE administrador SET id_tadmin="."'".$idtadmin."'
-			   WHERE id="."'".$idadmin."'";
-	$actualiza_registro= mysql_query($Query_actualiza) or err("No se pudo actualizar la Administrador".mysql_errno($actualiza_registro));
-	$regresar='Location: '.$regresa;
+<?php
+    // Update admin level
 
-	header($regresar);
+    require_once('../includes/lib.php');
+
+    beginSession('R');
+
+    $admin_id = optional_param('admin', 0, PARAM_INT);
+    $id_tadmin = optional_param('level', 0);
+    $return_path = optional_param('return_path');
+
+    if (!empty($id_tadmin)) {
+        $admin = get_record_select('administrador', 'id=?', array($admin_id));
+
+        // only change level if it's diferent
+        if (!empty($admin) && $admin->id_tadmin != $id_tadmin) {
+            $admin->id_tadmin = $id_tadmin;
+            update_record('administrador', $admin);
+        }
+    }
+
+    header('Location: ' . $return_path);
+
 ?>
