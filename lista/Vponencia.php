@@ -13,7 +13,7 @@ $idponencia = $tok;
 $tok = strtok (" ");
 $regresa='';	
 while ($tok) {
-    $regresa .=' '.$tok;
+    $regresa .= $tok;
     $tok=strtok(" ");
 }
 
@@ -23,7 +23,7 @@ $ponencia = get_record('propuesta', 'id', $idponencia, 'id_ponente', $idponente)
 if (!empty($user) && !empty($ponencia)) {
 ?>
 
-<h1>Ponencia de: <?=$user->nombrep ?> <?=$user->apellidos ?></h1>
+<h1>Ponencia de: <a href="Vponente.php?vopc=<?=$user->id ?> <?=$regresa ?>"><?=$user->nombrep ?> <?=$user->apellidos ?></a></h1>
 
 <?php
 
@@ -78,7 +78,7 @@ if (!empty($user) && !empty($ponencia)) {
 <?php } ?>
 
 <p id="buttons">
-    <input type="button" value="Regresar" onClick="location.href='../'" />
+    <input type="button" value="Regresar" onClick="location.href='<?=$regresa ?>'" />
 </p>
 
 <?php
