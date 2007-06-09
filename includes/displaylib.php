@@ -66,7 +66,7 @@ function do_table ($data, $class='table-data', $toggle=true) {
 <?php
         // toggle tr class even odd
         if ($toggle) {
-            $even = ($even) ? 'odd' : 'even';
+            $even = ($even) ? false : true;
         }
     }
 ?>
