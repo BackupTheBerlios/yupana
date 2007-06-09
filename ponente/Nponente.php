@@ -8,6 +8,9 @@
 	include_once "Mail.php";
 	imprimeEncabezado();
 	
+    print_object(get_records('asistente'));
+    die();
+
 	imprimeCajaTop("100","Registro de Ponentes");
 	$link=conectaBD();
 	$configQuery= 'SELECT status FROM config WHERE id=1';

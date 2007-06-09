@@ -91,5 +91,5 @@ elseif (isset($_GET['e']) && ($_GET['e'] == "exp")) { print '<span class="err">S
 		';
 
 imprimeCajaBottom(); 
-imprimePie();
+do_footer();
 ?>
