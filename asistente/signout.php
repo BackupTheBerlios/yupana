@@ -1,20 +1,21 @@
-<?
-include_once "../includes/lib.php";
+<?php
+require_once('../includes/lib.php');
 
 beginSession('A');
 session_unset();
 session_destroy();
 
-imprimeEncabezado();
-
-#imprimeCajaTop("50","<font face='Arial, Helvetica, sans-serif'>Salida de sesion Asistente</font>");
+do_header();
 ?>
 
-<center><font face='Arial, Helvetica, sans-serif' size=6>Salida de sesion Asistente</font></center>
+<h1>Salida de sesión Asistente</h1>
 
-<?
-print '<p><center>Usted ha sido desconectado del sistema.</center></p>'; 
-#imprimeCajaBottom();
+<p class="center">Usted ha sido salido exitosamente del sistema.</p>
+
+<p id="buttons">
+    <input type="button" value="Regresar" onClick="location.href='../'" />
+</p>
+
+<?php
+do_footer();
 ?>
-<center><input type="button" value="Regresar" onClick=location.href="../"></center>
-<? imprimePie();?>
