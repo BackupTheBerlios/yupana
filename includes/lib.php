@@ -1,7 +1,47 @@
 <?php
+// run setup script 
 require_once(dirname(__FILE__).'/setup.php');
 
 global $CFG;
+
+function set_config($name, $value) {
+    global $CFG;
+
+    $CFG->$name = $value;
+    
+    if (get_field('datalists', 'name', 'name', $name)) {
+        return set_field('datalists', 'value', $value, 'name', $name);
+    } else {
+        $config = new StdClass;
+        $config->name = $name;
+        $config->value = $value; 
+        return insert_record('datalists', $config);
+    }
+}
+
+function get_config($name=NULL) {
+    global $CFG;
+    
+    if (!empty($name)) {
+        return get_record('datalists', 'name', $name);
+    }
+
+    // this was originally in setup.php, duh!
+    if ($configs = get_records('datalists')) {
+        $localcfg = (array)$CFG;
+
+        foreach ($configs as $config) {
+            //database setting overrides config.php
+            $localcfg[$config->name] = $config->value;
+        }
+
+        $localcfg = (object)$localcfg;
+        return $localcfg;
+    } else {
+        // preserve $CFG if db returns nothing or error
+        return $CFG;
+    }
+}
 
 function clean_text($text, $format=FORMAT_MOODLE) {
 

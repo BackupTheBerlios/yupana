@@ -181,6 +181,9 @@ if (ini_get_bool('magic_quotes_gpc') ) {
     
 }
 
+// load config from db at end
+$CFG = get_config();
+
 function ini_get_bool ($ini_get_arg) {
     $temp = ini_get($ini_get_arg);
 

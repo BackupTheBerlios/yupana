@@ -1,5 +1,34 @@
 <?php
 
+// Yacomas constants
+
+//Para index.php defino el estado 1 como nuevo asistente
+define (NASISTENTE,1);
+//para asistente/asistente.php defino los enteros por su estado
+define (MASISTENTE,1);
+define (LEVENTOS,2);
+define (LTALLERES,3);
+define (LTALLERESREG,4);
+define (ENCUESTA,5);
+define (HOJAREGISTRO,6);
+// Para index.php defino el estado 1 como nuevo ponente
+define (NPONENTE, 1);
+// Para ponente/ponente.php
+define (NPONENCIA,1);
+define (PROPUESTAENV,2);
+define (MPONENTE,3);
+// Nomenclatura de ficheros
+define (CARACTERSEPARADOR,"-"); //Cada fichero tendrá la siguiente nomenclatura
+					   // <ruta><idusuario><CARACTERSEPARADOR><nombrefichero>
+					   // Ejemplo /var/www/yacomas/documentos/1-prueba.pdf
+define (REGPONENTES, 1);
+define (REGASISTENTES, 2);
+define (REGPONENCIAS, 3);
+define (INSCTALLERES, 4);
+
+
+// Other constants
+
 // define all the constants and other global vars that are used by elgglib.
 
 /// Parameter constants - if set then the parameter is cleaned of scripts etc. ///
