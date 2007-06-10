@@ -1,6 +1,7 @@
 <?php
     require_once('header-common.php');
 
+    $rootlevel = $_SESSION['YACOMASVARS']['rootlevel'];
     $request_uri = $_SERVER['REQUEST_URI'];
 ?>
 
@@ -39,13 +40,19 @@ END;
 <a class="azul" href="Vponente.php?vopc={$prop->id_ponente} {$request_uri}">{$prop->nombrep} {$prop->apellidos}</a>
 END;
         $l_stats = '';
-        foreach ($stats as $stat) {
-            $l_stats .= <<< END
-<a class="small verde" href="act_ponencia.php?vact={$prop->id_ponencia} {$stat->id} {$request_uri}">{$stat->descr}</a> | 
+
+        if ($rootlevel == 1) {
+
+            foreach ($stats as $stat) {
+                $l_stats .= <<< END
+<a class="verde" href="act_ponencia.php?vact={$prop->id_ponencia} {$stat->id} {$request_uri}">{$stat->descr}</a> | 
 END;
+            }
+
+            $l_stats = sprintf('<br /><span class="small">Nuevo Status: %s</span', $l_stats);
         }
 
-        $l_ponencia .= '<br />' . $l_stats;
+        $l_ponencia .= $l_stats;
 
         $table_data[] = array(
             $l_ponencia,
