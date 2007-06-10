@@ -31,8 +31,9 @@ function get_config($name=NULL) {
         $localcfg = (array)$CFG;
 
         foreach ($configs as $config) {
-            //database setting overrides config.php
-            $localcfg[$config->name] = $config->value;
+            if (empty($localcfg[$config->name])) {
+                $localcfg[$config->name] = $config->value;
+            }
         }
 
         $localcfg = (object)$localcfg;

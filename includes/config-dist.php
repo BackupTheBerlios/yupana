@@ -20,4 +20,8 @@ $CFG->files = '/full/path/to/archives';
 /*******************************************/
 /*******************************************/
 /*******************************************/
+
+// Set wwwroot if had problems on page style or links
+// without trailing slash
+// $CFG->wwwroot = 'http://servername/yacomas';
 ?>
