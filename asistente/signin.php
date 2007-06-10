@@ -22,7 +22,7 @@ if (!empty($submit) && $submit == 'Iniciar') {
 
       $user = get_record('asistente', 'login', $login);
 
-        if (!empty($user) || $user->passwd != md5($passwd)) {
+        if (empty($user) || $user->passwd != md5($passwd)) {
         	$errmsg[] =  '<span class="err">Usuario y/o password incorrectos. Por favor intente de nuevo o <a href="reset.php"><br/>Presiona aqui para resetear tu password</a>.</span>';
 	    } else {  # We have a winner!
 	        # begin session
