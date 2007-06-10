@@ -1,11 +1,5 @@
 <?php
-require_once('../includes/lib.php');
-
-global $CFG;
-
-beginSession('R');
-do_header();
-
+require_once('header-common.php');
 $idadmin=$_SESSION['YACOMASVARS']['rootid'];
 
 $admin = get_record_select('administrador', 'id = ?', array($idadmin), 'login, nombrep, apellidos, id_tadmin as level');
@@ -15,15 +9,9 @@ if (!$admin) {
 }
 
 ?>
-
-<div id="login-info">
-<p class="yacomas_login">Login: <?=$admin->login ?> | <a class="precaucion" href="signout.php">Desconectarse</a></p>
-</div>
-
 <div id="menuadmin-welcome" class="welcome center">
-    <h2>Bienvenido Administrador</h2>
-    <h3><?=$admin->nombrep ?> <?=$admin->apellidos ?></h3>
-
+    <h1>Bienvenido Administrador</h1>
+    <h2><?=$admin->nombrep ?> <?=$admin->apellidos ?></h2>
 </div>
 
 <div id="menuadmin">
@@ -86,8 +74,6 @@ if (!$admin) {
     </div>
 
 </div><!-- #menuadmin -->
-
-<div class="clear"></div>
 
 <?php
     do_footer();
