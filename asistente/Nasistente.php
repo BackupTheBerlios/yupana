@@ -32,10 +32,13 @@
     $status = get_field('config', 'status', 'id', REGASISTENTES);
     if (!$status) {
 ?>
-    <div class="center">
-        <p class="yacomas_error">El registro de asistentes se encuentra cerrado.</p>
-        <p id="buttons"><input type="button" value="Continuar" onClick="location.href='../'" /></p>
-    </div>
+
+<p class="error center">El registro de asistentes se encuentra cerrado.</p>
+
+<p id="buttons">
+    <input type="button" value="Continuar" onClick="location.href='../'" />
+</p>
+
 <?php
         do_footer();
         exit();
@@ -120,62 +123,57 @@ if ($submit && $submit == "Registrarme") {
         $user->id_estado = $id_estado;
 
         // insert record
-        if (!insert_record('asistente', $user)) {
+        if (!$rs = insert_record('asistente', $user)) {
             err("No se pudo insertar los datos.");
         }
 
-	/////////////////////
-	// Envia el correo:
-	/////////////////////
-
-    // Build url
-    if (substr($CFG->wwwroot,0,4) == 'http') {
-        $url = $CFG->wwwroot . '/asistente/';
-    } else {
-        $url = 'http://' . $_SERVER['SERVER_NAME'] . $CFG->wwwroot . '/asistente/';
-    }
-
 ?>
- <p class="center">Gracias por darte de alta, ahora ya podras accesar a tu cuenta.</p>
-<?php
 
-	$headers["From"]    = $CFG->general_mail;
-	$headers["To"]      = $user->mail;
-	$headers["Subject"] = "Registro de asistente";
-	$message  = "";
-	$message .= "Te has registrado como asistente al {$CFG->conference_name}\n";
-	$message .= "Usuario: {$user->login}\n";
-	$message .= "Contrase&ntilde;a: {$user->passwd}\n\n";
-	$message .= "Puedes inicar sesion en: {$url}\n\n\n";
-	$message .= "---------------------------------------\n";
-	$message .= "{$CFG->conference_link}\n";
-	$params["host"] = $CFG->smtp;
-	$params["port"] = "25";
-	$params["auth"] = false;
-    // Added a verification to check if SEND_MAIL constant is enable patux@patux.net
-    // TODO:
-    // We need to wrap a function in include/lib.php to send emails in a generic way
-    // This function must validate if SEND_MAIL is enable or disable
-    if (SEND_MAIL == 1) // If is enable we will send the mail
-    {
-	    // Create the mail object using the Mail::factory method
-	    //$mail_object =& Mail::factory("smtp", $params);
-	    //$mail_object->send($user->mail, $headers, $message);
+ <p class="center">Gracias por darte de alta, ahora ya podras accesar a tu cuenta.</p>
+
+<?php
+        if ($CFG->send_mail) {
+            // Build url
+            if (substr($CFG->wwwroot,0,4) == 'http') {
+                $url = $CFG->wwwroot . '/asistente/';
+            } else {
+                $url = 'http://' . $_SERVER['SERVER_NAME'] . $CFG->wwwroot . '/asistente/';
+            }
+
+            $toname = $user->nombrep .' '. $user->apellidos;
+            $to = $user->mail;
+            $subject = $CFG->conference_name . ': Registro de asistente';
+            $message = <<< END
+Te has registrado como asistente al {$CFG->conference_name}
+
+  Usuario:    {$user->login}
+  Contraseña: {$passwd}
+
+Puedes iniciar sesión entrando a la siguiente dirección:
+
+  {$url}
+
+
+--
+Equipo {$CFG->conference_name}
+{$url}
+
+END;
+
+            //3.. 2.. 1.. go!
+            send_mail($toname, $to, $subject, $message);
 ?>
 
 <p class="center">Los datos de tu usuario y password han sido enviados al correo que registraste.</p>
 <p class="center">Es posible que algunos servidores de correo registren el correo como correo no deseado  o spam y no se encuentre en su carpeta INBOX.</p>
 
 <?php
-    } else {
+        } else {
 ?>
 
 <p class="center">Por razones de seguridad deshabilitamos el envío de correo.</p>
 
-<?php
-
-    }
-?>
+<?php } ?>
 
 <p class="center">Si tienes preguntas o no sirve adecuadamente la página, por favor contacta a 
 <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->conference_name ?></a></p>
@@ -197,7 +195,7 @@ if ($submit && $submit == "Registrarme") {
     );
 
     // show table with values
-    do_table_values($values);
+    do_table_values($values, 'narrow');
 ?>
 
     <p id="buttons">
@@ -219,10 +217,10 @@ if ($submit && $submit == "Registrarme") {
 ?>
 
     <form method="POST" action="<?=$_SERVER['REQUEST_URI'] ?>">
-        <p class="yacomas_error">Asegurate de escribir bien tus datos personales ya que estos ser&aacute;n tomados para tu constancia de participaci&oacute;n</p>
+        <p class="error center">Asegúrate de escribir bien tus datos personales ya que estos serán tomados para tu constancia de participación</p>
         <p class="center"><i>Campos marcados con un asterisco son obligatorios</i></p>
 
-		<table>
+        <table>
 
 		<tr>
 		<td class="name">Nombre de Usuario: * </td>
@@ -273,7 +271,7 @@ if ($submit && $submit == "Registrarme") {
 		</tr>
 
 		<tr>
-		<td class="name">Organización: </td>
+		<td class="name">Organización: &nbsp;</td>
         <td class="input"><input type="text" name="S_org" size="15" value="<?=$org ?>"></td>
 		<td></td>
 		</tr>
@@ -323,7 +321,7 @@ if ($submit && $submit == "Registrarme") {
 		</tr>
 
 		<tr>
-		<td class="name">Ciudad: </td>
+		<td class="name">Ciudad: &nbsp;</td>
         <td class="input"><input type="text" name="S_ciudad" size="10" value="<?=$ciudad ?>"></td>
         <td></td>
 		</tr>
@@ -352,7 +350,7 @@ if ($submit && $submit == "Registrarme") {
 		</tr>
 
 		<tr>
-		<td class="name">Fecha de Nacimiento: </td>
+		<td class="name">Fecha de Nacimiento: &nbsp;</td>
         <td class="input">
         Dia: 
     		<select name="I_b_day">
@@ -373,7 +371,7 @@ if ($submit && $submit == "Registrarme") {
 		for ($Imes=1;$Imes<=12;$Imes++){
             $item = sprintf("%02d", $Imes);
 ?>
-            <option value="<?=$item ?>" <?=($b_month == $Imes) ? 'selected="selected"' : '' ?>><?=$item ?></option>
+            <option value="<?=$item ?>" <?=($b_month == $Imes) ? 'selected="selected"' : '' ?>><?=month2name($item) ?></option>
 <?php
 		}
 ?>
