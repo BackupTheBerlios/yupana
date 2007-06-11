@@ -2,6 +2,52 @@
 //display functions
 
 
+function do_get_output ($function, $parameters) {
+    $output = '';
+
+//    print_object($parameters);
+    if (function_exists($function)) {
+
+        if (is_array($parameters)) {
+            // add slashes and quotes
+            $len = sizeof($parameters);
+            for ($i=0; $i < $len; $i++) {
+//              $parameters[$i] = "'" . addslashes($parameters[$i]) . "'" ;
+                $arg = $parameters[$i];
+
+                if (is_object($arg) || is_array($arg)) {
+                    //$$arg = $arg;
+                    $var_code = "\$var{$i} = \$arg;";
+                    $var_name = "var{$i}";
+                    eval($var_code);
+//                    print_object($arg);
+//                    print_object($$var_name);
+
+                    $parameters[$i] = "\${$var_name}";
+                } else {
+                    $parameters[$i] = "'" . $parameters[$i] . "'" ;
+                }
+            }
+
+            $args = implode(',', $parameters);
+
+        } else {
+            $args = $parameters;
+        }
+
+        $eval_code = "{$function}({$args});";
+
+//        print_object($eval_code);
+
+        // run the function and get output
+        ob_start();
+        eval($eval_code);
+        $output = ob_get_contents();
+        ob_end_clean();
+    }
+
+    return $output;
+}
 
 function do_header () {
     global $CFG;
@@ -14,7 +60,7 @@ function do_footer () {
 	include "footer.tmpl.php";
 }
 
-function do_table ($data, $class='table-data', $toggle=true) {
+function do_table ($data, $class='table-data', $toggle=true, $id='table-data') {
     if (!is_array($data)) {
         return false;
     }
@@ -29,7 +75,7 @@ function do_table ($data, $class='table-data', $toggle=true) {
     $even = true;
 ?>
 
-<table class="<?=$class ?>"> 
+<table id="<?=$id ?>"class="<?=$class ?>"> 
 
 <?php
     foreach ($data as $row) {
@@ -102,6 +148,139 @@ function do_table_values ($values, $class='table-values') {
     }
 }
 
+function do_table_input($data, $class='table-input', $id='table-input') {
+
+    if (!is_array($data)) {
+        return false;
+    }
+?>
+
+<table id="<?=$id ?>"class="<?=$class ?>"> 
+
+<?php foreach ($data as $row) { ?>
+
+    <tr>
+
+<?php
+        $column = 0;
+        foreach ($row as $column_data) {
+            $column++;
+            if ($column == 1) { // first column
+                $column_class = 'class="name"';
+            } elseif ($column == 2) { // second column
+                $column_class = 'class="input"';
+            } else {
+                $column_class = '';
+            }
+?>
+
+        <td <?=$column_class ?>><?=$column_data ?></td>
+
+<?php   } ?>
+
+    </tr>
+
+<?php } ?>
+
+</table>
+
+<?php
+}
+
+function do_input ($name, $type, $value, $attrs='') {
+    if ($type == 'text' || $type == 'password') {
+?>
+
+    <input name="<?=$name ?>" type="<?=$type ?>" value="<?=$value ?>" <?=$attrs ?> />
+
+<?php
+    }
+}
+
+function do_input_select ($name, $options, $selected=0, $unset=true, $unsetdesc='', $unsetval=0) {
+    if (is_array($options)) {
+        // array of objects, each object is an option with:
+        // $option->id: input value
+        // $option->desc: option description
+?>
+
+    <select name="<?=$name ?>">
+
+<?php if ($unset) { ?>
+
+        <option name="unset" value="<?=$unsetval ?>" <?=(empty($selected)) ? 'selected="selected"' : '' ?>><?=$unsetdesc ?></option>
+
+<?php } ?>
+
+
+<?php foreach ($options as $option) { ?> 
+
+        <option value="<?=$option->id ?>" <?=($option->id == $selected) ? 'selected="selected"' : '' ?>><?=$option->descr ?></option>
+
+<?php } ?>
+
+    </select>
+
+<?php
+    }
+}
+
+function do_input_number_select ($name, $start, $end, $selected=0, $unset=true, $unsetdesc='', $unsetval=0, $isdate=false, $ismonth=false) {
+    // build options object for do_input_select
+    $options = array();
+
+    if ($start < $end) {
+        for ($n=$start; $n<=$end; $n++) {
+            $option = new StdClass;
+            $option->id = $n;
+
+            // if is day or month
+            if ($isdate) {
+                $option->descr = sprintf('%02d', $n);
+
+                if ($ismonth) {
+                    $option->descr = month2name($option->descr);
+                }
+            } else {
+                $option->descr = $n;
+            }
+
+            //add option to array options
+            $options[] = $option;
+        }
+    } else {
+        for ($n=$start; $n>=$end; $n--) {
+            $option = new StdClass;
+            $option->id = $n;
+
+            if ($isdate) {
+                $option->descr = sprintf('%02d', $n);
+            } else {
+                $option->descr = $n;
+            }
+
+            //add option to array options
+            $options[] = $option;
+        }
+    }
+
+    if (!empty($options)) {
+        do_input_select($name, $options, $selected, $unset, $unsetdesc, $unsetval);
+    }
+}
+
+function do_input_birth_select ($dayname, $monthname, $yearname, $dayselect=0, $monthselect=0, $yearselect=0) {
+
+    //day select
+    do_input_number_select($dayname, 1, 31, $dayselect, true, 'Dia', 0, true);
+
+    //month select
+    do_input_number_select($monthname, 1, 12, $monthselect, true, 'Mes', 0, true, true);
+
+    //year select
+    do_input_number_select($yearname, 1999, 1950, $yearselect, true, 'Año', 0, true);
+}
+
 // print a bold message in an optional color
 function notify ($message, $style='error', $align='center') {
     $message = clean_text($message);
@@ -112,28 +291,59 @@ function notify ($message, $style='error', $align='center') {
 }
 
 function showError($errmsg) {
-    if (is_array($errmsg)) {
-?>
-    <div class="messages">
-        <p class="error">Por favor verifique lo siguiente:</p>
-        <ul>
-<?php
-        foreach ($errmsg as $msg) {
-?>
-            <li><?=$msg ?></li>
-<?php
-        }
-?>
-        </ul>
-    </div>
-<?php
-    }
-    else {
-        
-  print "<p><span class=\"err\">Por favor verifique lo siguiente:<ul>$errmsg</ul></span><p><hr><p>\n";
-    }
+    show_error($errmsg);
 }
 
+function show_error($errmsg, $error = true) {
+?>
 
+<div id="messages">
+
+<?php
+    if ($error) {
+?>
+
+    <p class="error">Por favor verifique lo siguiente:</p>
+    <ul class="error">
+
+<?php
+        if (is_array($errmsg)) {
+            foreach ($errmsg as $msg) {
+?>
+
+        <li><?=$msg ?></li>
+
+<?php       }
+        } else {
+?>
+
+        <li><?=$errmsg ?></li>
+
+<?php   } ?>
+
+    </ul>
+<?php
+    } else { 
+    
+        if (is_array($errmsg)) {
+            foreach ($errmsg as $msg) {
+?>
+    <p><?=$msg ?></p>
+
+<?php
+            }
+        } else {
+?>
+
+    <p><?=$errmsg ?></p>
+            
+<?php   } ?>
+   
+<?php } ?>
+
+</div>
+        
+<?php
+}
 
 ?>
