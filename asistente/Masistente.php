@@ -1,28 +1,8 @@
 <?php
 	require_once('header-common.php');
 
-    $submit = optional_param('submit');
-    $login = strtolower(optional_param('S_login'));
-    $passwd = optional_param('S_passwd');
-    $passwd2 = optional_param('S_passwd2');
-    $nombrep = optional_param('S_nombrep');
-    $apellidos = optional_param('S_apellidos');
-    $mail = optional_param('S_mail');
-    $sexo = optional_param('C_sexo');
-    $org = optional_param('S_org');
-    $id_estudios = optional_param('I_id_estudios', 0, PARAM_INT);
-    $id_tasistente = optional_param('I_id_tasistente', 0, PARAM_INT);
-    $ciudad = optional_param('S_ciudad');
-    $id_estado = optional_param('I_id_estado', 0, PARAM_INT);
-    $b_day = optional_param('I_b_day', 0, PARAM_INT);
-    $b_month = optional_param('I_b_month', 0, PARAM_INT);
-    $b_year = optional_param('I_b_year', 0, PARAM_INT);
+    include('common/user_optional_params.php');
 
-    // date of birth
-    $fecha_nac = sprintf('%d-%02d-%02d', $b_year, $b_month, $b_day);
-
-    // check value of sex
-    $sexo = ($sexo == 'M' || $sexo == 'F') ? $sexo : '';
 	$idasistente=$_SESSION['YACOMASVARS']['asiid'];
 ?>
 
@@ -90,7 +70,6 @@ if ($submit == 'Actualizar') {
     } else {
         // Todas las validaciones Ok 
         // vamos a darlo de alta
-        $f_nac = $b_year.'-'.$b_month.'-'.$b_day;
 
         $user = new StdClass;
         $user->id = $idasistente;
@@ -104,7 +83,7 @@ if ($submit == 'Actualizar') {
         $user->id_tasistente = $id_tasistente;
         $user->ciudad = $ciudad;
         $user->id_estado = $id_estado;
-        $user->fecha_nac = $f_nac;
+        $user->fecha_nac = $fecha_nac;
 
         if (!empty($passwd)) {
             $user->passwd = md5($passwd);
