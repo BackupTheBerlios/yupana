@@ -184,6 +184,33 @@ if (ini_get_bool('magic_quotes_gpc') ) {
 // load config from db at end
 $CFG = get_config();
 
+if (empty($CFG->wwwroot)) {
+    //try to guess correct wwwroot
+    $server = 'http://' . $_SERVER['SERVER_NAME'];
+
+    $path = explode('/', $_SERVER['REQUEST_URI']);
+    // pop trailing slash /
+    array_pop($path);
+
+    switch ($path[sizeof($path) - 1]) {
+        case 'admin': 
+        case 'asistente':
+        case 'ponente':
+        case 'lista':
+        case 'modalidades':
+        case 'programa':
+            array_pop($path);
+            break;
+    }
+
+    $path = implode('/', $path);
+
+    $CFG->wwwroot = 'http://' . $_SERVER['SERVER_NAME'] . $path;
+}
+
+//for backward compatibility
+define('SEND_MAIL', $CFG->send_mail);
+
 function ini_get_bool ($ini_get_arg) {
     $temp = ini_get($ini_get_arg);
 
