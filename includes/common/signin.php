@@ -4,6 +4,10 @@
         die;
     }
 
+    // check correct values
+    $is_admin_login = (empty($is_admin_login)) ? false : true;
+    $is_asistente_login = (empty($is_asistente_login)) ? false : true;
+
     // submit vars
     $submit = optional_param('submit');
     $login = strtolower(optional_param('S_login'));
