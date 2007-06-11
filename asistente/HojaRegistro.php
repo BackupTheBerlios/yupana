@@ -14,24 +14,10 @@ $user = get_record('asistente', 'id', $idasistente);
 <h2 class="center"><?=$user->apellidos ?> <?=$user->nombrep ?></h2>
 
 <?php
-// user info
-$sexo = ($user->sexo == 'M') ? 'Masculino' : 'Femenino';
-$estudios = get_field('estudios', 'descr', 'id', $user->id_estudios);
-$tipo_asistente = get_field('tasistente', 'descr', 'id', $user->id_tasistente);
-$estado = get_field('estado', 'descr', 'id', $user->id_estado);
 
-$values = array(
-    'Nombre de Usuario' => $user->login,
-    'Correo Electrónico' => $user->mail,
-    'Sexo' => $sexo,
-    'Organización' => $user->org,
-    'Estudios' => $estudios,
-    'Tipo Asistente' => $tipo_asistente,
-    'Ciudad' => $user->ciudad,
-    'Estado' => $estado
-    );
+$hoja_registro = true;
 
-do_table_values($values, 'narrow');
+require('common/nasistente_display_values.php');
 
 // Fin datos de usuario
 
