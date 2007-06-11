@@ -34,9 +34,10 @@ if (Context == 'admin') { ?>
 
 <h1>Inicio de Sesión Asistente</h1>
 
-<?php }
+<?php
+}
 
-if (empty($errmsg)) {
+if (!empty($errmsg)) {
     show_error($errmsg);
 } elseif ($exp == 'exp') {
     show_error('Su sesión ha caducado o no incio correctamente. Por favor trate de nuevo');
