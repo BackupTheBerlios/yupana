@@ -2,8 +2,6 @@
 // run setup script 
 require_once(dirname(__FILE__).'/setup.php');
 
-global $CFG;
-
 function set_config($name, $value) {
     global $CFG;
 
@@ -204,6 +202,9 @@ function clean_param ($param, $options) {
 
 // send mail
 function send_mail($contactname, $contactemail, $subject, $message, $myname='', $mymail='', $bcc='', $replyto='', $replytoname='') {
+    global $CFG;
+    // needed for compatibility
+    $CFG->libdir = dirname(__FILE__);
 
     // include mailer library
     include_once(dirname(__FILE__).'/phpmailer/class.phpmailer.php');
@@ -211,7 +212,7 @@ function send_mail($contactname, $contactemail, $subject, $message, $myname='', 
     $mail = new phpmailer;
 
     $mail->Version = 'Yacomas (Rho)';
-    $mail->PluginDir = dirname(__FILE__) . '/phpmailer/';
+    $mail->PluginDir = $CFG->libdir . '/phpmailer/';
 
     $mail->CharSet = 'UTF-8';
 
@@ -247,17 +248,18 @@ function send_mail($contactname, $contactemail, $subject, $message, $myname='', 
     }
 
     $mail->Subject = substr(stripslashes($subject),0,900);
+    $mail->AddAddress($contactemail, $contactname);
 
     $mail->WordWrap = 79;
 
     $mail->IsHTML(false);
     $mail->Body = "\n$message\n";
 
-    if (SEND_MAIL == 1) {
+    if ($CFG->send_mail == 1) {
         if ($mail->Send()) {
             return true;
         } else {
-            mtrace('Error: ' . $mail->ErrorInfo);
+            print_object($mail->ErrorInfo);
             return false;
         }
     } 
@@ -268,6 +270,8 @@ function send_mail($contactname, $contactemail, $subject, $message, $myname='', 
 }
 
 function request_password($login, $type) {
+    global $CFG;
+
     if ($type == 'A') {
         $user_type = 'asistente';
     } elseif ($type == 'P') {
