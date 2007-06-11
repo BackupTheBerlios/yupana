@@ -1,25 +1,7 @@
 <?php
     require_once("../includes/lib.php");
 
-    $submit = optional_param('submit');
-    $login = strtolower(optional_param('S_login'));
-    $passwd = optional_param('S_passwd');
-    $passwd2 = optional_param('S_passwd2');
-    $nombrep = optional_param('S_nombrep');
-    $apellidos = optional_param('S_apellidos');
-    $mail = optional_param('S_mail');
-    $sexo = optional_param('C_sexo');
-    $org = optional_param('S_org');
-    $id_estudios = optional_param('I_id_estudios', 0, PARAM_INT);
-    $ciudad = optional_param('S_ciudad');
-    $id_estado = optional_param('I_id_estado', 0, PARAM_INT);
-    $id_tasistente = optional_param('I_id_tasistente', 0, PARAM_INT);
-    $b_day = optional_param('I_b_day', 0, PARAM_INT);
-    $b_month = optional_param('I_b_month', 0, PARAM_INT);
-    $b_year = optional_param('I_b_year', 0, PARAM_INT);
-
-    // check values of sex
-    $sexo = ($sexo == 'M' || $sexo == 'F') ? $sexo : '';
+    include('common/user_optional_params.php');
 
     do_header();
 ?>
@@ -102,7 +84,6 @@ if ($submit && $submit == "Registrarme") {
     else {  // Todas las validaciones Ok 
             // vamos a darlo de alta
 
-        $f_nac=$b_year.'-'.$b_month.'-'.$b_day;
         $date=strftime("%Y%m%d%H%M%S");
 
         // build user object
@@ -115,7 +96,7 @@ if ($submit && $submit == "Registrarme") {
         $user->mail = $mail;
         $user->ciudad = $ciudad;
         $user->org = $org;
-        $user->fecha_nac = $f_nac;
+        $user->fecha_nac = $fecha_nac;
         $user->reg_time = $date;
         $user->id_estudios = $id_estudios;
         $user->id_tasistente = $id_tasistente;
@@ -130,72 +111,12 @@ if ($submit && $submit == "Registrarme") {
 
  <p class="center">Gracias por darte de alta, ahora ya podras accesar a tu cuenta.</p>
 
-<?php
-        if ($CFG->send_mail) {
-            // Build url
-            if (substr($CFG->wwwroot,0,4) == 'http') {
-                $url = $CFG->wwwroot . '/asistente/';
-            } else {
-                $url = 'http://' . $_SERVER['SERVER_NAME'] . $CFG->wwwroot . '/asistente/';
-            }
-
-            $toname = $user->nombrep .' '. $user->apellidos;
-            $to = $user->mail;
-            $subject = $CFG->conference_name . ': Registro de asistente';
-            $message = <<< END
-Te has registrado como asistente al {$CFG->conference_name}
-
-  Usuario:    {$user->login}
-  Contraseña: {$passwd}
-
-Puedes iniciar sesión entrando a la siguiente dirección:
-
-  {$url}
-
-
---
-Equipo {$CFG->conference_name}
-{$url}
-
-END;
-
-            //3.. 2.. 1.. go!
-            send_mail($toname, $to, $subject, $message);
-?>
-
-<p>Los datos de tu usuario y password han sido enviados al correo que registraste.</p>
-<p>Es posible que algunos servidores de correo registren el correo como correo no deseado  o spam y no se encuentre en su carpeta INBOX.</p>
-
-<?php
-        } else {
-?>
-
-<p class="center">Por razones de seguridad deshabilitamos el envío de correo.</p>
-
-<?php } ?>
+<?php include('common/nasistente_send_mail.php'); ?>
 
 <p>Si tienes preguntas o no sirve adecuadamente la página, por favor contacta a 
 <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->conference_name ?></a></p>
 
-<?php
-    // Show values
-    $values = array(
-        'Nombre de Usuario' => $user->login,
-        'Nombre(s)' => $user->nombrep,
-        'Apellidos' => $user->apellidos,
-        'Correo electrónico' => $user->mail,
-        'Sexo' => ($user->sexo == 'M') ? 'Masculino' : 'Femenino',
-        'Organización' => $user->org,
-        'Estudios' => get_field('estudios', 'descr', 'id', $user->id_estudios),
-        'Tipo de Asistente' => get_field('tasistente', 'descr', 'id', $user->id_tasistente),
-        'Ciudad' => $user->ciudad,
-        'Departamento' => get_field('estado', 'descr', 'id', $user->id_estado),
-        'Fecha de Nacimiento' => sprintf('%s', $user->fecha_nac)
-    );
-
-    // show table with values
-    do_table_values($values);
-?>
+<?php include('common/nasistente_display_values.php'); ?>
 
     <p id="buttons">
         <input type="button" value="Continuar" onClick="location.href='<?=$CFG->wwwroot ?>/asistente/'" />
