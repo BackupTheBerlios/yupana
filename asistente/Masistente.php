@@ -1,5 +1,5 @@
 <?php
-	require_once('header-common.php');
+	require_once('common/asistente_header.php');
 
     require('common/user_optional_params.php');
 
