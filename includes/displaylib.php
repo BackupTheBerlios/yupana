@@ -188,13 +188,11 @@ function do_table_input($data, $class='table-input', $id='table-input') {
 }
 
 function do_input ($name, $type, $value, $attrs='') {
-    if ($type == 'text' || $type == 'password') {
 ?>
 
     <input name="<?=$name ?>" type="<?=$type ?>" value="<?=$value ?>" <?=$attrs ?> />
 
 <?php
-    }
 }
 
 function do_input_select ($name, $options, $selected=0, $unset=true, $unsetdesc='', $unsetval=0) {
@@ -279,6 +277,24 @@ function do_input_birth_select ($dayname, $monthname, $yearname, $dayselect=0, $
 
     //year select
     do_input_number_select($yearname, 1999, 1950, $yearselect, true, 'Año', 0, true);
+}
+
+function do_submit_cancel($submit_value, $cancel_value, $url) {
+    $onclick = "onClick=\"location.href='{$url}'\"";
+?>
+
+<p id="buttons">
+
+<?php
+    if (!empty($submit_value)) {
+        do_input('submit', 'submit', $submit_value);
+    }
+    do_input('', 'button', $cancel_value, $onclick);
+?>
+
+</p>
+
+<?php
 }
 
 // print a bold message in an optional color
