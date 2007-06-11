@@ -16,21 +16,18 @@
         $sess_id = 'rootid';
         $table = 'administrador';
         $home_url = "{$CFG->wwwroot}/admin";
-        $menu_url = "{$home_url}/menuadmin.php";
 
     } elseif (Context == 'ponente') {
 
         $sess_id = 'ponlogin';
         $table = 'ponente';
         $home_url = "{$CFG->wwwroot}/ponente";
-        $menu_url = "{$home_url}/menuponente.php";
 
     } elseif (Context == 'asistente') {
 
         $sess_id = 'asiid';
         $table = 'asistente';
         $home_url = "{$CFG->wwwroot}/asistente";
-        $menu_url = "{$home_url}/menuasistente.php";
 
     } else { 
         // duh?
@@ -40,7 +37,7 @@
     // Check if use has session
     session_start();
     if (!empty($_SESSION['YACOMASVARS'][$sess_id]) && $exp != 'exp') {
-        header("Location: {$menu_url}");
+        header("Location: {$home_url}");
         exit; //no needed
     }
 
@@ -74,7 +71,7 @@
                 }
 
                 // redirect to main menu
-                header("Location: {$menu_url}");
+                header("Location: {$home_url}");
                 exit;
             }
         }
