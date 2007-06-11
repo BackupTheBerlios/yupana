@@ -1,6 +1,6 @@
 <?php
 // menu principal asistentes
-require_once('header-common.php');
+require_once('common/asistente_header.php');
 
 // who am i?
 $idasistente = $_SESSION['YACOMASVARS']['asiid'];
@@ -10,10 +10,10 @@ $user = get_record('asistente', 'id', $idasistente);
 
 ?>
 <h1>Asistentes</h1>
-<h3>Bienvenido <?=$user->nombrep ?> <?=$user->apellidos ?></h3>
+<h2>Bienvenido <?=$user->nombrep ?> <?=$user->apellidos ?></h2>
 
-<div id="menu-asistente">
-    <div class="column">
+<div id="menuadmin">
+    <div class="menuadmin column">
         <ul>
             <li><a href="asistente.php?opc=<?=MASISTENTE ?>">Modificar mis datos</a></li> 
             <li><a href="asistente.php?opc=<?=HOJAREGISTRO ?>">Imprimir hoja de registro</a></li>
@@ -21,7 +21,7 @@ $user = get_record('asistente', 'id', $idasistente);
         </ul>
     </div>
 
-    <div class="column">
+    <div class="menuadmin column">
         <ul>
             <li><a href="asistente.php?opc=<?=LEVENTOS ?>">Listas eventos programados</a></li>
             <li><a href="asistente.php?opc=<?=LTALLERES ?>">Listar/Inscribirme a talleres y/o tutoriales</a></li>
