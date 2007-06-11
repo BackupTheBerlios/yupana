@@ -22,8 +22,7 @@
 <div id="container">
 
 <div id="header">
-    <a href="<?=$CFG->conference_link ?>"><img src="<?=$CFG->wwwroot ?>/images/logo.jpg" /></a>
-    <h1><?=$CFG->conference_name ?></h1>
+    <a href="<?=$CFG->conference_link ?>"><h1><?=$CFG->conference_name ?></h1></a>
 </div> <!-- #header -->
 
 <div id="content">
