@@ -1,21 +1,11 @@
 <?php
-require('../includes/lib.php');
+require_once(dirname(dirname(__FILE__)) . '/includes/lib.php');
+
+$idponente = optional_param('ponente', 0, PARAM_INT);
+$idponencia = optional_param('ponencia', 0, PARAM_INT);
+$return_url = optional_param('return');
+
 do_header();
-
-$vopc = optional_param('vopc');
-
-$tok = strtok ($vopc, " ");
-$idponente = $tok;
-
-$tok = strtok (" ");
-$idponencia = $tok;
-
-$tok = strtok (" ");
-$regresa='';	
-while ($tok) {
-    $regresa .= $tok;
-    $tok=strtok(" ");
-}
 
 $user = get_record('ponente', 'id', $idponente);
 $ponencia = get_record('propuesta', 'id', $idponencia, 'id_ponente', $idponente);
@@ -23,7 +13,7 @@ $ponencia = get_record('propuesta', 'id', $idponencia, 'id_ponente', $idponente)
 if (!empty($user) && !empty($ponencia)) {
 ?>
 
-<h1>Ponencia de: <a href="Vponente.php?vopc=<?=$user->id ?> <?=$regresa ?>"><?=$user->nombrep ?> <?=$user->apellidos ?></a></h1>
+<h1>Ponencia de: <a href="Vponente.php?ponente=<?=$user->id ?>&return=<?=$return_url ?>"><?=$user->nombrep ?> <?=$user->apellidos ?></a></h1>
 
 <?php
     $desc_nivel = get_field('prop_nivel', 'descr', 'id', $ponencia->id_nivel);
@@ -76,6 +66,6 @@ if (!empty($user) && !empty($ponencia)) {
 <?php
 }
 
-do_submit_cancel('', 'Regresar', $regresa);
+do_submit_cancel('', 'Regresar', $return_url);
 do_footer();
 ?>

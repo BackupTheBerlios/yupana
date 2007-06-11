@@ -1,16 +1,15 @@
 <?php
-    require('../includes/lib.php');
-	do_header();
+require_once(dirname(dirname(__FILE__)). '/includes/lib.php');
+
+$request_uri = $_SERVER['REQUEST_URI'];
+
+do_header();
 ?>
 
 <h1>Lista de propuestas enviadas</h1>
 
 <?php
-//
 // Status 7 es Eliminado
-// Seleccionamos todos los que no esten eliminados ni esten programados
-// Tal vez podriamos mejorar esta cosa para no depender directamente de que el status siempre sea dado en el codigo
-//
 $query ='SELECT P.id AS id_ponencia, P.nombre AS ponencia, 
                 P.id_prop_tipo, P.id_ponente, PO.nombrep,
                 PO.apellidos, PT.descr AS prop_tipo, S.descr AS status 
@@ -19,20 +18,18 @@ $query ='SELECT P.id AS id_ponencia, P.nombre AS ponencia,
             AND P.id_prop_tipo=PT.id AND id_status != 7 
         ORDER BY P.id_prop_tipo,P.id_ponente,P.reg_time';
 
-    $props = get_records_sql($query);
+$props = get_records_sql($query);
 
 if (!empty($props)) {
-
     $table_data = array();
-
     $table_data[] = array('Ponencia', 'Tipo', 'Estado');
 
     foreach($props as $prop)
     {
         $tponencia = <<< END
-<a class="azul" href="Vponencia.php?vopc={$prop->id_ponente}%20{$prop->id_ponencia}%20{$_SERVER['REQUEST_URI']}"> {$prop->ponencia} </a>
+<a class="azul" href="Vponencia.php?ponente={$prop->id_ponente}&ponencia={$prop->id_ponencia}&return={$request_uri}"> {$prop->ponencia} </a>
 <br />
-<a class="ponente" href="Vponente.php?vopc={$prop->id_ponente} {$_SERVER['REQUEST_URI']}">{$prop->nombrep} {$prop->apellidos}</a>
+<a class="ponente" href="Vponente.php?ponente={$prop->id_ponente}&return={$request_uri}">{$prop->nombrep} {$prop->apellidos}</a>
 END;
 
         $table_data[] = array($tponencia, $prop->prop_tipo, $prop->status);

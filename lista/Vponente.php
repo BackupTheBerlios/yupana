@@ -1,19 +1,10 @@
 <?php
-require('../includes/lib.php');
+require_once(dirname(dirname(__FILE__)) . '/includes/lib.php');
+
+$idponente = optional_param('ponente', 0, PARAM_INT);
+$return_url = optional_param('return');
 
 do_header();
-
-//FIXME: better use own variables for each arg
-$vopc = optional_param('vopc');
-$tok = strtok ($_GET['vopc']," ");
-$idponente = (int)$tok;
-
-$tok = strtok (" ");
-$regresa='';
-	while ($tok) {
-		$regresa .= $tok;
-		$tok=strtok(" ");
-	}
 ?>
 
 <h1>Datos de ponente</h1>
@@ -22,7 +13,6 @@ $regresa='';
 $user = get_record('ponente', 'id', $idponente);
 
 if (!empty($user)) {
-   
 ?>
 
 <h2 class="center"><?=$user->nombrep ?> <?=$user->apellidos ?></h2>
@@ -46,6 +36,6 @@ if (!empty($user)) {
 <?php
 }
 
-do_submit_cancel('', 'Regresar', $regresa);
+do_submit_cancel('', 'Regresar', $return_url);
 do_footer();
 ?>
