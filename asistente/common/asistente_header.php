@@ -1,6 +1,6 @@
 <?php
     
-require_once(dirname(__FILE__).'/../includes/lib.php');
+require_once(dirname(__FILE__).'/../../includes/lib.php');
 
 beginSession('A');
 do_header();
