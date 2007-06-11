@@ -45,10 +45,9 @@ END;
 
 <p class="error center">Todavía no se registraron ponencias</p>
 
-<?php } ?>
+<?php 
+}
 
-<p id="buttons">
-    <input type="button" value="Regresar" onClick="location.href='../'" />
-</p>
-
-<?	do_footer(); ?> 
+do_submit_cancel('', 'Regresar', $CFG->wwwroot);
+do_footer();
+?>

@@ -26,7 +26,6 @@ if (!empty($user) && !empty($ponencia)) {
 <h1>Ponencia de: <a href="Vponente.php?vopc=<?=$user->id ?> <?=$regresa ?>"><?=$user->nombrep ?> <?=$user->apellidos ?></a></h1>
 
 <?php
-
     $desc_nivel = get_field('prop_nivel', 'descr', 'id', $ponencia->id_nivel);
     $tipo_prop = get_field('prop_tipo', 'descr', 'id', $ponencia->id_prop_tipo);
     $desc_orientacion = get_field('orientacion', 'descr', 'id', $ponencia->id_orientacion);
@@ -62,10 +61,9 @@ if (!empty($user) && !empty($ponencia)) {
         $datos_ponencia = array_merge($datos_ponencia, $datos_pub);
     }
 
-    $datos_resumen = array(
-        'Resumen' => $ponencia->resumen,
-        'Prerequisitos del Asistente' => $ponencia->reqasistente
-        );
+    $datos_resumen = array();
+    $datos_resumen['Resumen'] = $ponencia->resumen;
+    $datos_resumen['Prerequisitos del Asistente'] = $ponencia->reqasistente;
 
     do_table_values($datos_ponencia, 'narrow');
     do_table_values($datos_resumen, 'narrow');
@@ -75,12 +73,9 @@ if (!empty($user) && !empty($ponencia)) {
     
 <p class="error center">Usuario o ponencia no encontrado.</p>
 
-<?php } ?>
-
-<p id="buttons">
-    <input type="button" value="Regresar" onClick="location.href='<?=$regresa ?>'" />
-</p>
-
 <?php
-    do_footer(); 
+}
+
+do_submit_cancel('', 'Regresar', $regresa);
+do_footer();
 ?>

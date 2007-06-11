@@ -43,12 +43,9 @@ if (!empty($user)) {
 
 <p class="error center">Usuario no encontrado</p>
  
-<?php } ?>
-
-<p id="buttons">
-    <input type="submit" value="Regresar" onClick="location.href='<?=$regresa ?>'" />
-</p>
-
 <?php
+}
+
+do_submit_cancel('', 'Regresar', $regresa);
 do_footer();
 ?>
