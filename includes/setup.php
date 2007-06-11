@@ -1,13 +1,18 @@
 <?php
 // This file is taked from elgg
 
-require(dirname(__FILE__).'/config.php');
-require(dirname(__FILE__).'/displaylib.php');
-require(dirname(__FILE__).'/datalib.php');
-require(dirname(__FILE__).'/constants.php');
-
 global $db;
 global $CFG;
+
+// Set includes dir
+$CFG->rootdir = dirname(dirname(__FILE__)) . '/';
+$CFG->incdir = $CFG->rootdir . 'includes/';
+
+require($CFG->incdir . 'config.php');
+require($CFG->incdir . 'displaylib.php');
+require($CFG->incdir . 'datalib.php');
+require($CFG->incdir . 'constants.php');
+
 
 /// First try to detect some attacks on older buggy PHP versions
 if (isset($_REQUEST['GLOBALS']) || isset($_COOKIE['GLOBALS']) || isset($_FILES['GLOBALS'])) {
