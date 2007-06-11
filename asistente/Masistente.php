@@ -49,25 +49,8 @@ if ($submit == 'Actualizar') {
 <p>Si tienes preguntas o no sirve adecuadamente la página por favor contacta a <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->conference_name ?></a></p>
 
 <?php
-            $estudios = get_field('estudios', 'descr', 'id', $user->id_estudios);
-            $tasistente = get_field('tasistente', 'descr', 'id', $user->id_tasistente);
-            $estado = get_field('estado', 'descr', 'id', $user->id_estado);
+            require('common/nasistente_display_values.php');
 
-            $values = array(
-                'Nombre de Usuario' => $user->login,
-                'Nombre(s)' => $user->nombrep,
-                'Apellidos' => $user->apellidos,
-                'Correo Electrónico' => $user->mail,
-                'Sexo' => ($user->sexo == 'M') ? 'Masculino' : 'Femenino',
-                'Organización' => $user->org,
-                'Estudios' => $estudios,
-                'Tipo de Asistente' => $tasistente,
-                'Ciudad' => $user->ciudad,
-                'Departamento' => $estado,
-                'Fecha de Nacimiento' => $user->fecha_nac
-                );
-
-            do_table_values($values);
         } else {
 ?>
 
