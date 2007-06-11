@@ -1,7 +1,7 @@
 <?php
     require_once("../includes/lib.php");
 
-    include('common/user_optional_params.php');
+    require('common/user_optional_params.php');
 
     do_header();
 ?>
@@ -31,49 +31,7 @@ if ($submit && $submit == "Registrarme") {
     # do some basic error checking
     $errmsg = array();
 
-    // Verificar si todos los campos obligatorios no estan vacios
-    if (empty($login)
-        || empty($nombrep)
-        || empty($apellidos)
-        || empty($sexo)
-        || empty($id_estudios)
-        || empty($id_tasistente)
-        || empty($id_estado)) { 
-
-        $errmsg[] = "Verifica que los datos obligatorios los hayas introducido correctamente.";
-    }
-
-    if (!preg_match("/.+\@.+\..+/",$mail)) {            
-        $errmsg[] = "El correo electrónico no es válido";
-    }
-
-    // Verifica que el login sea de al menos 4 caracteres
-    if (!preg_match("/^\w{4,15}$/",$login)) {
-        $errmsg[] = "El login que elijas debe tener entre 4 y 15 caracteres.";
-    }
-
-    // Verifica que el password sea de al menos 6 caracteres
-    if (!preg_match("/^.{6,15}$/",$passwd)) {
-        $errmsg[] = "El password debe tener entre 6 y 15 caracteres.";
-    }
-
-    // Verifica que el password usado no sea igual al login introducido por seguridad
-    elseif ($passwd == $login) {
-        $errmsg[] = "El password no debe ser igual a tu login.";
-    }
-
-    // Verifica que los password esten escritos correctamente para verificar que
-    // la persona introducjo correcamente el password que eligio.
-    if ($passwd != $passwd2) {
-        $errmsg[] = "Los passwords no concuerdan.";
-    }
-
-    // Si no hay errores verifica que el login no este ya dado de alta en la tabla
-    if (empty($errmsg)) {
-        if (record_exists('asistente', 'login', $login)) {
-            $errmsg[] = 'El usuario que elegiste ya ha sido tomado; por favor elige otro';
-        }
-    }
+    require('common/user_optional_params_check.php');
 
     // Si hubo error(es) muestra los errores que se acumularon.
     if (!empty($errmsg)) {
@@ -111,12 +69,12 @@ if ($submit && $submit == "Registrarme") {
 
  <p class="center">Gracias por darte de alta, ahora ya podras accesar a tu cuenta.</p>
 
-<?php include('common/nasistente_send_mail.php'); ?>
+<?php require('common/nasistente_send_mail.php'); ?>
 
 <p>Si tienes preguntas o no sirve adecuadamente la página, por favor contacta a 
 <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->conference_name ?></a></p>
 
-<?php include('common/nasistente_display_values.php'); ?>
+<?php require('common/nasistente_display_values.php'); ?>
 
     <p id="buttons">
         <input type="button" value="Continuar" onClick="location.href='<?=$CFG->wwwroot ?>/asistente/'" />
@@ -136,7 +94,7 @@ if ($submit && $submit == "Registrarme") {
         <p class="error center">Asegúrate de escribir bien tus datos personales ya que estos serán tomados para tu constancia de participación</p>
         <p class="center"><i>Campos marcados con un asterisco son obligatorios</i></p>
 
-<?php include('common/display_user_info_input_table.php'); ?>
+<?php require('common/display_user_info_input_table.php'); ?>
 
         <p id="buttons">
             <input type="submit" name="submit" value="Registrarme" />

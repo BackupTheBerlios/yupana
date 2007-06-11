@@ -1,7 +1,7 @@
 <?php
 	require_once('header-common.php');
 
-    include('common/user_optional_params.php');
+    require('common/user_optional_params.php');
 
 	$idasistente=$_SESSION['YACOMASVARS']['asiid'];
 ?>
@@ -15,54 +15,7 @@ if ($submit == 'Actualizar') {
     # do some basic error checking
     $errmsg = array();
 
-    // Verificar si todos los campos obligatorios no estan vacios
-    if (empty($login)
-        || empty($nombrep)
-        || empty($apellidos)
-        || empty($sexo)
-        || empty($id_estudios)
-        || empty($id_tasistente)
-        || empty($id_estado)) { 
-
-        $errmsg[] = "Verifica que los datos obligatorios los hayas introducido correctamente.";
-    }
-
-    if (!preg_match("/.+\@.+\..+/",$mail)) {     		
-        $errmsg[] = "El correo electrónico no es válido";
-    }
-
-    // Verifica que el login sea de al menos 4 caracteres
-    if (!preg_match("/^\w{4,15}$/",$login)) {
-        $errmsg[] = "El login que elijas debe tener entre 4 y 15 caracteres.";
-    }
-
-    if (!empty($passwd)) {
-
-        // Verifica que el password sea de al menos 6 caracteres
-        if (!preg_match("/^.{6,15}$/",$passwd)) {
-            $errmsg[] = "El password debe tener entre 6 y 15 caracteres.";
-        }
-
-        // Verifica que el password usado no sea igual al login introducido por seguridad
-        elseif ($passwd == $login) {
-            $errmsg[] = "El password no debe ser igual a tu login.";
-        }
-
-        // Verifica que los password esten escritos correctamente para verificar que
-        // la persona introducjo correcamente el password que eligio.
-        if ($passwd != $passwd2) {
-            $errmsg[] = "Los passwords no concuerdan.";
-        }
-    }
-
-    // Si no hay errores verifica que el login no este ya dado de alta en la tabla
-    if (!empty($errmsg)) {
-        $user = get_record('asistente', 'login', $login);
-
-        if (!empty($user) && $user->id != $idasistente) {
-            $errmsg[] = "El login que elegiste ya ha sido dado de alta; por favor elige otro";
-        }
-    }
+    require('common/user_optional_params_check.php');
 
     // Si hubo error(es) muestra los errores que se acumularon.
     if (!empty($errmsg)) {
@@ -152,21 +105,6 @@ if ($submit == 'Actualizar') {
         $b_day = ($b_date[2]) ? (int) $b_date[2] : 0;
         $b_month = ($b_date[1]) ? (int) $b_date[1] : 0;
         $b_year = ($b_date[0]) ? (int) $b_date[0] : 0;
-
-/*        $id_estudios = $
-
-        $user->login = $login;
-        $user->nombrep = $nombrep;
-        $user->apellidos = $apellidos;
-        $user->mail = $mail;
-        $user->sexo = $sexo;
-        $user->org = $org;
-        $user->id_estudios = $id_estudios;
-        $user->id_tasistente = $id_tasistente;
-        $user->ciudad = $ciudad;
-        $user->id_estado = $id_estado;
-        $user->fecha_nac = $f_nac;*/
-
     }
 }
 // show form
@@ -177,7 +115,7 @@ if ($submit == 'Actualizar') {
 
     <p class="notice center">Asegúrate de escribir bien tus datos personales ya que estos serían tomados para tu constancia de participación</p>
 
-<?php include('common/display_user_info_input_table.php'); ?>
+<?php require('common/display_user_info_input_table.php'); ?>
 
     <p id="buttons">
         <input type="submit" name="submit" value="Actualizar" />
