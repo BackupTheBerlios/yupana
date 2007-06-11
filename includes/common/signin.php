@@ -6,6 +6,7 @@
 
     // check correct values
     $is_admin_login = (empty($is_admin_login)) ? false : true;
+    $is_ponente_login = (empty($is_ponente_login)) ? false : true;
     $is_asistente_login = (empty($is_asistente_login)) ? false : true;
 
     // submit vars
@@ -21,6 +22,13 @@
         $table = 'administrador';
         $home_url = "{$CFG->wwwroot}/admin";
         $menu_url = "{$home_url}/menuadmin.php";
+
+    } elseif ($is_ponente_login) {
+
+        $sess_id = 'ponlogin';
+        $table = 'ponente';
+        $home_url = "{$CFG->wwwroot}/ponente";
+        $menu_url = "{$home_url}/menuponente.php";
 
     } elseif ($is_asistente_login) {
 
@@ -60,6 +68,10 @@
                     $_SESSION['YACOMASVARS']['rootlogin'] = $user->login;
                     $_SESSION['YACOMASVARS']['rootlevel'] = $user->id_tadmin;
                     $_SESSION['YACOMASVARS']['rootlast'] = time();;
+                } elseif ($is_ponente_login) {
+                    $_SESSION['YACOMASVARS']['ponid'] = $user->id;
+                    $_SESSION['YACOMASVARS']['ponlogin'] = $user->login;
+                    $_SESSION['YACOMASVARS']['ponlast'] = time();;
                 } elseif ($is_asistente_login) {
                     $_SESSION['YACOMASVARS']['asiid'] = $user->id;
                     $_SESSION['YACOMASVARS']['asilogin'] = $user->login;
