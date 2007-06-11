@@ -7,7 +7,7 @@
     switch (Context) {
         case 'admin':
             beginSession('R');
-            $sess_login = $_SESSION['YACOMAS']['rootlogin'];
+            $sess_login = $_SESSION['YACOMASVARS']['rootlogin'];
             $logout_url = $CFG->wwwroot . '/admin/signout.php';
             break;
 
