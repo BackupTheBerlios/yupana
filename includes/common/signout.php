@@ -18,6 +18,8 @@
 
     if ($type == 'R') {
         $who = 'Administrador';
+    } elseif ($type == 'P') {
+        $who = 'Ponente';
     } elseif ($type == 'A') {
         $who = 'Asistente';
     }
