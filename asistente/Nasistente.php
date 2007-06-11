@@ -1,10 +1,6 @@
 <?php
     require_once("../includes/lib.php");
 
-    global $CFG;
-
-    do_header();
-
     $submit = optional_param('submit');
     $login = strtolower(optional_param('S_login'));
     $passwd = optional_param('S_passwd');
@@ -25,8 +21,11 @@
     // check values of sex
     $sexo = ($sexo == 'M' || $sexo == 'F') ? $sexo : '';
 
+    do_header();
 ?>
+
 <h1>Registro de Asistentes</h1>
+
 <?php
     // Check if register of asistantants is closed 
     $status = get_field('config', 'status', 'id', REGASISTENTES);
@@ -42,7 +41,7 @@
 <?php
         do_footer();
         exit();
-	}
+    }
 
 // Si la forma ya ha sido enviada checamos cada uno de los valores
 // para poder autorizar la insercion del registro
@@ -62,7 +61,7 @@ if ($submit && $submit == "Registrarme") {
         $errmsg[] = "Verifica que los datos obligatorios los hayas introducido correctamente.";
     }
 
-    if (!preg_match("/.+\@.+\..+/",$mail)) {     		
+    if (!preg_match("/.+\@.+\..+/",$mail)) {            
         $errmsg[] = "El correo electrónico no es válido";
     }
 
@@ -97,7 +96,7 @@ if ($submit && $submit == "Registrarme") {
     // Si hubo error(es) muestra los errores que se acumularon.
     if (!empty($errmsg)) {
         showError($errmsg);
-    }    	
+    }       
 
     // Si todo esta bien vamos a darlo de alta
     else {  // Todas las validaciones Ok 
@@ -164,8 +163,8 @@ END;
             send_mail($toname, $to, $subject, $message);
 ?>
 
-<p class="center">Los datos de tu usuario y password han sido enviados al correo que registraste.</p>
-<p class="center">Es posible que algunos servidores de correo registren el correo como correo no deseado  o spam y no se encuentre en su carpeta INBOX.</p>
+<p>Los datos de tu usuario y password han sido enviados al correo que registraste.</p>
+<p>Es posible que algunos servidores de correo registren el correo como correo no deseado  o spam y no se encuentre en su carpeta INBOX.</p>
 
 <?php
         } else {
@@ -175,7 +174,7 @@ END;
 
 <?php } ?>
 
-<p class="center">Si tienes preguntas o no sirve adecuadamente la página, por favor contacta a 
+<p>Si tienes preguntas o no sirve adecuadamente la página, por favor contacta a 
 <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->conference_name ?></a></p>
 
 <?php
@@ -191,11 +190,11 @@ END;
         'Tipo de Asistente' => get_field('tasistente', 'descr', 'id', $user->id_tasistente),
         'Ciudad' => $user->ciudad,
         'Departamento' => get_field('estado', 'descr', 'id', $user->id_estado),
-        'Fecha de Nacimiento' => $user->fecha_nac
+        'Fecha de Nacimiento' => sprintf('%s', $user->fecha_nac)
     );
 
     // show table with values
-    do_table_values($values, 'narrow');
+    do_table_values($values);
 ?>
 
     <p id="buttons">
@@ -203,206 +202,168 @@ END;
     </p>
 
 <?php
- 	do_footer(); 
-//	Necesitamos este exit para salirse ya de este programa y evitar que se imprima la forma porque 
-//	los datos ya fueron intruducidos y la transaccion se realizo con exito
-	exit;
+    do_footer(); 
+    exit;
+    //END
     }
 }
 
-// Aqui imprimimos la forma
-// Solo deja de imprimirse cuando todos los valores han sido introducidos correctamente
-// de lo contrario la imprimira para poder introducir los datos si es que todavia no hemos introducido nada
-// o para corregir datos que ya hayamos tratado de introducir
+// show form
 ?>
 
     <form method="POST" action="<?=$_SERVER['REQUEST_URI'] ?>">
         <p class="error center">Asegúrate de escribir bien tus datos personales ya que estos serán tomados para tu constancia de participación</p>
         <p class="center"><i>Campos marcados con un asterisco son obligatorios</i></p>
 
-        <table>
-
-		<tr>
-		<td class="name">Nombre de Usuario: * </td>
-		<td class="input"><input type="text" name="S_login" size="15" value="<?=$login ?>"></td>
-		<td>4 a 15 caracteres</td>
-		</tr>
-
-		<tr>
-		<td class="name">Contraseña: * </td>
-		<td class="input"><input type="password" name="S_passwd" size="15" value=""></td>
-		<td>6 a 15 caracteres</td>
-		</tr>
-
-		<tr>
-		<td class="name">Confirmación de Contraseña: * </td>
-		<td class="input"><input type="password" name="S_passwd2" size="15" value=""></td>
-		<td></td>
-		</tr>
-
-		<tr>
-		<td class="name">Nombre(s): * </td>
-        <td class="input"><input type="text" name="S_nombrep" size="30"	value="<?=$nombrep ?>"></td>
-		<td></td>
-		</tr>
-
-		<tr>
-		<td class="name">Apellidos: * </td>
-        <td class="input"><input type="text" name="S_apellidos" size="30" value="<?=$apellidos ?>"></td>
-		<td></td>
-		</tr>
-
-		<tr>
-		<td class="name">Correo Electrónico: *</td>
-        <td class="input"><input type="text" name="S_mail" size="15" value="<?=$mail ?>"></td>
-		<td></td>
-		</tr>
-
-		<tr>
-		<td class="name">Sexo: * </td>
-        <td class="input">
-            <select name="C_sexo">
-            <option name="unset" value="" <?=(empty($sexo)) ? 'selected="selected"' : '' ?>></option>
-            <option value="M" <?=($sexo == 'M') ? 'selected="selected"' : '' ?>>Masculino</option>
-            <option value="F" <?=($sexo == 'F') ? 'selected="selected"' : '' ?>>Femenino</option>
-		    </select>
-		</td>
-		<td></td>
-		</tr>
-
-		<tr>
-		<td class="name">Organización: &nbsp;</td>
-        <td class="input"><input type="text" name="S_org" size="15" value="<?=$org ?>"></td>
-		<td></td>
-		</tr>
-
-		<tr>
-		<td class="name">Estudios: * </td>
-		<td class="input">
-    		<select name="I_id_estudios">
-            <option name="unset" value="0" <?=(empty($id_estudios)) ? 'selected="selected"' : '' ?>></option>
-
 <?php
-    $options = get_records('estudios');
+$table_data = array();
 
-    if (!empty($options)) {
-        foreach ($options as $stud) {
-?>
-            <option value="<?=$stud->id ?>" <?=($id_estudios == $stud->id) ? 'selected="selected"' : '' ?>><?=$stud->descr ?></option>
-<?php
-        }
-    }
-?>
-		    </select>
-		</td>
-		<td></td>
-		</tr>
+// login
+$input_data = do_get_output('do_input', array('S_login', 'text', $login, 'size="15"'));
 
-		<tr>
-		<td class="name">Tipo de Asistente: *</td>
-		<td class="input">
-		    <select name="I_id_tasistente">
-            <option name="unset" value="0" <?=(empty($id_tasistente)) ? 'selected="selected"' : '' ?>></option>
-<?php
-    $options = get_records('tasistente');
-	
-    if (!empty($options)) {
-        foreach ($options as $t) {
-?>
-            <option value="<?=$t->id ?>" <?=($id_tasistente == $t->id) ? 'selected="selected"' : '' ?>><?=$t->descr ?></option>
-<?php
-        }
+$table_data[] = array(
+    'Nombre de Usuario: *',
+    $input_data,
+    ' 4 a 15 caracteres'
+    );
 
-    }
-?>
-            </select>
-        </td>
-		<td></td>
-		</tr>
+// password
+$input_data = do_get_output('do_input', array('S_passwd', 'password', '', 'size="15"'));
 
-		<tr>
-		<td class="name">Ciudad: &nbsp;</td>
-        <td class="input"><input type="text" name="S_ciudad" size="10" value="<?=$ciudad ?>"></td>
-        <td></td>
-		</tr>
+$table_data[] = array(
+    'Contraseña: *',
+    $input_data,
+    ' 6 a 15 caracteres'
+    );
 
-		<tr>
-		<td class="name">Departamento: * </td>
-		<td class="input">
-		    <select name="I_id_estado">
-            <option name="unset" value="0" <?=(empty($id_estado)) ? 'selected="selected"' : '' ?>></option>
+// confirm password
+$input_data = do_get_output('do_input', array('S_passwd2', 'password', '', 'size="15"'));
 
-<?php
-    $options = get_records('estado');
-	
-    if (!empty($options)) {
-        foreach ($options as $state) {
-?>
-            <option value="<?=$state->id ?>" <?=($id_estado == $state->id) ? 'selected="selected"' : '' ?>><?=$state->descr ?></option>
-<?php
-        }
+$table_data[] = array(
+    'Confirmación de Contraseña: *',
+    $input_data,
+    ''
+    );
 
-    }
-?>
-            </select>
-        </td>
-		<td></td>
-		</tr>
+// first name
+$input_data = do_get_output('do_input', array('S_nombrep', 'text', $nombrep, 'size="30"'));
 
-		<tr>
-		<td class="name">Fecha de Nacimiento: &nbsp;</td>
-        <td class="input">
-        Dia: 
-    		<select name="I_b_day">
-            <option name="unset" value="0" <?=(empty($b_day)) ? 'selected="selected"' : '' ?>></option>
-<?php
-		for ($Idia=1;$Idia<=31;$Idia++){
-            $item = sprintf("%02d", $Idia);
-?>
-            <option value="<?=$item ?>" <?=($b_day == $Idia) ? 'selected="selected"' : '' ?>><?=$item ?></option>
-<?php
-		}
-?>
-		    </select>
-		Mes:
-		    <select name="I_b_month">
-            <option name="unset" value="0" <?=(empty($b_month)) ? 'selected="selected"' : '' ?>></option>
-<?php
-		for ($Imes=1;$Imes<=12;$Imes++){
-            $item = sprintf("%02d", $Imes);
-?>
-            <option value="<?=$item ?>" <?=($b_month == $Imes) ? 'selected="selected"' : '' ?>><?=month2name($item) ?></option>
-<?php
-		}
-?>
-		    </select>
-        Año:
-    		<select name="I_b_year">
-            <option name="unset" value="0" <?=(empty($b_year)) ? 'selected="selected"' : '' ?>></option>
-<?php
-		for ($Iyear=1999;$Iyear>=1950;$Iyear--){
-?>
-            <option value="<?=$Iyear ?>" <?=($b_year == $Iyear) ? 'selected="selected"' : '' ?>><?=$Iyear ?></option>
-<?php
-		}
+$table_data[] = array(
+    'Nombre(s): *',
+    $input_data,
+    ''
+    );
+
+// last name
+$input_data = do_get_output('do_input', array('S_apellidos', 'text', $apellidos, 'size="30"'));
+
+$table_data[] = array(
+    'Apellidos: *',
+    $input_data,
+    ''
+    );
+
+// email
+$input_data = do_get_output('do_input', array('S_mail', 'text', $mail, 'size="15"'));
+
+$table_data[] = array(
+    'Correo Electrónico: *',
+    $input_data,
+    ''
+    );
+
+// sexo
+$options = array();
+
+$option = new StdClass;
+$option->id = 'M';
+$option->descr = 'Masculino';
+
+$options[] = $option;
+
+$option = new StdClass;
+$option->id = 'F';
+$option->descr = 'Femenino';
+
+$options[] = $option;
+
+$input_data = do_get_output('do_input_select', array('C_sexo', $options, $sexo));
+
+$table_data[] = array(
+    'Sexo: *',
+    $input_data,
+    ''
+    );
+
+// organizacion
+$input_data = do_get_output('do_input', array('S_org', 'text', $org, 'size="15"'));
+
+$table_data[] = array(
+    'Organización: &nbsp;',
+    $input_data,
+    ''
+    );
+
+// estudios
+$options = get_records('estudios');
+$input_data = do_get_output('do_input_select', array('I_id_estudios', $options, $id_estudios));
+
+$table_data[] = array(
+    'Estudios: *',
+    $input_data,
+    ''
+    );
+
+// tipo asistente
+$options = get_records('tasistente');
+$input_data = do_get_output('do_input_select', array('I_id_tasistente', $options, $id_tasistente));
+
+$table_data[] = array(
+    'Tipo de Asistente: *',
+    $input_data,
+    ''
+    );
+
+// ciudad
+$input_data = do_get_output('do_input', array('S_ciudad', 'text', $ciudad, 'size="10"'));
+
+$table_data[] = array(
+    'Ciudad: &nbsp;',
+    $input_data,
+    ''
+    );
+
+// departamento
+$options = get_records('estado');
+$input_data = do_get_output('do_input_select', array('I_id_estado', $options, $id_estado));
+
+$table_data[] = array(
+    'Departamento: *',
+    $input_data,
+    ''
+    );
+
+// fecha de nacimiento
+$input_data = do_get_output('do_input_birth_select', array('I_b_day', 'I_b_month', 'I_b_year', $b_day, $b_month, $b_year));
+
+$table_data[] = array(
+    'Fecha de Nacimiento: &nbsp;',
+    $input_data,
+    ''
+    );
+
+// show tdata
+do_table_input($table_data);
+
 ?>
 
-             </select>
-        </td>
-		<td></td>
-		</tr>
+        <p id="buttons">
+            <input type="submit" name="submit" value="Registrarme" />
+            <input type="button" value="Cancelar" onClick="location.href='../'" />
+        </p>
 
-		</table>
-
-		<p id="buttons">
-		    <input type="submit" name="submit" value="Registrarme" />
-		    <input type="button" value="Cancelar" onClick="location.href='../'" />
-		</p>
-
-		</form>
+    </form>
 
 <?php
-
 do_footer(); 
-
 ?>
