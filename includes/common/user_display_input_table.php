@@ -115,7 +115,7 @@ if (Context == 'ponente' || Context == 'asistente') {
 
 if (Context == 'ponente') {
     // titulo
-    $input_data = do_get_output('do_input', array('S_titulo', 'text', $USER->ciudad, 'size="10"'));
+    $input_data = do_get_output('do_input', array('S_titulo', 'text', $USER->titulo, 'size="10"'));
 
     $table_data[] = array(
         'Título: &nbsp;',
@@ -124,7 +124,7 @@ if (Context == 'ponente') {
         );
 
     // domicilio
-    $input_data = do_get_output('do_input', array('S_domicilio', 'text', $USER->ciudad, 'size="50"'));
+    $input_data = do_get_output('do_input', array('S_domicilio', 'text', $USER->domicilio, 'size="50"'));
 
     $table_data[] = array(
         'Domicilio: &nbsp;',
@@ -133,7 +133,7 @@ if (Context == 'ponente') {
         );
 
     // telefono
-    $input_data = do_get_output('do_input', array('S_telefono', 'text', $USER->ciudad, 'size="15"'));
+    $input_data = do_get_output('do_input', array('S_telefono', 'text', $USER->telefono, 'size="15"'));
 
     $table_data[] = array(
         'Teléfono: &nbsp;',
@@ -156,7 +156,7 @@ if (Context == 'asistente') {
 
 if (Context == 'ponente' || Context == 'asistente') {
     // ciudad
-    $input_data = do_get_output('do_input', array('S_ciudad', 'text', $USER->ciudad, 'size="10"'));
+    $input_data = do_get_output('do_input', array('S_ciudad', 'text', $USER->ciudad, 'size="15"'));
 
     $table_data[] = array(
         'Ciudad: &nbsp;',
