@@ -9,7 +9,7 @@ if (Context == 'main') {
     $return_url = optional_param('return');
 
     preg_match('#^general/authors/(\d+)$#', $q, $matches);
-    $author_id = (int) $matches[1];
+    $author_id = (!empty($matches)) ? (int) $matches[1] : 0;
 }
 
 $author = get_record('ponente', 'id', $author_id);
@@ -25,7 +25,11 @@ if (!empty($author)) {
 } else {
 ?> 
 
-<p class="error">Usuario no encontrado</p>
+<h1>Usuario no encontrado</h1>
+
+<div class="block"></div>
+
+<p class="center">El usuario que buscas no existe.</p>
 
 <?php
 }
