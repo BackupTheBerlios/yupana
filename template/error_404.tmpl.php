@@ -9,5 +9,5 @@ Posiblemente hayas ingresado incorrectamente la dirección o el enlace ya no exi
 Si crees que es un error por favor escribe a <a href="mailto:<?=$CFG->adminmail ?>">
 Administración <?=$CFG->conference_name ?></a></p>
 
-<?php do_submit_cancel('', 'Página principal', $CFG->wwwroot); // back button ?>
+<?php do_submit_cancel('', 'Volver'); // back button ?>
 
