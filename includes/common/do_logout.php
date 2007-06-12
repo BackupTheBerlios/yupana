@@ -20,7 +20,8 @@ switch (Context) {
         break;
 
     default:
-        header('Location: ' . $CFG->wwwroot);
+        // force session destroy
+        header("Location: {$CFG->wwwroot}/?q=logout");
 }
 
 beginSession($t);

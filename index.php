@@ -103,6 +103,16 @@ elseif (preg_match('#^person/logout$#', $q)) {
     include($CFG->incdir . 'common/do_logout.php');
 }
 
+// force session destroy
+elseif (preg_match('#^logout$#', $q)) {
+    //ignore errors
+    @session_start();
+    @session_unset();
+    @session_destroy();
+
+    //redirecto to frontpage
+    header('Location: ' . $CFG->wwwroot);
+}
 /*
  * Not logged in views
  *

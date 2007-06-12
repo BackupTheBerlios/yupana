@@ -414,7 +414,7 @@ function beginSessionP() {
 	session_register("YACOMASVARS");
 	if (empty($_SESSION['YACOMASVARS']['ponlogin']) || empty($_SESSION['YACOMASVARS']['ponid']) || 
 	   ((time() - $_SESSION['YACOMASVARS']['ponlast']) > (60*60))) {    # 1 hour exp.
-		header("Location: signin.php?e=exp");
+		header("Location: {$CFG->wwwroot}/?q=author/logout");
 		exit;
 	}
 	$_SESSION['YACOMASVARS']['ponlast'] = time();
@@ -459,7 +459,7 @@ function beginSession($tipo) {
 	            ($t_transcurrido > $hora))
 
 		{    # 1 hour exp.
-			header("Location: signin.php?e=exp");
+			header("Location: {$CFG->wwwroot}/?q=logout");
 			exit;
 		}
 	}
@@ -469,7 +469,7 @@ function beginSession($tipo) {
 		if (empty($_SESSION['YACOMASVARS'][$login]) || empty($_SESSION['YACOMASVARS'][$id]) || 
 	            ($t_transcurrido > $hora))
 		{    # 1 hour exp.
-			header("Location: signin.php?e=exp");
+			header("Location: {$CFG->wwwroot}/?q=logout");
 			exit;
 		}
 	}
