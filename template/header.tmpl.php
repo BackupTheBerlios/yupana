@@ -27,3 +27,12 @@
 
 <div id="content">
 <!-- main body -->
+
+<?php if ($login_info) { ?>
+
+    <div id="login-info">
+        <p>Usuario: <?=$USER->login ?> | <a class="precaucion" href="<?=$CFG->logout_url ?>">Cerrar Sesión</a>
+        </p>
+    </div>
+
+<?php } ?>

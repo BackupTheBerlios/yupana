@@ -51,11 +51,22 @@ function do_get_output ($function, $parameters) {
 
 function do_header ($title='') {
     global $CFG;
+    global $USER;
     
     if (!empty($title)) {
         $title .= ' :: ';
     }
     $title .= $CFG->conference_name;
+
+    if (!empty($USER)
+        && (Context == 'admin'
+            || Context == 'ponente'
+            || Context == 'asistente')) {
+        // show login info
+        $login_info = true;
+    } else {
+        $login_info = false;
+    }
 
     include($CFG->rootdir . 'template/header.tmpl.php');
 }
