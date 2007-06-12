@@ -14,11 +14,11 @@
     <p>Es necesario tu registro, mediante el cual podrás realizar preinscripción a <?=$CFG->conference_name ?>
     y  talleres/tutoriales además de mantenerte informado del evento.</p>
 
-    <h3><a href="<?=$CFG->wwwroot ?>/?q=proposals/list">Lista preliminar de ponencias</a></h3>
+    <h3><a href="<?=$CFG->wwwroot ?>/?q=general/proposals">Lista preliminar de ponencias</a></h3>
 
     <p>Aquí podrás ver las propuestas ponencias que han sido enviadas y el status en el que se encuentran dichas ponencias.</p>
 
-    <h3><a href="<?=$CFG->wwwroot ?>/?q=proposals/info">Modalidades de participacion</a></h3>
+    <h3><a href="<?=$CFG->wwwroot ?>/?q=general/information">Modalidades de participacion</a></h3>
 
     <p>Modalidades de las ponencias que encontraras en el evento!</p>
 </div>

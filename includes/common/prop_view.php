@@ -8,7 +8,7 @@ if (Context == 'main') {
     $q = optional_param('q');
     $return_url = optional_param('return');
 
-    preg_match('#^proposals/view/(\d+)$#', $q, $matches);
+    preg_match('#^general/proposals/(\d+)$#', $q, $matches);
     $proposal_id = (int) $matches[1];
 }
 
@@ -36,7 +36,7 @@ $proposal = get_record_sql($query);
 if (!empty($proposal)) {
 ?>
 
-<h1>Ponencia de: <a href="<?=$CFG->wwwroot ?>/?q=authors/view/<?=$proposal->id_ponente ?>&return=<?=$return_url ?>"><?=$proposal->nombrep ?> <?=$proposal->apellidos ?></a></h1>
+<h1>Ponencia de: <a href="<?=$CFG->wwwroot ?>/?q=general/authors/<?=$proposal->id_ponente ?>&return=<?=$return_url ?>"><?=$proposal->nombrep ?> <?=$proposal->apellidos ?></a></h1>
 
 <?php
     $values = array(

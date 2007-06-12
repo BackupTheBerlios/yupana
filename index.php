@@ -96,7 +96,7 @@ if (preg_match('#^author/register$#', $q)) {
  */
 
 // view some proposal
-} elseif (preg_match('#^proposals/view/.+#', $q)) {
+} elseif (preg_match('#^general/proposals/.+#', $q)) {
 
     define('Context', 'main');
     do_header('Detalles de propuesta');
@@ -104,7 +104,7 @@ if (preg_match('#^author/register$#', $q)) {
     do_submit_cancel('', 'Regresar', $return_url);
 
 // view author resume
-} elseif (preg_match('#authors/view/.+#', $q)) {
+} elseif (preg_match('#^general/authors/.+#', $q)) {
 
     define('Context', 'main');
     do_header('Detalles de autor');
@@ -112,7 +112,7 @@ if (preg_match('#^author/register$#', $q)) {
     do_submit_cancel('', 'Regresar', $return_url);
 
 // list proposals
-} elseif (preg_match('#^proposals/list$#', $q)) {
+} elseif (preg_match('#^general/proposals$#', $q)) {
 
     define('Context', 'main');
     do_header('Lista de propuestas enviadas');
@@ -121,7 +121,7 @@ if (preg_match('#^author/register$#', $q)) {
     do_submit_cancel('', 'Regresar', $CFG->wwwroot);
 
 // view info of kind of proposals
-} elseif (preg_match('#^proposals/info$#', $q)) {
+} elseif (preg_match('#^general/informartion$#', $q)) {
 
     do_header('Modalidades de participación');
     include($CFG->rootdir . 'template/proposals_info.tmpl.php');

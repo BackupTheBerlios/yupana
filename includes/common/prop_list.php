@@ -35,9 +35,9 @@ if (!empty($records)) {
 
     foreach ($records as $record) {
         $l_ponencia = <<< END
-<a class="proposal" href="{$CFG->wwwroot}/?q=proposals/view/{$record->id_ponencia}&return={$request_uri}">{$record->ponencia}</a>
+<a class="proposal" href="{$CFG->wwwroot}/?q=general/proposals/{$record->id_ponencia}&return={$request_uri}">{$record->ponencia}</a>
 <br />
-<a class="author" href="{$CFG->wwwroot}/?q=authors/view/{$record->id_ponencia}&return={$request_uri}">{$record->nombrep} {$record->apellidos}</a>
+<a class="author" href="{$CFG->wwwroot}/?q=general/authors/{$record->id_ponencia}&return={$request_uri}">{$record->nombrep} {$record->apellidos}</a>
 END;
 
         $table_data[] = array(

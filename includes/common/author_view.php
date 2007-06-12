@@ -8,7 +8,7 @@ if (Context == 'main') {
     $q = optional_param('q');
     $return_url = optional_param('return');
 
-    preg_match('#^authors/view/(\d+)$#', $q, $matches);
+    preg_match('#^general/authors/(\d+)$#', $q, $matches);
     $author_id = (int) $matches[1];
 }
 
