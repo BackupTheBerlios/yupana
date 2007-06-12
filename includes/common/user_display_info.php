@@ -7,9 +7,15 @@
     // extra values
     if (Context == 'ponente'
         || Context == 'asistente') {
-        $sexo = ($USER->sexo == 'M') ? 'Masculino' : 'Femenino';
         $estudios = get_field('estudios', 'descr', 'id', $USER->id_estudios);
         $estado = get_field('estado', 'descr', 'id', $USER->id_estado);
+        $sexo = '';
+        if ($USER->sexo == 'F') {
+            $sexo = 'Femenino';
+        }
+        if ($USER->sexo == 'M') {
+            $sexo = 'Masculino';
+        }
     }
 
     if (Context == 'asistente') {
