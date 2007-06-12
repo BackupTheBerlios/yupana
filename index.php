@@ -1,44 +1,37 @@
 <?php
 require_once('includes/lib.php');
 
-$q= optional_param('q');
-switch ($q) {
-    case 'proposals/info':
-        do_header('Modalidades de partipación');
-        require($CFG->rootdir . 'template/proposals_info.tmpl.php');
-        break;
+$q = optional_param('q');
 
-    default: // default index
-        do_header('Registro');
-?>
+// view some proposal
+if (preg_match('#^proposals/view/.+#', $q)) {
 
-<div id="frontpage">
-    <h1>Registro</h1>
+    do_header('Detalles de propuesta');
+    include($CFG->incdir . 'common/prop_view.php');
+    do_submit_cancel('', 'Regresar', $return_url);
 
-    <p>Gracias por tu interés en <?=$CFG->conference_name ?></p>
+// list proposals
+} elseif (preg_match('#^proposals/list$#', $q)) {
 
-    <h3><a href="<?=$CFG->wwwroot ?>/register.php?context=ponente">Registro de ponentes</a>
-    - <a href="<?=$CFG->wwwroot ?>/login.php?context=ponente">Accede a tu cuenta </a></h3>
+    do_header('Lista de propuestas enviadas');
+?>  <h1>Lista de propuestas enviadas</h1> <?php
+    include($CFG->incdir . 'common/prop_list.php');
+    do_submit_cancel('', 'Regresar', $CFG->wwwroot);
 
-    <p>Es necesario tu registro, mediante el cual podrás enviar ponencias y estar informado del evento.</p>
+// view info of kind of proposals
+} elseif (preg_match('#^proposals/info$#', $q)) {
 
-    <h3><a href="<?=$CFG->wwwroot ?>/register.php?context=asistente">Registro de asistentes </a>
-    - <a href="<?=$CFG->wwwroot ?>/login.php?context=asistente">Accede a tu cuenta </a></h3>
+    do_header('Modalidades de participación');
+    include($CFG->rootdir . 'template/proposals_info.tmpl.php');
+    // no need of back button
 
-    <p>Es necesario tu registro, mediante el cual podrás realizar preinscripción a <?=$CFG->conference_name ?>
-    y  talleres/tutoriales además de mantenerte informado del evento.</p>
-
-    <h3><a href="<?=$CFG->wwwroot ?>/lista/">Lista preliminar de ponencias</a></h3>
-
-    <p>Aquí podrás ver las propuestas ponencias que han sido enviadas y el status en el que se encuentran dichas ponencias.</p>
-
-    <h3><a href="<?=$CFG->wwwroot ?>/?q=proposals/info">Modalidades de participacion</a></h3>
-
-    <p>Modalidades de las ponencias que encontraras en el evento!</p>
-</div>
-
-<?php
+// default, show main index
+} else {
+    
+    do_header();
+    include($CFG->rootdir . 'template/main_index.tmpl.php');
 }
 
+// finally
 do_footer();
-?> 
+?>
