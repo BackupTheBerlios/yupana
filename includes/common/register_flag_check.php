@@ -18,7 +18,7 @@
     $open_flag = get_field('config', 'status', 'id', $id);
 
     // if not open, end page
-    if (!$open_flag) {
+    if (!$open_flag && Context != 'admin') {
 ?>
 
 <div class="block"></div>
@@ -26,7 +26,7 @@
 <p class="error center">El registro de <?=$name ?> se encuentra cerrado. Gracias por tu interes</p>
 
 <?php
-        do_submit_cancel('', 'Continuar', $CFG->wwwroot);
+        do_submit_cancel('', 'Continuar', $home_url);
         do_footer();
         exit;
     }
