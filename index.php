@@ -1,13 +1,68 @@
 <?php
 require_once('includes/lib.php');
-define('Context', 'main');
 
-// main routing
+/*
+ * Main routing views
+ *
+ */
+
 $q = optional_param('q');
 
-// view some proposal
-if (preg_match('#^proposals/view/.+#', $q)) {
+/*
+ * Login 
+ *
+ */
 
+// admin login
+if (preg_match('#^admin/login$#', $q)) {
+
+    define('Context', 'admin');
+    include($CFG->incdir . 'common/do_login.php');
+
+// author login
+} elseif (preg_match('#^author/login$#', $q)) {
+
+    define('Context', 'ponente');
+    include($CFG->incdir . 'common/do_login.php');
+
+// person login
+} elseif (preg_match('#^person/login$#', $q)) {
+
+    define('Context', 'asistente');
+    include($CFG->incdir . 'common/do_login.php');
+
+/*
+ * logout
+ *
+ */
+
+// admin login
+} elseif (preg_match('#^admin/logout$#', $q)) {
+
+    define('Context', 'admin');
+    include($CFG->incdir . 'common/do_logout.php');
+
+// author login
+} elseif (preg_match('#^author/logout$#', $q)) {
+
+    define('Context', 'ponente');
+    include($CFG->incdir . 'common/do_logout.php');
+
+// person login
+} elseif (preg_match('#^person/logout$#', $q)) {
+
+    define('Context', 'asistente');
+    include($CFG->incdir . 'common/do_logout.php');
+
+/*
+ * Not logged in views
+ *
+ */
+
+// view some proposal
+} elseif (preg_match('#^proposals/view/.+#', $q)) {
+
+    define('Context', 'main');
     do_header('Detalles de propuesta');
     include($CFG->incdir . 'common/prop_view.php');
     do_submit_cancel('', 'Regresar', $return_url);
@@ -15,6 +70,7 @@ if (preg_match('#^proposals/view/.+#', $q)) {
 // view author resume
 } elseif (preg_match('#authors/view/.+#', $q)) {
 
+    define('Context', 'main');
     do_header('Detalles de autor');
     include($CFG->incdir . 'common/author_view.php');
     do_submit_cancel('', 'Regresar', $return_url);
@@ -22,6 +78,7 @@ if (preg_match('#^proposals/view/.+#', $q)) {
 // list proposals
 } elseif (preg_match('#^proposals/list$#', $q)) {
 
+    define('Context', 'main');
     do_header('Lista de propuestas enviadas');
 ?>  <h1>Lista de propuestas enviadas</h1> <?php
     include($CFG->incdir . 'common/prop_list.php');
@@ -34,7 +91,11 @@ if (preg_match('#^proposals/view/.+#', $q)) {
     include($CFG->rootdir . 'template/proposals_info.tmpl.php');
     // no need of back button
 
-// default, show main index
+/*
+ * Default index
+ *
+ */
+
 } else {
     
     do_header();
