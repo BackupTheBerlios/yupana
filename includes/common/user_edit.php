@@ -51,8 +51,9 @@ if (empty($submit) || !empty($errmsg)) { // show form
 
     <?php if (Context == 'ponente' || Context == 'asistente') { ?>
 
-    <p class="error center">Asegúrate de escribir bien tus datos ya que estos serán
-    tomados para tu constancia de participación</p>
+    <p class="error">Asegúrate de escribir bien tus datos ya que estos serán
+    tomados para tu constancia de participación.
+    Deja la contraseña vacía para no cambiarla.</p>
 
     <?php } ?>
 
