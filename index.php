@@ -1,6 +1,8 @@
 <?php
 require_once('includes/lib.php');
+define('Context', 'main');
 
+// main routing
 $q = optional_param('q');
 
 // view some proposal
@@ -8,6 +10,13 @@ if (preg_match('#^proposals/view/.+#', $q)) {
 
     do_header('Detalles de propuesta');
     include($CFG->incdir . 'common/prop_view.php');
+    do_submit_cancel('', 'Regresar', $return_url);
+
+// view author resume
+} elseif (preg_match('#authors/view/.+#', $q)) {
+
+    do_header('Detalles de autor');
+    include($CFG->incdir . 'common/author_view.php');
     do_submit_cancel('', 'Regresar', $return_url);
 
 // list proposals
