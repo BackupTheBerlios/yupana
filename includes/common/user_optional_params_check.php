@@ -49,6 +49,16 @@
             $errmsg[] = "Verifica que los datos obligatorios los hayas introducido correctamente.";
         }
 
+        // main admin cant be changed
+        if (Context == 'admin' && $login != 'admin') {
+            $errmsg[] = "No puedes cambiar el usuario del administrador principal.";
+        }
+
+        // users can't use admin username
+        if (Context != 'admin' && $login == 'admin') {
+            $errmsg[] = "El nombre de usuario que elegiste se encuentra reservado. Por favor elige otro.";
+        }
+ 
         if (!preg_match("/.+\@.+\..+/",$mail)) {
             $errmsg[] = "El correo electrónico no es válido";
         }

@@ -15,7 +15,12 @@ $table_data = array();
 // shared values
 if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
     // login
-    $input_data = do_get_output('do_input', array('S_login', 'text', $USER->login, 'size="15"'));
+    if (Context == 'admin') {
+        // disable the input box for login 
+        $input_data = do_get_output('do_input', array('S_login', 'text', $USER->login, 'size="15" disabled="disabled"'));
+    } else {
+        $input_data = do_get_output('do_input', array('S_login', 'text', $USER->login, 'size="15"'));
+    }
 
     $table_data[] = array(
         'Nombre de Usuario: *',
