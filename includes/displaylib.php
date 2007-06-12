@@ -51,13 +51,12 @@ function do_get_output ($function, $parameters) {
 
 function do_header () {
     global $CFG;
-
-    include('header.tmpl.php');
+    include($CFG->rootdir . 'template/header.tmpl.php');
 }
 
 function do_footer () {
     global $CFG;
-	include "footer.tmpl.php";
+	include($CFG->rootdir . 'template/footer.tmpl.php');
 }
 
 function do_table ($data, $class='table-data', $toggle=true, $id='table-data') {
