@@ -1,6 +1,14 @@
 <?php
 require_once('includes/lib.php');
 do_header();
+
+$q= optional_param('q');
+switch ($q) {
+    case 'modalidades':
+        require($CFG->rootdir . 'template/modalidades.tmpl.php');
+        break;
+
+    default: // default index
 ?>
 
 <div id="frontpage">
@@ -23,7 +31,7 @@ do_header();
 
     <p>Aquí podrás ver las propuestas ponencias que han sido enviadas y el status en el que se encuentran dichas ponencias.</p>
 
-    <h3><a href="<?=$CFG->wwwroot ?>/modalidades/">Modalidades de participacion</a></h3>
+    <h3><a href="<?=$CFG->wwwroot ?>/?q=modalidades">Modalidades de participacion</a></h3>
 
     <p>Modalidades de las ponencias que encontraras en el evento!</p>
 </div>
