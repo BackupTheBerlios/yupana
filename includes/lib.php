@@ -420,7 +420,7 @@ function beginSessionP() {
 	$_SESSION['YACOMASVARS']['ponlast'] = time();
 }
 function beginSession($tipo) {
-    session_start();
+    @session_start(); //ignore errors
 	session_register("YACOMASVARS");
 	switch ($tipo)
 	{
