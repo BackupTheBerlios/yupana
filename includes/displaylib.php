@@ -49,8 +49,14 @@ function do_get_output ($function, $parameters) {
     return $output;
 }
 
-function do_header () {
+function do_header ($title='') {
     global $CFG;
+    
+    if (!empty($title)) {
+        $title .= ' :: ';
+    }
+    $title .= $CFG->conference_name;
+
     include($CFG->rootdir . 'template/header.tmpl.php');
 }
 

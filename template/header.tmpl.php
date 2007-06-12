@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
-    <title><?=$CFG->conference_name ?></title>
+    <title><?=$title ?></title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="Content-Language" content="es" />
     <meta http-equiv="Pragma" content="no-cache" />
