@@ -13,7 +13,7 @@ if (empty($CFG)) {
 $table_data = array();
 
 // shared values
-if (Context == 'ponente' || Context == 'asistente') {
+if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
     // login
     $input_data = do_get_output('do_input', array('S_login', 'text', $USER->login, 'size="15"'));
 
@@ -67,7 +67,9 @@ if (Context == 'ponente' || Context == 'asistente') {
         $input_data,
         ''
         );
+}
 
+if (Context == 'ponente' || Context == 'asistente') {
     // sexo
     $options = array();
 
@@ -83,7 +85,7 @@ if (Context == 'ponente' || Context == 'asistente') {
 
     $options[] = $option;
 
-    $input_data = do_get_output('do_input_select', array('C_sexo', $options, $USER->sexo));
+    $input_data = do_get_output('do_input_select', array('C_sexo', $options, $USER->sexo, true, '', ''));
 
     $table_data[] = array(
         'Sexo: *',
