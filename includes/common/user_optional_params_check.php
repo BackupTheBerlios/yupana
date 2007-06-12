@@ -34,9 +34,8 @@
     }
 
     // check submit value
-//    if ($submit == 'Registrarme' || $submit == 'Actualizar') {
     if (!empty($submit)
-        && (Context == 'admin ' && Context == 'ponente' || Context == 'asistente')) {
+        && (Context == 'admin ' || Context == 'ponente' || Context == 'asistente')) {
         // Verificar si todos los campos obligatorios no estan vacios
         if (empty($login)
             || empty($nombrep)
@@ -44,6 +43,7 @@
             || (Context != 'admin' && empty($sexo))
             || (Context != 'admin' && empty($id_estudios))
             || (Context != 'admin' && empty($id_estado))
+            || (Context == 'admin' && $submit == 'Registrar' && empty($id_tadmin))
             || (Context == 'asistente' && empty($id_tasistente))) { 
 
             $errmsg[] = "Verifica que los datos obligatorios los hayas introducido correctamente.";
