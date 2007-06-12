@@ -295,8 +295,12 @@ function do_input_birth_select ($dayname, $monthname, $yearname, $dayselect=0, $
     do_input_number_select($yearname, 1999, 1950, $yearselect, true, 'Año', 0, true);
 }
 
-function do_submit_cancel($submit_value, $cancel_value, $url) {
-    $onclick = "onClick=\"location.href='{$url}'\"";
+function do_submit_cancel($submit_value, $cancel_value, $url='') {
+    if (!empty($url)) {
+        $onclick = "onClick=\"location.href='{$url}'\"";
+    } else { // default history back
+        $onclick = "onClick=\"history.back(-1)\"";
+    }
 ?>
 
 <p id="buttons">
