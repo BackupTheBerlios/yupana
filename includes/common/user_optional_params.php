@@ -26,9 +26,6 @@
         $b_day = optional_param('I_b_day', 0, PARAM_INT);
         $b_month = optional_param('I_b_month', 0, PARAM_INT);
         $b_year = optional_param('I_b_year', 0, PARAM_INT);
-
-        // check value of sex
-        $sexo = ($sexo == 'M' || $sexo == 'F') ? $sexo : '';
     }
 
     if (Context == 'admin') {
@@ -51,7 +48,6 @@
     // set $USER object if empty
     if (empty($USER) || !is_object($USER)) {
         $USER = new StdClass;
-        $new_user = true;
     }
 
     // load input data into $USER
@@ -93,6 +89,7 @@
             'telefono',
             'resume'
             );
+        $attrs = array_merge($attrs, $add_attrs);
     }
 
     if (Context == 'asistente') {
@@ -101,29 +98,30 @@
 
     // fill $USER attributes
     foreach ($attrs as $attr) {
-        if (!empty($new_user) || !empty($$attr)) {
+        if (!empty($submit)) {
+            // update values from input
             $USER->$attr = $$attr;
         }
     }
 
     // set birthday 
-    // initialize if new user
-    if ((Context == 'asistente' || Context == 'ponente')
-        && (!empty($new_user)
-            || !empty($b_day)
-            || !empty($b_month)
-            || !empty($b_year))) {
+    if (Context == 'asistente' || Context == 'ponente') {
+        // first view or empty fecha_nac
+        if (!empty($submit) || empty($USER->fecha_nac)) {
+            $USER->b_year = $b_year;
+            $USER->b_month = $b_month;
+            $USER->b_day = $b_day;
 
-        $USER->fecha_nac = sprintf('%04d-%02d-%02d', $b_year, $b_month, $b_day);
-        $USER->b_year = $b_year;
-        $USER->b_month = $b_month;
-        $USER->b_day = $b_day;
-
-    } elseif (!empty($USER->fecha_nac)) {
-
-       $USER->b_year = substr($USER->fecha_nac, 0, 4);
-       $USER->b_month = substr($USER->fecha_nac, 5, 2);
-       $USER->b_day = substr($USER->fecha_nac, 8, 2);
-
+            $USER->fecha_nac = sprintf('%04d-%02d-%02d',
+                                    (int)$b_year,
+                                    (int)$b_month,
+                                    (int)$b_day
+                                );
+        } else {
+            // set dates from db value
+            $USER->b_year = substr($USER->fecha_nac, 0, 4);
+            $USER->b_month = substr($USER->fecha_nac, 5, 2);
+            $USER->b_day = substr($USER->fecha_nac, 8, 2);
+        }
     }
 ?>
