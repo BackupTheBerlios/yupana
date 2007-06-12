@@ -8,7 +8,7 @@ global $CFG;
 $CFG->rootdir = dirname(dirname(__FILE__)) . '/';
 $CFG->incdir = $CFG->rootdir . 'includes/';
 
-require($CFG->incdir . 'config.php');
+require($CFG->rootdir . 'config.php');
 require($CFG->incdir . 'displaylib.php');
 require($CFG->incdir . 'datalib.php');
 require($CFG->incdir . 'constants.php');

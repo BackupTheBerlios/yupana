@@ -5,4 +5,4 @@ syntax: glob
 *.orig
 *.rej
 .htaccess
-includes/config.php
+config.php
