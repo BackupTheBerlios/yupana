@@ -8,6 +8,28 @@ ON yacomas.* TO 'yacomas'@'localhost' IDENTIFIED BY 'yacomas';
 
 USE yacomas;
 
+DROP TABLE IF EXISTS datalists;
+CREATE TABLE IF NOT EXISTS datalists (
+  id int(10) unsigned NOT NULL auto_increment,
+  name varchar(32) NOT NULL,
+  value text NOT NULL,
+  PRIMARY KEY (id, name)
+) TYPE=MyISAM;
+
+INSERT INTO datalists VALUES (1, 'conference_name', 'My conference');
+INSERT INTO datalists VALUES (2, 'conference_link', 'http://www.my-conference.org');
+INSERT INTO datalists VALUES (3, 'adminmail', 'admin@my-conference.org');
+INSERT INTO datalists VALUES (4, 'general_mail', 'noreply@my-conference.org');
+INSERT INTO datalists VALUES (5, 'limite', '100');
+INSERT INTO datalists VALUES (6, 'def_hora_ini', '8');
+INSERT INTO datalists VALUES (7, 'def_hora_fin', '22');
+INSERT INTO datalists VALUES (8, 'max_inscripcionTA', '2');
+INSERT INTO datalists VALUES (9, 'max_inscripcionTU', '3');
+INSERT INTO datalists VALUES (10, 'send_mail', '0');
+INSERT INTO datalists VALUES (11, 'smtp', '');
+INSERT INTO datalists VALUES (12, 'wwwroot', '');
+
+
 DROP TABLE IF EXISTS administrador;
 CREATE TABLE administrador (
   id int(10) unsigned NOT NULL auto_increment,
