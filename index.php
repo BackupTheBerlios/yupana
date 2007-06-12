@@ -9,12 +9,48 @@ require_once('includes/lib.php');
 $q = optional_param('q');
 
 /*
+ * Register
+ *
+ */
+
+// admin login
+/*if (preg_match('#^admin/register$#', $q)) {
+
+    define('Context', 'admin');
+    include($CFG->incdir . 'common/user_edit.php');
+
+// author login
+} else*/
+if (preg_match('#^author/register$#', $q)) {
+
+    define('Context', 'ponente');
+    define('Register', true);
+
+    // return url
+    $home_url = $CFG->wwwroot;
+
+    do_header('Registro de Ponentes');
+    include($CFG->incdir . 'common/user_edit.php');
+
+// person login
+} elseif (preg_match('#^person/register$#', $q)) {
+
+    define('Context', 'asistente');
+    define('Register', true);
+
+    // return url
+    $home_url = $CFG->wwwroot;
+
+    do_header('Registro de Asistentes');
+    include($CFG->incdir . 'common/user_edit.php');
+
+/*
  * Login 
  *
  */
 
 // admin login
-if (preg_match('#^admin/login$#', $q)) {
+} elseif (preg_match('#^admin/login$#', $q)) {
 
     define('Context', 'admin');
     include($CFG->incdir . 'common/do_login.php');

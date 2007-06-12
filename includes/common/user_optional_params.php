@@ -98,7 +98,7 @@
 
     // fill $USER attributes
     foreach ($attrs as $attr) {
-        if (!empty($submit)) {
+        if (!empty($submit) || defined('Register')) {
             // update values from input
             $USER->$attr = $$attr;
         }
