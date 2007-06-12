@@ -213,6 +213,9 @@ if (empty($CFG->wwwroot)) {
     $CFG->wwwroot = 'http://' . $_SERVER['SERVER_NAME'] . $path;
 }
 
+// set global request_uri
+$request_uri = $_SERVER['REQUEST_URI'];
+
 //for backward compatibility
 define('SEND_MAIL', $CFG->send_mail);
 
