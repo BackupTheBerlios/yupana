@@ -7,25 +7,21 @@ if (!defined('Context') || empty($CFG)
     header('Location: ' . $CFG->wwwroot);
 }
 
-require($CFG->incdir . 'common/user_optional_params.php');
-
 switch (Context) {
     case 'admin':
         $name = 'administrador';
-        $home_url = $CFG->wwwroot . '/admin/';
         break;
 
     case 'ponente':
         $name = 'ponente';
-        $home_url = $CFG->wwwroot . '/ponente/';
         break;
 
     case 'asistente':
         $name = 'asistente';
-        $home_url = $CFG->wwwroot . '/asistente/';
         break;
 }
 
+require($CFG->incdir . 'common/user_optional_params.php');
 ?>
 
 <h1>Modificar datos de <?=$name ?></h1>
@@ -63,7 +59,7 @@ if (empty($submit) || !empty($errmsg)) { // show form
     <p class="center"><em>Los campos marcados con asterisco(*) son obligatorios</em></p>
 
     <?php
-    include($CFG->incdir . 'common/display_user_info_input_table.php');
+    include($CFG->incdir . 'common/user_display_input_table.php');
     do_submit_cancel('Actualizar', 'Cancelar', $home_url);
     ?>
 
