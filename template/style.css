@@ -466,6 +466,12 @@ p#buttons {
 	font-weight: bold;
 }
 
+#footer a:hover {
+	text-decoration: none;
+	border: none;
+}
+
+
 
 div#messages {
 	border:1px solid #D3322A;
