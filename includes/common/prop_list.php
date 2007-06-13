@@ -29,43 +29,45 @@ $query = '
         PO.nombrep,
         PO.apellidos,
         PT.descr AS prop_tipo,
+        O.descr AS orientacion,
         S.descr AS status
     FROM propuesta P
     JOIN ponente PO ON P.id_ponente = PO.id
     JOIN prop_tipo PT ON P.id_prop_tipo = PT.id
+    JOIN orientacion O ON P.id_orientacion = O.id
     JOIN prop_status S ON P.id_status = S.id
     WHERE '. $where .' '. $order;
 
-$records = get_records_sql($query);
+$proposals = get_records_sql($query);
 
-if (!empty($records)) {
+if (!empty($proposals)) {
     // build data table
     $table_data = array();
 
     if (Context == 'ponente') {
-        $table_data[] = array('Ponencia', 'Tipo', 'Estado', '', '');
+        $table_data[] = array('Ponencia', 'Tipo', 'Orientacion', 'Estado', '', '');
     } else {
-        $table_data[] = array('Ponencia', 'Tipo', 'Estado');
+        $table_data[] = array('Ponencia', 'Tipo', 'Orientacion', 'Estado');
     }
 
-    foreach ($records as $record) {
+    foreach ($proposals as $proposal) {
         if (Context == 'ponente') {
 
             $l_ponencia = <<< END
-<a class="proposal" href="{$CFG->wwwroot}/?q=author/proposals/{$record->id_ponencia}">{$record->ponencia}</a>
+<a class="proposal" href="{$CFG->wwwroot}/?q=author/proposals/{$proposal->id_ponencia}">{$proposal->ponencia}</a>
 END;
 
             $l_delete = '';
             $l_modifiy = '';
             // only can cancel not deleted,acepted or scheduled proposals
-            if ($record->id_status < 5) {
+            if ($proposal->id_status < 5) {
                 $l_delete = <<< END
-<a class="precaucion" href="{$CFG->wwwroot}/?q=author/proposals/{$record->id_ponencia}/delete">Eliminar</a>
+<a class="precaucion" href="{$CFG->wwwroot}/?q=author/proposals/{$proposal->id_ponencia}/delete">Eliminar</a>
 END;
                 // dont update discarded proposals
-                if ($record->id_status != 3 || $record->id_status != 6) {
+                if ($proposal->id_status != 3 || $proposal->id_status != 6) {
                     $l_modify = <<< END
-<a class="verde" href="{$CFG->wwwroot}/?q=author/proposals/{$record->id_ponencia}/update">Modificar</a>
+<a class="verde" href="{$CFG->wwwroot}/?q=author/proposals/{$proposal->id_ponencia}/update">Modificar</a>
 END;
 
                 }
@@ -73,8 +75,8 @@ END;
             
             $table_data[] = array(
                 $l_ponencia,
-                $record->prop_tipo,
-                $record->status,
+                $proposal->prop_tipo,
+                $proposal->status,
                 $l_delete,
                 $l_modify
                 );
@@ -82,15 +84,16 @@ END;
         } else { // main
 
             $l_ponencia = <<< END
-<a class="proposal" href="{$CFG->wwwroot}/?q=general/proposals/{$record->id_ponencia}&return={$request_uri}">{$record->ponencia}</a>
+<a class="proposal" href="{$CFG->wwwroot}/?q=general/proposals/{$proposal->id_ponencia}&return={$request_uri}">{$proposal->ponencia}</a>
 <br />
-<a class="author" href="{$CFG->wwwroot}/?q=general/authors/{$record->id_ponente}&return={$request_uri}">{$record->nombrep} {$record->apellidos}</a>
+<a class="author" href="{$CFG->wwwroot}/?q=general/authors/{$proposal->id_ponente}&return={$request_uri}">{$proposal->nombrep} {$proposal->apellidos}</a>
 END;
 
             $table_data[] = array(
                 $l_ponencia,
-                $record->prop_tipo,
-                $record->status
+                $proposal->prop_tipo,
+                $proposal->orientacion,
+                $proposal->status
                 );
         }
 
