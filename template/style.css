@@ -406,7 +406,8 @@ td.narrow-result, td.result {
 
 
 #content {
-	padding: 20px 50px;
+	padding: 0 50px;
+	padding-bottom: 25px;
 }
 
 #content h1 {
