@@ -110,8 +110,19 @@ elseif (preg_match('#^logout$#', $q)) {
     @session_unset();
     @session_destroy();
 
+    do_header();
+?>
+
+<h1>Termino sesión</h1>
+<div class="block"></div>
+
+<p class="error center">Tu sesión ha caducado o salido forzosamente</p>
+
+<?php
+    do_submit_cancel('', 'Continuar', $CFG->wwwroot);
+
     //redirecto to frontpage
-    header('Location: ' . $CFG->wwwroot);
+    //header('Location: ' . $CFG->wwwroot);
 }
 /*
  * Not logged in views
