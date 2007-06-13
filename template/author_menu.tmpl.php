@@ -7,11 +7,9 @@
     <div class="menuponente column">
 
         <ul>
-
-            <li><a href="ponente.php?opc=<?=NPONENCIA ?>">Enviar propuesta de ponencia</a></li>
-            <li><a href="ponente.php?opc=<?=PROPUESTAENV ?>">Lista de propuestas enviadas</a></li>
-            <li><a href="ponente.php?opc=<?=MPONENTE ?>">Modificar mis datos</a></li>
-
+        <li><a href="<?=$CFG->wwwroot ?>/?q=author/details">Modificar mis datos</a></li>
+        <li><a href="<?=$CFG->wwwroot ?>/?q=author/proposals/new">Enviar propuesta de ponencia</a></li>
+        <li><a href="<?=$CFG->wwwroot ?>/?q=author/proposals">Lista de propuestas enviadas</a></li>
         </ul>
 
     </div>
