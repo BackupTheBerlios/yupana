@@ -62,7 +62,9 @@
             $values['Requisitos técnicos del taller'] = $proposal->reqtecnicos;
         }
 
-        $values['Prerequisitos del Asistente'] = $proposal->reqasistente;
+        if (Context == 'ponente' || !empty($proposal->reqasistente)) {
+            $values['Prerequisitos del Asistente'] = $proposal->reqasistente;
+        }
 
         if (defined('Action') && (Action == 'newproposal' || Action == 'updateproposal')) {
             //TODO: show file name
