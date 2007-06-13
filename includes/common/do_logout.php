@@ -34,11 +34,11 @@ beginSession($t);
 do_header();
 ?>
 
-<h1>Salida de sesión <?=$name ?></h1>
+<h1>Salida de Sesión <?=$name ?></h1>
 <div class="block"></div>
 
 <p class="center">Ha salido exitosamente del sistema.</p>
 
 <?php
-do_submit_cancel('', 'Regresar', $CFG->wwwroot);
+do_submit_cancel('', 'Continuar', $CFG->wwwroot);
 ?>
