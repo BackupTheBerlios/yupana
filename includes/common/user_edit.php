@@ -9,7 +9,7 @@ if (!defined('Context') || empty($CFG)
 
 switch (Context) {
     case 'admin':
-        if (defined('Register')) {
+        if (Action == 'register') {
             $title = 'Registro de Administrador';
         } else {
             $title = 'Modificar datos de Administrador';
@@ -17,7 +17,7 @@ switch (Context) {
         break;
 
     case 'ponente':
-        if (defined('Register')) {
+        if (Action == 'register') {
             $title = 'Registro de Ponentes';
         } else {
             $title = 'Modificar datos de Ponente';
@@ -25,7 +25,7 @@ switch (Context) {
         break;
 
     case 'asistente':
-        if (defined('Register')) {
+        if (Action == 'register') {
             $title = 'Registro de Asistentes';
         } else {
             $title = 'Modificar datos de Asistente';
@@ -37,7 +37,7 @@ require($CFG->incdir . 'common/user_optional_params.php');
 
 ?> <h1><?=$title ?></h1> <?php
 
-if (defined('Register')) {
+if (Action == 'register') {
     require($CFG->incdir . 'common/register_flag_check.php');
 }
 
@@ -54,7 +54,7 @@ if (!empty($submit)) {
         // update user
         require($CFG->incdir . 'common/user_update_info.php');
 
-        if (defined('Register')) {
+        if (Action == 'register') {
             $action_name = 'Continuar';
 
             if (Context == 'ponente') {
@@ -81,7 +81,7 @@ if (empty($submit) || !empty($errmsg)) { // show form
     <p class="error">Asegúrate de escribir bien tus datos ya que estos serán
     tomados para tu constancia de participación.
 
-        <?php if (!defined('Register')) { ?>
+        <?php if (Action != 'register') { ?>
 
     Deja la contraseña vacía para no cambiarla.
 
@@ -96,7 +96,7 @@ if (empty($submit) || !empty($errmsg)) { // show form
     <?php
     include($CFG->incdir . 'common/user_display_input_table.php');
 
-    if (defined('Register')) {
+    if (Action == 'register') {
         $action_name = 'Registrarme';
     } else {
         $action_name = 'Actualizar';

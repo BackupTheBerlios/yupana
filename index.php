@@ -25,11 +25,11 @@ if (empty($q)) {
     include($CFG->incdir . 'common/user_edit.php');
 }*/
 
-// author login
+// author register
 elseif (preg_match('#^author/register$#', $q)) {
 
     define('Context', 'ponente');
-    define('Register', true);
+    define('Action', 'register');
 
     // return url
     $home_url = $CFG->wwwroot;
@@ -38,11 +38,11 @@ elseif (preg_match('#^author/register$#', $q)) {
     include($CFG->incdir . 'common/user_edit.php');
 }
 
-// person login
+// person register
 elseif (preg_match('#^person/register$#', $q)) {
 
     define('Context', 'asistente');
-    define('Register', true);
+    define('Action', 'register');
 
     // return url
     $home_url = $CFG->wwwroot;
