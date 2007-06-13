@@ -191,13 +191,14 @@ a.boton:hover {
 }
 
 H4  { text-align: right }
-p.yacomas_login{
-	font-weight:bold;
+
+div#login-info {
+/*	font-weight:bold;*/
 	text-align: right;
 	margin-top: 0;
 	margin-bottom: 0;
-}
 
+}
 tr.table-headers {
 	font-weight: bold;
 	background-color: #600;
@@ -299,8 +300,8 @@ p {
 }
 
 .menuadmin {
-	width: 200px;
-	height: 200px;
+	width: 180px;
+	height: 220px;
 	margin: 0 20px;
 }
 
