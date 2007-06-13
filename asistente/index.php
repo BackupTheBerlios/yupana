@@ -1,5 +1,6 @@
 <?php
 require('header-common.php');
+do_header('Asistente');
 
 $q= optional_param('q');
 switch ($q) {
@@ -25,7 +26,7 @@ switch ($q) {
             <li><a href="<?=$CFG->wwwroot ?>/asistente/?q=poll">Encuestas</a></li>
         </ul>
     </div>
-
+<?php if (false) { ?>
     <div class="menuadmin column">
         <ul>
             <li><a href="asistente.php?opc=<?=LEVENTOS ?>">Listas eventos programados</a></li>
@@ -34,6 +35,7 @@ switch ($q) {
         </ul>
     </div>
 </div>
+<?php } ?>
 
 <?php 
 }
