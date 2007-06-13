@@ -17,7 +17,7 @@ $author = get_record('ponente', 'id', $author_id);
 if (!empty($author)) {
 ?>
 
-<h2 class="center"><?=$author->nombrep ?> <?=$author->apellidos ?></h2>
+<h1><?=$author->nombrep ?> <?=$author->apellidos ?></h1>
 
 <?php
     do_table_values(array('Resumen Curricular' => $author->resume), 'narrow');
