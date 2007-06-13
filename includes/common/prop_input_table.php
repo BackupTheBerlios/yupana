@@ -15,7 +15,7 @@ $table_data = array();
 // only for admin
 if (Context == 'admin') {
     // prop owner login
-    $input_data = do_get_output('do_input', array('S_login', 'text', $login, 'size="15"'));
+    $input_data = do_get_output('do_input', array('S_login', 'text', $proposal->login, 'size="15"'));
 
     $table_data[] = array(
         'Usuario ponente: *',
@@ -24,7 +24,7 @@ if (Context == 'admin') {
 }
 
 // prop name
-$input_data = do_get_output('do_input', array('S_nombreponencia', 'text', $nombreponencia, 'size="50" maxlength="150"'));
+$input_data = do_get_output('do_input', array('S_nombreponencia', 'text', $proposal->nombre, 'size="50" maxlength="150"'));
 
 $table_data[] = array(
     'Nombre de Ponencia: *',
@@ -34,7 +34,7 @@ $table_data[] = array(
 // orientacion
 $options = get_records('orientacion');
 
-$input_data = do_get_output('do_input_select', array('I_id_orientacion', $options, $id_orientacion));
+$input_data = do_get_output('do_input_select', array('I_id_orientacion', $options, $proposal->id_orientacion));
 
 $table_data[] = array(
     'Orientación: *',
@@ -44,7 +44,7 @@ $table_data[] = array(
 // nivel
 $options = get_records('prop_nivel');
 
-$input_data = do_get_output('do_input_select', array('I_id_nivel', $options, $id_nivel));
+$input_data = do_get_output('do_input_select', array('I_id_nivel', $options, $proposal->id_nivel));
 
 $table_data[] = array(
     'Nivel: *',
@@ -58,7 +58,7 @@ if (Context == 'admin') {
     $options = get_records_select('prop_tipo', 'id < 100');
 }
 
-$input_data = do_get_output('do_input_select', array('I_id_tipo', $options, $id_tipo));
+$input_data = do_get_output('do_input_select', array('I_id_tipo', $options, $proposal->id_prop_tipo));
 
 $table_data[] = array(
     'Tipo de Propuesta: *',
@@ -66,7 +66,7 @@ $table_data[] = array(
     );
 
 // duracion
-$input_data = do_get_output('do_input_number_select', array('I_duracion', 1, 4, $duracion, true, '', 0, true));
+$input_data = do_get_output('do_input_number_select', array('I_duracion', 1, 4, $proposal->duracion, true, '', 0, true));
 
 $table_data[] = array(
     'Duración: *',
@@ -75,7 +75,7 @@ $table_data[] = array(
 
 // resumen 
 $input_data = <<< END
-<textarea name="S_resumen" cols="60" rows="15">{$resumen}</textarea>
+<textarea name="S_resumen" cols="60" rows="15">{$proposal->resumen}</textarea>
 END;
 
 $table_data[] = array(
@@ -90,7 +90,7 @@ Requisitos técnicos de la ponencia: &nbsp;<br />
 END;
 
 $input_data = <<< END
-<textarea name="S_reqtecnicos" cols="60" rows="5">{$reqtecnicos}</textarea>
+<textarea name="S_reqtecnicos" cols="60" rows="5">{$proposal->reqtecnicos}</textarea>
 END;
 
 $table_data[] = array(
@@ -100,7 +100,7 @@ $table_data[] = array(
 
 // requisitos para el asistente
 $input_data = <<< END
-<textarea name="S_reqasistente" cols="60" rows="5">{$reqasistente}</textarea>
+<textarea name="S_reqasistente" cols="60" rows="5">{$proposal->reqasistente}</textarea>
 END;
 
 $table_data[] = array(

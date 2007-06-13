@@ -48,6 +48,10 @@
         foreach ($attrs as $attr) {
             $proposal->$attr = $$attr;
         }
+
+        // some corrections
+        $proposal->id_prop_tipo = $id_tipo;
+        $proposal->nombre = $nombreponencia;
     }
 
 ?>
