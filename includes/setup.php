@@ -193,24 +193,10 @@ $CFG = get_config();
 
 if (empty($CFG->wwwroot)) {
     //try to guess correct wwwroot
-    $server = 'http://' . $_SERVER['SERVER_NAME'];
+    $path = $_SERVER['SCRIPT_NAME'];
 
-    $path = explode('/', $_SERVER['REQUEST_URI']);
-    // pop trailing slash /
-    array_pop($path);
-
-    switch ($path[sizeof($path) - 1]) {
-        case 'admin': 
-        case 'asistente':
-        case 'ponente':
-        case 'lista':
-        case 'modalidades':
-        case 'programa':
-            array_pop($path);
-            break;
-    }
-
-    $path = implode('/', $path);
+    //remove index name
+    $path = str_replace('/index.php', '', $path);
 
     $CFG->wwwroot = 'http://' . $_SERVER['SERVER_NAME'] . $path;
 }
