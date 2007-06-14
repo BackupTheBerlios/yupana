@@ -191,6 +191,9 @@ if (ini_get_bool('magic_quotes_gpc') ) {
 // load config from db at end
 $CFG = get_config();
 
+// load again config.php to override db configs values
+include($CFG->rootdir . 'config.php');
+
 if (empty($CFG->wwwroot)) {
     //try to guess correct wwwroot
     $path = $_SERVER['SCRIPT_NAME'];
