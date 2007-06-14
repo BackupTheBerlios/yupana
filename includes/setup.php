@@ -11,7 +11,6 @@ $CFG->comdir = $CFG->incdir . 'common/';
 $CFG->tpldir = $CFG->rootdir . 'templates/';
 
 require($CFG->rootdir . 'config.php');
-require($CFG->incdir . 'displaylib.php');
 require($CFG->incdir . 'datalib.php');
 require($CFG->incdir . 'constants.php');
 
