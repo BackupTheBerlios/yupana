@@ -11,7 +11,7 @@ if (!defined('Context') || empty($CFG) || Context != 'asistente') {
 
 <?php
 define('SubContext', 'kardex');
-require($CFG->incdir . 'common/user_display_info.php');
+require($CFG->comdir . 'user_display_info.php');
 
 // Status 7 es Eliminado
 $query ='SELECT  AI.reg_time, 

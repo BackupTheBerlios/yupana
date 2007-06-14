@@ -68,12 +68,12 @@ function do_header ($title='') {
         $login_info = false;
     }
 
-    include($CFG->rootdir . 'template/header.tmpl.php');
+    include($CFG->tpldir . 'header.tmpl.php');
 }
 
 function do_footer () {
     global $CFG;
-	include($CFG->rootdir . 'template/footer.tmpl.php');
+	include($CFG->tpldir . 'footer.tmpl.php');
 }
 
 function do_table ($data, $class='table-data', $toggle=true, $id='table-data') {

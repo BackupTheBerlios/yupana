@@ -55,7 +55,7 @@
 
 <p>Tu propuesta de ponencia ha sido registrada.</p>
 
-<?php //include($CFG->incdir . 'common/new_user_send_mail.php'); ?>
+<?php //include($CFG->comdir . 'new_user_send_mail.php'); ?>
 
 <?php } else { ?>
         
@@ -80,5 +80,5 @@ contacta a <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->confe
     $proposal->orientacion = get_field('orientacion', 'descr', 'id', $proposal->id_orientacion);
     $proposal->status = get_field('prop_status', 'descr', 'id', $proposal->id_status);
 
-    include($CFG->incdir . 'common/prop_display_info.php');
+    include($CFG->comdir . 'prop_display_info.php');
 ?>

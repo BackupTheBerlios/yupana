@@ -33,12 +33,12 @@ switch (Context) {
         break;
 }
 
-require($CFG->incdir . 'common/user_optional_params.php');
+require($CFG->comdir . 'user_optional_params.php');
 
 ?> <h1><?=$title ?></h1> <?php
 
 if (Action == 'register') {
-    require($CFG->incdir . 'common/register_flag_check.php');
+    require($CFG->comdir . 'register_flag_check.php');
 }
 
 // process submit
@@ -46,13 +46,13 @@ if (!empty($submit)) {
     // messages holder
     $errmsg = array();
 
-    require($CFG->incdir . 'common/user_optional_params_check.php');
+    require($CFG->comdir . 'user_optional_params_check.php');
 
     if (!empty($errmsg)) {
         show_error($errmsg);
     } else {
         // update user
-        require($CFG->incdir . 'common/user_update_info.php');
+        require($CFG->comdir . 'user_update_info.php');
 
         if (Action == 'register') {
             $action_name = 'Continuar';
@@ -94,7 +94,7 @@ if (empty($submit) || !empty($errmsg)) { // show form
     <p class="center"><em>Los campos marcados con asterisco(*) son obligatorios</em></p>
 
     <?php
-    include($CFG->incdir . 'common/user_display_input_table.php');
+    include($CFG->comdir . 'user_display_input_table.php');
 
     if (Action == 'register') {
         $action_name = 'Registrarme';

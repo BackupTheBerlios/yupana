@@ -53,7 +53,7 @@ if (!empty($proposal) && $proposal->id_status < 5)  {
         // flag to not show resume and extra info
         $prop_noshow_resume = true;
         
-        include($CFG->incdir . 'common/prop_display_info.php');
+        include($CFG->comdir . 'prop_display_info.php');
         do_submit_cancel('Eliminar', 'Cancelar', $return_url);
 ?>
 

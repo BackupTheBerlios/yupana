@@ -89,7 +89,7 @@
 
 <p>Gracias por darte de alta, ahora ya podrás acceder a tu cuenta.</p>
 
-<?php include($CFG->incdir . 'common/new_user_send_mail.php'); ?>
+<?php include($CFG->comdir . 'new_user_send_mail.php'); ?>
 
 <?php } else { ?>
         
@@ -101,5 +101,5 @@
 contacta a <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->conference_name ?></a></p>
 
 <?php
-    include($CFG->incdir . 'common/user_display_info.php');
+    include($CFG->comdir . 'user_display_info.php');
 ?>

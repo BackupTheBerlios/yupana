@@ -51,7 +51,7 @@ if (!empty($proposal)) {
 <h1>Ponencia de: <a href="<?=$CFG->wwwroot ?>/?q=general/authors/<?=$proposal->id_ponente ?>"><?=$proposal->nombrep ?> <?=$proposal->apellidos ?></a></h1>
 
 <?php
-    include($CFG->incdir . 'common/prop_display_info.php');
+    include($CFG->comdir . 'prop_display_info.php');
 
 } else {
 ?>

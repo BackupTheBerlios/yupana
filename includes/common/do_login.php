@@ -14,7 +14,7 @@ if (!defined('Context')
 // messages holder
 $errmsg = array();
 
-require($CFG->incdir . 'common/signin.php');
+require($CFG->comdir . 'signin.php');
 
 // now we can start output content
 do_header('Inicio de Sesión');
@@ -41,5 +41,5 @@ if (!empty($errmsg)) {
     show_error('Su sesión ha caducado o no incio correctamente. Por favor trate de nuevo');
 }
 
-require($CFG->incdir . 'common/display_login_form.php');
+require($CFG->comdir . 'display_login_form.php');
 ?>

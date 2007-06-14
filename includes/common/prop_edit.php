@@ -21,7 +21,7 @@ if (empty($proposal)) {
     $proposal = new StdClass;
 }
 
-require($CFG->incdir . 'common/prop_optional_params.php');
+require($CFG->comdir . 'prop_optional_params.php');
 
 if (Action == 'newproposal') {
 ?>
@@ -39,17 +39,17 @@ if (Action == 'newproposal') {
 // process submit
 if (!empty($submit)) {
     // check if register is open
-    require($CFG->incdir . 'common/register_flag_check.php');
+    require($CFG->comdir . 'register_flag_check.php');
     // messages holder
     $errmsg = array();
 
-    require($CFG->incdir . 'common/prop_optional_params_check.php');
+    require($CFG->comdir . 'prop_optional_params_check.php');
 
     if (!empty($errmsg)) {
         show_error($errmsg);
     } else {
         // insert or update propuesta
-        require($CFG->incdir . 'common/prop_update_info.php');
+        require($CFG->comdir . 'prop_update_info.php');
 
         do_submit_cancel('', 'Continuar', $return_url);
     }
@@ -63,7 +63,7 @@ if (empty($submit) || !empty($errmsg)) { // show form
     <p class="center"><em>Los campos marcados con asterisco(*) son obligatorios</em></p>
 
 <?php
-    include($CFG->incdir . 'common/prop_input_table.php');
+    include($CFG->comdir . 'prop_input_table.php');
 
     if (Action == 'newproposal') {
         do_submit_cancel('Registrar', 'Cancelar', $return_url);
