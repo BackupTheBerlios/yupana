@@ -51,7 +51,7 @@ if (!empty($submit)) {
         // insert or update propuesta
         require($CFG->incdir . 'common/prop_update_info.php');
 
-        do_submit_cancel('', 'Continuar', $home_url);
+        do_submit_cancel('', 'Continuar', $return_url);
     }
 }
 
@@ -66,9 +66,9 @@ if (empty($submit) || !empty($errmsg)) { // show form
     include($CFG->incdir . 'common/prop_input_table.php');
 
     if (Action == 'newproposal') {
-        do_submit_cancel('Registrar', 'Cancelar', $home_url);
+        do_submit_cancel('Registrar', 'Cancelar', $return_url);
     } else {
-        do_submit_cancel('Actualizar', 'Cancelar', $home_url);
+        do_submit_cancel('Actualizar', 'Cancelar', $return_url);
     }
 ?>
 

@@ -7,6 +7,7 @@ if (empty($q) || empty($CFG)) {
 // safe default value
 $where = '1!=1';
 
+// where we are?
 if (Context == 'ponente') {
     preg_match('#^author/proposals/(\d+)/?$#', $q, $matches);
     $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
@@ -15,8 +16,6 @@ if (Context == 'ponente') {
 }
 
 elseif (Context == 'main') {
-    $return_url = optional_param('return');
-
     preg_match('#^general/proposals/(\d+)$#', $q, $matches);
     $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
 
@@ -49,7 +48,7 @@ $proposal = get_record_sql($query);
 if (!empty($proposal)) {
 ?>
 
-<h1>Ponencia de: <a href="<?=$CFG->wwwroot ?>/?q=general/authors/<?=$proposal->id_ponente ?>&return=<?=$return_url ?>"><?=$proposal->nombrep ?> <?=$proposal->apellidos ?></a></h1>
+<h1>Ponencia de: <a href="<?=$CFG->wwwroot ?>/?q=general/authors/<?=$proposal->id_ponente ?>"><?=$proposal->nombrep ?> <?=$proposal->apellidos ?></a></h1>
 
 <?php
     include($CFG->incdir . 'common/prop_display_info.php');

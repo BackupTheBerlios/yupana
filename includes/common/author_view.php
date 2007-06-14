@@ -5,9 +5,6 @@ if (empty($q) || empty($CFG)) {
 }
 
 if (Context == 'main') {
-    $q = optional_param('q');
-    $return_url = optional_param('return');
-
     preg_match('#^general/authors/(\d+)$#', $q, $matches);
     $author_id = (!empty($matches)) ? (int) $matches[1] : 0;
 }

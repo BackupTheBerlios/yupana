@@ -82,5 +82,5 @@ END;
     do_table($table_data, 'wide');
 }
 
-do_submit_cancel('', 'Volver al Menu', $home_url);
+do_submit_cancel('', 'Volver al Menu', $return_url);
 ?>

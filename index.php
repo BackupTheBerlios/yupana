@@ -32,7 +32,7 @@ elseif (preg_match('#^author/register$#', $q)) {
     define('Action', 'register');
 
     // return url
-    $home_url = $CFG->wwwroot;
+    $return_url = $CFG->wwwroot;
 
     do_header('Registro de Ponentes');
     include($CFG->incdir . 'common/user_edit.php');
@@ -45,11 +45,24 @@ elseif (preg_match('#^person/register$#', $q)) {
     define('Action', 'register');
 
     // return url
-    $home_url = $CFG->wwwroot;
+    $return_url = $CFG->wwwroot;
 
     do_header('Registro de Asistentes');
     include($CFG->incdir . 'common/user_edit.php');
 }
+
+/*
+ * Recover user password or login
+ *
+ */
+
+// 
+/*elseif (preg_match('#^admin/recover$#', $q)) {
+
+    define('Context', 'admin');
+    define('Action', 'recover')
+    include($CFG->incdir . 'common/do_login.php');
+}*/
 
 /*
  * Login 
@@ -145,7 +158,7 @@ elseif (preg_match('#^general/proposals/.+#', $q)) {
     define('Context', 'main');
     do_header('Detalles de propuesta');
     include($CFG->incdir . 'common/prop_view.php');
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', 'Regresar', $CFG->wwwroot . '/?q=general/proposals');
 }
 
 // view author resume
@@ -154,7 +167,7 @@ elseif (preg_match('#^general/authors/.+#', $q)) {
     define('Context', 'main');
     do_header('Detalles de autor');
     include($CFG->incdir . 'common/author_view.php');
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', 'Regresar', $CFG->wwwroot . '/?q=general/proposals');
 }
 
 // view info of kind of proposals
@@ -162,7 +175,7 @@ elseif (preg_match('#^general/information$#', $q)) {
 
     do_header('Modalidades de participación');
     include($CFG->rootdir . 'template/proposals_info.tmpl.php');
-    // no need of back button
+    do_submit_cancel('', 'Regresar', $CFG->wwwroot);
 }
 
 /*
@@ -208,6 +221,7 @@ elseif (preg_match('#^person/*+#', $q)) {
  */
 else {
     include($CFG->rootdir . 'template/error_404.tmpl.php');
+    do_submit_cancel('', 'Volver');
 }
 
 // finally

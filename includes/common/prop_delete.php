@@ -54,7 +54,7 @@ if (!empty($proposal) && $proposal->id_status < 5)  {
         $prop_noshow_resume = true;
         
         include($CFG->incdir . 'common/prop_display_info.php');
-        do_submit_cancel('Eliminar', 'Cancelar', $home_url);
+        do_submit_cancel('Eliminar', 'Cancelar', $return_url);
 ?>
 
 </form>
@@ -81,7 +81,7 @@ if (!empty($proposal) && $proposal->id_status < 5)  {
 <?php 
         }
 
-        do_submit_cancel('', 'Continuar', $home_url);
+        do_submit_cancel('', 'Continuar', $return_url);
     }
 
 } else {
@@ -93,7 +93,7 @@ if (!empty($proposal) && $proposal->id_status < 5)  {
 <p class="center">Registros de propuesta no encontrados. Posiblemente no existan o no tengas acceso para eliminar la propuesta.</p>
 
 <?php
-    do_submit_cancel('', 'Regresar', $home_url);
+    do_submit_cancel('', 'Regresar', $return_url);
 }
 ?>
 

@@ -15,19 +15,19 @@
 
         $sess_id = 'rootid';
         $table = 'administrador';
-        $home_url = "{$CFG->wwwroot}/admin";
+        $return_url = "{$CFG->wwwroot}/admin";
 
     } elseif (Context == 'ponente') {
 
         $sess_id = 'ponlogin';
         $table = 'ponente';
-        $home_url = "{$CFG->wwwroot}/ponente";
+        $return_url = "{$CFG->wwwroot}/ponente";
 
     } elseif (Context == 'asistente') {
 
         $sess_id = 'asiid';
         $table = 'asistente';
-        $home_url = "{$CFG->wwwroot}/asistente";
+        $return_url = "{$CFG->wwwroot}/asistente";
 
     } else { 
         // duh?
@@ -37,7 +37,7 @@
     // Check if use has session
     session_start();
     if (!empty($_SESSION['YACOMASVARS'][$sess_id]) && $exp != 'exp') {
-        header("Location: {$home_url}");
+        header("Location: {$return_url}");
         exit; //no needed
     }
 
@@ -49,7 +49,7 @@
             $user = get_record($table, 'login', $login);
 
             if (empty($user) || $user->passwd != md5($passwd)) {
-                $errmsg[] = "Usuario y/o contraseña incorrectos. Por favor intente de nuevo o puede ingresar a <a href=\"{$home_url}/reset.php\">Recuperar Contraseña</a>";
+                $errmsg[] = "Usuario y/o contraseña incorrectos. Por favor intente de nuevo o puede ingresar a <a href=\"{$return_url}/reset.php\">Recuperar Contraseña</a>";
             } else {
                 // User ok, init session data
                 @session_start(); // ignore errors
@@ -71,7 +71,7 @@
                 }
 
                 // redirect to main menu
-                header("Location: {$home_url}");
+                header("Location: {$return_url}");
                 exit;
             }
         }

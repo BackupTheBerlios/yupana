@@ -58,16 +58,16 @@ if (!empty($submit)) {
             $action_name = 'Continuar';
 
             if (Context == 'ponente') {
-                $home_url = $CFG->wwwroot . '/?q=author/login';
+                $return_url = $CFG->wwwroot . '/?q=author/login';
             } elseif (Context == 'asistente') {
-                $home_url = $CFG->wwwroot . '/?q=person/login';
+                $return_url = $CFG->wwwroot . '/?q=person/login';
             }
 
         } else {
             $action_name = 'Volver al Menu';
         }
 
-        do_submit_cancel('', $action_name, $home_url);
+        do_submit_cancel('', $action_name, $return_url);
     }
 }
 
@@ -102,7 +102,7 @@ if (empty($submit) || !empty($errmsg)) { // show form
         $action_name = 'Actualizar';
     }
 
-    do_submit_cancel($action_name, 'Cancelar', $home_url);
+    do_submit_cancel($action_name, 'Cancelar', $return_url);
     ?>
 
 </form>
