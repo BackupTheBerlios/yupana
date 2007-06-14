@@ -39,7 +39,3 @@ En las conferencias magistrales se expondrán los temas o tópicos que vayan
 de acuerdo al hilo central del evento.</p>
 
 </div>
-
-<?php
-do_submit_cancel('', 'Regresar', $CFG->wwwroot);
-?>
