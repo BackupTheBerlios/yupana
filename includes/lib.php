@@ -1,6 +1,8 @@
 <?php
 // run setup script 
 require_once(dirname(__FILE__).'/setup.php');
+require($CFG->incdir . 'displaylib.php');
+require($CFG->incdir . 'infolib.php');
 
 function set_config($name, $value) {
     global $CFG;
@@ -47,7 +49,7 @@ function get_url($path='') {
 
     $url = $CFG->wwwroot;
 
-    if (!empty($url)) {
+    if (!empty($path)) {
         // using mod rewrite?
         if (empty($CFG->mod_rewrite)) {
             $url .= '/?q=' . $path;
