@@ -445,7 +445,8 @@ p#buttons {
 }
 
 #footer {
-	margin: 0 0 15px 0;
+	background-color: #333;
+	padding: 10px 0 15px 0;
 	font-size: 0.7em;
 	float: left;
 	width: 100%;
