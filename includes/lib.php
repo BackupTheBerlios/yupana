@@ -45,16 +45,18 @@ function get_config($name=NULL) {
 function get_url($path='') {
     global $CFG;
 
-    // using mod rewrite?
-    if (empty($CFG->mod_rewrite)) {
+    $url = $CFG->wwwroot;
 
-        return $CFG->wwwroot . '/?q=' . $path;
-
-    } else {
-
-        return $CFG->wwwroot . '/' . $path;
-
+    if (!empty($url)) {
+        // using mod rewrite?
+        if (empty($CFG->mod_rewrite)) {
+            $url .= '/?q=' . $path;
+        } else {
+            $url .= '/' . $path;
+        }
     }
+
+    return $url;
 }
 
 function clean_text($text, $format=FORMAT_MOODLE) {
