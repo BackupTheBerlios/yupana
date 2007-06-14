@@ -19,7 +19,7 @@ switch (Context) {
         beginSession('P');
         $sess_id = $_SESSION['YACOMASVARS']['ponid'];
         $USER = get_record('ponente', 'id', $sess_id);
-        $CFG->logout_url = $CFG->wwwroot . '/?q=author/logout';
+        $CFG->logout_url = $CFG->wwwroot . '/?q=speaker/logout';
         break;
 
     case 'asistente':

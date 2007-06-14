@@ -58,7 +58,7 @@ if (!empty($submit)) {
             $action_name = 'Continuar';
 
             if (Context == 'ponente') {
-                $return_url = $CFG->wwwroot . '/?q=author/login';
+                $return_url = $CFG->wwwroot . '/?q=speaker/login';
             } elseif (Context == 'asistente') {
                 $return_url = $CFG->wwwroot . '/?q=person/login';
             }

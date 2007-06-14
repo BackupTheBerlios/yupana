@@ -54,7 +54,7 @@ if (!empty($proposals)) {
         if (Context == 'ponente') {
 
             $l_ponencia = <<< END
-<a class="proposal" href="{$CFG->wwwroot}/?q=author/proposals/{$proposal->id_ponencia}">{$proposal->ponencia}</a>
+<a class="proposal" href="{$CFG->wwwroot}/?q=speaker/proposals/{$proposal->id_ponencia}">{$proposal->ponencia}</a>
 END;
 
             $l_delete = '';
@@ -62,12 +62,12 @@ END;
             // only can cancel not deleted,acepted or scheduled proposals
             if ($proposal->id_status < 5) {
                 $l_delete = <<< END
-<a class="precaucion" href="{$CFG->wwwroot}/?q=author/proposals/{$proposal->id_ponencia}/delete">Eliminar</a>
+<a class="precaucion" href="{$CFG->wwwroot}/?q=speaker/proposals/{$proposal->id_ponencia}/delete">Eliminar</a>
 END;
                 // dont update discarded proposals
                 if ($proposal->id_status != 3 || $proposal->id_status != 6) {
                     $l_modify = <<< END
-<a class="verde" href="{$CFG->wwwroot}/?q=author/proposals/{$proposal->id_ponencia}/update">Modificar</a>
+<a class="verde" href="{$CFG->wwwroot}/?q=speaker/proposals/{$proposal->id_ponencia}/update">Modificar</a>
 END;
 
                 }

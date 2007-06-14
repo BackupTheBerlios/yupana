@@ -26,7 +26,7 @@ if (empty($q)) {
 }*/
 
 // author register
-elseif (preg_match('#^author/register$#', $q)) {
+elseif (preg_match('#^speaker/register$#', $q)) {
 
     define('Context', 'ponente');
     define('Action', 'register');
@@ -77,7 +77,7 @@ elseif (preg_match('#^admin/login$#', $q)) {
 }
 
 // author login
-elseif (preg_match('#^author/login$#', $q)) {
+elseif (preg_match('#^speaker/login$#', $q)) {
 
     define('Context', 'ponente');
     include($CFG->comdir . 'do_login.php');
@@ -103,7 +103,7 @@ elseif (preg_match('#^admin/logout$#', $q)) {
 }
 
 // author login
-elseif (preg_match('#^author/logout$#', $q)) {
+elseif (preg_match('#^speaker/logout$#', $q)) {
 
     define('Context', 'ponente');
     include($CFG->comdir . 'do_logout.php');
@@ -192,17 +192,17 @@ elseif (preg_match('#^general/information$#', $q)) {
 elseif (preg_match('#^admin/*+#', $q)) {
 
     // Delegate routing
-    include($CFG->rootdir . 'admin/index.php');
+    include($CFG->incdir . 'admin_views.php');
 }
  
 /*
  *  author views
  *
  */
-elseif (preg_match('#^author/*+#', $q)) {
+elseif (preg_match('#^speaker/*+#', $q)) {
 
     // Delegate routing
-    include($CFG->rootdir . 'ponente/index.php');
+    include($CFG->incdir . 'speaker_views.php');
 }
  
 /*
@@ -212,7 +212,7 @@ elseif (preg_match('#^author/*+#', $q)) {
 elseif (preg_match('#^person/*+#', $q)) {
 
     // Delegate routing
-    include($CFG->rootdir . 'asistente/index.php');
+    include($CFG->incdir . 'person_views.php');
 }
 
 /*

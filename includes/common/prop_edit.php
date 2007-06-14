@@ -10,7 +10,7 @@ if (Action == 'newproposal') {
 }
 
 else { // want to update the page
-    preg_match('#^author/proposals/(\d+)/update$#', $q, $matches);
+    preg_match('#^speaker/proposals/(\d+)/update$#', $q, $matches);
     $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
 
     $proposal = get_record('propuesta', 'id', $proposal_id);

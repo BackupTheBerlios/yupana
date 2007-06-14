@@ -3,8 +3,8 @@
 
     <p>Gracias por tu interés en <?=$CFG->conference_name ?></p>
 
-    <h3><a href="<?=$CFG->wwwroot ?>/?q=author/register">Registro de ponentes</a>
-    - <a href="<?=$CFG->wwwroot ?>/?q=author/login">Accede a tu cuenta </a></h3>
+    <h3><a href="<?=$CFG->wwwroot ?>/?q=speaker/register">Registro de ponentes</a>
+    - <a href="<?=$CFG->wwwroot ?>/?q=speaker/login">Accede a tu cuenta </a></h3>
 
     <p>Es necesario tu registro, mediante el cual podrás enviar ponencias y estar informado del evento.</p>
 

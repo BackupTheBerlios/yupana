@@ -4,7 +4,7 @@ if (empty($q) || empty($CFG)) {
     die;
 }
 
-preg_match('#^author/proposals/(\d+)/delete$#', $q, $matches);
+preg_match('#^speaker/proposals/(\d+)/delete$#', $q, $matches);
 $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
 
 $submit = optional_param('submit');

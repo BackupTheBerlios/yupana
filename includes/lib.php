@@ -414,7 +414,7 @@ function beginSessionP() {
 	session_register("YACOMASVARS");
 	if (empty($_SESSION['YACOMASVARS']['ponlogin']) || empty($_SESSION['YACOMASVARS']['ponid']) || 
 	   ((time() - $_SESSION['YACOMASVARS']['ponlast']) > (60*60))) {    # 1 hour exp.
-		header("Location: {$CFG->wwwroot}/?q=author/logout");
+		header("Location: {$CFG->wwwroot}/?q=speaker/logout");
 		exit;
 	}
 	$_SESSION['YACOMASVARS']['ponlast'] = time();

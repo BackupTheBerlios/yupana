@@ -7,6 +7,8 @@ global $CFG;
 // Set includes dir
 $CFG->rootdir = dirname(dirname(__FILE__)) . '/';
 $CFG->incdir = $CFG->rootdir . 'includes/';
+$CFG->comdir = $CFG->incdir . 'common/';
+$CFG->tpldir = $CFG->rootdir . 'templates/';
 
 require($CFG->rootdir . 'config.php');
 require($CFG->incdir . 'displaylib.php');

@@ -14,7 +14,7 @@
     <meta name="description" content="<?=$CFG->conference_name ?>">
     <meta NAME="keywords" content="congreso,bolivia,festival,software,libre,software libre,festival de software libre,2004,FSL,linux,gnu,gpl,openbsd,freebsd,netbsd,gnu/linux">
     <link rel="icon" href="<?=$CFG->wwwroot ?>/images/yacomas.ico">
-    <link rel="stylesheet" type="text/css" href="<?=$CFG->wwwroot ?>/template/style.css" media="all">
+    <link rel="stylesheet" type="text/css" href="<?=$CFG->wwwroot ?>/templates/style.css" media="all">
 </head>
 
 <body>

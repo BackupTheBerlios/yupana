@@ -9,7 +9,7 @@ $where = '1!=1';
 
 // where we are?
 if (Context == 'ponente') {
-    preg_match('#^author/proposals/(\d+)/?$#', $q, $matches);
+    preg_match('#^speaker/proposals/(\d+)/?$#', $q, $matches);
     $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
 
     $where = 'P.id = '. $proposal_id .' AND id_ponente = '. $USER->id;
