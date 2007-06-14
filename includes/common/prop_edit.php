@@ -2,7 +2,7 @@
 if (!defined('Context') || empty($CFG) || empty($q)
     || (Context != 'ponente' && Context != 'admin')) {
 
-    header('Location: ' . $CFG->wwwroot);
+    header('Location: ' . get_url());
 }
 
 if (Action == 'newproposal') {

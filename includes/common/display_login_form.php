@@ -24,6 +24,6 @@
     <p class="notice center">Las cookies deben estar habilitadas para pasar este punto.<br />
     Su sesión caudará despues de 1 hora de inactividad.</p>
 
-<?php do_submit_cancel('Iniciar', 'Cancelar', $CFG->wwwroot); ?>
+<?php do_submit_cancel('Iniciar', 'Cancelar', get_url()); ?>
 
 </form>

@@ -1,6 +1,6 @@
 <?php
 if (!defined('Context') || empty($CFG) || Context != 'asistente') {
-    header('Location: ' . $CFG->wwwroot);
+    header('Location: ' . get_url());
 }
 ?>
 

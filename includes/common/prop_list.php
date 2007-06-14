@@ -53,21 +53,27 @@ if (!empty($proposals)) {
     foreach ($proposals as $proposal) {
         if (Context == 'ponente') {
 
+            $url = get_url('speaker/proposals/'.$proposal->id_ponente);
+
             $l_ponencia = <<< END
-<a class="proposal" href="{$CFG->wwwroot}/?q=speaker/proposals/{$proposal->id_ponencia}">{$proposal->ponencia}</a>
+<a class="proposal" href="{$url}">{$proposal->ponencia}</a>
 END;
 
             $l_delete = '';
             $l_modifiy = '';
             // only can cancel not deleted,acepted or scheduled proposals
             if ($proposal->id_status < 5) {
+                $url = get_url('speaker/proposals/'.$proposal->id_ponente.'/delete');
+
                 $l_delete = <<< END
-<a class="precaucion" href="{$CFG->wwwroot}/?q=speaker/proposals/{$proposal->id_ponencia}/delete">Eliminar</a>
+<a class="precaucion" href="{$url}/delete">Eliminar</a>
 END;
                 // dont update discarded proposals
                 if ($proposal->id_status != 3 || $proposal->id_status != 6) {
+                    $url = get_url('speaker/proposals/'.$proposal->id_ponente.'/update');
+
                     $l_modify = <<< END
-<a class="verde" href="{$CFG->wwwroot}/?q=speaker/proposals/{$proposal->id_ponencia}/update">Modificar</a>
+<a class="verde" href="{$url}">Modificar</a>
 END;
 
                 }
@@ -82,11 +88,13 @@ END;
                 );
 
         } else { // main
+            $url = get_url('general/proposals/'.$proposal->id_ponencia);
+            $urlp = get_url('general/authors/'.$proposal->id_ponente);
 
             $l_ponencia = <<< END
-<a class="proposal" href="{$CFG->wwwroot}/?q=general/proposals/{$proposal->id_ponencia}&return={$request_uri}">{$proposal->ponencia}</a>
+<a class="proposal" href="{$url}">{$proposal->ponencia}</a>
 <br />
-<a class="author" href="{$CFG->wwwroot}/?q=general/authors/{$proposal->id_ponente}&return={$request_uri}">{$proposal->nombrep} {$proposal->apellidos}</a>
+<a class="author" href="{$urlp}">{$proposal->nombrep} {$proposal->apellidos}</a>
 END;
 
             $table_data[] = array(

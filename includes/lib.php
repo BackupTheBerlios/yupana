@@ -42,6 +42,21 @@ function get_config($name=NULL) {
     }
 }
 
+function get_url($path='') {
+    global $CFG;
+
+    // using mod rewrite?
+    if (empty($CFG->mod_rewrite)) {
+
+        return $CFG->wwwroot . '/?q=' . $path;
+
+    } else {
+
+        return $CFG->wwwroot . '/' . $path;
+
+    }
+}
+
 function clean_text($text, $format=FORMAT_MOODLE) {
 
     global $ALLOWED_TAGS;
@@ -273,9 +288,9 @@ function request_password($login, $type) {
     global $CFG;
 
     if ($type == 'A') {
-        $user_type = 'asistente';
+        $user_type = 'person';
     } elseif ($type == 'P') {
-        $user_type = 'ponente';
+        $user_type = 'speaker';
     } else {
         // duh!
         return false;
@@ -292,15 +307,17 @@ function request_password($login, $type) {
     $pwreq->user_type = $table;
     $pwreq->code = 'req' . substr(base_convert(md5(time() . $user->login), 16, 24), 0, 30);
 
-    if (!update_record('password_requests', $pwreq)) {
+    if (!insert_record('password_requests', $pwreq)) {
         return false;
     } else {
        $subject = "{$CFG->conference_name}: Cambio de contraseña {$table}";
 
+       $url = get_url('recover_password/'.$pwreq->code);
+
        $message = "";
        $message .= "Has solicitado un cambio de contraseña para el usuario {$user->login}\n";
        $message .= "Para confirmarlo ingrese a la siguiente dirección:\n";
-       $message .= "  {$CFG->wwwroot}/{$pwreq->user_type}/reset.php?code={$pwreq->code}\n\n";
+       $message .= "  {$url}\n\n";
        $message .= "--";
        $message .= "{$CFG->conference_name}\n";
        $message .= "{$CFG->conference_link}\n";
@@ -414,7 +431,7 @@ function beginSessionP() {
 	session_register("YACOMASVARS");
 	if (empty($_SESSION['YACOMASVARS']['ponlogin']) || empty($_SESSION['YACOMASVARS']['ponid']) || 
 	   ((time() - $_SESSION['YACOMASVARS']['ponlast']) > (60*60))) {    # 1 hour exp.
-		header("Location: {$CFG->wwwroot}/?q=speaker/logout");
+        header('Location: ' . get_url('speaker/logout'));
 		exit;
 	}
 	$_SESSION['YACOMASVARS']['ponlast'] = time();
@@ -461,7 +478,7 @@ function beginSession($tipo) {
 	            ($t_transcurrido > $hora))
 
 		{    # 1 hour exp.
-			header("Location: {$CFG->wwwroot}/?q=logout");
+            header('Location: ' . get_url('logout'));
 			exit;
 		}
 	}
@@ -471,7 +488,7 @@ function beginSession($tipo) {
 		if (empty($_SESSION['YACOMASVARS'][$login]) || empty($_SESSION['YACOMASVARS'][$id]) || 
 	            ($t_transcurrido > $hora))
 		{    # 1 hour exp.
-			header("Location: {$CFG->wwwroot}/?q=logout");
+            header('Location: ' . get_url('logout'));
 			exit;
 		}
 	}

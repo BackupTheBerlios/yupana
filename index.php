@@ -32,7 +32,7 @@ elseif (preg_match('#^speaker/register$#', $q)) {
     define('Action', 'register');
 
     // return url
-    $return_url = $CFG->wwwroot;
+    $return_url = get_url();
 
     do_header('Registro de Ponentes');
     include($CFG->comdir . 'user_edit.php');
@@ -45,7 +45,7 @@ elseif (preg_match('#^person/register$#', $q)) {
     define('Action', 'register');
 
     // return url
-    $return_url = $CFG->wwwroot;
+    $return_url = get_url();
 
     do_header('Registro de Asistentes');
     include($CFG->comdir . 'user_edit.php');
@@ -132,7 +132,7 @@ elseif (preg_match('#^logout$#', $q)) {
 <p class="error center">Tu sesión ha caducado o salido forzosamente.</p>
 
 <?php
-    do_submit_cancel('', 'Continuar', $CFG->wwwroot);
+    do_submit_cancel('', 'Continuar', get_url());
 }
 
 /*
@@ -149,7 +149,7 @@ elseif (preg_match('#^general/proposals/?$#', $q)) {
 ?>  <h1>Lista de propuestas enviadas</h1> <?php
 
     include($CFG->comdir . 'prop_list.php');
-    do_submit_cancel('', 'Regresar', $CFG->wwwroot);
+    do_submit_cancel('', 'Regresar', get_url());
 }
 
 // view some proposal
@@ -158,7 +158,7 @@ elseif (preg_match('#^general/proposals/.+#', $q)) {
     define('Context', 'main');
     do_header('Detalles de propuesta');
     include($CFG->comdir . 'prop_view.php');
-    do_submit_cancel('', 'Regresar', $CFG->wwwroot . '/?q=general/proposals');
+    do_submit_cancel('', 'Regresar', get_url('general/proposals'));
 }
 
 // view author resume
@@ -167,7 +167,7 @@ elseif (preg_match('#^general/authors/.+#', $q)) {
     define('Context', 'main');
     do_header('Detalles de autor');
     include($CFG->comdir . 'author_view.php');
-    do_submit_cancel('', 'Regresar', $CFG->wwwroot . '/?q=general/proposals');
+    do_submit_cancel('', 'Regresar', get_url('general/proposals'));
 }
 
 // view info of kind of proposals
@@ -175,7 +175,7 @@ elseif (preg_match('#^general/information$#', $q)) {
 
     do_header('Modalidades de participación');
     include($CFG->tpldir . 'proposals_info.tmpl.php');
-    do_submit_cancel('', 'Regresar', $CFG->wwwroot);
+    do_submit_cancel('', 'Regresar', get_url());
 }
 
 /*
@@ -220,6 +220,7 @@ elseif (preg_match('#^person/*+#', $q)) {
  *
  */
 else {
+    do_header('Página no encontrada');
     include($CFG->tpldir . 'error_404.tmpl.php');
     do_submit_cancel('', 'Volver');
 }

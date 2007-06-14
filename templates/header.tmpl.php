@@ -13,7 +13,7 @@
     <meta name="revisit-after" content="1 days">
     <meta name="description" content="<?=$CFG->conference_name ?>">
     <meta NAME="keywords" content="congreso,bolivia,festival,software,libre,software libre,festival de software libre,2004,FSL,linux,gnu,gpl,openbsd,freebsd,netbsd,gnu/linux">
-    <link rel="icon" href="<?=$CFG->wwwroot ?>/images/yacomas.ico">
+    <link rel="icon" href="<?=get_url() ?>/images/yacomas.ico">
     <link rel="stylesheet" type="text/css" href="<?=$CFG->stylesheet ?>" media="all">
 </head>
 

@@ -8,7 +8,7 @@ if (!defined('Context')
         && Context != 'ponente'
         && Context != 'asistente')) {
 
-    header('Location: ' . $CFG->wwwroot);
+    header('Location: ' . get_url());
 }
 
 // messages holder

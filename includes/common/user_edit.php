@@ -4,7 +4,7 @@ if (!defined('Context') || empty($CFG)
         && Context != 'ponente'
         && Context != 'asistente')) {
 
-    header('Location: ' . $CFG->wwwroot);
+    header('Location: ' . get_url());
 }
 
 switch (Context) {
@@ -58,9 +58,9 @@ if (!empty($submit)) {
             $action_name = 'Continuar';
 
             if (Context == 'ponente') {
-                $return_url = $CFG->wwwroot . '/?q=speaker/login';
+                $return_url = get_url('speaker/login');
             } elseif (Context == 'asistente') {
-                $return_url = $CFG->wwwroot . '/?q=person/login';
+                $return_url = get_url('person/login');
             }
 
         } else {

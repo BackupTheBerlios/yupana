@@ -9,12 +9,12 @@
         if (Context == 'ponente') {
 
             $registered_as = 'posible ponente';
-            $url = $CFG->wwwroot . '/ponente/';
+            $url = get_url('speaker');
 
         } elseif (Context == 'asistente') {
 
             $registered_as = 'asistente';
-            $url = $CFG->wwwroot . '/asistente/';
+            $url = get_url('person');
 
         }
  

@@ -48,7 +48,7 @@ $proposal = get_record_sql($query);
 if (!empty($proposal)) {
 ?>
 
-<h1>Ponencia de: <a href="<?=$CFG->wwwroot ?>/?q=general/authors/<?=$proposal->id_ponente ?>"><?=$proposal->nombrep ?> <?=$proposal->apellidos ?></a></h1>
+<h1>Ponencia de: <a href="<?=get_url('general/authors/'.$proposal->id_ponente) ?> ?>"><?=$proposal->nombrep ?> <?=$proposal->apellidos ?></a></h1>
 
 <?php
     include($CFG->comdir . 'prop_display_info.php');

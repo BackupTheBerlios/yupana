@@ -15,19 +15,19 @@
 
         $sess_id = 'rootid';
         $table = 'administrador';
-        $return_url = "{$CFG->wwwroot}/admin";
+        $return_url = get_url('admin');
 
     } elseif (Context == 'ponente') {
 
         $sess_id = 'ponlogin';
         $table = 'ponente';
-        $return_url = "{$CFG->wwwroot}/ponente";
+        $return_url = get_url('speaker');
 
     } elseif (Context == 'asistente') {
 
         $sess_id = 'asiid';
         $table = 'asistente';
-        $return_url = "{$CFG->wwwroot}/asistente";
+        $return_url = get_url('person');
 
     } else { 
         // duh?

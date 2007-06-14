@@ -32,6 +32,6 @@
 <p class="center">Ha salido exitosamente del sistema.</p>
 
 <?php
-    do_submit_cancel('', 'Regresar', $CFG->wwwroot);
+    do_submit_cancel('', 'Regresar', get_url());
     do_footer();
 ?>

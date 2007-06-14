@@ -1,7 +1,7 @@
+        <!-- clear floats -->
+        <div class="clear"></div>
     <!-- end body content -->
     </div><!-- #content -->
-
-    <div class="clear"></div>
 
     <div id="footer">
         <p>Copyright (c) 2007, <a href="http://conference.web"><?=$CFG->conference_name ?></a>

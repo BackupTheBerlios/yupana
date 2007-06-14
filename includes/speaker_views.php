@@ -1,12 +1,12 @@
 <?php
 // called directly?
 if (empty($CFG)) {
-    header('Location: ../?q=speaker');
+    header('Location: ..');
 }
 
 // Globals
 define('Context', 'ponente');
-$return_url = $CFG->wwwroot . '/?q=speaker';
+$return_url = get_url('speaker');
 
 // init session
 require($CFG->comdir . 'session.php');

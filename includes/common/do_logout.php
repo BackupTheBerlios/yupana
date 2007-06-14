@@ -21,7 +21,7 @@ switch (Context) {
 
     default:
         // force session destroy
-        header("Location: {$CFG->wwwroot}/?q=logout");
+        header('Location: ' . get_url('logout'));
 }
 
 beginSession($t);
@@ -40,5 +40,5 @@ do_header();
 <p class="center">Ha salido exitosamente del sistema.</p>
 
 <?php
-do_submit_cancel('', 'Continuar', $CFG->wwwroot);
+do_submit_cancel('', 'Continuar', get_url());
 ?>
