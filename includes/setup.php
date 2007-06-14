@@ -194,14 +194,19 @@ $CFG = get_config();
 // load again config.php to override db configs values
 include($CFG->rootdir . 'config.php');
 
+
+//try to guess correct wwwroot
 if (empty($CFG->wwwroot)) {
-    //try to guess correct wwwroot
     $path = $_SERVER['SCRIPT_NAME'];
 
     //remove index name
     $path = str_replace('/index.php', '', $path);
 
+    //build url web
     $CFG->wwwroot = 'http://' . $_SERVER['SERVER_NAME'] . $path;
+
+    //default css stylesheet
+    $CFG->stylesheet =  $CFG->wwwroot . '/templates/style.css';
 }
 
 // set global request_uri
