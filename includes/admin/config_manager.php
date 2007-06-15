@@ -51,12 +51,6 @@ do_submit_cancel('Guardar', '');
 
 </form>
 
-<?php } else { ?>
-
-<h2 class="error center">No se pudo obtener los valores de configuración. Consulte a su administrador</h2>
-
-<?php } ?>
-    
 <div class="block"></div>
 
 <?php
