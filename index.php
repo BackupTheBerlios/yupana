@@ -144,13 +144,14 @@ elseif (preg_match('#^logout$#', $q)) {
 elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/?$#', $q)) {
     define('Context', 'main');
     define('Action', 'viewproposal');
+    $return_url = get_url();
 
     do_header('Lista de propuestas enviadas');
 
 ?>  <h1>Lista de propuestas enviadas</h1> <?php
 
     include($CFG->comdir . 'prop_list.php');
-    do_submit_cancel('', 'Regresar', get_url());
+    do_submit_cancel('', 'Regresar', $return_url);
 }
 
 // view some proposal
