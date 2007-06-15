@@ -47,7 +47,7 @@
             'Ciudad' => $USER->ciudad,
             'Departamento' => $estado,
             'Fecha de Nacimiento' => sprintf('%s', $USER->fecha_nac),
-            'Resumen Curricular' => $USER->resume
+            'Resumen Curricular' => nl2br(htmlspecialchars($USER->resume))
         );
     }
 
@@ -81,5 +81,5 @@
     }
    
     // show table with values
-    do_table_values($values);
+    do_table_values($values, 'narrow');
 ?>
