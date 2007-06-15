@@ -54,8 +54,8 @@
             $errmsg[] = "No puedes cambiar el usuario del administrador principal.";
         }
 
-        // users can't use admin username
-        if (Context != 'admin' && $login == 'admin') {
+        // users can't use admin username or similar
+        if (Context != 'admin' && preg_match('#^admin.*?#', $login)) {
             $errmsg[] = "El nombre de usuario que elegiste se encuentra reservado. Por favor elige otro.";
         }
  
