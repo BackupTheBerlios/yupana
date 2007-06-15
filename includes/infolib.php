@@ -88,9 +88,10 @@ function get_info($where, $type='person', $limit='', $order='') {
 
             $event = get_record_sql($query);
             $endhour = $event->hora + $records->duracion -1;
+            $dates = split('-', $event->fecha);
 
             $records->fecha = $event->fecha;
-            $records->human_date = strftime_caste('%A %d de %B', $records->fecha);
+            $records->human_date = strftime_caste('%A %d de %B', mktime(0, 0, 0, $dates[1], $dates[2], $dates[0]));
             $records->lugar = $event->lugar;
             $records->hora = $event->hora;
             $records->time = sprintf('%02d:00 - %02d:50', $event->hora, $endhour);
