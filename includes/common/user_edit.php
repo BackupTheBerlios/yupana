@@ -94,7 +94,7 @@ if (empty($submit) || !empty($errmsg)) { // show form
     <p class="center"><em>Los campos marcados con asterisco(*) son obligatorios</em></p>
 
     <?php
-    include($CFG->comdir . 'user_display_input_table.php');
+    include($CFG->comdir . 'user_input_table.php');
 
     if (Action == 'register') {
         $action_name = 'Registrarme';
