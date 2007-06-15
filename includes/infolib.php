@@ -81,17 +81,19 @@ function get_info($where, $type='person', $limit='', $order='') {
             $query = '
                 SELECT FE.fecha, R.nombre_lug AS lugar, EO.hora
                 FROM evento E
-                JOIN fecha_evento FE ON FE.id = E.id_fecha
-                JOIN lugar R ON R.id = E.id_lugar
                 JOIN evento_ocupa EO ON EO.id_evento = E.id
+                JOIN lugar R ON R.id = EO.id_lugar
+                JOIN fecha_evento FE ON FE.id = EO.id_fecha
                 WHERE E.id_propuesta=' . $records->id;
 
             $event = get_record_sql($query);
-            $endhour = $evento->hora + $records->duracion -1;
+            $endhour = $event->hora + $records->duracion -1;
 
-            $records->fecha = $evento->fecha;
-            $records->lugar = $evento->lugar;
-            $records->time = sprintf('%02d:00 - %02d:50', $evento->hora, $endhour);
+            $records->fecha = $event->fecha;
+            $records->human_date = strftime_caste('%A %d de %B', $records->fecha);
+            $records->lugar = $event->lugar;
+            $records->hora = $event->hora;
+            $records->time = sprintf('%02d:00 - %02d:50', $event->hora, $endhour);
         }
 
     } else {
