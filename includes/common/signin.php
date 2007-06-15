@@ -35,7 +35,7 @@
     }
 
     // Check if use has session
-    session_start();
+    @session_start();
     if (!empty($_SESSION['YACOMASVARS'][$sess_id]) && $exp != 'exp') {
         header("Location: {$return_url}");
         exit; //no needed
