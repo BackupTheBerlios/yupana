@@ -239,6 +239,23 @@ function do_input_select ($name, $options, $selected=0, $unset=true, $unsetdesc=
     }
 }
 
+function do_input_yes_no($name, $selected=0, $yes_desc='Yes', $no_desc='No', $extra='') {
+    $options = array();
+
+    $no = new StdClass;
+    $no->id = 0;
+    $no->descr = $no_desc;
+
+    $yes = new StdClass;
+    $yes->id = 1;
+    $yes->descr = $yes_desc;
+
+    $options[] = $no;
+    $options[] = $yes;
+
+    do_input_select($name, $options, $selected, false, '', 0, $extra);
+}
+
 function do_input_number_select ($name, $start, $end, $selected=0, $unset=true, $unsetdesc='', $unsetval=0, $isdate=false, $ismonth=false) {
     // build options object for do_input_select
     $options = array();
