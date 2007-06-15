@@ -11,36 +11,29 @@ if (empty($not_found_message)) {
 // default status !deleted
 $where = "P.id_status != 7";
 // default order
-$order = "ORDER BY P.id_prop_tipo, P.id_ponente, P.reg_time";
+$order = "P.id_prop_tipo, P.id_ponente, P.reg_time";
 
 if (Context == 'ponente') {
     // add filter, user own proposals
     $where .= " AND P.id_ponente={$USER->id}";
     // override order
-    $order = "ORDER BY P.id_status";
+    $order = 'P.id_status';
 }
 
-$query = '
-    SELECT P.id AS id_ponencia,
-        P.nombre AS ponencia,
-        P.id_prop_tipo,
-        P.id_ponente,
-        P.id_status,
-        PO.nombrep,
-        PO.apellidos,
-        PT.descr AS prop_tipo,
-        O.descr AS orientacion,
-        S.descr AS status
-    FROM propuesta P
-    JOIN ponente PO ON P.id_ponente = PO.id
-    JOIN prop_tipo PT ON P.id_prop_tipo = PT.id
-    JOIN orientacion O ON P.id_orientacion = O.id
-    JOIN prop_status S ON P.id_status = S.id
-    WHERE '. $where .' '. $order;
+//run prop filters
+include($CFG->comdir . 'prop_filter_optional_params.php');
 
-$proposals = get_records_sql($query);
+$proposals = get_proposals($where, '', $order);
 
 if (!empty($proposals)) {
+?>
+
+<h4>Ponencias registradas: <?=sizeof($proposals) ?></h4>
+
+<?php
+    // show prop filter form
+    include($CFG->comdir . 'prop_filter.php');
+
     // build data table
     $table_data = array();
 
@@ -53,24 +46,26 @@ if (!empty($proposals)) {
     foreach ($proposals as $proposal) {
         if (Context == 'ponente') {
 
-            $url = get_url('speaker/proposals/'.$proposal->id_ponente);
+            $url = get_url('speaker/proposals/'.$proposal->id);
 
             $l_ponencia = <<< END
-<a class="proposal" href="{$url}">{$proposal->ponencia}</a>
+<ul><li>
+<a class="proposal" href="{$url}">{$proposal->nombre}</a>
+</li></ul>
 END;
 
             $l_delete = '';
             $l_modifiy = '';
             // only can cancel not deleted,acepted or scheduled proposals
             if ($proposal->id_status < 5) {
-                $url = get_url('speaker/proposals/'.$proposal->id_ponente.'/delete');
+                $url = get_url('speaker/proposals/'.$proposal->id.'/delete');
 
                 $l_delete = <<< END
-<a class="precaucion" href="{$url}/delete">Eliminar</a>
+<a class="precaucion" href="{$url}">Eliminar</a>
 END;
                 // dont update discarded proposals
                 if ($proposal->id_status != 3 || $proposal->id_status != 6) {
-                    $url = get_url('speaker/proposals/'.$proposal->id_ponente.'/update');
+                    $url = get_url('speaker/proposals/'.$proposal->id.'/update');
 
                     $l_modify = <<< END
 <a class="verde" href="{$url}">Modificar</a>
@@ -81,25 +76,29 @@ END;
             
             $table_data[] = array(
                 $l_ponencia,
-                $proposal->prop_tipo,
+                $proposal->tipo,
+                $proposal->orientacion,
                 $proposal->status,
                 $l_delete,
                 $l_modify
                 );
 
         } else { // main
-            $url = get_url('general/proposals/'.$proposal->id_ponencia);
+            $url = get_url('general/proposals/'.$proposal->id);
             $urlp = get_url('general/authors/'.$proposal->id_ponente);
 
             $l_ponencia = <<< END
-<a class="proposal" href="{$url}">{$proposal->ponencia}</a>
-<br />
-<a class="author" href="{$urlp}">{$proposal->nombrep} {$proposal->apellidos}</a>
+<ul class="proposal">
+<li><a href="{$url}">{$proposal->nombre}</a></li>
+<ul class="speaker">
+<li>{$proposal->nombrep} {$proposal->apellidos}</li>
+</ul>
+</ul>
 END;
 
             $table_data[] = array(
                 $l_ponencia,
-                $proposal->prop_tipo,
+                $proposal->tipo,
                 $proposal->orientacion,
                 $proposal->status
                 );
@@ -110,6 +109,9 @@ END;
     do_table($table_data, 'wide');
 
 } else {
+    if (Context == 'main') {
+        $return_url = get_url('general/proposals');
+    }
 ?>
 <div class="block"></div>
 
