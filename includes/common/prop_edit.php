@@ -13,7 +13,7 @@ else { // want to update the page
     preg_match('#^speaker/proposals/(\d+)/update$#', $q, $matches);
     $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
 
-    $proposal = get_record('propuesta', 'id', $proposal_id);
+    $proposal = get_proposal($proposal_id, $USER->id);
 }
 
 if (empty($proposal)) {
@@ -69,6 +69,7 @@ if (empty($submit) || !empty($errmsg)) { // show form
         do_submit_cancel('Registrar', 'Cancelar', $return_url);
     } else {
         do_submit_cancel('Actualizar', 'Cancelar', $return_url);
+        do_input('proposal_id', 'hidden', $proposal_id);
     }
 ?>
 
