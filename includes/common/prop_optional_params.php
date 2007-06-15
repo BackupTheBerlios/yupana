@@ -6,7 +6,7 @@
 
     // Common values
     $submit = optional_param('submit');
-    $idponencia = optional_param('idponencia');
+
     $nombreponencia = optional_param('S_nombreponencia');
     $id_nivel = optional_param('I_id_nivel', 0, PARAM_INT);
     $id_tipo = optional_param('I_id_tipo', 0, PARAM_INT);
@@ -33,11 +33,6 @@
         'reqasistente'
     );
 
-    if (Context == 'admin') {
-        $login = optional_param('login');
-        $attrs[] = 'login';
-    }
-
     // fill proposal info
     if (!empty($submit) || Action == 'newproposal') {
         // initialize $proposal if not
@@ -54,4 +49,13 @@
         $proposal->nombre = $nombreponencia;
     }
 
+    // get id
+    if (Action == 'updateproposal') {
+        $proposal->id = optional_param('proposal_id', 0, PARAM_INT);
+    }
+
+    if (Context == 'admin') {
+        $login= optional_param('login');
+//        $attrs[] = 'login';
+    }
 ?>
