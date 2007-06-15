@@ -309,7 +309,10 @@ function do_submit_cancel($submit_value, $cancel_value, $url='') {
     if (!empty($submit_value)) {
         do_input('submit', 'submit', $submit_value);
     }
-    do_input('', 'button', $cancel_value, $onclick);
+
+    if (!empty($cancel_value)) {
+        do_input('', 'button', $cancel_value, $onclick);
+    }
 ?>
 
 </p>
