@@ -163,15 +163,6 @@ elseif (preg_match('#^general/proposals/.+#', $q)) {
     do_submit_cancel('', 'Regresar', get_url('general/proposals'));
 }
 
-// view author resume
-elseif (preg_match('#^general/authors/.+#', $q)) {
-
-    define('Context', 'main');
-    do_header('Detalles de autor');
-    include($CFG->comdir . 'author_view.php');
-    do_submit_cancel('', 'Regresar', get_url('general/proposals'));
-}
-
 // view info of kind of proposals
 elseif (preg_match('#^general/information$#', $q)) {
 
