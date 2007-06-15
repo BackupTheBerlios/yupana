@@ -7,6 +7,7 @@ global $CFG;
 // Set includes dir
 $CFG->rootdir = dirname(dirname(__FILE__)) . '/';
 $CFG->incdir = $CFG->rootdir . 'includes/';
+$CFG->admdir = $CFG->incdir . 'admin/';
 $CFG->comdir = $CFG->incdir . 'common/';
 $CFG->tpldir = $CFG->rootdir . 'templates/';
 
