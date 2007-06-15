@@ -472,7 +472,7 @@ function beginSession($tipo) {
 	            ($t_transcurrido > $hora))
 
 		{    # 1 hour exp.
-            header('Location: ' . get_url('logout'));
+            header('Location: ' . get_url('admin/login'));
 			exit;
 		}
 	}
