@@ -430,16 +430,6 @@ function conectaBD()
 
 }
 
-function beginSessionP() {
-    session_start();
-	session_register("YACOMASVARS");
-	if (empty($_SESSION['YACOMASVARS']['ponlogin']) || empty($_SESSION['YACOMASVARS']['ponid']) || 
-	   ((time() - $_SESSION['YACOMASVARS']['ponlast']) > (60*60))) {    # 1 hour exp.
-        header('Location: ' . get_url('speaker/logout'));
-		exit;
-	}
-	$_SESSION['YACOMASVARS']['ponlast'] = time();
-}
 function beginSession($tipo) {
     global $CFG;
 
