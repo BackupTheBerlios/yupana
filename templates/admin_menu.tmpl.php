@@ -4,23 +4,30 @@
 
 <div id="menuadmin">
 
-    <div id="menuadmin-admin" class="menuadmin column">
+    <div id="menuadmin-ponencias" class="menuadmin column">
 
-        <a name="admin"></a>
+        <a name="ponencias"></a>
 
-        <h3>Administración</h3>
+        <h3>Ponencias y ponentes</h3>
 
         <ul>
 
-<?php if ($USER->id_tadmin == 1) { ?>
+<?php if ($USER->id_tadmin < 3) { ?>
 
-            <li><a href="admin.php?opc=config">Configuración</a></li>
-            <li><a href="admin.php?opc=add">Agregar administrador</a></li>
-            <li><a href="admin.php?opc=list">Listar administradores</a></li>
-            <li><a href="admin.php?opc=papers/deleted">Listar ponencias eliminadas</a></li>
+<li><a href="<?=get_url('admin/speakers/new') ?>">Agregar ponente</a></li>
 
 <?php } ?>
-            <li><a href="admin.php?opc=edit">Modificar mis datos</a></li>
+
+<li><a href="<?=get_url('admin/speakers/') ?>">Listado de ponentes</a></li>
+
+<?php if ($USER->id_tadmin < 3) { ?>
+
+<li><a href="<?=get_url('admin/proposals/new') ?>">Agregar ponencia</a></li>
+
+<?php } ?>
+
+
+<li><a href="<?=get_url('admin/proposals/') ?>">Listado de ponencias</a></li>
 
         </ul>
 
@@ -36,34 +43,10 @@
 
         <ul>
 
-            <li><a href="admin.php?opc=rooms/add">Registrar lugar</a></li>
-            <li><a href="admin.php?opc=dates/register">Registrar fecha</a></li>
-            <li><a href="admin.php?opc=rooms/list">Listado de lugares</a></li>
-            <li><a href="admin.php?opc=dates/list">Listado de fechas</a></li>
-
-        </ul>
-
-    </div>
-
-<?php } ?>
-
-    <div id="menuadmin-ponencias" class="menuadmin column">
-
-        <a name="ponencias"></a>
-
-        <h3>Ponencias y ponentes</h3>
-
-        <ul>
-
-<?php if ($USER->id_tadmin < 3) { ?>
-
-            <li><a href="admin.php?opc=speakers/add">Agregar ponente</a></li>
-            <li><a href="admin.php?opc=papers/add">Agregar ponencia</a></li>
-
-<?php } ?>
-
-            <li><a href="admin.php?opc=speakers/list">Listado de ponentes</a></li>
-            <li><a href="admin.php?opc=papers/list">Listado de ponencias</a></li>
+        <li><a href="<?=get_url('admin/rooms/new') ?>">Registrar lugar</a></li>
+        <li><a href="<?=get_url('admin/rooms/') ?>">Listado de lugares</a></li>
+        <li><a href="<?=get_url('admin/dates/new') ?>">Registrar fecha</a></li>
+        <li><a href="<?=get_url('admin/dates/') ?>">Listado de fechas</a></li>
 
         </ul>
 
@@ -79,24 +62,48 @@
 
 <?php if ($USER->id_tadmin < 3) { ?>
 
-            <li><a href="admin.php?opc=events/add">Registro de evento</a></li>
+<li><a href="<?=get_url('admin/events/new') ?>">Registro de evento</a></li>
 
 <?php } ?>
 
-            <li><a href="admin.php?opc=events/list">Listado de eventos</a></li>
+<li><a href="<?=get_url('admin/events') ?>">Listado de eventos</a></li>
 
 <?php if ($USER->id_tadmin< 3) { ?>
 
-            <li><a href="admin.php?opc=workshop/addperson">Inscripción asistente a talleres/tutoriales</a></li>
-            <li><a href="admin.php?opc=workshop/removeperson">Baja asistentes a talleres/tutoriales</a></li>
-            <li><a href="admin.php?opc=persons/list">Listado de asistentes</a></li>
+<li><a href="<?=get_url('admin/workshops/add') ?>">Inscripción a talleres/tutoriales</a></li>
+<li><a href="<?=get_url('admin/workshops/remove') ?>">Baja a talleres/tutoriales</a></li>
+<li><a href="<?=get_url('admin/persons/') ?>">Listado de asistentes</a></li>
 
 <?php } ?>
 
-            <li><a href="admin.php?opc=persons/control">Control de asistencias</a></li>
+<li><a href="<?=get_url('admin/persons/control') ?>">Control de asistencias</a></li>
 
         </ul>
 
     </div>
+
+    <div id="menuadmin-admin" class="menuadmin column">
+
+        <a name="admin"></a>
+
+        <h3>Administración</h3>
+
+        <ul>
+
+<?php if ($USER->id_tadmin == 1) { ?>
+
+            <li><a href="<?=get_url('admin/config') ?>">Configuración</a></li>
+            <li><a href="<?=get_url('admin/new') ?>">Agregar administrador</a></li>
+            <li><a href="<?=get_url('admin/list') ?>">Listar administradores</a></li>
+            <li><a href="<?=get_url('admin/proposals/deleted') ?>">Listar ponencias eliminadas</a></li>
+
+<?php } ?>
+            <li><a href="<?=get_url('admin/details') ?>">Modificar mis datos</a></li>
+
+        </ul>
+
+    </div>
+
+<?php } ?>
 
 </div><!-- #menuadmin -->
