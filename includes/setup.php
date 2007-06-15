@@ -3,6 +3,10 @@
 
 global $db;
 global $CFG;
+global $errmsg;
+
+// messages holder
+$errmsg = array();
 
 // Set includes dir
 $CFG->rootdir = dirname(dirname(__FILE__)) . '/';
@@ -204,10 +208,10 @@ if (empty($CFG->wwwroot)) {
 
     //build url web
     $CFG->wwwroot = 'http://' . $_SERVER['SERVER_NAME'] . $path;
-
-    //default css stylesheet
-    $CFG->stylesheet =  $CFG->wwwroot . '/templates/style.css';
 }
+
+//default css stylesheet
+$CFG->stylesheet =  $CFG->wwwroot . '/templates/style.css';
 
 // set global request_uri
 $request_uri = $_SERVER['REQUEST_URI'];
