@@ -211,14 +211,14 @@ function do_input ($name, $type, $value, $attrs='') {
 <?php
 }
 
-function do_input_select ($name, $options, $selected=0, $unset=true, $unsetdesc='', $unsetval=0) {
+function do_input_select ($name, $options, $selected=0, $unset=true, $unsetdesc='', $unsetval=0, $extra='') {
     if (is_array($options)) {
         // array of objects, each object is an option with:
         // $option->id: input value
         // $option->desc: option description
 ?>
 
-    <select name="<?=$name ?>">
+    <select name="<?=$name ?>" <?=$extra ?>>
 
 <?php if ($unset) { ?>
 
