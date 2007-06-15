@@ -312,7 +312,7 @@ function do_input_birth_select ($dayname, $monthname, $yearname, $dayselect=0, $
     do_input_number_select($yearname, 1999, 1950, $yearselect, true, 'Año', 0, true);
 }
 
-function do_submit_cancel($submit_value, $cancel_value, $url='') {
+function do_submit_cancel($submit_value, $cancel_value, $url='', $name='submit') {
     if (!empty($url)) {
         $onclick = "onClick=\"location.href='{$url}'\"";
     } else { // default history back
@@ -324,11 +324,11 @@ function do_submit_cancel($submit_value, $cancel_value, $url='') {
 
 <?php
     if (!empty($submit_value)) {
-        do_input('submit', 'submit', $submit_value);
+        do_input($name, 'submit', $submit_value);
     }
 
     if (!empty($cancel_value)) {
-        do_input('', 'button', $cancel_value, $onclick);
+        do_input($name, 'button', $cancel_value, $onclick);
     }
 ?>
 
