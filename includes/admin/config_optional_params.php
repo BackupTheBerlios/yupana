@@ -17,7 +17,8 @@ $configs = array(
     'send_mail' => 'integer',
     'smtp' => 'string',
     'unique_mail' => 'integer',
-    'clean_url' => 'integer'
+    'clean_url' => 'integer',
+    'public_proposals' => 'integer'
     );
 
 

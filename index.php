@@ -141,7 +141,7 @@ elseif (preg_match('#^logout$#', $q)) {
  */
 
 // list proposals
-elseif (preg_match('#^general/proposals/?$#', $q)) {
+elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/?$#', $q)) {
     define('Context', 'main');
     define('Action', 'viewproposal');
 
@@ -154,7 +154,7 @@ elseif (preg_match('#^general/proposals/?$#', $q)) {
 }
 
 // view some proposal
-elseif (preg_match('#^general/proposals/.+#', $q)) {
+elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/.+#', $q)) {
     define('Context', 'main');
     define('Action', 'listproposals');
 

@@ -2,6 +2,13 @@
 
 $values = array();
 
+// public proposals
+$desc = 'Mostrar las propuestas publicamente';
+$config = get_config('public_proposals');
+$input = do_get_output('do_input_yes_no', array('public_proposals', $config->value));
+
+$values[$desc] = $input;
+
 // multiple users per mail
 $desc = 'Un usuario por email';
 $config = get_config('unique_mail');

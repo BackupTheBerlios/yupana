@@ -14,9 +14,13 @@
     <p>Es necesario tu registro, mediante el cual podrás realizar preinscripción a <?=$CFG->conference_name ?>
     y  talleres/tutoriales además de mantenerte informado del evento.</p>
 
+<?php if (!empty($CFG->public_proposals)) { ?>
+
     <h3><a href="<?=get_url('general/proposals') ?>">Lista preliminar de ponencias</a></h3>
 
     <p>Aquí podrás ver las propuestas ponencias que han sido enviadas y el status en el que se encuentran dichas ponencias.</p>
+
+<?php } ?>
 
     <h3><a href="<?=get_url('general/information') ?>">Modalidades de participacion</a></h3>
 
