@@ -104,16 +104,16 @@ function get_info($where, $type='person', $limit='', $order='') {
     return $records;
 }
 
-function get_admins($limit='') {
-    return get_info('1=1', 'admin', $limit);
+function get_admins($where='1=1', $limit='') {
+    return get_info($where, 'admin', $limit);
 }
 
-function get_speakers($limit='') {
-    return get_info('1=1', 'speaker', $limit);
+function get_speakers($where='1=1', $limit='') {
+    return get_info($where, 'speaker', $limit);
 }
 
-function get_persons($limit='') {
-    return get_info('1=1', 'person', $limit);
+function get_persons($where='1=1', $limit='') {
+    return get_info($where, 'person', $limit);
 }
 
 function get_proposals($where='1=1', $limit='', $order='') {
