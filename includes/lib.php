@@ -51,7 +51,7 @@ function get_url($path='') {
 
     if (!empty($path)) {
         // using mod rewrite?
-        if (empty($CFG->mod_rewrite)) {
+        if (empty($CFG->clean_url)) {
             $url .= '/?q=' . $path;
         } else {
             $url .= '/' . $path;
