@@ -104,16 +104,16 @@ function get_info($where, $type='person', $limit='', $order='') {
     return $records;
 }
 
-function get_admins($where='1=1', $limit='') {
-    return get_info($where, 'admin', $limit);
+function get_admins($where='1=1', $limit='', $order='ADM.apellidos, ADM.nombrep, ADM.id') {
+    return get_info($where, 'admin', $limit, $order);
 }
 
-function get_speakers($where='1=1', $limit='') {
-    return get_info($where, 'speaker', $limit);
+function get_speakers($where='1=1', $limit='', $order='SP.apellidos, SP.nombrep, SP.id') {
+    return get_info($where, 'speaker', $limit, $order);
 }
 
-function get_persons($where='1=1', $limit='') {
-    return get_info($where, 'person', $limit);
+function get_persons($where='1=1', $limit='', $order='P.apellidos, P.nombrep, P.id') {
+    return get_info($where, 'person', $limit, $order);
 }
 
 function get_proposals($where='1=1', $limit='', $order='') {
