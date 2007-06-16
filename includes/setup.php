@@ -25,9 +25,14 @@ if (isset($_REQUEST['GLOBALS']) || isset($_COOKIE['GLOBALS']) || isset($_FILES['
     die('Fatal: Illegal GLOBALS overwrite attempt detected!');
 }
 
+// check availability of mb_* functions
+if (!function_exists('mb_get_info')) {
+    die("Fatal: Not found MultiByte support in your php installation");
+}
+
 // Check if file directory exists and is writable
 if (!is_dir($CFG->files) || !is_writable($CFG->files)) {
-    die("Fatal: Can't write on directory $CFG->files'");
+    die("Fatal: Can't write in directory $CFG->files'");
 }
 
 /// Just say no to link prefetching (Moz prefetching, Google Web Accelerator, others)
