@@ -1,21 +1,17 @@
-<? 
-include "../includes/lib.php";
-include "../includes/conf.inc.php";
+<?php
+    require('../includes/lib.php');
+    do_header();
+?>
 
-$link=conectaBD();
+<h1>Programa oficial de ponencias</h1>
+<h2 class="notice center">- programa sujeto a cambios -</h2>
 
+<?php
 $fechaQueryE='SELECT * FROM fecha_evento ORDER BY fecha';
 $fechaRecords = mysql_query($fechaQueryE) or err("No se pudo listar fechas de eventos ".mysql_errno($fechaRecords));
 
-imprimeEncabezado();
-
-$msg="Programa oficial de ponencias<br>$conference_name
-	<br><small><small>*Programa sujeto a cambios*</small></small>";
-imprimeCajaTop("100",$msg);
 // Inicio datos de Ponencias
 // Ordenadas por dia 
-print '<p class="yacomas_msg">Para ver informacion adicional de la ponencia o del ponente haz click en cualquiera de ellos</a><hr>';
-retorno();
 print '<FORM method="POST" action="'.$_SERVER['REQUEST_URI'].'">';
 while ($Qf_evento = mysql_fetch_array($fechaRecords))
 	{
@@ -28,9 +24,9 @@ while ($Qf_evento = mysql_fetch_array($fechaRecords))
 		print '
 			<table border=0 align=center width=100%>
 			<tr>
-			<td bgcolor='.$colortitle.'><b>Ponencia</b></td><td bgcolor='.$colortitle.'><b>Tipo</b>
-			</td></td><td bgcolor='.$colortitle.'><b>Hora</b>
-			</td></td><td bgcolor='.$colortitle.'><b>Lugar</b>
+			<td ><b>Ponencia</b></td><td bgcolor=><b>Tipo</b>
+			</td></td><td bgcolor=><b>Hora</b>
+			</td></td><td bgcolor=><b>Lugar</b>
 			</td></tr>';
 		$Qehs= 'SELECT 	EO.id_lugar, L.cupo, EO.id_fecha, EO.id_evento, 
 				E.id_propuesta, P.nombre, P.id_prop_tipo, PT.descr AS prop_tipo, EO.hora, 
@@ -78,7 +74,6 @@ while ($Qf_evento = mysql_fetch_array($fechaRecords))
 					$color=1;
 				}
 			print '<td bgcolor='.$bgcolor.'><a class="azul" href="Vponencia.php?vopc='.$Qf_event['id_ponente'].' '.$Qf_event['id_propuesta'].' '.$_SERVER['REQUEST_URI'].'">'.$Qf_event["nombre"].'</a>';
-			retorno();
 			print '<small><a class="ponente" href="Vponente.php?vopc='.$Qf_event['id_ponente'].' '.$_SERVER['REQUEST_URI'].'">'.$Qf_event["nombrep"].' '.$Qf_event["apellidos"].'</a></small>';
 			print '<br>'.$Qf_event["org"].'<br>'.$Qf_event["nestado"].'</small>';
 			print '</td><td bgcolor='.$bgcolor.'>';
@@ -95,8 +90,5 @@ while ($Qf_evento = mysql_fetch_array($fechaRecords))
 		print '</table>';	
 	}
 	mysql_free_result($fechaRecords);
-	retorno();
-	retorno();
-imprimeCajaBottom();
-imprimePie();
+    do_footer();
 ?>
