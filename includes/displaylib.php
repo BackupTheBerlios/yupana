@@ -24,8 +24,10 @@ function do_get_output ($function, $parameters) {
 //                    print_object($$var_name);
 
                     $parameters[$i] = "\${$var_name}";
+                } elseif (is_int($arg)) {
+                    $parameters[$i] = $arg;
                 } else {
-                    $parameters[$i] = "'" . addslashes($parameters[$i]) . "'" ;
+                    $parameters[$i] = "'" . addslashes($arg) . "'" ;
                 }
             }
 
