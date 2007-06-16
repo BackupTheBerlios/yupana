@@ -25,7 +25,7 @@ function do_get_output ($function, $parameters) {
 
                     $parameters[$i] = "\${$var_name}";
                 } else {
-                    $parameters[$i] = "'" . $parameters[$i] . "'" ;
+                    $parameters[$i] = "'" . addslashes($parameters[$i]) . "'" ;
                 }
             }
 
