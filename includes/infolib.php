@@ -60,7 +60,8 @@ function get_info($where, $type='person', $limit='', $order='') {
     elseif ($type == 'proposal') {
         $query = '
             SELECT P.*, L.descr AS nivel, SP.login, SP.nombrep,
-            SP.apellidos, SP.org, SP.resume, T.descr AS tipo, ADM.mail AS adminmail,
+            SP.apellidos, SP.org, SP.resume, T.descr AS tipo,
+            ADM.mail AS adminmail, ADM.login AS adminlogin,
             O.descr AS orientacion, S.descr AS status
             FROM propuesta P
             JOIN prop_nivel L ON L.id = P.id_nivel
@@ -88,10 +89,9 @@ function get_info($where, $type='person', $limit='', $order='') {
 
             $event = get_record_sql($query);
             $endhour = $event->hora + $records->duracion -1;
-            $dates = split('-', $event->fecha);
 
             $records->fecha = $event->fecha;
-            $records->human_date = strftime_caste('%A %d de %B', mktime(0, 0, 0, $dates[1], $dates[2], $dates[0]));
+            $records->human_date = friendly_date($event->fecha);
             $records->lugar = $event->lugar;
             $records->hora = $event->hora;
             $records->time = sprintf('%02d:00 - %02d:50', $event->hora, $endhour);
@@ -155,4 +155,28 @@ function check_login($login, $pass, $type='person') {
     return get_field($table, 'id', 'login', $login, 'password', md5($pass));
 }
 
+function friendly_date($date, $show_year=false) {
+    // format 0000-00-00
+    $ds = split('-', $date);
+
+    $year = (int) $ds[0];
+    $month = (int) $ds[1];
+    $day = (int) $ds[2];
+
+    if (!empty($year) && !empty($month) && !empty($day)) {
+        $time = mktime(0, 0, 0, $month, $day, $year);
+
+        if ($show_year) {
+            $format = '%A %d de %B, %Y';
+        } else {
+            $format = '%A %d de %B';
+        }
+
+        $human_date = strftime_caste($format, $time);
+    } else {
+        $human_date = '';
+    }
+
+    return $human_date;
+}
 ?>
