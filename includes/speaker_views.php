@@ -8,7 +8,7 @@ if (empty($CFG)) {
 define('Context', 'ponente');
 $return_url = get_url('speaker');
 
-// init session
+//init session
 require($CFG->comdir . 'session.php');
 
 $q= optional_param('q');
@@ -27,12 +27,16 @@ if (preg_match('#^speaker/?$#', $q)) {
 
 // menu edit details
 elseif (preg_match('#^speaker/details$#', $q)) {
+    define('Action', 'editdetails');
+
     do_header('Modificar información personal');
     include($CFG->comdir . 'user_edit.php');
 }
 
 // menu proposals list
 elseif (preg_match('#^speaker/proposals/?$#', $q)) {
+    define('Action', 'listproposals');
+
     do_header('Lista de propuestas enviadas');
 
 ?>  <h1>Lista de ponencias enviadas</h1> <?php
@@ -44,12 +48,15 @@ elseif (preg_match('#^speaker/proposals/?$#', $q)) {
 // menu add proposals
 elseif (preg_match('#^speaker/proposals/new$#', $q)) {
     define('Action', 'newproposal');
+
     do_header('Enviar propuesta de ponencia');
     include($CFG->comdir . 'prop_edit.php');
 }
 
 // view proposals details
 elseif (preg_match('#^speaker/proposals/\d+/?$#', $q)) {
+    define('Action', 'viewproposal');
+
     do_header('Detalles de propuesta');
     include($CFG->comdir . 'prop_view.php');
     do_submit_cancel('', 'Regresar', $return_url.'/proposals');
@@ -58,6 +65,7 @@ elseif (preg_match('#^speaker/proposals/\d+/?$#', $q)) {
 // edit proposals details
 elseif (preg_match('#^speaker/proposals/\d+/update$#', $q)) {
     define('Action', 'updateproposal');
+
     do_header('Modificar propuesta');
     $return_url = $return_url.'/proposals'; // back to proposals list
     include($CFG->comdir . 'prop_edit.php');
@@ -65,6 +73,8 @@ elseif (preg_match('#^speaker/proposals/\d+/update$#', $q)) {
 
 // delete proposal
 elseif (preg_match('#^speaker/proposals/(\d+)/delete$#', $q)) {
+    define('Action', 'deleteproposal');
+
     do_header('Eliminar propuesta de ponencia');
     $return_url = $return_url . '/proposals';
     include($CFG->comdir . 'prop_delete.php');
