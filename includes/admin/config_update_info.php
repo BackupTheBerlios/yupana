@@ -1,5 +1,5 @@
 <?php
-if (empty($cfg) || empty($submit) || Context != 'admin') {
+if (empty($cfg) || empty($submit) || $USER->id_tadmin != 1) {
     die; //exit
 }
 
