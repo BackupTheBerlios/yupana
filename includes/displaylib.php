@@ -303,15 +303,20 @@ function do_input_number_select ($name, $start, $end, $selected=0, $unset=true, 
 }
 
 function do_input_birth_select ($dayname, $monthname, $yearname, $dayselect=0, $monthselect=0, $yearselect=0) {
+    // alias
+    do_input_date_select($dayname, $monthname, $yearname, $dayselect, $monthselect, $yearselect);
+}
+
+function do_input_date_select($dayname, $monthname, $yearname, $dayselect=0, $monthselect=0, $yearselect=0, $startyear=1999, $endyear=1950, $startmonth=1, $endmonth=12, $startday=1, $endday=31) {
 
     //day select
-    do_input_number_select($dayname, 1, 31, $dayselect, true, 'Dia', 0, true);
+    do_input_number_select($dayname, $startday, $endday, $dayselect, true, 'Dia', 0, true);
 
     //month select
-    do_input_number_select($monthname, 1, 12, $monthselect, true, 'Mes', 0, true, true);
+    do_input_number_select($monthname, $startmonth, $endmonth, $monthselect, true, 'Mes', 0, true, true);
 
     //year select
-    do_input_number_select($yearname, 1999, 1950, $yearselect, true, 'Año', 0, true);
+    do_input_number_select($yearname, $startyear, $endyear, $yearselect, true, 'Año', 0, true);
 }
 
 function do_submit_cancel($submit_value, $cancel_value, $url='', $name='submit') {
