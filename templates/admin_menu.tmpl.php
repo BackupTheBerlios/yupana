@@ -93,6 +93,7 @@
 <?php if ($USER->id_tadmin == 1) { ?>
 
             <li><a href="<?=get_url('admin/config') ?>">Configuración</a></li>
+            <li><a href="<?=get_url('admin/catalog') ?>">Administrar Catálogos</a></li>
             <li><a href="<?=get_url('admin/new') ?>">Agregar administrador</a></li>
             <li><a href="<?=get_url('admin/list') ?>">Listar administradores</a></li>
             <li><a href="<?=get_url('admin/proposals/deleted') ?>">Listar ponencias eliminadas</a></li>
