@@ -26,7 +26,7 @@
             $testevent_place = get_record('evento_ocupa', 'id_fecha', $event->id_fecha, 'id_lugar', $event->id_lugar, 'hora', $hhora);
 
             if (!empty($testevent_place)) {
-                if (Action == 'newevent' || $event->id != $testevent_place->id_evento) {
+                if (Action == 'scheduleevent' || $event->id != $testevent_place->id_evento) {
                     $query = 'SELECT P.id, P.nombre FROM propuesta P
                         JOIN evento E ON E.id='.$testevent_place->id_evento.'
                         WHERE P.id=E.id_propuesta GROUP BY E.id';

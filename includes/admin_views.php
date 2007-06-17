@@ -243,9 +243,9 @@ elseif (preg_match('#^admin/dates/\d+/events$#', $q)) {
  *
  */
 
-// list proposals to attach events
-elseif (preg_match('#^admin/events/new/?$#', $q)) {
-    define('Action', 'newevent');
+// list proposals to schedule
+elseif (preg_match('#^admin/events/schedule/?$#', $q)) {
+    define('Action', 'scheduleevent');
     $return_url = get_url('admin');
     $not_found_message = 'No se encontro ninguna ponencia habilitada o ya se encuentran programadas.';
 
@@ -258,9 +258,9 @@ elseif (preg_match('#^admin/events/new/?$#', $q)) {
 }
 
 // add event
-elseif (preg_match('#^admin/events/new/\d+?$#', $q)) {
-    define('Action', 'newevent');
-    $return_url = get_url('admin/events/new');
+elseif (preg_match('#^admin/events/schedule/\d+?$#', $q)) {
+    define('Action', 'scheduleevent');
+    $return_url = get_url('admin/events/schedule');
 
     do_header('Listado de ponencias habilitadas');
     include($CFG->admdir . 'event_edit.php');

@@ -20,7 +20,7 @@ if (Context == 'admin') {
         $where ='P.id_status = 7';
     }
    
-    elseif (Action == 'newevent') {
+    elseif (Action == 'scheduleevent') {
         // list ready to program proposals
         $where = 'P.id_status = 5';
         $order = 'P.id_ponente';
@@ -79,7 +79,7 @@ if (!empty($proposals)) {
             $table_data[] = array('Ponencia', 'Modificado por', 'Fecha de Modif.', 'Tipo', 'Ponente');
         }
 
-        elseif (Action == 'newevent') {
+        elseif (Action == 'scheduleevent') {
             $table_data[] = array('Ponencia', 'Tipo', 'Orientación', '');
         }
 
@@ -141,7 +141,7 @@ END;
         elseif (Context == 'admin') {
             $urlp = get_url('admin/speakers/'.$proposal->id_ponente);
 
-            if (Action == 'listproposals' || Action == 'newevent' || Action == 'viewspeaker') {
+            if (Action == 'listproposals' || Action == 'scheduleevent' || Action == 'viewspeaker') {
 
                 $url = get_url('admin/proposals/'.$proposal->id);
 
@@ -182,7 +182,7 @@ END;
 
             }
 
-            if (Action != 'newevent' && Action != 'viewspeaker') {
+            if (Action != 'scheduleevent' && Action != 'viewspeaker') {
                 $actions = '<ul class="list-vmenu">';
 
                 foreach ($status_list as $stat) {
@@ -221,8 +221,8 @@ END;
 END;
             }
 
-            if (Action == 'newevent') {
-                $url = get_url('admin/events/new/'.$proposal->id);
+            if (Action == 'scheduleevent') {
+                $url = get_url('admin/events/schedule/'.$proposal->id);
                 $l_event = "<a class=\"verde\" href=\"{$url}\">Asignar lugar</a>";
             }
 
@@ -242,7 +242,7 @@ END;
                     $proposal->tipo,
                     $l_ponente
                     );
-            } elseif (Action == 'newevent') {
+            } elseif (Action == 'scheduleevent') {
                 $table_data[] = array(
                     $l_ponencia,
                     $proposal->tipo,

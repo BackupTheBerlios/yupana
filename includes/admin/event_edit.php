@@ -3,8 +3,8 @@ if (!defined('Context') || Context != 'admin') {
     header('Location: ' . get_url());
 }
 
-if (Action == 'newevent') {
-    preg_match('#^admin/events/new/(\d+)/?#', $q, $matches);
+if (Action == 'scheduleevent') {
+    preg_match('#^admin/events/schedule/(\d+)/?#', $q, $matches);
     $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
 
     if (!record_exists('evento', 'id_propuesta', $proposal_id)) {
@@ -39,7 +39,7 @@ else { // want to update the page
 
 require($CFG->admdir . 'event_optional_params.php');
 
-if (Action == 'newevent') {
+if (Action == 'scheduleevent') {
 ?>
 
 <h1>Registro de Evento</h1>
@@ -64,7 +64,7 @@ if (!empty($submit) && !empty($event) && !empty($proposal)) {
         // insert or update propuesta
         require($CFG->admdir . 'event_update_info.php');
 
-        if (Action == 'newevent') {
+        if (Action == 'scheduleevent') {
 ?>
 
 <p class="error center">Evento agregado, ahora ya esta disponible para inscripción en caso de ser taller/tutorial.</p>
@@ -89,7 +89,7 @@ if (!empty($submit) && !empty($event) && !empty($proposal)) {
     }
 } 
 
-if (Action == 'newevent' && empty($proposal)) {
+if (Action == 'scheduleevent' && empty($proposal)) {
 ?>
 
 <p class="center">La ponencia que elegiste para programar ya ha sido dado de alta.</p>
@@ -97,7 +97,7 @@ if (Action == 'newevent' && empty($proposal)) {
 <div class="block"></div>
 
 <?php
-    do_submit_cancel('', 'Regresar', get_url('admin/events/new'));
+    do_submit_cancel('', 'Regresar', get_url('admin/events/schedule'));
 }
 
 elseif (empty($submit) || !empty($errmsg)) {
@@ -116,9 +116,9 @@ elseif (empty($submit) || !empty($errmsg)) {
     include($CFG->admdir . 'event_input_table.php');
 
     //back to list of acepted proposals
-    //$return_url = get_url('admin/events/new');
+    //$return_url = get_url('admin/events/schedule');
 
-    if (Action == 'newevent') {
+    if (Action == 'scheduleevent') {
         do_submit_cancel('Registrar', 'Cancelar', $return_url);
     } else {
         do_submit_cancel('Guardar', 'Volver', $return_url);

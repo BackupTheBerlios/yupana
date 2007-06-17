@@ -59,7 +59,7 @@ if (Context == 'admin') {
         $table_data[] = array('Filtro:', $admins_input, $prop_type_input, $speakers_input);
     }
 
-    elseif (Action == 'newevent') {
+    elseif (Action == 'scheduleevent') {
         // acepted proposals
         $prop_type = get_records_sql('SELECT PT.* FROM prop_tipo PT JOIN propuesta P ON P.id_prop_tipo=PT.id WHERE P.id_status=5');
         $prop_type_input = do_get_output('do_input_select', array('filter_id_prop_tipo', $prop_type, $id_prop_tipo, true, '', 0, $onChange));

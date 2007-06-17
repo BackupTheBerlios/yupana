@@ -3,8 +3,8 @@
         die; //exit
     }
 
-    // new event
-    if (Action == 'newevent') {
+    // new event schedule
+    if (Action == 'scheduleevent') {
         $rs = insert_record('evento', $event);
 
         if (!$rs) {
