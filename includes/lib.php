@@ -541,7 +541,7 @@ if (!function_exists('__gettext')) {
 
     if (!function_exists('__')) {
         function __($s) {
-            return __($s)
+            return __($s);
         }
     }
 }
