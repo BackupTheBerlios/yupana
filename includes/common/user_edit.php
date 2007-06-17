@@ -9,11 +9,19 @@ if (!defined('Context') || empty($CFG)
 
 switch (Context) {
     case 'admin':
-        if (Action == 'register') {
+        if (Action == 'newadmin') {
             $title = 'Registro de Administrador';
-        } else {
-            $title = 'Modificar datos de Administrador';
         }
+       
+        elseif (Action == 'newspeaker') {
+            $title = 'Registro de Ponente';
+        }
+
+        else {
+            $title = 'Modificar datos de Administrador';
+            $user = get_admin($USER->id);
+        }
+
         break;
 
     case 'ponente':
@@ -21,6 +29,7 @@ switch (Context) {
             $title = 'Registro de Ponentes';
         } else {
             $title = 'Modificar datos de Ponente';
+            $user = get_speaker($USER->id);
         }
         break;
 
@@ -29,6 +38,7 @@ switch (Context) {
             $title = 'Registro de Asistentes';
         } else {
             $title = 'Modificar datos de Asistente';
+            $user = get_person($USER->id);
         }
         break;
 }
@@ -58,9 +68,18 @@ if (!empty($submit)) {
             $action_name = 'Continuar';
 
             if (Context == 'ponente') {
+
                 $return_url = get_url('speaker/login');
+
             } elseif (Context == 'asistente') {
+
                 $return_url = get_url('person/login');
+
+            } elseif (Context == 'admin') {
+
+                $action_name = 'Volver al Menu';
+                $return_url = get_url('admin');
+
             }
 
         } else {
@@ -98,7 +117,13 @@ if (empty($submit) || !empty($errmsg)) { // show form
 
     if (Action == 'register') {
         $action_name = 'Registrarme';
-    } else {
+    }
+
+    elseif (Action == 'newadmin' || Action == 'newspeaker' || Action == 'newperson') {
+        $action_name = 'Registrar';
+    }
+
+    else {
         $action_name = 'Actualizar';
     }
 
