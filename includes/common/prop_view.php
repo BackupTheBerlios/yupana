@@ -47,12 +47,11 @@ if (!empty($proposal)) {
 
 <h2 class="proposal-details left">Detalles de los autores</h2>
 
-<ul>
+<ul class="speaker-details">
 <li>
-    <p><?=$proposal->nombrep ?> <?=$proposal->apellidos ?></p>
-    <p><?=$proposal->org ?></p>
-    <p><?=nl2br($proposal->resume) ?></p>
-</li>
+<p class="speaker"><?=$proposal->nombrep ?> <?=$proposal->apellidos ?>
+    <br /><?=$proposal->org ?></p>
+<p class="resume"><?=nl2br($proposal->resume) ?></li>
 </ul>
 
 <?php
