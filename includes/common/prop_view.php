@@ -12,6 +12,20 @@ if (Context == 'ponente') {
     $proposal = get_proposal($proposal_id, $USER->id);
 }
 
+elseif (Context == 'admin') {
+    if (Action == 'viewproposal') {
+        preg_match('#^admin/proposals/(\d+)/?#', $q, $matches);
+        $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
+    }
+
+    elseif (Action == 'viewdeletedproposal') {
+        preg_match('#^admin/proposals/deleted/(\d+)/?#', $q, $matches);
+        $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
+    }
+
+    $proposal = get_proposal($proposal_id);
+}
+
 elseif (Context == 'main') {
     preg_match('#^general/proposals/(\d+)/?$#', $q, $matches);
     $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
@@ -28,7 +42,7 @@ if (!empty($proposal)) {
 <?php
     include($CFG->comdir . 'prop_display_info.php');
 
-    if (Context != 'ponente') {
+    if (Context != 'ponente' && Context != 'admin') {
 ?>
 
 <h2 class="proposal-details left">Detalles de los autores</h2>
