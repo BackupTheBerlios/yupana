@@ -530,4 +530,22 @@ function verificaForm($id_tipo_usuario, $tabla){
 		  return $errmsg;
 		  // Si hubo error(es) muestra los errores que se acumularon.
 }	
+
+//initial gettext code
+//compatibility code
+//gettext workaround
+if (!function_exists('__gettext')) {
+    function __gettext($s) {
+        return __($s);
+    }
+
+    if (!function_exists('__')) {
+        function __($s) {
+            return __($s)
+        }
+    }
+}
+
+
+
 ?>
