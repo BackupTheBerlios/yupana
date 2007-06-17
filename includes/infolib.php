@@ -73,6 +73,24 @@ function get_info($where, $type='person', $limit='', $order='') {
             WHERE ' . $where;
     }
 
+    elseif ($type == 'event') {
+        $query = '
+            SELECT P.*, SP.nombrep, SP.apellidos,
+            PT.descr AS tipo, O.descr AS orientacion,
+            L.cupo, L.nombre_lug AS lugar, L.ubicacion,
+            FE.fecha, FE.descr AS date_desc,
+            EO.hora, EO.id_evento
+            FROM evento E
+            JOIN propuesta P ON P.id = E.id_propuesta
+            JOIN ponente SP ON SP.id = P.id_ponente
+            JOIN prop_tipo PT ON PT.id = P.id_prop_tipo
+            JOIN orientacion O ON O.id = P.id_orientacion
+            JOIN evento_ocupa EO ON EO.id_evento = E.id
+            JOIN lugar L ON L.id = EO.id_lugar
+            JOIN fecha_evento FE ON FE.id = EO.id_fecha
+            WHERE ' . $where;
+    }
+
     // get only one record?
     if ($limit == 1) {
         $records = get_record_sql($query);
@@ -85,7 +103,7 @@ function get_info($where, $type='person', $limit='', $order='') {
                 JOIN evento_ocupa EO ON EO.id_evento = E.id
                 JOIN lugar R ON R.id = EO.id_lugar
                 JOIN fecha_evento FE ON FE.id = EO.id_fecha
-                WHERE E.id_propuesta=' . $records->id;
+                WHERE E.id_propuesta=' . $records->id . ' GROUP BY EO.id_evento';
 
             $event = get_record_sql($query);
             $endhour = $event->hora + $records->duracion -1;
@@ -102,6 +120,31 @@ function get_info($where, $type='person', $limit='', $order='') {
     }
 
     return $records;
+}
+
+function get_events($date_id=0, $room_id=0, $date='') {
+    // where, safe value
+    $where = '1=1';
+
+    // default order
+    $order = 'FE.fecha,EO.hora';
+
+    // date_id precedence
+    if (!empty($date_id)) {
+        $where .= ' AND FE.id='. $date_id;
+    }
+   
+    elseif (!empty($date)){
+        $where .= ' AND FE.fecha="'. $date .'"';
+    }
+
+    if (!empty($room_id)) {
+        $where .= ' AND L.id='. $room_id;
+    }
+
+    $where .= ' GROUP BY EO.id_evento';
+
+    return get_info($where, 'event', '', $order);
 }
 
 function get_admins($where='1=1', $limit='', $order='ADM.apellidos, ADM.nombrep, ADM.id') {
