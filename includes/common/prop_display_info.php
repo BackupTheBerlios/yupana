@@ -7,8 +7,16 @@
     // initalize var
     $values = array();
 
-    if (Action == 'updateproposal' || Action == 'deleteproposal') {
+    if (Action == 'newproposal' || Action == 'updateproposal' || Action == 'deleteproposal' || Action == 'newevent') {
+        if (Context == 'admin' && Action != 'newevent') {
+            $values['Nombre de Usuario'] = $login;
+        }
+
         $values['Nombre de ponencia'] = $proposal->nombre;
+
+        if (Action == 'newevent') {
+            $values['Nombre de ponente'] = $proposal->nombrep . ' ' . $proposal->apellidos;
+        }
     }
 
     // flag prop_noshow_resume
@@ -23,7 +31,7 @@
         'Nivel' => $proposal->nivel,
         ));
 
-    if (!defined('Action') || (Action != 'newproposal' && Action != 'updateproposal')) {
+    if (Action != 'newproposal' && Action != 'updateproposal' && Action != 'newevent') {
         $values['Status'] = '<b>' . $proposal->status . '</b>';
     }
 
@@ -48,19 +56,31 @@
         do_table_values($values, 'narrow');
     }
 
+    if (Context == 'admin' && Action != 'newproposal' && Action != 'newevent') {
+        $adminlogin = (empty($proposal->adminlogin)) ? 'Usuario' : $proposal->adminlogin;
+
+        $values = array(
+            'Fecha de registro' => $proposal->reg_time,
+            'Fecha de actualización' => $proposal->act_time,
+            'Actualizado por' => $adminlogin
+            );
+
+        do_table_values($values, 'narrow');
+    }
+
     if (empty($prop_noshow_resume)) {
         // reset values
         $values = array();
 
-        if (Context == 'ponente') {
+        if (Context == 'ponente' || Context == 'admin') {
             $values['Requisitos técnicos del taller'] = $proposal->reqtecnicos;
         }
 
-        if (Context == 'ponente' || !empty($proposal->reqasistente)) {
+        if ((Context == 'ponente' || !empty($proposal->reqasistente)) || Context == 'admin') {
             $values['Prerequisitos del Asistente'] = $proposal->reqasistente;
         }
 
-        if (defined('Action') && (Action == 'newproposal' || Action == 'updateproposal')) {
+        if (Action == 'newproposal' || Action == 'updateproposal') {
             //TODO: show file name
         }
 
