@@ -28,6 +28,11 @@ if (Action == 'newproposal') {
 
 <h1>Nueva propuesta</h1>
 
+<?php
+// check if register is open
+require($CFG->comdir . 'register_flag_check.php');
+?>
+
 <?php } else { ?>
 
 <h1>Modificar ponencia</h1>
@@ -38,8 +43,6 @@ if (Action == 'newproposal') {
 
 // process submit
 if (!empty($submit)) {
-    // check if register is open
-    require($CFG->comdir . 'register_flag_check.php');
     // messages holder
     $errmsg = array();
 
