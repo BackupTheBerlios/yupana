@@ -66,9 +66,10 @@
         $user->id_tasistente = $id_tasistente;
     }
 
-    if (Action == 'newproposal') {
+    if (Action == 'register' || Action == 'newspeaker' || Action == 'newperson') {
         // insert new record
         $rs = insert_record($dbtable, $user);
+        $user->id = (int) $rs;
     } else {
         // update record
         $rs = update_record($dbtable, $user);
@@ -80,7 +81,7 @@
         die;
     }
 
-    if (Action == 'newproposal') {
+    if (Action == 'register') {
 ?>
 
 <p>Gracias por darte de alta, ahora ya podrás acceder a tu cuenta.</p>
@@ -98,6 +99,6 @@ contacta a <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->confe
 
 <?php
     // refresh user data
-    $user = get_record($dbtable, 'id', $USER->id);
+    $user = get_record($dbtable, 'id', $user->id);
     include($CFG->comdir . 'user_display_info.php');
 ?>
