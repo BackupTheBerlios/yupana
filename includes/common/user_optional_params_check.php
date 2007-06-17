@@ -43,7 +43,7 @@
             || (Context != 'admin' && empty($sexo))
             || (Context != 'admin' && empty($id_estudios))
             || (Context != 'admin' && empty($id_estado))
-            || (Context == 'admin' && $submit == 'Registrar' && empty($id_tadmin))
+            || (Context == 'admin' && Action == 'newadmin' && empty($id_tadmin))
             || (Context == 'asistente' && empty($id_tasistente))) { 
 
             $errmsg[] = "Verifica que los datos obligatorios los hayas introducido correctamente.";
@@ -89,12 +89,12 @@
 
         // Si no hay errores verifica que el login no este ya dado de alta en la tabla
         if (empty($errmsg)) {
-            $user = get_record($dbtable, 'login', $login);
+            $testuser = get_record($dbtable, 'login', $login);
 
-            if (!(empty($user))
+            if (!(empty($testuser))
                 && ($submit == 'Registrarme'
                     || ($submit == 'Actualizar' 
-                        && $user->id != $USER->id))) {
+                        && $testuser->id != $USER->id))) {
                 $errmsg[] = 'El usuario que elegiste ya ha sido tomado; por favor elige otro';
             }
         }

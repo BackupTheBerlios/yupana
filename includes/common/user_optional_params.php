@@ -16,7 +16,7 @@
         $mail = optional_param('S_mail');
     }
 
-    if (Context == 'ponente' || Context == 'asistente') {
+    if (Context == 'ponente' || Context == 'asistente' || Action == 'newspeaker' || Action == 'newperson') {
         // shared user values 
         $sexo = optional_param('C_sexo');
         $org = optional_param('S_org');
@@ -28,11 +28,11 @@
         $b_year = optional_param('I_b_year', 0, PARAM_INT);
     }
 
-    if (Context == 'admin') {
+    if (Context == 'admin' && Action == 'newadmin') {
         $id_tadmin = optional_param('I_id_tadmin', 0, PARAM_INT);
     }
 
-    if (Context == 'ponente') {
+    if (Context == 'ponente' || Action == 'newspeaker') {
         // ponente values
         $titulo = optional_param('S_titulo');
         $domicilio = optional_param('S_domicilio');
@@ -40,17 +40,17 @@
         $resume = optional_param('S_resume');
     }
     
-    if (Context == 'asistente') {
+    if (Context == 'asistente' || Action == 'newperson') {
         // asistente values
         $id_tasistente = optional_param('I_id_tasistente', 0, PARAM_INT);
     }
 
-    // set $USER object if empty
-    if (empty($USER) || !is_object($USER)) {
-        $USER = new StdClass;
+    // set $user object if empty
+    if (empty($user) || !is_object($user)) {
+        $user = new StdClass;
     }
 
-    // load input data into $USER
+    // load input data into $user
     $attrs = array();
 
     if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
@@ -66,7 +66,7 @@
         $attrs = array_merge($attrs, $add_attrs);
     }
 
-    if (Context == 'ponente' || Context == 'asistente') {
+    if (Context == 'ponente' || Context == 'asistente' || Action == 'newspeaker' || Action == 'newperson') {
         $add_attrs = array(
             'sexo',
             'org',
@@ -78,11 +78,11 @@
         $attrs = array_merge($attrs, $add_attrs);
     }
 
-    if (Context == 'admin') {
+    if (Context == 'admin' && Action == 'newadmin') {
         $attrs = array_merge($attrs, array('id_tadmin'));
     }
 
-    if (Context == 'ponente') {
+    if (Context == 'ponente' || Action == 'newspeaker') {
         $add_attrs = array(
             'titulo',
             'domicilio',
@@ -92,36 +92,36 @@
         $attrs = array_merge($attrs, $add_attrs);
     }
 
-    if (Context == 'asistente') {
+    if (Context == 'asistente' || Action == 'newperson') {
         $attrs = array_merge($attrs, array('id_tasistente'));
     }
 
-    // fill $USER attributes
+    // fill $user attributes
     foreach ($attrs as $attr) {
-        if (!empty($submit) || Action == 'register') {
+        if (!empty($submit) || Action == 'register' || Action == 'newspeaker' || Action == 'newperson') {
             // update values from input
-            $USER->$attr = $$attr;
+            $user->$attr = $$attr;
         }
     }
 
     // set birthday 
-    if (Context == 'asistente' || Context == 'ponente') {
+    if (Context == 'asistente' || Context == 'ponente' || Action == 'newspeaker' || Action == 'newperson') {
         // first view or empty fecha_nac
-        if (!empty($submit) || empty($USER->fecha_nac)) {
-            $USER->b_year = $b_year;
-            $USER->b_month = $b_month;
-            $USER->b_day = $b_day;
+        if (!empty($submit) || empty($user->fecha_nac)) {
+            $user->b_year = $b_year;
+            $user->b_month = $b_month;
+            $user->b_day = $b_day;
 
-            $USER->fecha_nac = sprintf('%04d-%02d-%02d',
+            $user->fecha_nac = sprintf('%04d-%02d-%02d',
                                     (int)$b_year,
                                     (int)$b_month,
                                     (int)$b_day
                                 );
         } else {
             // set dates from db value
-            $USER->b_year = substr($USER->fecha_nac, 0, 4);
-            $USER->b_month = substr($USER->fecha_nac, 5, 2);
-            $USER->b_day = substr($USER->fecha_nac, 8, 2);
+            $user->b_year = substr($user->fecha_nac, 0, 4);
+            $user->b_month = substr($user->fecha_nac, 5, 2);
+            $user->b_day = substr($user->fecha_nac, 8, 2);
         }
     }
 ?>
