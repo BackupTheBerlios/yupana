@@ -6,76 +6,101 @@
 
     // extra values
     if (Context == 'ponente'
-        || Context == 'asistente') {
-        $estudios = get_field('estudios', 'descr', 'id', $USER->id_estudios);
-        $estado = get_field('estado', 'descr', 'id', $USER->id_estado);
+        || Context == 'asistente'
+        || Action == 'viewperson'
+        || Action == 'viewspeaker'
+        || Action == 'newspeaker'
+        || Action == 'newperson'
+        || Action == 'editspeaker'
+        || Action == 'editperson'
+        || Action == 'deletespeaker'
+        || Action == 'deleteperson') {
+
+        $estudios = get_field('estudios', 'descr', 'id', $user->id_estudios);
+        $estado = get_field('estado', 'descr', 'id', $user->id_estado);
         $sexo = '';
-        if ($USER->sexo == 'F') {
+        if ($user->sexo == 'F') {
             $sexo = 'Femenino';
         }
-        if ($USER->sexo == 'M') {
+        if ($user->sexo == 'M') {
             $sexo = 'Masculino';
         }
     }
 
-    if (Context == 'asistente') {
-        $tasistente = get_field('tasistente', 'descr', 'id', $USER->id_tasistente);
+    if (Context == 'asistente'
+        || Action == 'viewperson'
+        || Action == 'newperson'
+        || Action == 'deleteperson'
+        || Action == 'editperson') {
+
+        $tasistente = get_field('tasistente', 'descr', 'id', $user->id_tasistente);
     }
 
     // user values
-    if (Context == 'admin') {
+    if (Context == 'admin'
+        && (Action == 'newadmin' || Action == 'deleteadmin' || Action == 'editadmin' || Action == 'viewadmin')) {
+
         $values = array(
-            'Usuario Administrador' => $USER->login,
-            'Nombre(s)' => $USER->nombrep,
-            'Apellidos' => $USER->apellidos,
-            'Correo electrónico' => $USER->mail
+            'Usuario Administrador' => $user->login,
+            'Nombre(s)' => $user->nombrep,
+            'Apellidos' => $user->apellidos,
+            'Correo electrónico' => $user->mail
             );
     }
 
-    if (Context == 'ponente') {
+    if (Context == 'ponente'
+        || Action == 'viewspeaker'
+        || Action == 'newspeaker'
+        || Action == 'deletespeaker'
+        || Action == 'editspeaker') {
+
         $values = array(
-            'Nombre de Usuario' => $USER->login,
-            'Nombre(s)' => $USER->nombrep,
-            'Apellidos' => $USER->apellidos,
-            'Correo electrónico' => $USER->mail,
+            'Nombre de Usuario' => $user->login,
+            'Nombre(s)' => $user->nombrep,
+            'Apellidos' => $user->apellidos,
+            'Correo electrónico' => $user->mail,
             'Sexo' => $sexo,
-            'Organización' => $USER->org,
+            'Organización' => $user->org,
             'Estudios' => $estudios,
-            'Título' => $USER->titulo,
-            'Domicilio' => $USER->domicilio,
-            'Telefono' => chunk_split($USER->telefono, 2),
-            'Ciudad' => $USER->ciudad,
+            'Título' => $user->titulo,
+            'Domicilio' => $user->domicilio,
+            'Telefono' => chunk_split($user->telefono, 2),
+            'Ciudad' => $user->ciudad,
             'Departamento' => $estado,
-            'Fecha de Nacimiento' => sprintf('%s', $USER->fecha_nac),
-            'Resumen Curricular' => nl2br(htmlspecialchars($USER->resume))
+            'Fecha de Nacimiento' => sprintf('%s', $user->fecha_nac),
+            'Resumen Curricular' => nl2br(htmlspecialchars($user->resume))
         );
     }
 
-    if (Context == 'asistente') { // should be asistente
+    if (Context == 'asistente'
+        || Action == 'viewperson'
+        || Action == 'newperson'
+        || Action == 'editperson'
+        || Action == 'deleteperson') { // should be asistente
         if (defined('SubContext') && SubContext == 'kardex') {
             $values = array(
-                'Nombre de Usuario' => $USER->login,
-                'Correo Electrónico' => $USER->mail,
+                'Nombre de Usuario' => $user->login,
+                'Correo Electrónico' => $user->mail,
                 'Sexo' => $sexo,
-                'Organización' => $USER->org,
+                'Organización' => $user->org,
                 'Estudios' => $estudios,
                 'Tipo Asistente' => $tasistente,
-                'Ciudad' => $USER->ciudad,
+                'Ciudad' => $user->ciudad,
                 'Estado' => $estado
                 );
         } else {
             $values = array(
-                'Nombre de Usuario' => $USER->login,
-                'Nombre(s)' => $USER->nombrep,
-                'Apellidos' => $USER->apellidos,
-                'Correo electrónico' => $USER->mail,
+                'Nombre de Usuario' => $user->login,
+                'Nombre(s)' => $user->nombrep,
+                'Apellidos' => $user->apellidos,
+                'Correo electrónico' => $user->mail,
                 'Sexo' => $sexo,
-                'Organización' => $USER->org,
+                'Organización' => $user->org,
                 'Estudios' => $estudios,
                 'Tipo de Asistente' => $tasistente,
-                'Ciudad' => $USER->ciudad,
+                'Ciudad' => $user->ciudad,
                 'Departamento' => $estado,
-                'Fecha de Nacimiento' => sprintf('%s', $USER->fecha_nac)
+                'Fecha de Nacimiento' => sprintf('%s', $user->fecha_nac)
                 );
         }
     }
