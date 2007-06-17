@@ -6,3 +6,5 @@
 Posiblemente hayas ingresado incorrectamente la dirección o el enlace ya no existe.
 Si crees que es un error por favor escribe a <a href="mailto:<?=$CFG->adminmail ?>">
 Administración <?=$CFG->conference_name ?></a></p>
+
+<div class="block"></div>
