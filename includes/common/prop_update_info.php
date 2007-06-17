@@ -4,53 +4,45 @@
         die; //exit
     }
 
-//    $is_new = (empty($idponente)) ? true : false;
-
-    // build object to update
-//    $prop = new StdClass;
-
-    // common values
-    $prop->nombre = $nombreponencia;
-    $prop->id_ponente = $idponente;
-    $prop->id_nivel = $id_nivel;
-    $prop->id_prop_tipo = $id_tipo;
-    $prop->id_orientacion = $id_orientacion;
-    $prop->duracion = $duracion;
-    $prop->resumen = $resumen;
-    $prop->reqtecnicos = $reqtecnicos;
-    $prop->reqasistente = $reqasistente;
-
     // new prop?
-    if ($submit == 'Registrar') {
-        $prop->reg_time = date('%Y%m%d%H%M%S');
+    if (Action == 'newproposal') {
+        $proposal->reg_time = strftime('%Y%m%d%H%M%S');
     } else {
-//        $prop->id = get_field('propuesta', 'nombre', $prop->nombre)  
-        $prop->id = $idponencia;
+//        $proposal->id = get_field('propuesta', 'nombre', $proposal->nombre)  
+//        $proposal->id = $idponencia;
     }
 
     // new prop
-    if (empty($prop->id)) {
-        $rs = insert_record('propuesta', $prop);
+    if (empty($proposal->id)) {
+        $rs = insert_record('propuesta', $proposal);
     } else {
         //revert prop_tipo and duracion if status in rejected, > acepted
-        $prop_status = get_field('propuesta', 'id_status', 'id', $prop->id);
+        $prop_status = get_field('propuesta', 'id_status', 'id', $proposal->id);
 
         if ($prop_status == 3 || $prop_status > 4) {
-            $prop->id_prop_tipo = get_field('propuesta', 'id_prop_tipo', 'id', $prop->id);
-            $prop->duracion = get_field('propuesta', 'duracion', 'id', $prop->id);
+            $proposal->id_prop_tipo = get_field('propuesta', 'id_prop_tipo', 'id', $proposal->id);
+            $proposal->duracion = get_field('propuesta', 'duracion', 'id', $proposal->id);
         }
 
         //update record
-        $rs = update_record('propuesta', $prop);
+        $rs = update_record('propuesta', $proposal);
     }
 
     if (!$rs) {
         // Fatal error
         show_error('Error Fatal: No se puedo insertar/actualizar los datos.');
         die;
+    } else {
+        // refresh proposal
+        if (Action == 'newproposal') {
+            $proposal = get_proposal((int) $rs);
+        } else {
+            // updated
+            $proposal = get_proposal($proposal->id);
+        }
     }
 
-    if (empty($prop->id)) {
+    if (Action == 'newproposal') {
 ?>
 
 <p>Tu propuesta de ponencia ha sido registrada.</p>
@@ -68,10 +60,10 @@ contacta a <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->confe
 
 <?php
     // refresh proposal from db
-    if (!empty($prop->id)) {
-        $proposal = get_record('propuesta', 'id', $prop->id);
+    if (!empty($proposal->id)) {
+        $proposal = get_record('propuesta', 'id', $proposal->id);
     } else {
-        $proposal = get_record('propuesta', 'nombre', $prop->nombre, 'id_ponente', $prop->id_ponente);
+        $proposal = get_record('propuesta', 'nombre', $proposal->nombre, 'id_ponente', $proposal->id_ponente);
     }
 
     $proposal->ponencia = $proposal->nombre;
