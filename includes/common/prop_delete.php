@@ -4,21 +4,29 @@ if (empty($q) || empty($CFG)) {
     die;
 }
 
-preg_match('#^speaker/proposals/(\d+)/delete$#', $q, $matches);
-$proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
+if (Context == 'ponente') {
+    preg_match('#^speaker/proposals/(\d+)/delete$#', $q, $matches);
+    $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
+
+    //Check proposal owner
+    $proposal = get_proposal($proposal_id, $USER->id);
+}
+
+elseif (Context == 'admin') {
+    preg_match('#^admin/proposals/(\d+)/delete#', $q, $matches);
+    $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
+
+    $proposal = get_proposal($proposal_id);
+}
 
 $submit = optional_param('submit');
-
-//Check proposal owner
-$proposal = get_proposal($proposal_id, $USER->id);
-
 ?>
 
 <h1>Eliminar propuesta</h1>
 
 <?php
 //check owner and status, dont delete acepted, scheduled or deleted¿?
-if (!empty($proposal) && $proposal->id_status < 5)  {
+if (!empty($proposal) && ($proposal->id_status < 5))  {
 
     if (empty($submit)) {
         // confirm delete
@@ -73,6 +81,3 @@ if (!empty($proposal) && $proposal->id_status < 5)  {
     do_submit_cancel('', 'Regresar', $return_url);
 }
 ?>
-
-
-
