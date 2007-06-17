@@ -33,7 +33,7 @@ $table_data[] = array(
     );
 
 // hour
-$input_data = do_get_output('do_input_number_select', array('I_hora', $CFG->def_hora_ini, $CFG->def_hora_fin, $event->hora));
+$input_data = do_get_output('do_input_number_select', array('I_hora', $CFG->def_hora_ini, $CFG->def_hora_fin-1, $event->hora));
 
 $table_data[] = array(
     'Hora de inicio: *',
