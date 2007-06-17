@@ -16,6 +16,10 @@
         $hora_ini = $event->hora;
         $hora_fin = $event->hora + $proposal->duracion;
 
+        if ($hora_fin > $CFG->def_hora_fin) {
+            $errmsg[] = 'La duración de esta ponencia supera la hora final del evento.';
+        }
+
         //search for ocurrence
         for ($hhora=$hora_ini; $hhora < $hora_fin; $hhora++) {
 
