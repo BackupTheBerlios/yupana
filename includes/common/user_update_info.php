@@ -6,7 +6,18 @@
 
     switch (Context) {
     case 'admin':
-        $dbtable = 'administrador';
+        if (Action == 'newspeaker') {
+            $dbtable = 'ponente';
+        }
+
+        elseif (Action == 'newperson') {
+            $dbtable = 'asistente';
+        }
+
+        else {
+            $dbtable = 'administrador';
+        }
+
         break;
     case 'ponente':
         $dbtable = 'ponente';
@@ -16,31 +27,16 @@
         break;
     }
 
-    $is_new = (empty($USER->id)) ? true : false;
-
-    // build user data
-    $user = new StdClass;
-
-    // existing user?
-    if (!$is_new) {
-        $user->id = $USER->id;
-    } 
-
-    // common values
-    $user->login = $login;
-    $user->nombrep = $nombrep;
-    $user->apellidos = $apellidos;
-    $user->mail = $mail;
-
     // new user or updating password?
     if (!empty($passwd)) {
         $user->passwd = md5($passwd);
+    } else {
+        //destroy var, prevent to update
+        unset($user->passwd);
     }
 
-    if (Context == 'admin') {
-        if ($is_new) {
-            $user->id_tadmin = $tadmin;
-        }
+    if (Context == 'admin' && Action == 'newadmin') {
+        $user->id_tadmin = $tadmin;
     }
 
     // shared values of asistentes and ponentes
@@ -48,11 +44,11 @@
         $user->sexo = $sexo;
         $user->ciudad = $ciudad;
         $user->org = $org;
-        $user->fecha_nac = sprintf('%04d-%02d-%02d', $USER->b_year, $USER->b_month, $USER->b_day);
+        $user->fecha_nac = sprintf('%04d-%02d-%02d', $user->b_year, $user->b_month, $user->b_day);
         $user->id_estudios = $id_estudios;
         $user->id_estado = $id_estado;
 
-        if ($is_new) {
+        if (Action == 'newproposal') {
             $user->reg_time = strftime('%Y%m%d%H%M%S');
         }
     }
@@ -70,7 +66,7 @@
         $user->id_tasistente = $id_tasistente;
     }
 
-    if ($is_new) {
+    if (Action == 'newproposal') {
         // insert new record
         $rs = insert_record($dbtable, $user);
     } else {
@@ -84,7 +80,7 @@
         die;
     }
 
-    if ($is_new) {
+    if (Action == 'newproposal') {
 ?>
 
 <p>Gracias por darte de alta, ahora ya podrás acceder a tu cuenta.</p>
@@ -101,5 +97,7 @@
 contacta a <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->conference_name ?></a></p>
 
 <?php
+    // refresh user data
+    $user = get_record($dbtable, 'id', $USER->id);
     include($CFG->comdir . 'user_display_info.php');
 ?>
