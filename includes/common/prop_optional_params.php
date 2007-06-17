@@ -55,7 +55,7 @@
     }
 
     if (Context == 'admin') {
-        $login= optional_param('login');
+        $login = optional_param('S_login');
 //        $attrs[] = 'login';
     }
 ?>

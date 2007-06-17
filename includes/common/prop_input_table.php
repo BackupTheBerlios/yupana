@@ -15,7 +15,7 @@ $table_data = array();
 // only for admin
 if (Context == 'admin') {
     // prop owner login
-    $input_data = do_get_output('do_input', array('S_login', 'text', $proposal->login, 'size="15"'));
+    $input_data = do_get_output('do_input', array('S_login', 'text', $login, 'size="15"'));
 
     $table_data[] = array(
         'Usuario ponente: *',
