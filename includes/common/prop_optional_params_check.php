@@ -6,41 +6,45 @@
 
     // check submit value
     if (!empty($submit)
-        && (Context == 'admin ' || Context == 'ponente')) {
+        && (Context == 'admin' || Context == 'ponente')) {
         // Verificar si todos los campos obligatorios no estan vacios
         if ((Context == 'admin' && empty($login))
-            || empty($nombreponencia)
-            || empty($id_orientacion)
-            || (defined('Action') && Action == 'newproposal' && empty($id_nivel))
-            || empty($id_tipo)
-            || empty($duracion)
-            || empty($resumen)) { 
+            || empty($proposal->nombre)
+            || empty($proposal->id_orientacion)
+            || empty($proposal->id_nivel)
+            || empty($proposal->id_prop_tipo)
+            || empty($proposal->duracion)
+            || empty($proposal->resumen)) { 
 
             $errmsg[] = "Verifica que los datos obligatorios los hayas introducido correctamente.";
         }
 
         if (Context == 'admin') {
-            $idponente = get_field('ponente', 'login', $login);
+            $speaker_id = get_field('ponente', 'id', 'login', $login);
 
-            if (empty($idponente)) {
+            if (empty($speaker_id)) {
                 $errmsg[] = 'El ponente que elegiste no existe. Por favor elige otro.';
             } 
         } else {
-            $idponente = $USER->id;
+            $speaker_id = $USER->id;
         }
 
-        if ($duracion > 2 && $id_tipo < 50) {
+        // set proposal owner
+        $proposal->id_ponente = $speaker_id;
+
+        if ($proposal->duracion > 2 && $proposal->id_prop_tipo < 50) {
             $errmsg[] = 'Sólo talleres o tutoriales pueden tener durar más de 2 horas';
         }
 
         if (empty($errmsg)) {
 //            $record = get_record('propuesta', 'nombre', $nombreponencia, 'id_ponente', $idponente);
-            $record = get_record('propuesta', 'nombre', $nombreponencia);
+//            $record = get_record('propuesta', 'nombre', $nombreponencia);
+            $record = get_proposals("P.nombre='{$proposal->nombre}'", 1);
 
             if (!empty($record)) {
 
-                if ((defined('Action') && Action == 'newproposal')
-                    || ($record->id_ponente != $USER->id && Context != 'admin')) {
+                if (Action == 'newproposal'
+                    || (Action == 'updateproposal' && ($record->id != $proposal->id || $record->id_ponente != $proposal->id_ponente))) {
 
                     $errmsg[] = 'El nombre de la ponencia ya ha sido dado de alta.';
 
@@ -48,7 +52,7 @@
                     // record not empty and submit == update and user is admin or 
                     // user is owner
                     // set id for proposals 
-                    $idponencia = $record->id; 
+                    //$idponencia = $record->id; 
                 }
             }
         }
