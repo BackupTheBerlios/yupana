@@ -35,7 +35,7 @@
         $values['Status'] = '<b>' . $proposal->status . '</b>';
     }
 
-    if (Context == 'ponente' && !empty($proposal->id_administrador)) {
+    if (Context == 'ponente' && !empty($proposal->adminmail)) {
         $contactmail = sprintf('<em>%s</em>', $proposal->adminmail);
 
         $values = array_merge($values, array(
