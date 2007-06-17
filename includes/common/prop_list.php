@@ -107,7 +107,7 @@ if (!empty($proposals)) {
 END;
 
             $l_delete = '';
-            $l_modifiy = '';
+            $l_modify = '';
             // only can cancel not deleted,acepted or scheduled proposals
             if ($proposal->id_status < 5) {
                 $url = get_url('speaker/proposals/'.$proposal->id.'/delete');
