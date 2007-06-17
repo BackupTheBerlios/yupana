@@ -60,7 +60,7 @@ if (!empty($admin_id) && $admin_id != $USER->id && $admin_id != 1)  {
 
 <div class="block"></div>
 
-<p class="center">El administrador fue eliminado exitosamente.</p>
+<p class="center">El administrador fue eliminado exitosamente. Las propuestas que ha autorizado han sido asiganadas al administrador principal.</p>
 
 <?php 
         }
