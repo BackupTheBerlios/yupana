@@ -7,14 +7,14 @@
     // initalize var
     $values = array();
 
-    if (Action == 'newproposal' || Action == 'updateproposal' || Action == 'deleteproposal' || Action == 'newevent') {
-        if (Context == 'admin' && Action != 'newevent') {
+    if (Action == 'newproposal' || Action == 'updateproposal' || Action == 'deleteproposal' || Action == 'newevent' || Action == 'editevent') {
+        if (Context == 'admin' && Action != 'newevent' && Action != 'editevent') {
             $values['Nombre de Usuario'] = $login;
         }
 
         $values['Nombre de ponencia'] = $proposal->nombre;
 
-        if (Action == 'newevent') {
+        if (Action == 'newevent' || Action == 'editevent') {
             $values['Nombre de ponente'] = $proposal->nombrep . ' ' . $proposal->apellidos;
         }
     }
@@ -31,7 +31,7 @@
         'Nivel' => $proposal->nivel,
         ));
 
-    if (Action != 'newproposal' && Action != 'updateproposal' && Action != 'newevent') {
+    if (Action != 'newproposal' && Action != 'updateproposal' && Action != 'newevent' && Action != 'editevent') {
         $values['Status'] = '<b>' . $proposal->status . '</b>';
     }
 
@@ -56,7 +56,7 @@
         do_table_values($values, 'narrow');
     }
 
-    if (Context == 'admin' && Action != 'newproposal' && Action != 'newevent') {
+    if (Context == 'admin' && Action != 'newproposal' && Action != 'newevent' && Action != 'editevent') {
         $adminlogin = (empty($proposal->adminlogin)) ? 'Usuario' : $proposal->adminlogin;
 
         $values = array(
@@ -87,4 +87,5 @@
         // show proposal aditional info
         do_table_values($values, 'narrow');
     }
+
 ?>
