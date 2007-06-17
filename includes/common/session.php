@@ -12,6 +12,7 @@ switch (Context) {
         beginSession('R');
         $sess_id = $_SESSION['YACOMASVARS']['rootid'];
         $USER = get_record('administrador', 'id', $sess_id);
+        $CFG->home_url = get_url('admin');
         $CFG->logout_url = get_url('admin/logout');
         break;
 
@@ -19,6 +20,7 @@ switch (Context) {
         beginSession('P');
         $sess_id = $_SESSION['YACOMASVARS']['ponid'];
         $USER = get_record('ponente', 'id', $sess_id);
+        $CFG->home_url = get_url('speaker');
         $CFG->logout_url = get_url('speaker/logout');
         break;
 
@@ -26,6 +28,7 @@ switch (Context) {
         beginSession('A');
         $sess_id = $_SESSION['YACOMASVARS']['asiid'];
         $USER = get_record('asistente', 'id', $sess_id);
+        $CFG->home_url = get_url('person');
         $CFG->logout_url = get_url('person/logout');
         break;
 
