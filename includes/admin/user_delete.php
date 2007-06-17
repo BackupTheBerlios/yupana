@@ -18,7 +18,12 @@ elseif (Action == 'deletespeaker') {
     $user_id = (!empty($matches)) ? (int) $matches[1] : 0;
     $desc = 'Ponente';
     $dbtable = 'ponente';
-    $user = get_speaker($user_id);
+    // protect event admin speaker
+    if ($user_id == 1) {
+        $optional_message = 'No puedes eliminar este usuario, esta reservado como administrador de eventos.';
+    } else {
+        $user = get_speaker($user_id);
+    }
     $local_url = 'speakers';
 }
 
@@ -27,7 +32,11 @@ elseif (Action == 'deleteadmin') {
     $user_id = (!empty($matches)) ? (int) $matches[1] : 0;
     $desc = 'Administrador';
     $dbtable = 'administrador';
-    $user = get_admin($user_id);
+    if ($user_id == 1) {
+        $optional_message = 'No puedes eliminar al administrador principal.';
+    } else {
+        $user = get_admin($user_id);
+    }
     $local_url = 'list';
 }
 
@@ -38,7 +47,7 @@ $submit = optional_param('submit');
 
 <?php
 // check if user want to delete himself or main admin
-if (!empty($user) && $user_id != $USER->id && $user_id != 1)  {
+if (!empty($user) && ($user_id != $USER->id || Action == 'deleteperson'))  {
 
     if (empty($submit)) {
         // confirm delete
@@ -145,6 +154,7 @@ if (!empty($user) && $user_id != $USER->id && $user_id != 1)  {
 
 <div class="block"></div>
 <p class="center">El usuario no existe.</p>
+<p class="center"><?=$optional_message ?></p>
 
 <?php
     do_submit_cancel('', 'Regresar', $return_url);
