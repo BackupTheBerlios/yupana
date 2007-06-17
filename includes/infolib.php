@@ -30,7 +30,7 @@ function get_info($where, $type='person', $limit='', $order='') {
         $query = '
             SELECT ADM.*, T.descr AS tadmin, T.tareas
             FROM administrador ADM
-            JOIN tadmin T ON ADM.id_tadmin = T.id
+            LEFT JOIN tadmin T ON ADM.id_tadmin = T.id
             WHERE ' . $where;
     }
 
@@ -39,8 +39,8 @@ function get_info($where, $type='person', $limit='', $order='') {
         $query = '
             SELECT SP.*, E.descr AS estudios, ST.descr AS estado
             FROM ponente SP
-            JOIN estudios E ON SP.id_estudios = E.id
-            JOIN estado ST ON SP.id_estado = ST.id
+            LEFT JOIN estudios E ON SP.id_estudios = E.id
+            LEFT JOIN estado ST ON SP.id_estado = ST.id
             WHERE ' . $where;
     }
 
@@ -50,9 +50,9 @@ function get_info($where, $type='person', $limit='', $order='') {
             SELECT P.*, E.descr AS estudios, ST.descr AS estado,
             T.descr AS tasistente
             FROM asistente P
-            JOIN estudios E ON P.id_estudios = E.id
-            JOIN estado ST ON P.id_estado = ST.id
-            JOIN tasistente T ON P.id_tasistente = T.id
+            LEFT JOIN estudios E ON P.id_estudios = E.id
+            LEFT JOIN estado ST ON P.id_estado = ST.id
+            LEFT JOIN tasistente T ON P.id_tasistente = T.id
             WHERE ' . $where;
     }
 
@@ -64,12 +64,12 @@ function get_info($where, $type='person', $limit='', $order='') {
             ADM.mail AS adminmail, ADM.login AS adminlogin,
             O.descr AS orientacion, S.descr AS status
             FROM propuesta P
-            JOIN prop_nivel L ON L.id = P.id_nivel
-            JOIN ponente SP ON SP.id = P.id_ponente
-            JOIN prop_tipo T ON T.id = P.id_prop_tipo
+            LEFT JOIN prop_nivel L ON L.id = P.id_nivel
+            LEFT JOIN ponente SP ON SP.id = P.id_ponente
+            LEFT JOIN prop_tipo T ON T.id = P.id_prop_tipo
             LEFT JOIN administrador ADM ON ADM.id = P.id_administrador
-            JOIN orientacion O ON O.id = P.id_orientacion
-            JOIN prop_status S ON S.id = P.id_status
+            LEFT JOIN orientacion O ON O.id = P.id_orientacion
+            LEFT JOIN prop_status S ON S.id = P.id_status
             WHERE ' . $where;
     }
 
@@ -81,13 +81,13 @@ function get_info($where, $type='person', $limit='', $order='') {
             FE.fecha, FE.descr AS date_desc,
             EO.hora, EO.id_evento
             FROM evento E
-            JOIN propuesta P ON P.id = E.id_propuesta
-            JOIN ponente SP ON SP.id = P.id_ponente
-            JOIN prop_tipo PT ON PT.id = P.id_prop_tipo
-            JOIN orientacion O ON O.id = P.id_orientacion
-            JOIN evento_ocupa EO ON EO.id_evento = E.id
-            JOIN lugar L ON L.id = EO.id_lugar
-            JOIN fecha_evento FE ON FE.id = EO.id_fecha
+            LEFT JOIN propuesta P ON P.id = E.id_propuesta
+            LEFT JOIN ponente SP ON SP.id = P.id_ponente
+            LEFT JOIN prop_tipo PT ON PT.id = P.id_prop_tipo
+            LEFT JOIN orientacion O ON O.id = P.id_orientacion
+            LEFT JOIN evento_ocupa EO ON EO.id_evento = E.id
+            LEFT JOIN lugar L ON L.id = EO.id_lugar
+            LEFT JOIN fecha_evento FE ON FE.id = EO.id_fecha
             WHERE ' . $where;
     }
 
@@ -100,9 +100,9 @@ function get_info($where, $type='person', $limit='', $order='') {
             $query = '
                 SELECT FE.fecha, R.nombre_lug AS lugar, EO.hora
                 FROM evento E
-                JOIN evento_ocupa EO ON EO.id_evento = E.id
-                JOIN lugar R ON R.id = EO.id_lugar
-                JOIN fecha_evento FE ON FE.id = EO.id_fecha
+                LEFT JOIN evento_ocupa EO ON EO.id_evento = E.id
+                LEFT JOIN lugar R ON R.id = EO.id_lugar
+                LEFT JOIN fecha_evento FE ON FE.id = EO.id_fecha
                 WHERE E.id_propuesta=' . $records->id . ' GROUP BY EO.id_evento';
 
             $event = get_record_sql($query);
