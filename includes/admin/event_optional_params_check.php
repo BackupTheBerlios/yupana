@@ -27,7 +27,16 @@
 
             if (!empty($testevent_place)) {
                 if (Action == 'newevent' || $event->id != $testevent_place->id_evento) {
-                    $errmsg[] = 'La fecha, hora y lugar que elegiste tiene conflictos con otro evento ya programado.';
+                    $query = 'SELECT P.id, P.nombre FROM propuesta P
+                        JOIN evento E ON E.id='.$testevent_place->id_evento.'
+                        WHERE P.id=E.id_propuesta GROUP BY E.id';
+
+                    $conflict_proposal = get_record_sql($query);
+
+                    $url = get_url('admin/proposals/'.$conflict_proposal->id);
+                    $event_link = "<a href=\"{$url}\" title=\"Evento en Conflicto\">{$conflict_proposal->nombre}</a>";
+
+                    $errmsg[] = 'La fecha, hora y lugar que elegiste tiene conflictos con otro evento ya programado: ' . $event_link;
                     break;
                 }
             }
