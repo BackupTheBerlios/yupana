@@ -4,6 +4,9 @@ if (empty($CFG) || Context != 'admin') {
     die;
 }
 
+//FIXME: clearn return_path
+$_SESSION['return_path'] = '';
+
 $where = '1=1';
 
 // run filters
