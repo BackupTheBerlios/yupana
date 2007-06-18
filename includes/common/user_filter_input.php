@@ -26,8 +26,8 @@ if (Action == 'controlpersons') {
 
     $education_input = do_get_output('do_input_select', array('filter_id_estudios', $education, $id_estudios, true, '', 0, $onChange));
 
-    $table_data[] = array('', 'Departamento:', 'Estudios:');
-    $table_data[] = array('Filtro:', $state_input, $education_input);
+    $table_data[] = array('', 'Apellidos:', 'Departamento:', 'Estudios:');
+    $table_data[] = array('Filtro:', $search_input, $state_input, $education_input);
 }
 
 do_table($table_data, 'prop-filter wide');
