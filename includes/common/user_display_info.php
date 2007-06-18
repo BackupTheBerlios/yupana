@@ -38,7 +38,7 @@
 
     // user values
     if (Context == 'admin'
-        && (Action == 'newadmin' || Action == 'deleteadmin' || Action == 'editadmin' || Action == 'viewadmin')) {
+        && (Action == 'editdetails' || Action == 'newadmin' || Action == 'deleteadmin' || Action == 'editadmin' || Action == 'viewadmin')) {
 
         $values = array(
             'Usuario Administrador' => $user->login,

@@ -16,14 +16,17 @@ $table_data = array();
 if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
     // login
     if (Context == 'admin') {
-        if (Action == 'newspeaker' || Action == 'newperson') {
-
-            $input_data = do_get_output('do_input', array('S_login', 'text', $user->login, 'size="15"'));
-
-        } else {
+        if ($user->login == 'admin') {
             
             // disable the input box for login 
             $input_data = do_get_output('do_input', array('S_login', 'text', $user->login, 'size="15" disabled="disabled"'));
+
+        }
+
+//        if (Action == 'newspeaker' || Action == 'newperson') {
+        else {
+
+            $input_data = do_get_output('do_input', array('S_login', 'text', $user->login, 'size="15"'));
 
         }
     } else {
