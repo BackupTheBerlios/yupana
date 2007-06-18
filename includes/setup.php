@@ -15,6 +15,10 @@ $CFG->admdir = $CFG->incdir . 'admin/';
 $CFG->comdir = $CFG->incdir . 'common/';
 $CFG->tpldir = $CFG->rootdir . 'templates/';
 
+if (!is_readable($CFG->rootdir . 'config.php')) {
+    die('Can not find config.php file. Please read INSTALL file.');
+}
+
 require($CFG->rootdir . 'config.php');
 require($CFG->incdir . 'datalib.php');
 require($CFG->incdir . 'constants.php');
