@@ -20,6 +20,13 @@ elseif (Action == 'listpersons') {
     $desc = 'Asistentes';
     $local_url = 'persons';
 }
+
+elseif (Action == 'controlpersons') {
+    $where .= ' AND P.id_tasistente < 100';
+    $users = get_persons($where);
+    $desc = 'Control/Asistentes';
+    $local_url = 'persons';
+}
 ?>
 
 <h1>Lista de <?=$desc ?></h1>
@@ -36,7 +43,12 @@ if (!empty($users)) {
 
     // build data table
     $table_data = array();
-    $table_data[] = array('Nombre', 'Login', 'Departamento', 'Estudios', 'Registro', '');
+
+    if (Action == 'controlpersons') {
+        $table_data[] = array('Nombre', 'Login', 'Estado', 'Tipo', 'Asistio?', '', '');
+    } else {
+        $table_data[] = array('Nombre', 'Login', 'Departamento', 'Estudios', 'Registro', '');
+    }
 
     foreach ($users as $user) {
 
@@ -51,14 +63,41 @@ END;
 <a class="precaucion" href="{$url}">Eliminar</a>
 END;
         
-        $table_data[] = array(
-            $l_nombre,
-            $user->login,
-            $user->estado,
-            $user->estudios,
-            $user->reg_time,
-            $l_delete
-            );
+        if (Action == 'controlpersons') {
+            $url = get_url('admin/persons/control/'.$user->id);
+
+            $_SESSION['return_path'] = '/persons/control';
+
+            if (empty($user->asistencia)) {
+                $l_asistio = 'No';
+                $action_desc = '+Asistencia';
+            } else {
+                $l_asistio = '<img src="'.get_url().'/images/checkmark.gif" />';
+                $action_desc = '-Asistencia';
+            }
+
+            $l_action = <<< END
+<a class="verde" href="{$url}">{$action_desc}</a>
+END;
+            $table_data[] = array(
+                $l_nombre,
+                $user->login,
+                $user->estado,
+                $user->tasistente,
+                $l_asistio,
+                $l_action,
+                $l_delete
+                );
+        } else {
+            $table_data[] = array(
+                $l_nombre,
+                $user->login,
+                $user->estado,
+                $user->estudios,
+                $user->reg_time,
+                $l_delete
+                );
+        }
     }
 
     do_table($table_data, 'wide');
