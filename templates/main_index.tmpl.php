@@ -22,6 +22,14 @@
 
 <?php } ?>
 
+<?php if (!empty($CFG->public_schedule)) { ?>
+
+    <h3><a href="<?=get_url('general/schedule') ?>">Programa preliminar</a></h3>
+
+    <p>Aquí podrás ver el programa preliminar de ponencias y eventos.</p>
+
+<?php } ?>
+
     <h3><a href="<?=get_url('general/information') ?>">Modalidades de participacion</a></h3>
 
     <p>Modalidades de las ponencias que encontraras en el evento!</p>
