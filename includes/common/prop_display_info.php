@@ -9,7 +9,7 @@
 
     if (Action == 'newproposal' || Action == 'updateproposal' || Action == 'deleteproposal' || Action == 'scheduleevent' || Action == 'editevent') {
         if (Context == 'admin' && Action != 'scheduleevent' && Action != 'editevent') {
-            $values['Nombre de Usuario'] = $login;
+            $values['Nombre de Usuario'] = $proposal->login;
         }
 
         $values['Nombre de ponencia'] = $proposal->nombre;
