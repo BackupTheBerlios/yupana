@@ -140,6 +140,16 @@ elseif (preg_match('#^logout$#', $q)) {
  *
  */
 
+// general schedule
+elseif (!empty($CFG->public_schedule) && schedule_has_events() && preg_match('#^general/schedule/?#', $q)) {
+    define('Context', 'main');
+    define('Action', 'viewschedule');
+
+    do_header('Programa preliminar');
+    include($CFG->admdir . 'schedule_list.php');
+    do_submit_cancel('', 'Regresar', get_url());
+}
+
 // list proposals
 elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/?$#', $q)) {
     define('Context', 'main');
@@ -161,7 +171,7 @@ elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/.+#', 
 
     do_header('Detalles de propuesta');
     include($CFG->comdir . 'prop_view.php');
-    do_submit_cancel('', 'Regresar', get_url('general/proposals'));
+    do_submit_cancel('', 'Regresar');
 }
 
 // view info of kind of proposals
