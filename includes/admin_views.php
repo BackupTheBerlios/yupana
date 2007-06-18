@@ -243,6 +243,14 @@ elseif (preg_match('#^admin/dates/\d+/events$#', $q)) {
  *
  */
 
+// add event
+elseif (preg_match('#^admin/events/new/?#', $q)) {
+    define('Action', 'newevent');
+    $return_url = get_url('admin/events');
+    do_header('Añadir evento');
+    include($CFG->admdir . 'event_new.php');
+}
+
 // list proposals to schedule
 elseif (preg_match('#^admin/events/schedule/?$#', $q)) {
     define('Action', 'scheduleevent');
@@ -374,6 +382,41 @@ elseif (preg_match('#^admin/details$#', $q)) {
     include($CFG->comdir . 'user_edit.php');
 }
 
+/*
+ * Schedule
+ *
+ */
+
+// schedule view
+elseif (preg_match('#^admin/schedule$#', $q)) {
+    define('Action', 'viewschedule');
+
+    do_header('Programa de Eventos');
+    include($CFG->admdir . 'schedule_list.php');
+    do_submit_cancel('', 'Regresar', $CFG->home_url);
+}
+
+// attach event to date
+elseif (preg_match('#^admin/schedule/add/\d+/\d+/\d+$#', $q)) {
+    define('Action', 'addschedule');
+
+    do_header('Agregar evento');
+    include($CFG->admdir . 'schedule_add.php');
+}
+
+// attach event to date action
+elseif (preg_match('#^admin/schedule/add/\d+/\d+/\d+/\d+$#', $q)) {
+    define('Action', 'addschedule_action');
+
+    do_header('Agregar evento');
+    include($CFG->admdir . 'schedule_add.php');
+}
+
+
+/*
+ *
+ *
+ */
 // page not found
 else {
     do_header('Página no encontrada');
