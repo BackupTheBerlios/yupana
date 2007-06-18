@@ -42,13 +42,29 @@ elseif (preg_match('#^admin/speakers/?$#', $q)) {
     do_submit_cancel('', 'Regresar', $return_url);
 }
 
-// list speakers
+// list persons
 elseif (preg_match('#^admin/persons/?$#', $q)) {
     define('Action', 'listpersons');
 
     do_header('Listado de asistentes');
     include($CFG->comdir . 'user_list.php');
     do_submit_cancel('', 'Regresar', $return_url);
+}
+
+// control persons
+elseif (preg_match('#^admin/persons/control/?$#', $q)) {
+    define('Action', 'controlpersons');
+
+    do_header('Control de asistentes');
+    include($CFG->comdir . 'user_list.php');
+    do_submit_cancel('', 'Regresar', $return_url);
+}
+
+// control persons
+elseif (preg_match('#^admin/persons/control/\d+$#', $q)) {
+    define('Action', 'controlpersons');
+
+    include($CFG->admdir . 'user_action.php');
 }
 
 // view speaker details
