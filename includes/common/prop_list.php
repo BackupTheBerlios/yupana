@@ -12,7 +12,7 @@ if (empty($not_found_message)) {
 $where = 'P.id_status != 7';
 
 // default order
-$order = "P.act_time DESC, P.reg_time DESC, P.id_prop_tipo, P.id_ponente";
+$order = "P.act_time ASC, P.id, P.id_prop_tipo, P.id_ponente";
 
 if (Context == 'admin') {
     if (Action == 'listdeletedproposals') {
@@ -79,8 +79,12 @@ if (!empty($proposals)) {
             $table_data[] = array('Ponencia', 'Modificado por', 'Fecha de Modif.', 'Tipo', 'Ponente');
         }
 
-        elseif (Action == 'scheduleevent' || Action == 'addschedule') {
+        elseif (Action == 'scheduleevent') {
             $table_data[] = array('Ponencia', 'Tipo', 'Orientación', '');
+        }
+
+        elseif (Action == 'addschedule') {
+            $table_data[] = array('Ponencia', 'Tipo', 'Orientación', 'Duración', '');
         }
 
         elseif (Action == 'viewspeaker') {
@@ -247,14 +251,26 @@ END;
                     $proposal->tipo,
                     $l_ponente
                     );
-            } elseif (Action == 'scheduleevent' || Action == 'addschedule') {
+            } elseif (Action == 'scheduleevent') {
                 $table_data[] = array(
                     $l_ponencia,
                     $proposal->tipo,
                     $proposal->orientacion,
                     $l_event
                     );
-            } elseif (Action == 'viewspeaker') {
+            }
+           
+            elseif (Action == 'addschedule') {
+                $table_data[] = array(
+                    $l_ponencia,
+                    $proposal->tipo,
+                    $proposal->orientacion,
+                    $proposal->duracion . ' hrs.',
+                    $l_event
+                    );
+            }
+           
+            elseif (Action == 'viewspeaker') {
                 $table_data[] = array(
                     $l_ponencia,
                     $proposal->tipo,
