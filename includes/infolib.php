@@ -228,4 +228,18 @@ function schedule_has_events() {
 
     return $events > 0;
 }
+
+function level_admin($tadmin) {
+    // 3 evaluador
+    // 2 parcial
+    // 1 root
+    global $USER;
+ 
+    if (!empty($USER->id_tadmin)) {
+        return ($USER->id_tadmin <= $tadmin);
+    } 
+
+    return false;
+}
+
 ?>

@@ -40,10 +40,13 @@ foreach ($table_data as $row) {
                 $url = get_url('admin/schedule');
                 $url .= '/add/'.$prop->room_id.'/'.$prop->date_id.'/'.$prop->hour;
 
-                $column  = <<< END
+                if (level_admin(2)) {
+                    $column  = <<< END
 <a class="littleinfo" href="{$url}">Añadir Evento</a>
 END;
-
+                } else {
+                    $column = '&nbsp;';
+                }
             } else {
                 $url = get_url('general/proposals') . '/' . $prop->id;
 

@@ -61,11 +61,16 @@ if (!empty($users)) {
 <a class="speaker" href="{$url}">{$user->apellidos} {$user->nombrep}</a>
 </li></ul>
 END;
-        $url = get_url('admin/'.$local_url.'/'.$user->id.'/delete');
-        $l_delete = <<< END
-<a class="precaucion" href="{$url}">Eliminar</a>
+
+        if (level_admin(2)) {
+            $url = get_url('admin/'.$local_url.'/'.$user->id.'/delete');
+            $l_delete = <<< END
+    <a class="precaucion" href="{$url}">Eliminar</a>
 END;
-        
+        } else {
+            $l_delete = '';
+        }
+       
         if (Action == 'controlpersons') {
             $url = get_url('admin/persons/control/'.$user->id);
 

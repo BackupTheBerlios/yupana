@@ -218,10 +218,11 @@ END;
                 $adminuser = empty($proposal->adminlogin) ? 'Ninguno' : $proposal->adminlogin;
             }
 
-            if (Action == 'listproposals') {
-            $url = get_url('admin/proposals/'.$proposal->id.'/delete');
-            $l_delete = <<< END
-<a class="precaucion" href="{$url}">Eliminar</a>
+            $l_delete = '';
+            if (level_admin(2) && Action == 'listproposals') {
+                $url = get_url('admin/proposals/'.$proposal->id.'/delete');
+                $l_delete = <<< END
+    <a class="precaucion" href="{$url}">Eliminar</a>
 END;
             }
 

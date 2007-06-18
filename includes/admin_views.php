@@ -26,7 +26,7 @@ if (preg_match('#^admin/?$#', $q)) {
  */
 
 // add speaker
-elseif (preg_match('#^admin/speakers/new$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/speakers/new$#', $q)) {
     define('Action', 'newspeaker');
 
     do_header('Agregar ponente');
@@ -52,7 +52,7 @@ elseif (preg_match('#^admin/persons/?$#', $q)) {
 }
 
 // control persons
-elseif (preg_match('#^admin/persons/control/?$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/persons/control/?$#', $q)) {
     define('Action', 'controlpersons');
 
     do_header('Control de asistentes');
@@ -61,7 +61,7 @@ elseif (preg_match('#^admin/persons/control/?$#', $q)) {
 }
 
 // control persons
-elseif (preg_match('#^admin/persons/control/\d+$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/persons/control/\d+$#', $q)) {
     define('Action', 'controlpersons');
 
     include($CFG->admdir . 'user_action.php');
@@ -77,7 +77,7 @@ elseif (preg_match('#^admin/speakers/\d+/?$#', $q)) {
 }
 
 // add proposal
-elseif (preg_match('#^admin/proposals/new$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/proposals/new$#', $q)) {
     define('Action', 'newproposal');
 
     do_header('Agregar ponencia');
@@ -106,7 +106,7 @@ elseif (preg_match('#^admin/proposals/\d+/?$#', $q)) {
 }
 
 // update status of proposal
-elseif (preg_match('#^admin/proposals/\d+/status/\d+/?$#', $q)) {
+elseif (level_admin(3) && preg_match('#^admin/proposals/\d+/status/\d+/?$#', $q)) {
     define('Action', 'viewproposal');
     $return_url = get_url('admin/proposals');
 
@@ -114,7 +114,7 @@ elseif (preg_match('#^admin/proposals/\d+/status/\d+/?$#', $q)) {
 }
 
 // list deleted proposals
-elseif (preg_match('#^admin/proposals/deleted/?$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/proposals/deleted/?$#', $q)) {
     define('Action', 'listdeletedproposals');
 
     do_header('Ponencias eliminadas');
@@ -126,7 +126,7 @@ elseif (preg_match('#^admin/proposals/deleted/?$#', $q)) {
 }
 
 // view deleted proposal
-elseif (preg_match('#^admin/proposals/deleted/\d+/?$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/proposals/deleted/\d+/?$#', $q)) {
     define('Action', 'viewdeletedproposal');
 
     do_header('Detalles de ponencia');
@@ -135,13 +135,13 @@ elseif (preg_match('#^admin/proposals/deleted/\d+/?$#', $q)) {
 }
 
 // change status of  deleted proposals
-elseif (preg_match('#^admin/proposals/deleted/\d+/status/\d+/?$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/proposals/deleted/\d+/status/\d+/?$#', $q)) {
     define('Action', 'deletedproposal');
     include($CFG->admdir . 'prop_action.php');
 }
 
 // delete proposal
-elseif (preg_match('#^admin/proposals/\d+/delete$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/proposals/\d+/delete$#', $q)) {
     define('Action', 'deleteproposal');
 
     do_header('Eliminar ponencia');
@@ -154,7 +154,7 @@ elseif (preg_match('#^admin/proposals/\d+/delete$#', $q)) {
  */
 
 // room add
-elseif (preg_match('#^admin/rooms/new$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/rooms/new$#', $q)) {
     define('Action', 'newroom');
 
     do_header('Agregar lugar');
@@ -162,7 +162,7 @@ elseif (preg_match('#^admin/rooms/new$#', $q)) {
 }
 
 // rooms list
-elseif (preg_match('#^admin/rooms/?$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/rooms/?$#', $q)) {
     define('Action', 'listrooms');
 
     do_header('Lista de lugares para eventos');
@@ -171,7 +171,7 @@ elseif (preg_match('#^admin/rooms/?$#', $q)) {
 }
 
 // room edit
-elseif (preg_match('#^admin/rooms/\d+/?$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/rooms/\d+/?$#', $q)) {
     define('Action', 'editroom');
     $return_url = get_url('admin/rooms');
 
@@ -180,7 +180,7 @@ elseif (preg_match('#^admin/rooms/\d+/?$#', $q)) {
 }
 
 // room add
-elseif (preg_match('#^admin/rooms/\d+/delete$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/rooms/\d+/delete$#', $q)) {
     define('Action', 'deleteroom');
     $return_url = get_url('admin/rooms');
 
@@ -207,7 +207,7 @@ elseif (preg_match('#^admin/rooms/\d+/events$#', $q)) {
  */
 
 // date add
-elseif (preg_match('#^admin/dates/new$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/dates/new$#', $q)) {
     define('Action', 'newdate');
 
     do_header('Agregar fecha');
@@ -215,7 +215,7 @@ elseif (preg_match('#^admin/dates/new$#', $q)) {
 }
 
 // dates list
-elseif (preg_match('#^admin/dates/?$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/dates/?$#', $q)) {
     define('Action', 'listdates');
 
     do_header('Lista de fechas para eventos');
@@ -224,7 +224,7 @@ elseif (preg_match('#^admin/dates/?$#', $q)) {
 }
 
 // date edit
-elseif (preg_match('#^admin/dates/\d+/?$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/dates/\d+/?$#', $q)) {
     define('Action', 'editdate');
     $return_url = get_url('admin/dates');
 
@@ -233,7 +233,7 @@ elseif (preg_match('#^admin/dates/\d+/?$#', $q)) {
 }
 
 // date delete
-elseif (preg_match('#^admin/dates/\d+/delete$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/dates/\d+/delete$#', $q)) {
     define('Action', 'deletedate');
     $return_url = get_url('admin/dates');
 
@@ -242,7 +242,7 @@ elseif (preg_match('#^admin/dates/\d+/delete$#', $q)) {
 }
 
 // date events
-elseif (preg_match('#^admin/dates/\d+/events$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/dates/\d+/events$#', $q)) {
     define('Action', 'eventsdate');
     $return_url = get_url('admin/dates');
 
@@ -260,7 +260,7 @@ elseif (preg_match('#^admin/dates/\d+/events$#', $q)) {
  */
 
 // add event
-elseif (preg_match('#^admin/events/new/?#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/events/new/?#', $q)) {
     define('Action', 'newevent');
     $return_url = get_url('admin/events');
     do_header('Añadir evento');
@@ -268,7 +268,7 @@ elseif (preg_match('#^admin/events/new/?#', $q)) {
 }
 
 // list proposals to schedule
-elseif (preg_match('#^admin/events/schedule/?$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/events/schedule/?$#', $q)) {
     define('Action', 'scheduleevent');
     $return_url = get_url('admin');
     $not_found_message = 'No se encontro ninguna ponencia habilitada o ya se encuentran programadas.';
@@ -282,7 +282,7 @@ elseif (preg_match('#^admin/events/schedule/?$#', $q)) {
 }
 
 // add event
-elseif (preg_match('#^admin/events/schedule/\d+?$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/events/schedule/\d+?$#', $q)) {
     define('Action', 'scheduleevent');
     $return_url = get_url('admin/events/schedule');
 
@@ -291,7 +291,7 @@ elseif (preg_match('#^admin/events/schedule/\d+?$#', $q)) {
 }
 
 // edit event
-elseif (preg_match('#^admin/events/\d+/?$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/events/\d+/?$#', $q)) {
     define('Action', 'editevent');
     $return_url = get_url('admin/events');
 
@@ -318,7 +318,7 @@ elseif (preg_match('#^admin/events/?$#', $q)) {
  */
 
 // config manager
-elseif (preg_match('#^admin/config/?$#', $q)) {
+elseif (level_admin(1) && preg_match('#^admin/config/?$#', $q)) {
     define('Action', 'config');
 
     do_header('Configuración del Sistema');
@@ -326,13 +326,13 @@ elseif (preg_match('#^admin/config/?$#', $q)) {
 }
 
 // config action
-elseif (preg_match('#^admin/config/(open|close)/\d+$#', $q)) {
+elseif (level_admin(1) && preg_match('#^admin/config/(open|close)/\d+$#', $q)) {
     define('Action', 'config');
     include($CFG->admdir . 'config_action.php');
 }
 
 // config manager
-elseif (preg_match('#^admin/catalog/?$#', $q)) {
+elseif (level_admin(1) && preg_match('#^admin/catalog/?$#', $q)) {
     define('Action', 'catalog');
 
     do_header('Administrar Catálogos del Sistema');
@@ -340,7 +340,7 @@ elseif (preg_match('#^admin/catalog/?$#', $q)) {
 }
 
 // add new admin user
-elseif (preg_match('#^admin/new$#', $q)) {
+elseif (level_admin(1) && preg_match('#^admin/new$#', $q)) {
     define('Action', 'newadmin');
 
     do_header('Nuevo administrador');
@@ -348,7 +348,7 @@ elseif (preg_match('#^admin/new$#', $q)) {
 }
 
 // list admin users
-elseif (preg_match('#^admin/list$#', $q)) {
+elseif (level_admin(1) && preg_match('#^admin/list$#', $q)) {
     define('Action', 'listadmins');
 
     do_header('Lista de administradores');
@@ -356,7 +356,7 @@ elseif (preg_match('#^admin/list$#', $q)) {
 }
 
 // admin action, change user tadmin
-elseif (preg_match('#^admin/\d+/type/\d+$#', $q)) {
+elseif (level_admin(1) && preg_match('#^admin/\d+/type/\d+$#', $q)) {
     define('Action', 'editadmin');
     include($CFG->admdir . 'admin_action.php');
 }
@@ -367,7 +367,7 @@ elseif (preg_match('#^admin/\d+/type/\d+$#', $q)) {
  */
 
 // admin delete
-elseif (preg_match('#^admin/\d+/delete$#', $q)) {
+elseif (level_admin(1) && preg_match('#^admin/\d+/delete$#', $q)) {
     define('Action', 'deleteadmin');
     do_header('Eliminar administrador');
 //    include($CFG->admdir . 'admin_delete.php');
@@ -375,7 +375,7 @@ elseif (preg_match('#^admin/\d+/delete$#', $q)) {
 }
 
 // admin delete
-elseif (preg_match('#^admin/speakers/\d+/delete$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/speakers/\d+/delete$#', $q)) {
     define('Action', 'deletespeaker');
     do_header('Eliminar ponente');
 //    include($CFG->admdir . 'admin_delete.php');
@@ -383,7 +383,7 @@ elseif (preg_match('#^admin/speakers/\d+/delete$#', $q)) {
 }
 
 // admin delete
-elseif (preg_match('#^admin/persons/\d+/delete$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/persons/\d+/delete$#', $q)) {
     define('Action', 'deleteperson');
     do_header('Eliminar asistente');
 //    include($CFG->admdir . 'admin_delete.php');
@@ -413,7 +413,7 @@ elseif (preg_match('#^admin/schedule$#', $q)) {
 }
 
 // attach event to date
-elseif (preg_match('#^admin/schedule/add/\d+/\d+/\d+$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/schedule/add/\d+/\d+/\d+$#', $q)) {
     define('Action', 'addschedule');
 
     do_header('Agregar evento');
@@ -421,7 +421,7 @@ elseif (preg_match('#^admin/schedule/add/\d+/\d+/\d+$#', $q)) {
 }
 
 // attach event to date action
-elseif (preg_match('#^admin/schedule/add/\d+/\d+/\d+/\d+$#', $q)) {
+elseif (level_admin(2) && preg_match('#^admin/schedule/add/\d+/\d+/\d+/\d+$#', $q)) {
     define('Action', 'addschedule_action');
 
     do_header('Agregar evento');

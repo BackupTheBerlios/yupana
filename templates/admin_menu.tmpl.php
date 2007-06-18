@@ -1,6 +1,6 @@
 <h1>Bienvenido Administrador</h1>
 
-<h2><?=$USER->nombrep ?> <?=$USER->apellidos ?></h2>
+<h3>:: <?=$USER->nombrep ?> <?=$USER->apellidos ?></h3>
 
 <div id="menuadmin">
 
@@ -12,7 +12,7 @@
 
         <ul>
 
-<?php if ($USER->id_tadmin < 3) { ?>
+<?php if (level_admin(2)) { ?>
 
 <li><a href="<?=get_url('admin/speakers/new') ?>">Agregar ponente</a></li>
 
@@ -20,7 +20,7 @@
 
 <li><a href="<?=get_url('admin/speakers/') ?>">Listado de ponentes</a></li>
 
-<?php if ($USER->id_tadmin < 3) { ?>
+<?php if (level_admin(2)) { ?>
 
 <li><a href="<?=get_url('admin/proposals/new') ?>">Agregar ponencia</a></li>
 
@@ -33,7 +33,46 @@
 
     </div>
 
-<?php if ($USER->id_tadmin < 3) { ?>
+   <div id="menuadmin-eventos" class="menuadmin column">
+
+        <a name="eventos"></a>
+
+        <h3>Eventos y asistentes</h3>
+
+        <ul>
+
+<?php if (level_admin(2)) { ?>
+
+        <li><a href="<?=get_url('admin/persons/control') ?>">Control de asistencias</a></li>
+
+        <li><a href="<?=get_url('admin/persons/') ?>">Listado de asistentes</a></li>
+
+<?php } ?>
+
+        <li><a href="<?=get_url('admin/schedule') ?>">Programa Preliminar</a></li>
+
+<?php if (level_admin(2)) { ?>
+
+        <li><a href="<?=get_url('admin/events/new') ?>">Agregar evento</a></li>
+
+        <li><a href="<?=get_url('admin/events/schedule') ?>">Eventos pendientes</a></li>
+
+<?php } ?>
+
+        <li><a href="<?=get_url('admin/events') ?>">Listado de eventos</a></li>
+
+<?php if (level_admin(2)) { ?>
+
+<li><a href="<?=get_url('admin/workshops/add') ?>">Inscripción a talleres/tutoriales</a></li>
+<li><a href="<?=get_url('admin/workshops/remove') ?>">Baja a talleres/tutoriales</a></li>
+
+<?php } ?>
+
+       </ul>
+
+    </div>
+
+<?php if (level_admin(2)) { ?>
 
     <div id="menuadmin-lugares" class="menuadmin column">
 
@@ -52,40 +91,9 @@
 
     </div>
 
-    <div id="menuadmin-eventos" class="menuadmin column">
-
-        <a name="eventos"></a>
-
-        <h3>Eventos y asistentes</h3>
-
-        <ul>
-
-<?php if ($USER->id_tadmin < 3) { ?>
-
-<li><a href="<?=get_url('admin/events/new') ?>">Agregar evento</a></li>
-
-<li><a href="<?=get_url('admin/events/schedule') ?>">Programar eventos</a></li>
-
-<li><a href="<?=get_url('admin/schedule') ?>">Programa Preliminar</a></li>
-
 <?php } ?>
 
-<li><a href="<?=get_url('admin/events') ?>">Listado de eventos</a></li>
-
-<?php if ($USER->id_tadmin< 3) { ?>
-
-<li><a href="<?=get_url('admin/workshops/add') ?>">Inscripción a talleres/tutoriales</a></li>
-<li><a href="<?=get_url('admin/workshops/remove') ?>">Baja a talleres/tutoriales</a></li>
-<li><a href="<?=get_url('admin/persons/') ?>">Listado de asistentes</a></li>
-
-<?php } ?>
-
-<li><a href="<?=get_url('admin/persons/control') ?>">Control de asistencias</a></li>
-
-        </ul>
-
-    </div>
-
+ 
     <div id="menuadmin-admin" class="menuadmin column">
 
         <a name="admin"></a>
@@ -94,7 +102,7 @@
 
         <ul>
 
-<?php if ($USER->id_tadmin == 1) { ?>
+<?php if (level_admin(1)) { ?>
 
             <li><a href="<?=get_url('admin/config') ?>">Configuración</a></li>
             <li><a href="<?=get_url('admin/catalog') ?>">Administrar Catálogos</a></li>
@@ -108,7 +116,5 @@
         </ul>
 
     </div>
-
-<?php } ?>
 
 </div><!-- #menuadmin -->

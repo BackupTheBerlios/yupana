@@ -127,14 +127,18 @@ END;
         $url = get_url('admin/events/'.$proposal->id_evento);
         $l_edit = "<a class=\"verde\" href=\"{$url}\">Reprogramar</a>";
 
-        // build menu
-        $l_vmenu = <<< END
+        if (level_admin(2)) {
+            // build menu
+            $l_vmenu = <<< END
 <ul class="list-vmenu">
 <li class="admin-actions">{$l_asistentes}</li>
 <li class="admin-actions">{$l_edit}</li>
 <li class="admin-actions">{$l_cancel}</li>
 </ul>
 END;
+        } else {
+            $l_vmenu = '';
+        }
 
         if (Action == 'listevents' || Action == 'eventsdate') {
             // data
