@@ -20,7 +20,7 @@ if (Context == 'admin') {
         $where ='P.id_status = 7';
     }
    
-    elseif (Action == 'scheduleevent') {
+    elseif (Action == 'scheduleevent' || Action == 'addschedule') {
         // list ready to program proposals
         $where = 'P.id_status = 5';
         $order = 'P.id_ponente';
@@ -79,7 +79,7 @@ if (!empty($proposals)) {
             $table_data[] = array('Ponencia', 'Modificado por', 'Fecha de Modif.', 'Tipo', 'Ponente');
         }
 
-        elseif (Action == 'scheduleevent') {
+        elseif (Action == 'scheduleevent' || Action == 'addschedule') {
             $table_data[] = array('Ponencia', 'Tipo', 'Orientación', '');
         }
 
@@ -141,7 +141,7 @@ END;
         elseif (Context == 'admin') {
             $urlp = get_url('admin/speakers/'.$proposal->id_ponente);
 
-            if (Action == 'listproposals' || Action == 'scheduleevent' || Action == 'viewspeaker') {
+            if (Action == 'listproposals' || Action == 'scheduleevent' || Action == 'addschedule' || Action == 'viewspeaker') {
 
                 $url = get_url('admin/proposals/'.$proposal->id);
 
@@ -182,7 +182,7 @@ END;
 
             }
 
-            if (Action != 'scheduleevent' && Action != 'viewspeaker') {
+            if (Action != 'scheduleevent' && Action != 'addschedule' && Action != 'viewspeaker') {
                 $actions = '<ul class="list-vmenu">';
 
                 foreach ($status_list as $stat) {
@@ -226,6 +226,11 @@ END;
                 $l_event = "<a class=\"verde\" href=\"{$url}\">Asignar lugar</a>";
             }
 
+            elseif (Action == 'addschedule') {
+                $url = get_url('admin/schedule/add/'.$room->id.'/'.$date->id.'/'.$hour.'/'.$proposal->id);
+                $l_event = "<a class=\"verde\" href=\"{$url}\">Añadir evento</a>";
+            }
+
             if (Action == 'listproposals') {
                 $table_data[] = array(
                     $l_ponencia,
@@ -242,7 +247,7 @@ END;
                     $proposal->tipo,
                     $l_ponente
                     );
-            } elseif (Action == 'scheduleevent') {
+            } elseif (Action == 'scheduleevent' || Action == 'addschedule') {
                 $table_data[] = array(
                     $l_ponencia,
                     $proposal->tipo,
@@ -257,6 +262,7 @@ END;
                     ''
                     );
             }
+
         } 
        
         else { // main
