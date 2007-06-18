@@ -62,7 +62,11 @@
 
 <?php if ($USER->id_tadmin < 3) { ?>
 
-<li><a href="<?=get_url('admin/events/new') ?>">Registro de evento</a></li>
+<li><a href="<?=get_url('admin/events/new') ?>">Agregar evento</a></li>
+
+<li><a href="<?=get_url('admin/events/schedule') ?>">Programar eventos</a></li>
+
+<li><a href="<?=get_url('admin/schedule') ?>">Programa Preliminar</a></li>
 
 <?php } ?>
 
