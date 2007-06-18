@@ -48,7 +48,11 @@ END;
                     $column = '&nbsp;';
                 }
             } else {
-                $url = get_url('general/proposals') . '/' . $prop->id;
+                if (Context == 'admin') {
+                    $url = get_url('admin/proposals') . '/' . $prop->id;
+                } else {
+                    $url = get_url('general/proposals') . '/' . $prop->id;
+                }
 
                 $column = <<< END
     <a href="{$url}">{$prop->nombre}</a>
