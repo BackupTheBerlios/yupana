@@ -10,7 +10,7 @@ if (Action == 'deleteperson') {
     $desc = 'Asistente';
     $dbtable = 'asistente';
     $user = get_person($user_id);
-    $local_url = 'persons';
+    $local_url = '/persons';
 } 
 
 elseif (Action == 'deletespeaker') {
@@ -24,7 +24,7 @@ elseif (Action == 'deletespeaker') {
     } else {
         $user = get_speaker($user_id);
     }
-    $local_url = 'speakers';
+    $local_url = '/speakers';
 }
 
 elseif (Action == 'deleteadmin') {
@@ -37,7 +37,7 @@ elseif (Action == 'deleteadmin') {
     } else {
         $user = get_admin($user_id);
     }
-    $local_url = 'list';
+    $local_url = '/list';
 }
 
 $submit = optional_param('submit');
@@ -56,8 +56,12 @@ if (!empty($user) && ($user_id != $USER->id || Action == 'deleteperson'))  {
 <form method="POST" action="";
 
 <?php
+        if (!empty($_SESSION['return_path'])) {
+            $local_url = $_SESSION['return_path'];
+        }
+
         include($CFG->comdir . 'user_display_info.php');
-        do_submit_cancel('Eliminar', 'Cancelar', get_url('admin/'.$local_url));
+        do_submit_cancel('Eliminar', 'Cancelar', get_url('admin'.$local_url));
 ?>
 
 </form>
@@ -121,6 +125,11 @@ if (!empty($user) && ($user_id != $USER->id || Action == 'deleteperson'))  {
         elseif (Action == 'deleteperson') {
             $return_url = get_url('admin/persons');
 
+            if (!empty($_SESSION['return_path'])) {
+                $return_url = get_url('admin').$_SESSION['return_path'];
+                //clear return_path
+                $_SESSION['return_url'] = '';
+            }
             // delete user
             $rs = delete_records('asistente', 'id', $user->id);
 
