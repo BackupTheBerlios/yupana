@@ -222,4 +222,10 @@ function friendly_date($date, $show_year=false) {
 
     return $human_date;
 }
+
+function schedule_has_events() {
+    $events = count_records('evento');
+
+    return $events > 0;
+}
 ?>
