@@ -2,6 +2,13 @@
 
 $values = array();
 
+// public schedule
+$desc = 'Mostrar el programa de eventos publicamente';
+$config = get_config('public_schedule');
+$input = do_get_output('do_input_yes_no', array('public_schedule', $config->value));
+
+$values[$desc] = $input;
+
 // public proposals
 $desc = 'Mostrar las propuestas publicamente';
 $config = get_config('public_proposals');
