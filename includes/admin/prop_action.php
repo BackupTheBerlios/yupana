@@ -21,7 +21,7 @@ elseif (preg_match('#^admin/proposals/\d+/status/\d+/?#', $q)){
 }
 
 // update reg flag status
-if (!empty($prop_id) && !empty($prop_id_status)) {
+if (!empty($prop_id) && !empty($prop_id_status) && $prop_id_status < 7) {
 
     $prop = new StdClass;
     $prop->id = $prop_id;
