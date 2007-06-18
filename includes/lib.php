@@ -472,6 +472,10 @@ function beginSession($tipo) {
 	            ($t_transcurrido > $hora))
 
 		{    # 1 hour exp.
+            //fix: in order to get admin login
+            @session_unset();
+            @session_destroy();
+
             header('Location: ' . get_url('admin/login'));
 			exit;
 		}
