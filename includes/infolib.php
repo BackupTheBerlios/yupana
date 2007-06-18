@@ -122,7 +122,7 @@ function get_info($where, $type='person', $limit='', $order='') {
     return $records;
 }
 
-function get_events($date_id=0, $room_id=0, $date='') {
+function get_events($date_id=0, $room_id=0, $date='', $user_id=0) {
     // where, safe value
     $where = '1=1';
 
@@ -140,6 +140,10 @@ function get_events($date_id=0, $room_id=0, $date='') {
 
     if (!empty($room_id)) {
         $where .= ' AND L.id='. $room_id;
+    }
+
+    if (!empty($user_id)) {
+        $where .= ' AND SP.id='. $user_id;
     }
 
     $where .= ' GROUP BY EO.id_evento';
@@ -240,6 +244,25 @@ function level_admin($tadmin) {
     } 
 
     return false;
+}
+
+function events_for($user_type, $user_id) {
+    $result = 0;
+
+    if ($user_type == 'speaker') {
+        $query = 'SELECT E.id FROM evento E
+                JOIN propuesta P ON P.id = E.id_propuesta
+                JOIN ponente SP ON SP.id = P.id_ponente
+                WHERE SP.id = '.$user_id;
+        
+        $result = count_records_sql($query);
+    }
+   
+    elseif ($user_type == 'person') {
+        
+    }
+
+    return ($result > 0);
 }
 
 ?>

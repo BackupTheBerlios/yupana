@@ -1,6 +1,6 @@
 <?php
 // dummy check
-if (empty($CFG) || Context != 'admin') {
+if (empty($CFG) || (Context != 'admin' && Context != 'ponente')) {
     die;
 }
 
@@ -41,7 +41,11 @@ elseif (Action == 'eventsdate') {
     do_table_values($values, 'narrow');
 }
     
-$proposals = get_events($date_id, $room_id, $date);
+if (Context == 'ponente') {
+    $proposals = get_events($date_id, $room_id, $date, $USER->id);
+} else {
+    $proposals = get_events($date_id, $room_id, $date);
+}
 
 if (!empty($proposals)) {
     $table_data = array();
@@ -61,6 +65,10 @@ if (!empty($proposals)) {
         $headers = array('Ponencia', 'Tipo', 'Fecha', 'Hora', 'Cupo', '');
     }
 
+    elseif (Context == 'ponente' && Action == 'viewevents') {
+        $headers = array('Ponencia', 'Tipo', 'Hora', 'Lugar');
+    }
+
     // table headers
     $table_data[] = $headers;
 
@@ -70,7 +78,7 @@ if (!empty($proposals)) {
         $current_date = $proposal->fecha;
 
         // check if start table
-        if (Action == 'listevents' && !empty($last_date) && $last_date != $current_date) {
+        if ((Action == 'listevents' || (Context == 'ponente' && Action == 'viewevents')) && !empty($last_date) && $last_date != $current_date) {
             $human_date = friendly_date($last_date);
 ?>
 
@@ -92,11 +100,24 @@ if (!empty($proposals)) {
         $last_date = $current_date;
         $last_date_desc = $proposal->date_desc;
 
-        // set urls
-        $url = get_url('admin/proposals/'.$proposal->id);
-        $urlp = get_url('admin/speakers/'.$proposal->id_ponente);
+        if (Context == 'ponente' && Action == 'viewevents') {
+            // set session return path
+            $_SESSION['return_path'] = get_url('speaker/events');
 
-        $l_ponencia = <<< END
+            // url ;-)
+            $url = get_url('speaker/proposals/'.$proposal->id);
+
+            $l_ponencia = <<< END
+<ul>
+<li><a class="proposal" href="{$url}">{$proposal->nombre}</a>
+</li></ul>
+END;
+        } else {
+            // set urls
+            $url = get_url('admin/proposals/'.$proposal->id);
+            $urlp = get_url('admin/speakers/'.$proposal->id_ponente);
+
+            $l_ponencia = <<< END
 <ul>
 <li><a class="proposal" href="{$url}">{$proposal->nombre}</a>
 <ul><li>
@@ -104,6 +125,7 @@ if (!empty($proposals)) {
 </li></ul>
 </li></ul>
 END;
+        }
 
         // human readable start and end hour
         $endhour = $proposal->hora + $proposal->duracion -1;
@@ -164,9 +186,19 @@ END;
                 );
         }
 
+        elseif (Context == 'ponente' && Action == 'viewevents') {
+            // data
+            $table_data[] = array(
+                $l_ponencia,
+                $proposal->tipo,
+                $time,
+                $proposal->lugar,
+                );
+        }
+
     }
 
-    if (Action == 'listevents') {
+    if (Action == 'listevents' || (Context == 'ponente' && Action == 'viewevents')) {
         $human_date = friendly_date($last_date);
 ?>
 

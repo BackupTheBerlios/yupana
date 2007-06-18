@@ -56,10 +56,17 @@ elseif (preg_match('#^speaker/proposals/new$#', $q)) {
 // view proposals details
 elseif (preg_match('#^speaker/proposals/\d+/?$#', $q)) {
     define('Action', 'viewproposal');
+    if (!empty($_SESSION['return_path'])) {
+        $return_url = $_SESSION['return_path'];
+        //clear return path
+        $_SESSION['return_path'] = '';
+    } else {
+        $return_url = get_url('speaker/proposals');
+    }
 
     do_header('Detalles de propuesta');
     include($CFG->comdir . 'prop_view.php');
-    do_submit_cancel('', 'Regresar', $return_url.'/proposals');
+    do_submit_cancel('', 'Regresar', $return_url);
 }
 
 // edit proposals details
@@ -80,9 +87,26 @@ elseif (preg_match('#^speaker/proposals/(\d+)/delete$#', $q)) {
     include($CFG->comdir . 'prop_delete.php');
 }
 
+// list events 
+elseif (preg_match('#^speaker/events/?$#', $q)) {
+    define('Action', 'viewevents');
+
+    do_header('Programa preliminar');
+    $return_url = get_url('speaker');
+?>
+
+<h1>Lista de mis eventos programados</h1>
+
+<?php
+    include($CFG->admdir . 'event_list.php');
+    do_submit_cancel('', 'Regresar', $return_url);
+}
+
 // page not found
 else {
+    do_header('Página no encontrada');
     include($CFG->tpldir . 'error_404.tmpl.php');
+    do_submit_cancel('', 'Regresar');
 }
 
 // footer is called in main index
