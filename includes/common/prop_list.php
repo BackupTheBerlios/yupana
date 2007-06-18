@@ -46,6 +46,7 @@ elseif (Context == 'ponente') {
 
 elseif (Context == 'main') {
     // order by reg_time;
+    $where .= ' AND P.id_prop_tipo <= 100';
     $order = 'P.reg_time, P.id_prop_tipo, P.id';
 }
 
