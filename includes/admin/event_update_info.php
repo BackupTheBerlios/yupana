@@ -3,8 +3,24 @@
         die; //exit
     }
 
+    if (Action == 'newevent') {
+        // insert our event-proposal
+        $rs = insert_record('propuesta', $proposal);
+
+        if (!$rs) {
+            show_error('No se pudo insertar los datos. Por favor contacte a su administrador.');
+            die;
+        }
+
+        // refresh proposal id
+        $proposal->id = (int) $rs;
+        // set prop id
+        $event->id_propuesta = $proposal->id;
+
+    }
+
     // new event schedule
-    if (Action == 'scheduleevent') {
+    if (Action == 'scheduleevent' || Action == 'newevent' || Action == 'addschedule_action') {
         $rs = insert_record('evento', $event);
 
         if (!$rs) {
@@ -23,23 +39,35 @@
         }
 
         // continue the insert
-        $hora_fin = $event->hora + $proposal->duracion;
+        //DISABLE
+        if (false && $proposal->id_prop_tipo >= 100) {
+            // organizational event, can use all dates or all rooms
 
-        for ($hhora=$event->hora; $hhora < $hora_fin; $hhora++) {
-            $query = 'INSERT INTO evento_ocupa
-                (id_evento,hora,id_fecha,id_lugar)
-                 VALUES ('.$event->id.',
-                     '.$hhora.',
-                     '.$event->id_fecha.',
-                     '.$event->id_lugar.')';
-            
-            $rs = execute_sql($query, false);
+            // if extraordinario,  {
+            // }
 
-            if (!$rs) {
-                //FIXME: ignore errors
+
+
+        } else {
+            // normal event        
+            $hora_fin = $event->hora + $proposal->duracion;
+
+            for ($hhora=$event->hora; $hhora < $hora_fin; $hhora++) {
+                $query = 'INSERT INTO evento_ocupa
+                    (id_evento,hora,id_fecha,id_lugar)
+                     VALUES ('.$event->id.',
+                         '.$hhora.',
+                         '.$event->id_fecha.',
+                         '.$event->id_lugar.')';
+                
+                $rs = execute_sql($query, false);
+
+                if (!$rs) {
+                    //FIXME: ignore errors
+                }
             }
-        }
 
+        }
         // update proposal status
         $prop = new StdClass;
         $prop->id = $proposal->id;
@@ -47,7 +75,7 @@
 
         $rs = update_record('propuesta', $prop);
 
-    } else {
+    } elseif (!empty($event->id)) {
         // update records
         $rs = update_record('evento', $event);
 
@@ -58,28 +86,69 @@
             die; //exit
         }
 
-        // delete current references
-        delete_records('evento_ocupa', 'id_evento', $event->id);
 
-        // insert new slots
-        $hora_fin = $event->hora + $proposal->duracion;
+        // disabled
+        if (FALSE && $proposal->id_prop_tipo >= 100 && (!empty($extraordinario) || empty($event->id_fecha) || empty($event->id_lugar))) {
+            // delete all current event slots
+            delete_records('evento_ocupa', 'id_evento', (int) $event->id);
 
-        for ($hhora=$event->hora; $hhora < $hora_fin; $hhora++) {
-            $query = 'INSERT INTO evento_ocupa
-                (id_evento,hora,id_fecha,id_lugar)
-                 VALUES ('.$event->id.',
-                     '.$hhora.',
-                     '.$event->id_fecha.',
-                     '.$event->id_lugar.')';
-            
-            $rs = execute_sql($query, false);
+            if (!empty($extraordinario) && !empty($event->id_fecha) && !empty($event->id_lugar)) {
+                $hora_fin = $event->hora + $proposal->duracion;
 
-            if (!$rs) {
-                //FIXME: ignore errors
+                // reserves all time slot for each room
+                $rooms = get_records('lugar');
+
+                foreach ($rooms as $room) {
+                    for ($hhora = $event->hora; $hhora < $hora_fin; $hhora++) {
+                        $query = 'INSERT INTO evento_ocupa(id_evento,hora,id_fecha,id_lugar) VALUES(%d,%d,%d,%d)';
+
+                        // set event for proposal at room
+                        if ($room->id == $event->id_lugar) {
+                            $event_id = $event->id;
+                        } else {
+                            $event_id = 1; // reserved proposal
+                        }
+
+                        // build query
+                        $query = sprintf($query, $event_id, $hhora, $event->id_fecha, $room->id);
+
+                        $rs = execute_sql($query, false);
+
+                        if (!$rs) {
+                            //FIXME: errors
+                        }
+                    }
+                }
+
             }
+
+        } else {
+            // normal update
+            // delete current references
+                delete_records('evento_ocupa', 'id_evento', $event->id);
+
+            // insert new slots
+            $hora_fin = $event->hora + $proposal->duracion;
+
+            for ($hhora=$event->hora; $hhora < $hora_fin; $hhora++) {
+                $query = 'INSERT INTO evento_ocupa
+                    (id_evento,hora,id_fecha,id_lugar)
+                     VALUES ('.$event->id.',
+                         '.$hhora.',
+                         '.$event->id_fecha.',
+                         '.$event->id_lugar.')';
+                
+                $rs = execute_sql($query, false);
+
+                if (!$rs) {
+                    //FIXME: ignore errors
+                }
+            }
+
+            // no need to update proposal
         }
 
-        // no need to update proposal
     }
+
 
 ?>

@@ -110,7 +110,7 @@ END;
         $time = sprintf('%02d:00 - %02d:50', $proposal->hora, $endhour);
 
         // availability
-        $disp = $proposal->cupo;
+        $disp = (empty($proposal->cupo)) ? '' : 'N de '.$proposal->cupo;
 
         // friendly date
         $human_date = friendly_date($proposal->fecha);

@@ -3,6 +3,7 @@ if (!defined('Context') || Context != 'admin') {
     header('Location: ' . get_url());
 }
 
+// new event schedule
 if (Action == 'scheduleevent') {
     preg_match('#^admin/events/schedule/(\d+)/?#', $q, $matches);
     $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
@@ -18,23 +19,28 @@ if (Action == 'scheduleevent') {
     } 
 }
 
+// update event
 else { // want to update the page
     preg_match('#^admin/events/(\d+)/?$#', $q, $matches);
     $event_id= (!empty($matches)) ? (int) $matches[1] : 0;
 
-    $event = get_record('evento', 'id', $event_id);
-    
-    // get date/hour/room
-    $event_place = get_record_sql('SELECT * FROM evento_ocupa WHERE id_evento='.$event->id.' GROUP BY id_evento');
+    if ($event_id == 1) {
+        $errmsg[] = 'No puede modificar este evento. Es utilizado para reservar hora y lugar para eventos principales.';
+    } else {
+        $event = get_record('evento', 'id', $event_id);
 
-    $event->id_fecha = (int)$event_place->id_fecha;
-    $event->id_lugar = (int)$event_place->id_lugar;
-    $event->hora = (int)$event_place->hora;
+        // get date/hour/room
+        $event_place = get_record_sql('SELECT * FROM evento_ocupa WHERE id_evento='.$event->id.' GROUP BY id_evento');
 
-    //update admin
-    $event->id_administrador = $USER->id;
+        $event->id_fecha = (int)$event_place->id_fecha;
+        $event->id_lugar = (int)$event_place->id_lugar;
+        $event->hora = (int)$event_place->hora;
 
-    $proposal = get_proposal($event->id_propuesta);
+        //update admin
+        $event->id_administrador = $USER->id;
+
+        $proposal = get_proposal($event->id_propuesta);
+    }
 }
 
 require($CFG->admdir . 'event_optional_params.php');
@@ -52,7 +58,7 @@ if (Action == 'scheduleevent') {
 }
 
 // process submit
-if (!empty($submit) && !empty($event) && !empty($proposal)) {
+if (!empty($submit) && !empty($event) && !empty($proposal) && empty($errmsg)) {
     // messages holder
     $errmsg = array();
 
@@ -89,7 +95,8 @@ if (!empty($submit) && !empty($event) && !empty($proposal)) {
     }
 } 
 
-if (Action == 'scheduleevent' && empty($proposal)) {
+if (Action == 'scheduleevent' && empty($proposal) || !empty($errmsg)) {
+//    show_error($errmsg, false);
 ?>
 
 <p class="center">La ponencia que elegiste para programar ya ha sido dado de alta.</p>

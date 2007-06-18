@@ -7,9 +7,59 @@ if (empty($CFG) || Context != 'admin') {
 // build data table
 $table_data = array();
 
+if (Action == 'newevent') {
+    //input only for event
+    // name
+    $input_data = do_get_output('do_input', array('S_nombre', 'text', $proposal->nombre, 'size="43" maxlength="150"'));
+
+    $table_data[] = array(
+        'Nombre del evento: *',
+        $input_data
+        );
+
+    // resumen 
+    $input_data = <<< END
+    <textarea name="S_resumen" cols="50" rows="5">{$proposal->resumen}</textarea>
+END;
+
+    $table_data[] = array(
+        'Descripción: *',
+        $input_data,
+        );
+
+    // track
+    $options = get_records('orientacion');
+    $input_data = do_get_output('do_input_select', array('I_id_orientacion', $options, $proposal->id_orientacion));
+
+    $table_data[] = array(
+        'Orientación: *',
+        $input_data
+        );
+
+    // prop_tipo
+    $options = get_records_select('prop_tipo', 'id > 100');
+    $input_data = do_get_output('do_input_select', array('I_id_prop_tipo', $options, $proposal->id_prop_tipo));
+
+    $table_data[] = array(
+        'Tipo de evento: *',
+        $input_data
+        );
+}
+
 // date name
+$extra = 'style=\'width:110px;\'';
+$default_date = '';
+
 $dates = get_records_sql('SELECT id, fecha AS descr FROM fecha_evento ORDER BY descr');
-$input_data = do_get_output('do_input_select', array('I_id_fecha', $dates, $event->id_fecha, true, '', 0, 'style=\'width:110px;\''));
+
+//organizational events can assign to all dates
+if (Action == 'newevent' || $proposal->id_prop_tipo > 100) {
+    //TODO: multiple dates
+//    $extra .= ' multiple=\'multiple\'';
+//    $default_date = 'Todos los días';
+}
+
+$input_data = do_get_output('do_input_select', array('I_id_fecha', $dates, $event->id_fecha, true, $default_date, 0, $extra));
 
 $table_data[] = array(
     'Fecha de evento: *',
@@ -25,7 +75,13 @@ if ($proposal->id_prop_tipo < 50 || $proposal->id_prop_tipo >= 100) {
 
 $rooms = get_records_sql('SELECT id, nombre_lug AS descr FROM lugar WHERE '.$where.' ORDER BY nombre_lug');
 
-$input_data = do_get_output('do_input_select', array('I_id_lugar', $rooms, $event->id_lugar, 'size="30"'));
+$default_lugar = '';
+//organizational events can assign to no room
+if (Action == 'newevent' || $proposal->id_prop_tipo > 100) {
+//    $default_lugar = 'Exteriores';
+}
+
+$input_data = do_get_output('do_input_select', array('I_id_lugar', $rooms, $event->id_lugar, true, $default_lugar));
 
 $table_data[] = array(
     'Lugar de evento: *',
@@ -39,6 +95,30 @@ $table_data[] = array(
     'Hora de inicio: *',
     $input_data
     );
+
+if (Action == 'newevent') {
+    // duracion
+    $input_data = do_get_output('do_input_number_select', array('I_duracion', 1, 4, $proposal->duracion, true, '', 0, true));
+
+    $table_data[] = array(
+        'Duración: *',
+        $input_data,
+        );
+}
+
+// show extraordinary option to magistral conference and organizational events
+// DISABLED
+if (false && (Action == 'newevent' || $proposal->id_prop_tipo >= 100)) {
+    // extraordinario
+    $selected = (empty($extraordinario)) ? 0 : 1;
+    $input_data = do_get_output('do_input_yes_no', array('I_extraordinario', $selected));
+    $desc = '<span class="littleinfo">Selecciona "YES" para reservar la hora en todos los lugares.</span>';
+
+    $table_data[] = array(
+        'Evento extraordinario: *',
+        $input_data.$desc
+        );
+}
 
 // show tdata
 do_table_input($table_data, 'left');
