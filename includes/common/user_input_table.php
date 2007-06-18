@@ -157,7 +157,11 @@ if (Context == 'ponente' || Action == 'newspeaker') {
 
 if (Context == 'asistente' || Action == 'newperson') {
     // tipo asistente
-    $options = get_records('tasistente');
+    if (Context == 'admin') {
+        $options = get_records('tasistente');
+    } else {
+        $options = get_records_select('tasistente', 'id < 100');
+    }
     $input_data = do_get_output('do_input_select', array('I_id_tasistente', $options, $user->id_tasistente));
 
     $table_data[] = array(

@@ -43,6 +43,11 @@
     if (Context == 'asistente' || Action == 'newperson') {
         // asistente values
         $id_tasistente = optional_param('I_id_tasistente', 0, PARAM_INT);
+
+        //check for correct value
+        if (Context != 'admin') {
+            $id_tasistente = ($id_tasistente < 100) ? $id_tasistente : 0;
+        }
     }
 
     // set $user object if empty
