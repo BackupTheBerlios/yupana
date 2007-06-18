@@ -408,7 +408,7 @@ elseif (preg_match('#^admin/schedule$#', $q)) {
     define('Action', 'viewschedule');
 
     do_header('Programa de Eventos');
-    include($CFG->admdir . 'schedule_list.php');
+    include($CFG->admdir . 'schedule_view.php');
     do_submit_cancel('', 'Regresar', $CFG->home_url);
 }
 

@@ -146,7 +146,7 @@ elseif (!empty($CFG->public_schedule) && schedule_has_events() && preg_match('#^
     define('Action', 'viewschedule');
 
     do_header('Programa preliminar');
-    include($CFG->admdir . 'schedule_list.php');
+    include($CFG->admdir . 'schedule_view.php');
     do_submit_cancel('', 'Regresar', get_url());
 }
 
