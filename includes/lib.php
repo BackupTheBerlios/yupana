@@ -552,5 +552,82 @@ if (!function_exists('__gettext')) {
 }
 
 
+// required functions for uploadlig.php, taked from elgglib.php
+
+/**
+ * Converts numbers like 10M into bytes.
+ *
+ * @param mixed $size The size to be converted
+ * @return mixed
+ */
+function get_real_size($size=0) {
+    if (!$size) {
+        return 0;
+    }
+    $scan['GB'] = 1073741824;
+    $scan['Gb'] = 1073741824;
+    $scan['G'] = 1073741824;
+    $scan['g'] = 1073741824;
+    $scan['MB'] = 1048576;
+    $scan['Mb'] = 1048576;
+    $scan['M'] = 1048576;
+    $scan['m'] = 1048576;
+    $scan['KB'] = 1024;
+    $scan['Kb'] = 1024;
+    $scan['K'] = 1024;
+    $scan['k'] = 1024;
+
+    while (list($key) = each($scan)) {
+        if ((strlen($size)>strlen($key))&&(substr($size, strlen($size) - strlen($key))==$key)) {
+            $size = substr($size, 0, strlen($size) - strlen($key)) * $scan[$key];
+            break;
+        }
+    }
+    return $size;
+}
+
+/**
+ * Returns the maximum size for uploading files.
+ *
+ * There are five possible upload limits:
+ * 1. in Apache using LimitRequestBody (no way of checking or changing this)
+ * 2. in php.ini for 'upload_max_filesize' (can not be changed inside PHP)
+ * 3. in .htaccess for 'upload_max_filesize' (can not be changed inside PHP)
+ * 4. in php.ini for 'post_max_size' (can not be changed inside PHP)
+ * 5. by the limitations on the current situation (eg file quota)
+ *
+ * The last one is passed to this function as an argument (in bytes).
+ * Anything defined as 0 is ignored.
+ * The smallest of all the non-zero numbers is returned.
+ *
+ * @param int $maxbytes Current maxbytes (in bytes)
+ * @return int The maximum size for uploading files.
+ * @todo Finish documenting this function
+ */
+function get_max_upload_file_size($maxbytes=0) {
+    global $CFG;
+
+    if (! $filesize = ini_get('upload_max_filesize')) {
+        if (!empty($CFG->absmaxuploadsize)) {
+            $filesize = $CFG->absmaxuploadsize;
+        } else {
+            $filesize = '5M';
+        }
+    }
+    $minimumsize = get_real_size($filesize);
+
+    if ($postsize = ini_get('post_max_size')) {
+        $postsize = get_real_size($postsize);
+        if ($postsize < $minimumsize) {
+            $minimumsize = $postsize;
+        }
+    }
+
+    if ($maxbytes and $maxbytes < $minimumsize) {
+        $minimumsize = $maxbytes;
+    }
+
+    return $minimumsize;
+}
 
 ?>
