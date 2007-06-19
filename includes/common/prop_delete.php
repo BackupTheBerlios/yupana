@@ -20,13 +20,15 @@ elseif (Context == 'admin') {
 }
 
 $submit = optional_param('submit');
+
+//check owner and status, dont delete acepted, scheduled or deleted¿?
+// can delete canceled proposal
+if (!empty($proposal) && ($proposal->id_status < 5 || $proposal->id_status = 6))  {
 ?>
 
 <h1>Eliminar propuesta</h1>
 
 <?php
-//check owner and status, dont delete acepted, scheduled or deleted¿?
-if (!empty($proposal) && ($proposal->id_status < 5))  {
 
     if (empty($submit)) {
         // confirm delete
