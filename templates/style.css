@@ -604,31 +604,44 @@ div#messages ul li {
 	padding: 8px 3px;
 }
 
-#schedule-table td.track-1 {
+#schedule-tracks {
+	margin: 0px;
+	padding: 0px;
+}
+
+#schedule-tracks td {
+	padding: 5px 5px;
+	text-align: center;
+}
+
+#schedule-table td.track-1, .track-1 {
 	background: #dd0;
 }
 
-#schedule-table td.track-2 {
+#schedule-table td.track-2, .track-2{
 	background: #d0d;
 }
 
-#schedule-table td.track-3 {
+#schedule-table td.track-3, .track-3{
 	background: #d0d;
 }
 
-#schedule-table td.track-4 {
+#schedule-table td.track-4, .track-4{
 	background: #d0d;
 }
 
 
-#schedule-table td.track-5 {
+#schedule-table td.track-5, .track-5{
 	background: #6cf;
 }
 
-#schedule-table td.track-6 {
+#schedule-table td.track-6, .track-6{
 	background: #d0d;
 }
 
+#schedule-table td.track-7, .track-7{
+	background: #d0d;
+}
 #schedule-table tr.table-headers {
 	background: #900;
 	color: #fff;

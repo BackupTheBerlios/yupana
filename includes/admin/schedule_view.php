@@ -6,7 +6,10 @@ if (empty($CFG)) {
 ?>
 
 <h1>Programa Preliminar</h1>
+
 <p class="center error"><em>Programa sujeto a cambios</em></p>
+
+<div class="block"></div>
 
 <?php
 
@@ -70,7 +73,7 @@ if (!empty($events)) {
         $human_date = friendly_date($date->fecha);
 ?>
 
-<h3><?=$human_date ?></h3>
+<h3 class="center"><?=$human_date ?></h3>
 
 <?php
         $table_data = array();
