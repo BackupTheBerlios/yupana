@@ -217,7 +217,7 @@ img {
 .notice {
 	color: #333;
 	font-size: 0.8em;
-	text-transform: italic;
+	font-style: italic;
 }
 
 .block {
@@ -271,7 +271,7 @@ p {
 	display: block;
 	width: 100%;
 	height: 100%;
-	margin-left: 50px;
+	margin-left: 10px;
 }
 
 #menuadmin h3 {
@@ -285,7 +285,7 @@ p {
 .menuadmin {
 	width: 200px;
 	height: 220px;
-	margin: 0 20px;
+	margin: 0 10px;
 }
 
 .menuadmin ul {
@@ -469,7 +469,7 @@ ul.speaker-details li p.resume {
 	color: #333;
 }
 #content {
-	padding: 0 50px;
+	padding: 0 20px;
 	padding-bottom: 25px;
 }
 
