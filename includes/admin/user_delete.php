@@ -53,7 +53,7 @@ if (!empty($user) && ($user_id != $USER->id || Action == 'deleteperson'))  {
         // confirm delete
 ?>
 
-<form method="POST" action="";
+<form method="POST" action="">
 
 <?php
         if (!empty($_SESSION['return_path'])) {
@@ -61,12 +61,25 @@ if (!empty($user) && ($user_id != $USER->id || Action == 'deleteperson'))  {
         }
 
         include($CFG->comdir . 'user_display_info.php');
+
         do_submit_cancel('Eliminar', 'Cancelar', get_url('admin'.$local_url));
 ?>
 
 </form>
 
 <?php
+        if (Action == 'deletespeaker') {
+            $msg = 'Propuestas Enviadas';
+        }
+?>
+
+<div class="block"></div>
+
+<h2 class="center"><?=$msg ?></h2>
+
+<?php
+        include($CFG->comdir . 'prop_list.php');
+
     } else {
         // delete!
         // (really change status to deleted)
@@ -158,8 +171,6 @@ if (!empty($user) && ($user_id != $USER->id || Action == 'deleteperson'))  {
 
 } else {
 ?>
-
-<h1><?=$desc ?> no encontrado</h1>
 
 <div class="block"></div>
 <p class="center">El usuario no existe.</p>

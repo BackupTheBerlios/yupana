@@ -18,6 +18,7 @@ if (Context == 'admin') {
     if (Action == 'listdeletedproposals') {
         // status deleted
         $where ='P.id_status = 7';
+        $order = 'P.act_time DESC';
     }
    
     elseif (Action == 'scheduleevent' || Action == 'addschedule') {
@@ -26,7 +27,7 @@ if (Context == 'admin') {
         $order = 'P.id_ponente';
     }
    
-    elseif (Action == 'viewspeaker') {
+    elseif (Action == 'viewspeaker' || Action == 'deletespeaker') {
         //list speaker own proposals
         $where = 'P.id_ponente='.$user->id;
     }
@@ -88,7 +89,7 @@ if (!empty($proposals)) {
             $table_data[] = array('Ponencia', 'Tipo', 'Orientación', 'Duración', '');
         }
 
-        elseif (Action == 'viewspeaker') {
+        elseif (Action == 'viewspeaker' || Action == 'deletespeaker') {
             $table_data[] = array('Ponencia', 'Tipo', 'Status', 'Adjuntos');
         }
 
@@ -146,11 +147,11 @@ END;
         elseif (Context == 'admin') {
             $urlp = get_url('admin/speakers/'.$proposal->id_ponente);
 
-            if (Action == 'listproposals' || Action == 'scheduleevent' || Action == 'addschedule' || Action == 'viewspeaker') {
+            if (Action == 'listproposals' || Action == 'scheduleevent' || Action == 'addschedule' || Action == 'viewspeaker' || Action == 'deletespeaker') {
 
                 $url = get_url('admin/proposals/'.$proposal->id);
 
-                if (Action == 'viewspeaker') {
+                if (Action == 'viewspeaker' || Action == 'deletespeaker') {
                     $l_ponencia = <<< END
 <ul class="proposal">
 <li><a href="{$url}">{$proposal->nombre}</a></li>
@@ -187,7 +188,8 @@ END;
 
             }
 
-            if (Action != 'scheduleevent' && Action != 'addschedule' && Action != 'viewspeaker') {
+            //show admin actions
+            if (Action != 'scheduleevent' && Action != 'addschedule' && Action != 'viewspeaker' && Action != 'deletespeaker') {
                 $actions = '<ul class="list-vmenu">';
 
                 foreach ($status_list as $stat) {
@@ -272,7 +274,7 @@ END;
                     );
             }
            
-            elseif (Action == 'viewspeaker') {
+            elseif (Action == 'viewspeaker' || Action == 'deletespeaker') {
                 $table_data[] = array(
                     $l_ponencia,
                     $proposal->tipo,
