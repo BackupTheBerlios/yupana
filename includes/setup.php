@@ -16,7 +16,17 @@ $CFG->comdir = $CFG->incdir . 'common/';
 $CFG->tpldir = $CFG->rootdir . 'templates/';
 
 if (!is_readable($CFG->rootdir . 'config.php')) {
-    die('Can not find config.php file. Please read INSTALL file.');
+    echo '<html><body>';
+    echo '<table align="center"><tr>';
+    echo '<td style="color:#990000; text-align:center; font-size:large; border-width:1px; '.
+        '    border-color:#000000; border-style:solid; border-radius: 20px; border-collapse: collapse; '.
+        '    -moz-border-radius: 20px; padding: 15px">';
+    echo '<p>Error: Configuration file not found.</p>';
+    echo '<p>Perhaps is not installed properly. Please read INSTALL file and go to <a href="install.php">install.php</a>.</p>';
+    echo '</td></tr></table>';
+    echo '</body></html>';
+    die;
+
 }
 
 require($CFG->rootdir . 'config.php');
