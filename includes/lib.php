@@ -538,15 +538,16 @@ function verificaForm($id_tipo_usuario, $tabla){
 //initial gettext code
 //compatibility code
 //gettext workaround
+//
+if (!function_exists('__')) {
+    function __($s) {
+        return $s;
+    }
+}
+
 if (!function_exists('__gettext')) {
     function __gettext($s) {
         return __($s);
-    }
-
-    if (!function_exists('__')) {
-        function __($s) {
-            return __($s);
-        }
     }
 }
 
