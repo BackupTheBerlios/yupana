@@ -59,6 +59,13 @@ END;
     <p class="littleinfo">{$prop->nombrep} {$prop->apellidos}</p>
 END;
 
+                if (level_admin(2)) {
+                    $url = get_url('admin/events/'.$prop->id_evento.'/cancel');
+                    $column .= <<< END
+<a class="littleinfo precaucion" href="{$url}">Cancelar evento</a>
+END;
+
+                }
             }
         } else {
             $column = $prop;

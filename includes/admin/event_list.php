@@ -47,6 +47,11 @@ if (Context == 'ponente') {
     $proposals = get_events($date_id, $room_id, $date);
 }
 
+if (Context == 'admin') {
+    //for admin actions
+    $_SESSION['return_path'] = '/events';
+}
+
 if (!empty($proposals)) {
     $table_data = array();
 

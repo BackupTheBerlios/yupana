@@ -311,6 +311,20 @@ elseif (preg_match('#^admin/events/?$#', $q)) {
     do_submit_cancel('', 'Volver al Menu', get_url('admin'));
 }
 
+// events cancel
+elseif (level_admin(2) && preg_match('#^admin/events/\d+/cancel$#', $q)) {
+    define('Action', 'cancelevent');
+
+    if (!empty($_SESSION['return_path'])) {
+        $return_url = get_url('admin') . $_SESSION['return_path'];
+    } else {
+        //default return url
+        $return_url = get_url('admin/events');
+    }
+
+    do_header('Cancelar evento');
+    include($CFG->admdir . 'event_cancel.php');
+}
 
 /*
  * Administration

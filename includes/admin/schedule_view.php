@@ -17,6 +17,9 @@ if (Context == 'admin') {
     $dates = get_records('fecha_evento');
     //show all rooms
     $rooms = get_records('lugar');
+
+    //for add/cancel event
+    $_SESSION['return_path'] = '/schedule';
 } else {
     // only show dates and rooms with programmed events 
     // dates
@@ -52,7 +55,8 @@ if (!empty($events)) {
     $prop_query = '
         SELECT  P.id, P.nombre, PT.descr AS tipo,
         P.duracion,
-        P.id_orientacion, SP.nombrep, SP.apellidos
+        P.id_orientacion, SP.nombrep, SP.apellidos,
+        E.id AS id_evento
         FROM propuesta P 
         LEFT JOIN ponente SP ON SP.id = P.id_ponente
         LEFT JOIN prop_tipo PT ON PT.id = P.id_prop_tipo
