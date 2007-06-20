@@ -409,4 +409,28 @@ function show_error($errmsg, $error = true) {
 <?php
 }
 
+//size in bytes
+function human_filesize($size) {
+    $size = (int)$size;
+
+    if ($size < 1024) {
+        return $size . '&nbsp;bytes';
+    }
+
+    $size = $size / 1024;
+
+    if ($size < 1024) {
+        return sprintf('%.2d&nbsp;Kb.', $size);
+    }
+
+    $size = $size / 1024;
+
+    if ($size < 1024) {
+        return sprintf('%.2d&nbsp;Mb.');
+    }
+
+    //FIXME
+    return sprintf('%.2d&nbsp;Mb.');
+}
+
 ?>
