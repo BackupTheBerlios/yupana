@@ -34,7 +34,24 @@ elseif (Context == 'main') {
 
 if (Context == 'main' || Context == 'asistente') {
     $file = get_record('prop_files', 'id', $file_id, 'id_propuesta', $proposal_id, 'public', '1');
-} else {
+}
+
+elseif (Context == 'ponente') {
+    //check if it's private file and is owner, or public file
+    $file = get_record('prop_files', 'id', $file_id, 'id_propuesta', $proposal_id);
+
+    if (!$file->public) {
+        //not public, check ownership
+        $rs = get_record('propuesta', 'id', $proposal_id, 'id_ponente', $USER->id);
+
+        //not owner clear file
+        if (empty($rs)) {
+            unset($file);
+        }
+    }
+}
+
+else {
     $file = get_record('prop_files', 'id', $file_id, 'id_propuesta', $proposal_id);
 }
 
