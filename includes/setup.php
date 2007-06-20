@@ -49,6 +49,17 @@ if (!is_dir($CFG->files) || !is_writable($CFG->files)) {
     die("Fatal: Can't write in directory $CFG->files'");
 }
 
+//for uploadlib compatibility
+$CFG->dataroot = $CFG->files;
+
+if (empty($CFG->directorypermissions)) {
+    $CFG->directorypermissions = 0777;
+}
+
+if (empty($CFG->filepermissions)) {
+    $CFG->filepermissions = 0777;
+}
+
 /// Just say no to link prefetching (Moz prefetching, Google Web Accelerator, others)
 /// http://www.google.com/webmasters/faq.html#prefetchblock
 
