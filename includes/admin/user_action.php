@@ -31,4 +31,4 @@ $return_path = (empty($_SESSION['return_path'])) ? '' : $_SESSION['return_path']
 //clear return_path
 $_SESSION['return_path'] = '';
 
-header('Location: ' . get_url('admin'.$return_path));
+header('Location: ' . $return_path);

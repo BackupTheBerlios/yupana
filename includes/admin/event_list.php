@@ -49,7 +49,7 @@ if (Context == 'ponente') {
 
 if (Context == 'admin') {
     //for admin actions
-    $_SESSION['return_path'] = '/events';
+    $_SESSION['return_path'] = get_url('admin/events');
 }
 
 if (!empty($proposals)) {

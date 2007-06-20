@@ -139,7 +139,7 @@ if (!empty($user) && ($user_id != $USER->id || Action == 'deleteperson'))  {
             $return_url = get_url('admin/persons');
 
             if (!empty($_SESSION['return_path'])) {
-                $return_url = get_url('admin').$_SESSION['return_path'];
+                $return_url = $_SESSION['return_path'];
                 //clear return_path
                 $_SESSION['return_url'] = '';
             }

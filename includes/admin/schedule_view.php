@@ -22,7 +22,7 @@ if (Context == 'admin') {
     $rooms = get_records('lugar');
 
     //for add/cancel event
-    $_SESSION['return_path'] = '/schedule';
+    $_SESSION['return_path'] = get_url('admin/schedule');
 } else {
     // only show dates and rooms with programmed events 
     // dates
