@@ -69,7 +69,7 @@ if (!empty($proposals)) {
     $table_data = array();
 
     if (Context == 'ponente') {
-        $table_data[] = array('Ponencia', 'Tipo', 'Orientación', 'Estado', '', '');
+        $table_data[] = array('Ponencia', 'Tipo', 'Estado', '');
     }
    
     elseif (Context == 'admin') {
@@ -90,7 +90,7 @@ if (!empty($proposals)) {
         }
 
         elseif (Action == 'viewspeaker' || Action == 'deletespeaker') {
-            $table_data[] = array('Ponencia', 'Tipo', 'Status', 'Adjuntos');
+            $table_data[] = array('Ponencia', 'Tipo', 'Status', 'Archivos');
         }
 
         $status_list = get_records_select('prop_status', 'id < 7');
@@ -112,6 +112,12 @@ if (!empty($proposals)) {
 </li></ul>
 END;
 
+            // files management url
+            $url = get_url('speaker/proposals/'.$proposal->id.'/files');
+            $l_files = <<< END
+<a class="verde" href="{$url}">Archivos</a>
+END;
+
             $l_delete = '';
             $l_modify = '';
             // only can cancel not deleted,acepted or scheduled proposals
@@ -119,14 +125,14 @@ END;
                 $url = get_url('speaker/proposals/'.$proposal->id.'/delete');
 
                 $l_delete = <<< END
-<a class="precaucion" href="{$url}">Eliminar</a>
+&nbsp;|&nbsp;<a class="precaucion" href="{$url}">Eliminar</a>
 END;
                 // dont update discarded proposals
                 if ($proposal->id_status != 3 || $proposal->id_status != 6) {
                     $url = get_url('speaker/proposals/'.$proposal->id.'/update');
 
                     $l_modify = <<< END
-<a class="verde" href="{$url}">Modificar</a>
+&nbsp;|&nbsp;<a class="verde" href="{$url}">Modificar</a>
 END;
 
                 }
@@ -135,10 +141,10 @@ END;
             $table_data[] = array(
                 $l_ponencia,
                 $proposal->tipo,
-                $proposal->orientacion,
                 $proposal->status,
-                $l_delete,
-                $l_modify
+                $l_files.
+                $l_modify.
+                $l_delete
                 );
 
         }

@@ -7,7 +7,7 @@
     // initalize var
     $values = array();
 
-    if (Action == 'newproposal' || Action == 'updateproposal' || Action == 'deleteproposal' || Action == 'scheduleevent' || Action == 'editevent' || Action == 'cancelevent') {
+    if (Action == 'newproposal' || Action == 'updateproposal' || Action == 'deleteproposal' || Action == 'scheduleevent' || Action == 'editevent' || Action == 'cancelevent' || Action == 'proposalfiles') {
         if (Context == 'admin' && Action != 'scheduleevent' && Action != 'editevent') {
             $values['Nombre de Usuario'] = $proposal->login;
         }
@@ -24,18 +24,20 @@
         $values['Resumen'] = nl2br(htmlspecialchars($proposal->resumen));
     }
 
-    $values = array_merge($values, array(
-        'Tipo de Propuesta' => $proposal->tipo,
-        'Orientación' => $proposal->orientacion,
-        'Duración' => sprintf('%d Hrs.', $proposal->duracion),
-        'Nivel' => $proposal->nivel,
-        ));
+    if (Action != 'proposalfiles') {
+        $values = array_merge($values, array(
+            'Tipo de Propuesta' => $proposal->tipo,
+            'Orientación' => $proposal->orientacion,
+            'Duración' => sprintf('%d Hrs.', $proposal->duracion),
+            'Nivel' => $proposal->nivel,
+            ));
+    }
 
     if (Action != 'newproposal' && Action != 'updateproposal' && Action != 'scheduleevent' && Action != 'editevent') {
         $values['Status'] = '<b>' . $proposal->status . '</b>';
     }
 
-    if (Context == 'ponente' && !empty($proposal->adminmail)) {
+    if (Context == 'ponente' && !empty($proposal->adminmail) && Action != 'proposalfiles') {
         $contactmail = sprintf('<em>%s</em>', $proposal->adminmail);
 
         $values = array_merge($values, array(
@@ -88,4 +90,56 @@
         do_table_values($values, 'narrow');
     }
 
+    // show public files of proposals if it's programmed
+    if (Action == 'viewproposal' && ($proposal->id_status == 8 || $proposal->id_ponente == $USER->id || Context == 'admin')) {
+        //show files
+        $files = get_records('prop_files', 'id_propuesta', $proposal->id);
+
+        if (!empty($files)) {
+            $filelist = '';
+
+            foreach ($files as $f) {
+                if (!empty($f->public) || (!empty($USER) && $proposal->id_ponente == $USER->id) || Context == 'admin') {
+
+                    $size = human_filesize($f->size);
+                    $title = htmlspecialchars($f->title, ENT_COMPAT, 'utf-8');
+
+                    if (Context == 'main') {
+                        $url = get_url('general/proposals/'.$proposal->id.'/files/'.$f->id.'/'.$f->name);
+                    }
+
+                    elseif (Context == 'ponente') {
+                        $url = get_url('speaker/proposals/'.$proposal->id.'/files/'.$f->id.'/'.$f->name);
+                    }
+
+                    elseif (Context == 'admin') {
+                        $url = get_url('admin/proposals/'.$proposal->id.'/files/'.$f->id.'/'.$f->name);
+                    }
+
+                    if (empty($f->public)) {
+                        $private = '*';
+                    } else {
+                        $private = '';
+                    }
+
+                    $filelist .= <<< END
+    <li><a href="{$url}" title="({$f->name}) {$f->descr}">{$title}</a>{$private} <small>({$size})</small></li>
+END;
+
+                }
+            }
+
+            if (!empty($USER) && $proposal->id_ponente == $USER->id) {
+                $url = get_url('speaker/proposals/'.$proposal->id.'/files');
+                $filelist .= "<li><a class=\"verde\" href=\"{$url}\">Subir archivos</a></li>";
+            }
+
+            if (!empty($filelist)) {
+                $filelist = "<ul>{$filelist}</ul>";
+                do_table_values(array('Archivos' => $filelist), 'narrow');
+            }
+
+            }
+
+    }
 ?>

@@ -36,6 +36,8 @@ elseif (preg_match('#^speaker/details$#', $q)) {
 // menu proposals list
 elseif (preg_match('#^speaker/proposals/?$#', $q)) {
     define('Action', 'listproposals');
+    //clear session return path
+    $_SESSION['return_path'] = get_url('speakers/proposals');
 
     do_header('Lista de propuestas enviadas');
 
@@ -86,6 +88,48 @@ elseif (preg_match('#^speaker/proposals/(\d+)/delete$#', $q)) {
     $return_url = $return_url . '/proposals';
     include($CFG->comdir . 'prop_delete.php');
 }
+
+/*
+ * Files management
+ *
+ */
+
+// file management
+elseif (preg_match('#^speaker/proposals/\d+/files/?$#', $q)) {
+    define('Action', 'proposalfiles');
+
+    do_header('Adjuntos de la propuesta');
+    $return_url = $return_url . '/proposals';
+    include($CFG->comdir . 'prop_files.php');
+}
+
+// file download
+elseif (preg_match('#^speaker/proposals/\d+/files/\d+/.+$#', $q)) {
+    define('Action', 'downloadfile');
+    include($CFG->comdir . 'prop_files_download.php');
+}
+
+// file download
+elseif (preg_match('#^speaker/proposals/\d+/files/delete/\d+/?.*$#', $q)) {
+    define('Action', 'deletefile');
+
+    do_header('Eliminar archivo');
+    include($CFG->comdir . 'prop_files_delete.php');
+}
+
+// file edit
+elseif (preg_match('#^speaker/proposals/\d+/files/edit/\d+/?.*$#', $q)) {
+    define('Action', 'editfile');
+
+    do_header('Eliminar archivo');
+    include($CFG->comdir . 'prop_files_edit.php');
+}
+
+
+/*
+ * events
+ *
+ */
 
 // list events 
 elseif (preg_match('#^speaker/events/?$#', $q)) {
