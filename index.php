@@ -200,7 +200,7 @@ elseif (preg_match('#^general/information$#', $q)) {
  * admin views
  *
  */
-elseif (preg_match('#^admin/*+#', $q)) {
+elseif (preg_match('#^admin/?.*#', $q)) {
 
     // Delegate routing
     include($CFG->incdir . 'admin_views.php');
@@ -210,7 +210,7 @@ elseif (preg_match('#^admin/*+#', $q)) {
  *  author views
  *
  */
-elseif (preg_match('#^speaker/*+#', $q)) {
+elseif (preg_match('#^speaker/?.*#', $q)) {
 
     // Delegate routing
     include($CFG->incdir . 'speaker_views.php');
@@ -220,7 +220,7 @@ elseif (preg_match('#^speaker/*+#', $q)) {
  *  person views
  *
  */
-elseif (preg_match('#^person/*+#', $q)) {
+elseif (preg_match('#^person/?.*#', $q)) {
 
     // Delegate routing
     include($CFG->incdir . 'person_views.php');
