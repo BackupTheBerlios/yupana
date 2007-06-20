@@ -153,7 +153,7 @@ elseif (!empty($CFG->public_schedule) && schedule_has_events() && preg_match('#^
 // list proposals
 elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/?$#', $q)) {
     define('Context', 'main');
-    define('Action', 'viewproposal');
+    define('Action', 'listproposals');
     $return_url = get_url();
 
     do_header('Lista de propuestas enviadas');
@@ -165,13 +165,20 @@ elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/?$#', 
 }
 
 // view some proposal
-elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/.+#', $q)) {
+elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/\d+$#', $q)) {
     define('Context', 'main');
-    define('Action', 'listproposals');
+    define('Action', 'viewproposal');
 
     do_header('Detalles de propuesta');
     include($CFG->comdir . 'prop_view.php');
     do_submit_cancel('', 'Regresar');
+}
+
+// file download
+elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/\d+/files/\d+/?.*$#', $q)) {
+    define('Context', 'main');
+    define('Action', 'downloadfile');
+    include($CFG->comdir . 'prop_files_download.php');
 }
 
 // view info of kind of proposals
