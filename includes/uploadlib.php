@@ -177,19 +177,18 @@ class upload_manager {
      */
     function save_files($destination) {
         global $CFG, $USER;
-        $textlib = textlib_get_instance();
         
         if (!$this->status) { // preprocess_files hasn't been run
             $this->preprocess_files();
         }
         if ($this->status) {
-            if (!($textlib->strpos($destination, $CFG->dataroot) === false)) {
+            if (!(strpos($destination, $CFG->dataroot) === false)) {
                 // take it out for giving to make_upload_directory
-                $destination = $textlib->substr($destination, $textlib->strlen($CFG->dataroot));
+                $destination = substr($destination, strlen($CFG->dataroot));
             }
 
-            if ($destination{$textlib->strlen($destination)-1} == '/') { // strip off a trailing / if we have one
-                $destination = $textlib->substr($destination, 0, -1);
+            if ($destination{strlen($destination)-1} == '/') { // strip off a trailing / if we have one
+                $destination = substr($destination, 0, -1);
             }
 
             if (!make_upload_directory($destination, true)) { //TODO maybe put this function here instead of moodlelib.php now.
