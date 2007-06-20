@@ -74,7 +74,7 @@ END;
         if (Action == 'controlpersons') {
             $url = get_url('admin/persons/control/'.$user->id);
 
-            $_SESSION['return_path'] = '/persons/control';
+            $_SESSION['return_path'] = get_url('admin/persons/control');
 
             if (empty($user->asistencia)) {
                 $l_asistio = 'No';

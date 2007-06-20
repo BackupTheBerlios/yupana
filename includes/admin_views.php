@@ -316,7 +316,7 @@ elseif (level_admin(2) && preg_match('#^admin/events/\d+/cancel$#', $q)) {
     define('Action', 'cancelevent');
 
     if (!empty($_SESSION['return_path'])) {
-        $return_url = get_url('admin') . $_SESSION['return_path'];
+        $return_url = $_SESSION['return_path'];
     } else {
         //default return url
         $return_url = get_url('admin/events');
