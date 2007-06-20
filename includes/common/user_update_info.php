@@ -36,7 +36,7 @@
     }
 
     if (Context == 'admin' && Action == 'newadmin') {
-        $user->id_tadmin = $tadmin;
+        $user->id_tadmin = $id_tadmin;
     }
 
     // shared values of asistentes and ponentes
@@ -66,7 +66,7 @@
         $user->id_tasistente = $id_tasistente;
     }
 
-    if (Action == 'register' || Action == 'newspeaker' || Action == 'newperson') {
+    if (Action == 'register' || Action == 'newspeaker' || Action == 'newperson' || Action == 'newadmin') {
         // insert new record
         $rs = insert_record($dbtable, $user);
         $user->id = (int) $rs;

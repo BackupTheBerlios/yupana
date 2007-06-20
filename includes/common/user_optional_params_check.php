@@ -34,8 +34,7 @@
     }
 
     // check submit value
-    if (!empty($submit)
-        && (Context == 'admin ' || Context == 'ponente' || Context == 'asistente')) {
+    if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
         // Verificar si todos los campos obligatorios no estan vacios
         if (empty($login)
             || empty($nombrep)
@@ -50,7 +49,7 @@
         }
 
         // main admin cant be changed
-        if (Context == 'admin' && $login != 'admin') {
+        if (Context == 'admin' && $login != 'admin' && Action != 'newadmin') {
             $errmsg[] = "No puedes cambiar el usuario del administrador principal.";
         }
 

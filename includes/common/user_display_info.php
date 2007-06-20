@@ -40,11 +40,14 @@
     if (Context == 'admin'
         && (Action == 'editdetails' || Action == 'newadmin' || Action == 'deleteadmin' || Action == 'editadmin' || Action == 'viewadmin')) {
 
+        $tadmin = get_field('tadmin', 'descr', 'id', $user->id_tadmin);
+
         $values = array(
             'Usuario Administrador' => $user->login,
             'Nombre(s)' => $user->nombrep,
             'Apellidos' => $user->apellidos,
-            'Correo electrónico' => $user->mail
+            'Correo electrónico' => $user->mail,
+            'Tipo administrador' => $tadmin
             );
     }
 

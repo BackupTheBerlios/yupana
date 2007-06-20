@@ -71,6 +71,10 @@
         $attrs = array_merge($attrs, $add_attrs);
     }
 
+    if (Context == 'admin' && Action == 'newadmin') {
+        $attrs[] = 'id_tadmin';
+    }
+
     if (Context == 'ponente' || Context == 'asistente' || Action == 'newspeaker' || Action == 'newperson') {
         $add_attrs = array(
             'sexo',
@@ -103,7 +107,7 @@
 
     // fill $user attributes
     foreach ($attrs as $attr) {
-        if (!empty($submit) || Action == 'register' || Action == 'newspeaker' || Action == 'newperson') {
+        if (!empty($submit) || Action == 'register' || Action == 'newspeaker' || Action == 'newperson' || Action == 'newadmin') {
             // update values from input
             $user->$attr = $$attr;
         }

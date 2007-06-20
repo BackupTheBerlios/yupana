@@ -64,7 +64,7 @@ if (!empty($submit)) {
         // update user
         require($CFG->comdir . 'user_update_info.php');
 
-        if (Action == 'register') {
+        if (Action == 'register' || Action == 'newadmin') {
             $action_name = 'Continuar';
 
             if (Context == 'ponente') {

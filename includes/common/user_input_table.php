@@ -85,6 +85,17 @@ if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
         );
 }
 
+if (Context == 'admin' && Action == 'newadmin') {
+    $options = get_records('tadmin');
+
+    $input_data = do_get_output('do_input_select', array('I_id_tadmin', $options, $user->id_tadmin));
+
+    $table_data[] = array(
+        'Tipo administrador: *',
+        $input_data
+        );
+}
+
 if (Context == 'ponente' || Context == 'asistente' || Action == 'newspeaker' || Action == 'newperson') {
     // sexo
     $options = array();
