@@ -1,6 +1,6 @@
 <?php
 // dummy check
-if (empty($CFG) || (Context != 'admin' && Context != 'ponente')) {
+if (empty($CFG)) {
     die;
 }
 
@@ -70,7 +70,7 @@ if (!empty($proposals)) {
         $headers = array('Ponencia', 'Tipo', 'Fecha', 'Hora', 'Cupo', '');
     }
 
-    elseif (Context == 'ponente' && Action == 'viewevents') {
+    elseif ((Context == 'asistente' || Context == 'ponente') && Action == 'viewevents') {
         $headers = array('Ponencia', 'Tipo', 'Hora', 'Lugar');
     }
 
@@ -83,7 +83,7 @@ if (!empty($proposals)) {
         $current_date = $proposal->fecha;
 
         // check if start table
-        if ((Action == 'listevents' || (Context == 'ponente' && Action == 'viewevents')) && !empty($last_date) && $last_date != $current_date) {
+        if ((Action == 'listevents' || ((Context == 'asistente' || Context == 'ponente') && Action == 'viewevents')) && !empty($last_date) && $last_date != $current_date) {
             $human_date = friendly_date($last_date);
 ?>
 
@@ -105,12 +105,20 @@ if (!empty($proposals)) {
         $last_date = $current_date;
         $last_date_desc = $proposal->date_desc;
 
-        if (Context == 'ponente' && Action == 'viewevents') {
+        if ((Context == 'asistente' || Context == 'ponente') && Action == 'viewevents') {
             // set session return path
-            $_SESSION['return_path'] = get_url('speaker/events');
+            if (Context == 'asistente') {
+                $_SESSION['return_path'] = get_url('person/events');
 
-            // url ;-)
-            $url = get_url('speaker/proposals/'.$proposal->id);
+                // url ;-)
+                $url = get_url('person/proposals/'.$proposal->id);
+                   
+            } else {
+                $_SESSION['return_path'] = get_url('speaker/events');
+
+                // url ;-)
+                $url = get_url('speaker/proposals/'.$proposal->id);
+            }
 
             $l_ponencia = <<< END
 <ul>
@@ -191,7 +199,7 @@ END;
                 );
         }
 
-        elseif (Context == 'ponente' && Action == 'viewevents') {
+        elseif ((Context == 'asistente' || Context == 'ponente') && Action == 'viewevents') {
             // data
             $table_data[] = array(
                 $l_ponencia,
@@ -203,7 +211,7 @@ END;
 
     }
 
-    if (Action == 'listevents' || (Context == 'ponente' && Action == 'viewevents')) {
+    if (Action == 'listevents' || ((Context == 'asistente' || Context == 'ponente') && Action == 'viewevents')) {
         $human_date = friendly_date($last_date);
 ?>
 

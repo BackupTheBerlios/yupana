@@ -26,6 +26,13 @@ elseif (Context == 'admin') {
     $proposal = get_proposal($proposal_id);
 }
 
+elseif (Context == 'asistente') {
+    preg_match('#^person/proposals/(\d+)/?$#', $q, $matches);
+    $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
+
+    $proposal = get_proposal($proposal_id);
+}
+
 elseif (Context == 'main') {
     preg_match('#^general/proposals/(\d+)/?$#', $q, $matches);
     $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;

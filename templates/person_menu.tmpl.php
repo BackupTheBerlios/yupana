@@ -8,9 +8,8 @@
 
         <ul>
 
-            <li><a href="<?=$CFG->wwwroot ?>/edit.php?context=asistente">Modificar mis datos</a></li> 
-            <li><a href="asistente.php?opc=<?=HOJAREGISTRO ?>">Imprimir hoja de registro</a></li>
-            <li><a href="asistente.php?opc=<?=ENCUESTA ?>">Encuestas</a></li>
+            <li><a href="<?=get_url('person/details') ?>">Modificar mis datos</a></li> 
+            <li><a href="<?=get_url('person/kardex') ?>">Hoja de registro</a></li>
 
         </ul>
 
@@ -20,9 +19,8 @@
 
         <ul>
 
-            <li><a href="asistente.php?opc=<?=LEVENTOS ?>">Listas eventos programados</a></li>
-            <li><a href="asistente.php?opc=<?=LTALLERES ?>">Listar/Inscribirme a talleres y/o tutoriales</a></li>
-            <li><a href="asistente.php?opc=<?=LTALLERESREG ?>">Listar/Baja de talleres y/o tutoriales registrados</a></li>
+            <li><a href="<?=get_url('person/events') ?>">Listas eventos programados</a></li>
+            <li><a href="<?=get_url('person/workshops') ?>">Registro a talleres y/o tutoriales</a></li>
 
         </ul>
 

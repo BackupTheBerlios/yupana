@@ -2,6 +2,8 @@
 if (!defined('Context') || empty($CFG) || Context != 'asistente') {
     header('Location: ' . get_url());
 }
+
+$user = $USER;
 ?>
 
 <p class="error">No tires esta hoja, te servira para asistir a cualquier Conferencia y Platica Informal, Ademas de los talleres y tutoriales que tengas registrados. Tambien sirve para confirmar tus participaciones en eventos y extender tu constancia de asistencia.</p>
@@ -10,7 +12,6 @@ if (!defined('Context') || empty($CFG) || Context != 'asistente') {
 <h2 class="center"><?=$USER->apellidos ?> <?=$USER->nombrep ?></h2>
 
 <?php
-define('SubContext', 'kardex');
 require($CFG->comdir . 'user_display_info.php');
 
 // Status 7 es Eliminado

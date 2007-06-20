@@ -18,6 +18,13 @@ elseif (Context == 'admin') {
     $return_url = get_url('admin/proposals');
 }
 
+elseif (Context == 'asistente') {
+    preg_match('#^person/proposals/(\d+)/files/(\d+)/?.*$#', $q, $matches);
+    $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
+    $file_id = (!empty($matches)) ? (int) $matches[2] : 0;
+    $return_url = get_url('person/events');
+}
+
 elseif (Context == 'main') {
     preg_match('#^general/proposals/(\d+)/files/(\d+)/?.*$#', $q, $matches);
     $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
@@ -25,7 +32,7 @@ elseif (Context == 'main') {
     $return_url = get_url('general/proposals');
 }
 
-if (Context == 'main') {
+if (Context == 'main' || Context == 'asistente') {
     $file = get_record('prop_files', 'id', $file_id, 'id_propuesta', $proposal_id, 'public', '1');
 } else {
     $file = get_record('prop_files', 'id', $file_id, 'id_propuesta', $proposal_id);

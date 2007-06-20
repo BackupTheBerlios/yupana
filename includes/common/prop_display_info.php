@@ -108,6 +108,10 @@
                         $url = get_url('general/proposals/'.$proposal->id.'/files/'.$f->id.'/'.$f->name);
                     }
 
+                    elseif (Context == 'asistente') {
+                        $url = get_url('person/proposals/'.$proposal->id.'/files/'.$f->id.'/'.$f->name);
+                    }
+
                     elseif (Context == 'ponente') {
                         $url = get_url('speaker/proposals/'.$proposal->id.'/files/'.$f->id.'/'.$f->name);
                     }
