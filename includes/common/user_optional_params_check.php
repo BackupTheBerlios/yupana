@@ -49,7 +49,7 @@
         }
 
         // main admin cant be changed
-        if (Context == 'admin' && $login != 'admin' && Action != 'newadmin') {
+        if (Context == 'admin' && Action == 'editdetails' && $login != 'admin') {
             $errmsg[] = "No puedes cambiar el usuario del administrador principal.";
         }
 

@@ -8,7 +8,7 @@
         // shared values of all type of users
         $submit = optional_param('submit');
 
-        if (Context == 'admin' && $USER->id == 1) {
+        if (Context == 'admin' && Action == 'editdetails' && $USER->id == 1) {
             $login = 'admin';
         } else {
             $login = strtolower(optional_param('S_login'));

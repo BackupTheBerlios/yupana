@@ -16,7 +16,7 @@ $table_data = array();
 if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
     // login
     if (Context == 'admin') {
-        if ($user->login == 'admin') {
+        if (Action == 'editdetails' && $USER->login == 'admin') {
             
             // disable the input box for login 
             $input_data = do_get_output('do_input', array('S_login', 'text', $user->login, 'size="15" disabled="disabled"'));
