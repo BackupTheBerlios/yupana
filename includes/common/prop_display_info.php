@@ -122,7 +122,7 @@ END;
 
         }
 
-        if (!empty($USER) && $proposal->id_ponente == $USER->id) {
+        if (!empty($USER) && Context == 'speaker' && $proposal->id_ponente == $USER->id) {
             $url = get_url('speaker/proposals/'.$proposal->id.'/files');
             $filelist .= "<li><a class=\"verde\" href=\"{$url}\">Subir archivos</a></li>";
         }
