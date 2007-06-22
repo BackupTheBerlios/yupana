@@ -22,7 +22,7 @@
 
 <?php } ?>
 
-<?php if (!empty($CFG->public_schedule)) { ?>
+<?php if (!empty($CFG->public_schedule) && schedule_has_events()) { ?>
 
     <h3><a href="<?=get_url('general/schedule') ?>">Programa preliminar</a></h3>
 
