@@ -96,6 +96,13 @@
                         && $testuser->id != $USER->id))) {
                 $errmsg[] = 'El usuario que elegiste ya ha sido tomado; por favor elige otro';
             }
+
+            // If unique_mail true, check user mail in db
+            if (!empty($CFG->unique_mail)) {
+                if (record_exists($dbtable, 'mail', $mail)) {
+                    $errmsg[] = 'El correo electrónico que elegiste ya ha sido registrado.';
+                }
+            }
         }
     }
 
