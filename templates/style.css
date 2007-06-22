@@ -689,6 +689,7 @@ div#messages ul li {
 }
 
 /* Horas de receso */
+/*
 #schedule-table tr.hour-4 {
 	background: #ddd;
 }
@@ -696,6 +697,7 @@ div#messages ul li {
 #schedule-table tr.hour-5 {
 	background: #ddd;
 }
+/**/
 
 dt {
 	font-weight: bold;
