@@ -1,0 +1,35 @@
+QUICKINSTALL
+============
+
+Once uploaded to webserver:
+
+1. Create database and grant privileges to yupana user with password 'yupana'
+
+mysql> CREATE DATABASE yupana DEFAULT CHARSET 'utf8';
+mysql> GRANT ALL PRIVILEGES ON yupana.* TO 'yupana'@'localhost' IDENTIFIED BY 'yupana';
+
+2. Insert databse schema
+
+shell> mysql -u yupana -p yupana -h localhost yupana < includes/db/mysql.sql
+
+3. Copy config-dist.php to config.php
+   (Note: if you use another values for database name/user/password
+    you need to modify config.php to your needs)
+
+4. Create a directory for proposal files and change write permissions
+
+shell> mkdir /full/path/to/archives
+shell> chmod 777 /full/path/to/archives
+
+5. Edit $CFG->files in config.php
+
+6. Login into your yupana url http://server/yupana
+
+That's all!
+
+You can login into admin panel in: http://server/yupana/?q=admin with:
+
+Username: admin
+Password: admin
+
+If you have mod_rewrite support, to enable clean urls go into configuration and enable it.
