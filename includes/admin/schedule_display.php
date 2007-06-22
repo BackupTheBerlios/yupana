@@ -7,6 +7,8 @@ $query = 'SELECT O.* FROM orientacion O
         JOIN evento E ON E.id_propuesta = P.id';
 
 $tracks = get_records_sql($query);
+
+if (!empty($tracks)) {
 ?>
 
 <table id="schedule-tracks" class="wide">
@@ -22,6 +24,8 @@ $tracks = get_records_sql($query);
 </tr></table>
 
 <?php
+}
+
 $trfirst = true;
 $even = true;
 
