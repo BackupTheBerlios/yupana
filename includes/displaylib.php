@@ -258,6 +258,29 @@ function do_input_yes_no($name, $selected=0, $yes_desc='Yes', $no_desc='No', $ex
     do_input_select($name, $options, $selected, false, '', 0, $extra);
 }
 
+function do_input_time_slot ($name, $start, $end, $selected=0, $timeslot=1) {
+    $options = array();
+
+    if ($start < $end) {
+        $slotend = 0;
+
+        for ($n=$start; $n<=$end; $n++) {
+            $nend = $n + $timeslot -1;
+
+            if ($nend <= $end) {
+                $option = new StdClass;
+                $option->id = $n;
+                $option->descr = sprintf('%02d:00 - %02d:50', $n, $nend);
+                $options[] = $option;
+            }
+        }
+    }
+
+    if (!empty($options)) {
+        do_input_select($name, $options, $selected);
+    }
+}
+
 function do_input_number_select ($name, $start, $end, $selected=0, $unset=true, $unsetdesc='', $unsetval=0, $isdate=false, $ismonth=false) {
     // build options object for do_input_select
     $options = array();
@@ -300,7 +323,7 @@ function do_input_number_select ($name, $start, $end, $selected=0, $unset=true, 
     if (!empty($options)) {
         do_input_select($name, $options, $selected, $unset, $unsetdesc, $unsetval);
     }
-}
+} 
 
 function do_input_birth_select ($dayname, $monthname, $yearname, $dayselect=0, $monthselect=0, $yearselect=0) {
     // alias
