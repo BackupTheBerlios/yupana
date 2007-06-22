@@ -40,8 +40,12 @@ if (Context == 'admin') {
         $none->descr = 'Usuario';
     }
 
-    // put at the top "none"
-    $admins = array_merge(array($none), $admins);
+    if (!empty($admins)) {
+        // put at the top "none"
+        $admins = array_merge(array($none), $admins);
+    } else {
+        $admins = array($none);
+    }
 
     $admins_input = do_get_output('do_input_select', array('filter_id_adminlogin', $admins, $id_admin, true, '', 0, $onChange));
 
