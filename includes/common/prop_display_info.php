@@ -95,8 +95,9 @@
         //show files
         $files = get_records('prop_files', 'id_propuesta', $proposal->id);
 
+        $filelist = '';
+
         if (!empty($files)) {
-            $filelist = '';
 
             foreach ($files as $f) {
                 if (!empty($f->public) || (!empty($USER) && $proposal->id_ponente == $USER->id) || Context == 'admin') {
@@ -133,17 +134,17 @@ END;
                 }
             }
 
-            if (!empty($USER) && $proposal->id_ponente == $USER->id) {
-                $url = get_url('speaker/proposals/'.$proposal->id.'/files');
-                $filelist .= "<li><a class=\"verde\" href=\"{$url}\">Subir archivos</a></li>";
-            }
+        }
 
-            if (!empty($filelist)) {
-                $filelist = "<ul>{$filelist}</ul>";
-                do_table_values(array('Archivos' => $filelist), 'narrow');
-            }
+        if (!empty($USER) && $proposal->id_ponente == $USER->id) {
+            $url = get_url('speaker/proposals/'.$proposal->id.'/files');
+            $filelist .= "<li><a class=\"verde\" href=\"{$url}\">Subir archivos</a></li>";
+        }
 
-            }
+        if (!empty($filelist)) {
+            $filelist = "<ul>{$filelist}</ul>";
+            do_table_values(array('Archivos' => $filelist), 'narrow');
+        }
 
     }
 ?>
