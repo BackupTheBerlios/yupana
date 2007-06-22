@@ -68,7 +68,6 @@ elseif (preg_match('#^speaker/proposals/\d+/?$#', $q)) {
 
     do_header('Detalles de propuesta');
     include($CFG->comdir . 'prop_view.php');
-    do_submit_cancel('', 'Regresar', $return_url);
 }
 
 // edit proposals details

@@ -99,10 +99,10 @@ elseif (preg_match('#^admin/proposals/?$#', $q)) {
 // view proposal
 elseif (preg_match('#^admin/proposals/\d+/?$#', $q)) {
     define('Action', 'viewproposal');
+    $return_url = get_url('admin/proposals');
 
     do_header('Detalles de ponencia');
     include($CFG->comdir . 'prop_view.php');
-    do_submit_cancel('', 'Regresar');
 }
 
 // download proposals files
@@ -134,10 +134,10 @@ elseif (level_admin(2) && preg_match('#^admin/proposals/deleted/?$#', $q)) {
 // view deleted proposal
 elseif (level_admin(2) && preg_match('#^admin/proposals/deleted/\d+/?$#', $q)) {
     define('Action', 'viewdeletedproposal');
+    $return_url = get_url('admin/proposals/deleted');
 
     do_header('Detalles de ponencia');
     include($CFG->comdir . 'prop_view.php');
-    do_submit_cancel('', 'Regresar', get_url('admin/proposals/deleted'));
 }
 
 // change status of  deleted proposals
