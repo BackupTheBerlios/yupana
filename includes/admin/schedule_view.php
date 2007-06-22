@@ -23,6 +23,13 @@ if (Context == 'admin') {
 
     //for add/cancel event
     $_SESSION['return_path'] = get_url('admin/schedule');
+
+    if (empty($dates)) {
+        show_error('No se encuentra ninguna fecha registrada.', false);
+    } elseif (empty($rooms)) {
+        show_error('No se encuentra ningún lugar registrado');
+    }
+
 } else {
     // only show dates and rooms with programmed events 
     // dates
@@ -36,7 +43,6 @@ if (Context == 'admin') {
             JOIN evento_ocupa EO ON EO.id_lugar = L.id ORDER BY L.id';
 
     $rooms = get_records_sql($query);
-
 }
 
 $nrooms = sizeof($rooms);
@@ -53,7 +59,7 @@ for ($h = $CFG->def_hora_ini; $h < $CFG->def_hora_fin; $h++) {
 
 $events = count_records('evento');
 
-if (!empty($events)) {
+if (true || !empty($events)) {
 
     $prop_query = '
         SELECT  P.id, P.nombre, PT.descr AS tipo,
