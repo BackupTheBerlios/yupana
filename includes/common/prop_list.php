@@ -74,7 +74,7 @@ if (!empty($proposals)) {
    
     elseif (Context == 'admin') {
         if (Action == 'listproposals') {
-            $table_data[] = array('Ponencia', 'Tipo', 'Status', 'Asignado', '');
+            $table_data[] = array('Ponencia', 'Tipo', 'Archivos', 'Status', 'Asignado', '');
         } 
 
         elseif (Action == 'listdeletedproposals') {
@@ -221,6 +221,17 @@ END;
 
             }
 
+            // show files
+            if (Action == 'listproposals') {
+                $n = count_records('prop_files', 'id_propuesta', $proposal->id);
+
+                if ($n > 0) {
+                    $prop_files = sprintf('Si <small>(%d)</small>', $n);
+                } else {
+                    $prop_files = 'No';
+                }
+            }
+
             if (Action == 'listdeletedproposals') {
                 $adminuser = empty($proposal->adminlogin) ? 'Usuario' : $proposal->adminlogin;
             } else {
@@ -249,6 +260,7 @@ END;
                 $table_data[] = array(
                     $l_ponencia,
                     $proposal->tipo,
+                    $prop_files,
                     $proposal->status,
                     $adminuser,
                     $l_delete
