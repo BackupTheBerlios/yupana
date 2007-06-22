@@ -59,7 +59,11 @@ if (Action == 'newevent' || $proposal->id_prop_tipo > 100) {
 //    $default_date = 'Todos los días';
 }
 
-$input_data = do_get_output('do_input_select', array('I_id_fecha', $dates, $event->id_fecha, true, $default_date, 0, $extra));
+if (!empty($dates)) {
+    $input_data = do_get_output('do_input_select', array('I_id_fecha', $dates, $event->id_fecha, true, $default_date, 0, $extra));
+} else {
+    $input_data = '<em>No se encuentra ninguna fecha registrada</em>';
+}
 
 $table_data[] = array(
     'Fecha de evento: *',
@@ -81,7 +85,11 @@ if (Action == 'newevent' || $proposal->id_prop_tipo > 100) {
 //    $default_lugar = 'Exteriores';
 }
 
-$input_data = do_get_output('do_input_select', array('I_id_lugar', $rooms, $event->id_lugar, true, $default_lugar));
+if (!empty($rooms)) {
+    $input_data = do_get_output('do_input_select', array('I_id_lugar', $rooms, $event->id_lugar, true, $default_lugar));
+} else {
+    $input_data = '<em>No se encuentra ningún lugar registrado</em>';
+}
 
 $table_data[] = array(
     'Lugar de evento: *',
