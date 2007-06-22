@@ -7,7 +7,7 @@
     // initalize var
     $values = array();
 
-    if (Action == 'newproposal' || Action == 'updateproposal' || Action == 'deleteproposal' || Action == 'scheduleevent' || Action == 'editevent' || Action == 'cancelevent' || Action == 'proposalfiles') {
+    if (Context == 'admin' || Action == 'newproposal' || Action == 'updateproposal' || Action == 'deleteproposal' || Action == 'scheduleevent' || Action == 'editevent' || Action == 'cancelevent' || Action == 'proposalfiles') {
         if (Context == 'admin' && Action != 'scheduleevent' && Action != 'editevent') {
             $values['Nombre de Usuario'] = $proposal->login;
         }
