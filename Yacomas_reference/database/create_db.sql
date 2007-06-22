@@ -1,456 +1,399 @@
--- We create the database and the user that is gonna be permissions to use it
+-- default charset
 
-CREATE DATABASE IF NOT EXISTS yacomas;
-GRANT SELECT,INSERT,UPDATE,DELETE,CREATE,DROP
-ON yacomas.* TO 'yacomas'@'localhost' IDENTIFIED BY 'yacomas';
-
--- We start to create all the tables
-
-USE yacomas;
-
-DROP TABLE IF EXISTS datalists;
-CREATE TABLE IF NOT EXISTS datalists (
-  id int(10) unsigned NOT NULL auto_increment,
-  name varchar(32) NOT NULL,
-  value text NOT NULL,
-  PRIMARY KEY (id, name)
-) TYPE=MyISAM;
-
-INSERT INTO datalists VALUES (1, 'conference_name', 'My conference');
-INSERT INTO datalists VALUES (2, 'conference_link', 'http://www.my-conference.org');
-INSERT INTO datalists VALUES (3, 'adminmail', 'admin@my-conference.org');
-INSERT INTO datalists VALUES (4, 'general_mail', 'noreply@my-conference.org');
-INSERT INTO datalists VALUES (5, 'limite', '100');
-INSERT INTO datalists VALUES (6, 'def_hora_ini', '8');
-INSERT INTO datalists VALUES (7, 'def_hora_fin', '22');
-INSERT INTO datalists VALUES (8, 'max_inscripcionTA', '2');
-INSERT INTO datalists VALUES (9, 'max_inscripcionTU', '3');
-INSERT INTO datalists VALUES (10, 'send_mail', '0');
-INSERT INTO datalists VALUES (11, 'smtp', '');
-INSERT INTO datalists VALUES (12, 'wwwroot', '');
-
-
-DROP TABLE IF EXISTS administrador;
-CREATE TABLE administrador (
-  id int(10) unsigned NOT NULL auto_increment,
-  login varchar(15) NOT NULL default '',
-  passwd varchar(32) NOT NULL default '',
-  nombrep varchar(50) NOT NULL default '',
-  apellidos varchar(50) NOT NULL default '',
-  mail varchar(100) NOT NULL default '',
-  id_tadmin int(10) NOT NULL default '0',
-  PRIMARY KEY  (id,login,id_tadmin)
-) TYPE=MyISAM;
+SET NAMES 'utf8';
+SET CHARSET 'utf8';
 
 --
--- Dumping data for table 'administrador'
+-- Table structure for table `datalists`
 --
+
+DROP TABLE IF EXISTS `datalists`;
+CREATE TABLE `datalists` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `name` varchar(32) NOT NULL,
+  `value` text NOT NULL,
+  PRIMARY KEY  (`id`,`name`)
+);
+
+INSERT INTO `datalists`(`name`,`value`) VALUES ('conference_name', 'My conference');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('conference_link', 'http://www.my-conference.org');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('adminmail', 'admin@my-conference.org');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('general_mail', 'noreply@my-conference.org');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('limite', '100');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('def_hora_ini', '8');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('def_hora_fin', '22');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('max_inscripcionTA', '2');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('max_inscripcionTU', '3');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('send_mail', '0');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('smtp', '');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('wwwroot', '');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('unique_mail', '0');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('clean_url', '0');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('public_proposals', '1');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('public_schedule', '1');
+
+--
+-- Table structure for table `administrador`
+--
+
+DROP TABLE IF EXISTS `administrador`;
+CREATE TABLE `administrador` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `login` varchar(15) NOT NULL default '',
+  `passwd` varchar(32) NOT NULL default '',
+  `nombrep` varchar(50) NOT NULL default '',
+  `apellidos` varchar(50) NOT NULL default '',
+  `mail` varchar(100) NOT NULL default '',
+  `id_tadmin` int(10) NOT NULL default '0',
+  PRIMARY KEY  (`id`,`login`)
+);
+
 -- Default user:   admin
 -- Default passwd: admin
 
-INSERT INTO administrador VALUES (1,'admin',md5('admin'),'Administrador','Principal','admin@softwarelibre.org.bo',1);
+INSERT INTO `administrador`(`login`,`passwd`,`nombrep`,`apellidos`,`mail`,`id_tadmin`) VALUES ('admin',md5('admin'),'Administrador','Principal','admin@softwarelibre.org.bo',1);
 
 --
--- Table structure for table 'asistente'
+-- Table structure for table `asistente`
 --
 
-DROP TABLE IF EXISTS asistente;
-CREATE TABLE asistente (
-  id int(10) unsigned NOT NULL auto_increment,
-  login varchar(15) NOT NULL default '',
-  passwd varchar(32) NOT NULL default '',
-  nombrep varchar(50) NOT NULL default '',
-  apellidos varchar(50) NOT NULL default '',
-  sexo char(1) NOT NULL default '',
-  mail varchar(100) NOT NULL default '',
-  ciudad varchar(100) default NULL,
-  org varchar(100) default NULL,
-  fecha_nac date default NULL,
-  asistencia tinyint(4) default '0',
-  reg_time datetime NOT NULL default '0000-00-00 00:00:00',
-  act_time timestamp(14) NOT NULL,
-  id_estudios int(10) unsigned NOT NULL default '0',
-  id_tasistente int(10) unsigned NOT NULL default '0',
-  id_estado int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (id,login,id_estudios,id_tasistente,id_estado)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `asistente`;
+CREATE TABLE `asistente` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `login` varchar(15) NOT NULL default '',
+  `passwd` varchar(32) NOT NULL default '',
+  `nombrep` varchar(50) NOT NULL default '',
+  `apellidos` varchar(50) NOT NULL default '',
+  `sexo` char(1) NOT NULL default '',
+  `mail` varchar(100) NOT NULL default '',
+  `ciudad` varchar(100) default NULL,
+  `org` varchar(100) default NULL,
+  `fecha_nac` date default NULL,
+  `asistencia` tinyint(4) default '0',
+  `reg_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `act_time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `id_estudios` int(10) unsigned NOT NULL default '0',
+  `id_tasistente` int(10) unsigned NOT NULL default '0',
+  `id_estado` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`,`login`)
+);
 
 --
--- Table structure for table 'config'
+-- Table structure for table `config`
 --
 
-DROP TABLE IF EXISTS config;
-CREATE TABLE config (
-  id int(11) NOT NULL auto_increment,
-  descr varchar(100) default NULL,
-  status tinyint(4) NOT NULL default '0',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `config`;
+CREATE TABLE `config` (
+  `id` int(11) NOT NULL auto_increment,
+  `descr` varchar(100) default NULL,
+  `status` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+);
 
---
--- Dumping data for table 'config'
---
 -- All open by default 
 -- 1 Open 0 Close 
 
-INSERT INTO config VALUES (1,'Registro ponentes',1);
-INSERT INTO config VALUES (2,'Registro asistentes',1);
-INSERT INTO config VALUES (3,'Registro ponencias',1);
-INSERT INTO config VALUES (4,'Inscripcion talleres',1);
+INSERT INTO `config`(`descr`,`status`) VALUES ('Registro ponentes',1);
+INSERT INTO `config`(`descr`,`status`) VALUES ('Registro asistentes',1);
+INSERT INTO `config`(`descr`,`status`) VALUES ('Registro ponencias',1);
+INSERT INTO `config`(`descr`,`status`) VALUES ('Inscripci√≥n Talleres',1);
 
 --
--- Table structure for table 'encuesta'
+-- Table structure for table `estado`
 --
 
-DROP TABLE IF EXISTS  encuesta;
-CREATE TABLE encuesta (
-  id int(10) unsigned NOT NULL auto_increment,
-  pregunta varchar(80) default NULL,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `estado`;
+CREATE TABLE `estado` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `descr` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+);
+
+INSERT INTO `estado`(`descr`) VALUES ('Beni');
+INSERT INTO `estado`(`descr`) VALUES ('Chuquisaca');
+INSERT INTO `estado`(`descr`) VALUES ('Cochabamba');
+INSERT INTO `estado`(`descr`) VALUES ('La Paz');
+INSERT INTO `estado`(`descr`) VALUES ('Oruro');
+INSERT INTO `estado`(`descr`) VALUES ('Pando');
+INSERT INTO `estado`(`descr`) VALUES ('Potosi');
+INSERT INTO `estado`(`descr`) VALUES ('Santa Cruz');
+INSERT INTO `estado`(`descr`) VALUES ('Tarija');
 
 --
--- Dumping data for table 'encuesta'
---
--- An example of a poll
-
-INSERT INTO encuesta VALUES (1,'Que taller o tutorial te gustaria que se repitiera ?');
-
---
--- Table structure for table 'encuesta_opc'
+-- Table structure for table `estudios`
 --
 
-DROP TABLE IF EXISTS encuesta_opc;
-CREATE TABLE encuesta_opc (
-  id int(10) unsigned NOT NULL auto_increment,
-  id_encuesta int(10) NOT NULL default '0',
-  opcion varchar(80) NOT NULL default '0',
-  PRIMARY KEY  (id),
-  KEY id (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `estudios`;
+CREATE TABLE `estudios` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `descr` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+);
+
+INSERT INTO `estudios`(`descr`) VALUES ('Ninguno');
+INSERT INTO `estudios`(`descr`) VALUES ('T√©cnico');
+INSERT INTO `estudios`(`descr`) VALUES ('Licenciatura');
+INSERT INTO `estudios`(`descr`) VALUES ('Maestr√≠a');
+INSERT INTO `estudios`(`descr`) VALUES ('Doctorado');
+INSERT INTO `estudios`(`descr`) VALUES ('Otro');
 
 --
--- Dumping data for table 'encuesta_opc'
---
--- Options in the poll that we made
-
-INSERT INTO encuesta_opc VALUES (1,1,'Gentoo Linux: La MetadistribuciÛn');
-INSERT INTO encuesta_opc VALUES (2,1,'Libera la voz del ping¸ino: VoIP con Linux');
-INSERT INTO encuesta_opc VALUES (3,1,'Implementacion de firewall linux mediante iptables');
-INSERT INTO encuesta_opc VALUES (4,1,'Elementos de ProgramaciÛn en Ruby');
-INSERT INTO encuesta_opc VALUES (5,1,'Revisando el Correo por la web');
-INSERT INTO encuesta_opc VALUES (6,1,'ProgramaciÛn con hilos en Java');
-INSERT INTO encuesta_opc VALUES (7,1,'Desarrollo de sitios web dinamicos utilizando PHP y MySQL');
-INSERT INTO encuesta_opc VALUES (8,1,'Primeros pasos con Perl.');
-INSERT INTO encuesta_opc VALUES (9,1,'Desarrollo de aplicaciones de escritorio usando GTK+Glade+MySQL');
-INSERT INTO encuesta_opc VALUES (10,1,'TÈcnicas para generar y manipular sitios din·micos en Perl');
-
---
--- Table structure for table 'encuesta_voto'
---
--- Only registered users can vote, and they only can vote once.
-
-DROP TABLE IF EXISTS voto;
-CREATE TABLE encuesta_voto (
-  id_encuesta int(10) NOT NULL default '0',
-  id_opcion int(10) NOT NULL default '0',
-  id_asistente int(10) NOT NULL default '0',
-  PRIMARY KEY  (id_encuesta,id_opcion,id_asistente)
-) TYPE=MyISAM;
-
---
--- Table structure for table 'estado'
+-- Table structure for table `evento`
 --
 
-DROP TABLE IF EXISTS estado;
-CREATE TABLE estado (
-  id int(10) unsigned NOT NULL auto_increment,
-  descr varchar(100) default NULL,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `evento`;
+CREATE TABLE `evento` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `id_propuesta` int(10) unsigned NOT NULL default '0',
+  `id_administrador` int(10) unsigned NOT NULL default '0',
+  `reg_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `act_time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`,`id_propuesta`,`id_administrador`)
+);
 
 --
--- Dumping data for table 'estado'
+-- Table structure for table `evento_ocupa`
 --
 
-INSERT INTO estado VALUES (1,'Beni');
-INSERT INTO estado VALUES (2,'Cochabamba');
-INSERT INTO estado VALUES (3,'La Paz');
-INSERT INTO estado VALUES (4,'Santa Cruz');
-INSERT INTO estado VALUES (5,'Chuquisaca');
-INSERT INTO estado VALUES (6,'Tarija');
-INSERT INTO estado VALUES (7,'Oruro');
-INSERT INTO estado VALUES (8,'Potosi');
-INSERT INTO estado VALUES (9,'Pando');
-INSERT INTO estado VALUES (10,'Otro');
-INSERT INTO estado VALUES (11,'Extranjero');
+DROP TABLE IF EXISTS `evento_ocupa`;
+CREATE TABLE `evento_ocupa` (
+  `id_evento` tinyint(4) NOT NULL default '0',
+  `hora` tinyint(4) NOT NULL default '0',
+  `id_fecha` int(11) NOT NULL default '0',
+  `id_lugar` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`hora`,`id_fecha`,`id_lugar`,`id_evento`)
+);
 
 --
--- Table structure for table 'estudios'
+-- Table structure for table `fecha_evento`
 --
 
-DROP TABLE IF EXISTS estudios;
-CREATE TABLE estudios (
-  id int(10) unsigned NOT NULL auto_increment,
-  descr varchar(100) default NULL,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `fecha_evento`;
+CREATE TABLE `fecha_evento` (
+  `id` int(11) NOT NULL auto_increment,
+  `fecha` date default NULL,
+  `descr` varchar(50) default NULL,
+  PRIMARY KEY  (`id`)
+);
 
 --
--- Dumping data for table 'estudios'
+-- Table structure for table `inscribe`
 --
 
-INSERT INTO estudios VALUES (1,'Ninguno');
-INSERT INTO estudios VALUES (2,'T&eacute;cnico');
-INSERT INTO estudios VALUES (3,'Licenciatura');
-INSERT INTO estudios VALUES (4,'Maestr&iacute;a');
-INSERT INTO estudios VALUES (5,'Doctorado');
-INSERT INTO estudios VALUES (6,'Otro');
+DROP TABLE IF EXISTS `inscribe`;
+CREATE TABLE `inscribe` (
+  `id_asistente` int(10) unsigned NOT NULL default '0',
+  `id_evento` int(10) unsigned NOT NULL default '0',
+  `reg_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `act_time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id_asistente`,`id_evento`)
+);
 
 --
--- Table structure for table 'evento'
+-- Table structure for table `lugar`
 --
 
-DROP TABLE IF EXISTS evento;
-CREATE TABLE evento (
-  id int(10) unsigned NOT NULL auto_increment,
-  id_propuesta int(10) unsigned NOT NULL default '0',
-  id_administrador int(10) unsigned NOT NULL default '0',
-  reg_time datetime NOT NULL default '0000-00-00 00:00:00',
-  act_time timestamp(14) NOT NULL,
-  PRIMARY KEY  (id,id_propuesta,id_administrador)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `lugar`;
+CREATE TABLE `lugar` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `cupo` int(11) NOT NULL default '99999',
+  `nombre_lug` varchar(100) NOT NULL default '',
+  `ubicacion` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+);
 
 --
--- Table structure for table 'evento_ocupa'
+-- Table structure for table `orientacion`
 --
 
-DROP TABLE IF EXISTS evento_ocupa;
-CREATE TABLE evento_ocupa (
-  id_evento tinyint(4) NOT NULL default '0',
-  hora tinyint(4) NOT NULL default '0',
-  id_fecha int(11) NOT NULL default '0',
-  id_lugar int(11) NOT NULL default '0',
-  PRIMARY KEY  (hora,id_fecha,id_lugar,id_evento)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `orientacion`;
+CREATE TABLE `orientacion` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `descr` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+);
+
+INSERT INTO `orientacion`(`descr`) VALUES ('Desarrollo de Software');
+INSERT INTO `orientacion`(`descr`) VALUES ('Seguridad y Redes');
+INSERT INTO `orientacion`(`descr`) VALUES ('Aplicaciones');
+INSERT INTO `orientacion`(`descr`) VALUES ('Principiantes');
+INSERT INTO `orientacion`(`descr`) VALUES ('Negocios y Linux');
+INSERT INTO `orientacion`(`descr`) VALUES ('Educaci√≥n');
+INSERT INTO `orientacion`(`descr`) VALUES ('Otro');
 
 --
--- Table structure for table 'fecha_evento'
+-- Table structure for table `ponente`
 --
 
-DROP TABLE IF EXISTS fecha_evento;
-CREATE TABLE fecha_evento (
-  id int(11) NOT NULL auto_increment,
-  fecha date default NULL,
-  descr varchar(50) default NULL,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `ponente`;
+CREATE TABLE `ponente` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `login` varchar(15) NOT NULL default '',
+  `passwd` varchar(32) NOT NULL default '',
+  `nombrep` varchar(50) NOT NULL default '',
+  `apellidos` varchar(50) NOT NULL default '',
+  `sexo` char(1) NOT NULL default '',
+  `mail` varchar(100) NOT NULL default '',
+  `ciudad` varchar(100) default NULL,
+  `org` varchar(100) default NULL,
+  `titulo` varchar(50) default NULL,
+  `resume` text,
+  `domicilio` varchar(100) default NULL,
+  `telefono` varchar(100) NOT NULL default '',
+  `fecha_nac` date default NULL,
+  `reg_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `act_time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `id_estudios` int(10) unsigned NOT NULL default '0',
+  `id_estado` int(10) unsigned NOT NULL default '0',
+  PRIMARY KEY  (`id`,`login`)
+);
 
 --
--- Table structure for table 'inscribe'
+-- Table structure for table `prop_comments`
 --
 
-DROP TABLE IF EXISTS inscribe;
-CREATE TABLE inscribe (
-  id_asistente int(10) unsigned NOT NULL default '0',
-  id_evento int(10) unsigned NOT NULL default '0',
-  reg_time datetime NOT NULL default '0000-00-00 00:00:00',
-  act_time timestamp(14) NOT NULL,
-  PRIMARY KEY  (id_asistente,id_evento)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `prop_comments`;
+CREATE TABLE `prop_comments` (
+  `id` int(11) NOT NULL auto_increment,
+  `id_propuesta` int(11) NOT NULL default '0',
+  `login` varchar(15) NOT NULL,
+  `author_type` tinyint(4) NOT NULL,
+  `body` varchar(255) NOT NULL,
+  `time` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`),
+  KEY `id_propuesta` (`id_propuesta`)
+);
 
 --
--- Table structure for table 'lugar'
+-- Table structure for table `prop_files`
 --
 
-DROP TABLE IF EXISTS lugar;
-CREATE TABLE lugar (
-  id int(10) unsigned NOT NULL auto_increment,
-  cupo int(11) NOT NULL default '99999',
-  nombre_lug varchar(100) NOT NULL default '',
-  ubicacion varchar(100) NOT NULL default '',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `prop_files`;
+CREATE TABLE `prop_files` (
+  `id` int(11) NOT NULL auto_increment,
+  `id_propuesta` int(11) NOT NULL default '0',
+  `name` varchar(255) NOT NULL,
+  `title` varchar(255) NOT NULL default '',
+  `descr` varchar(255) NOT NULL default '',
+  `public` tinyint(4) NOT NULL default '0',
+  `size` int(11) NOT NULL default '0',
+  `reg_time` int(11) NOT NULL default '0',
+  `deleted` tinyint(4) NOT NULL default '0',
+  PRIMARY KEY  (`id`),
+  KEY `id_propuesta` (`id_propuesta`)
+);
 
 --
--- Table structure for table 'orientacion'
+-- Table structure for table `prop_nivel`
 --
 
-DROP TABLE IF EXISTS orientacion;
-CREATE TABLE orientacion (
-  id int(10) unsigned NOT NULL auto_increment,
-  descr varchar(100) default NULL,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `prop_nivel`;
+CREATE TABLE `prop_nivel` (
+  `id` int(11) NOT NULL auto_increment,
+  `descr` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+);
 
---
--- Dumping data for table 'orientacion'
---
--- Agregarle o modificarle las orientaciones para las ponencias
-
-INSERT INTO orientacion VALUES (1,'Desarollo de Software');
-INSERT INTO orientacion VALUES (2,'Seguridad y redes');
-INSERT INTO orientacion VALUES (3,'Aplicaciones');
-INSERT INTO orientacion VALUES (4,'Principiantes');
-INSERT INTO orientacion VALUES (5,'Negocios y Linux');
-INSERT INTO orientacion VALUES (6,'Educacion');
-INSERT INTO orientacion VALUES (7,'Otro');
-
---
--- Table structure for table 'ponente'
---
-
-DROP TABLE IF EXISTS ponente;
-CREATE TABLE ponente (
-  id int(10) unsigned NOT NULL auto_increment,
-  login varchar(15) NOT NULL default '',
-  passwd varchar(32) NOT NULL default '',
-  nombrep varchar(50) NOT NULL default '',
-  apellidos varchar(50) NOT NULL default '',
-  sexo char(1) NOT NULL default '',
-  mail varchar(100) NOT NULL default '',
-  ciudad varchar(100) default NULL,
-  org varchar(100) default NULL,
-  titulo varchar(50) default NULL,
-  resume text,
-  domicilio varchar(100) default NULL,
-  telefono varchar(100) NOT NULL default '',
-  fecha_nac date default NULL,
-  reg_time datetime NOT NULL default '0000-00-00 00:00:00',
-  act_time timestamp(14) NOT NULL,
-  id_estudios int(10) unsigned NOT NULL default '0',
-  id_estado int(10) unsigned NOT NULL default '0',
-  PRIMARY KEY  (id,login,id_estudios,id_estado)
-) TYPE=MyISAM;
-
---
--- Table structure for table 'prop_nivel'
---
-
-DROP TABLE IF EXISTS prop_nivel;
-CREATE TABLE prop_nivel (
-  id int(11) NOT NULL auto_increment,
-  descr varchar(100) default NULL,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
-
---
--- Dumping data for table 'prop_nivel'
---
 -- Modify or add options as you need
 
-INSERT INTO prop_nivel VALUES (1,'Basico');
-INSERT INTO prop_nivel VALUES (2,'Intermedio');
-INSERT INTO prop_nivel VALUES (3,'Avanzado');
+INSERT INTO `prop_nivel`(`descr`) VALUES ('B√°sico');
+INSERT INTO `prop_nivel`(`descr`) VALUES ('Intermedio');
+INSERT INTO `prop_nivel`(`descr`) VALUES ('Avanzado');
 
 --
--- Table structure for table 'prop_status'
+-- Table structure for table `prop_status`
 --
 
-DROP TABLE IF EXISTS prop_status;
-CREATE TABLE prop_status (
-  id int(10) unsigned NOT NULL auto_increment,
-  descr varchar(100) default NULL,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `prop_status`;
+CREATE TABLE `prop_status` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `descr` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+);
+
+INSERT INTO `prop_status`(`descr`) VALUES ('Nueva');
+INSERT INTO `prop_status`(`descr`) VALUES ('Detalles Requeridos');
+INSERT INTO `prop_status`(`descr`) VALUES ('Rechazada');
+INSERT INTO `prop_status`(`descr`) VALUES ('Por Aceptar');
+INSERT INTO `prop_status`(`descr`) VALUES ('Aceptada');
+INSERT INTO `prop_status`(`descr`) VALUES ('Cancelada');
+INSERT INTO `prop_status`(`descr`) VALUES ('Eliminada');
+INSERT INTO `prop_status`(`descr`) VALUES ('Programada');
 
 --
--- Dumping data for table 'prop_status'
+-- Table structure for table `prop_tipo`
 --
 
-INSERT INTO prop_status VALUES (1,'Nueva');
-INSERT INTO prop_status VALUES (2,'Detalles requeridos');
-INSERT INTO prop_status VALUES (3,'Rechazada');
-INSERT INTO prop_status VALUES (4,'Por Aceptar');
-INSERT INTO prop_status VALUES (5,'Aceptada');
-INSERT INTO prop_status VALUES (6,'Cancelada');
-INSERT INTO prop_status VALUES (7,'Eliminada');
-INSERT INTO prop_status VALUES (8,'Programada');
+DROP TABLE IF EXISTS `prop_tipo`;
+CREATE TABLE `prop_tipo` (
+  `id` int(10) unsigned NOT NULL default '0',
+  `descr` varchar(100) NOT NULL default '',
+  PRIMARY KEY  (`id`)
+);
+
+INSERT INTO `prop_tipo` VALUES (1, 'Conferencia');
+INSERT INTO `prop_tipo` VALUES (50, 'Taller');
+INSERT INTO `prop_tipo` VALUES (51, 'Tutorial');
+INSERT INTO `prop_tipo` VALUES (100, 'Conferencia Magistral');
+INSERT INTO `prop_tipo` VALUES (101, 'Evento Organizaci√≥n');
+INSERT INTO `prop_tipo` VALUES (2, 'Pl√°tica Informal');
 
 --
--- Table structure for table 'prop_tipo'
---
-DROP TABLE IF EXISTS prop_tipo;
-CREATE TABLE prop_tipo (
-  id int(10) unsigned NOT NULL default '0',
-  descr varchar(100) NOT NULL default '',
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
-
---
--- Dumping data for table 'prop_tipo'
+-- Table structure for table `propuesta`
 --
 
-INSERT INTO prop_tipo VALUES (1,'Conferencia');
-INSERT INTO prop_tipo VALUES (50,'Taller');
-INSERT INTO prop_tipo VALUES (51,'Tutorial');
-INSERT INTO prop_tipo VALUES (100,'Conferencia Magistral');
-INSERT INTO prop_tipo VALUES (2,'Platica Informal');
-INSERT INTO prop_tipo VALUES (101,'Evento organizacion');
+DROP TABLE IF EXISTS `propuesta`;
+CREATE TABLE `propuesta` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `nombre` varchar(150) NOT NULL default '',
+  `id_nivel` int(10) NOT NULL default '0',
+  `duracion` int(10) unsigned NOT NULL default '0',
+  `resumen` text NOT NULL,
+  `reqtecnicos` text,
+  `reqasistente` text,
+  `id_ponente` int(10) unsigned NOT NULL default '0',
+  `id_prop_tipo` int(10) unsigned NOT NULL default '0',
+  `id_administrador` int(10) unsigned NOT NULL default '0',
+  `id_orientacion` int(10) unsigned NOT NULL default '0',
+  `id_status` int(10) unsigned NOT NULL default '1',
+  `reg_time` datetime NOT NULL default '0000-00-00 00:00:00',
+  `act_time` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `nombreFile` varchar(100) default NULL,
+  `tipoFile` varchar(25) default NULL,
+  `dirFile` varchar(255) default NULL,
+  PRIMARY KEY  (`id`,`id_ponente`,`id_administrador`,`id_orientacion`,`id_status`,`id_prop_tipo`)
+);
 
 --
--- Table structure for table 'propuesta'
+-- Table structure for table `tadmin`
 --
 
-DROP TABLE IF EXISTS propuesta;
-CREATE TABLE propuesta (
-  id int(10) unsigned NOT NULL auto_increment,
-  nombre varchar(150) NOT NULL default '',
-  id_nivel int(10) NOT NULL default '0',
-  duracion int(10) unsigned NOT NULL default '0',
-  resumen text NOT NULL,
-  reqtecnicos text,
-  reqasistente text,
-  id_ponente int(10) unsigned NOT NULL default '0',
-  id_prop_tipo int(10) unsigned NOT NULL default '0',
-  id_administrador int(10) unsigned NOT NULL default '0',
-  id_orientacion int(10) unsigned NOT NULL default '0',
-  id_status int(10) unsigned NOT NULL default '1',
-  reg_time datetime NOT NULL default '0000-00-00 00:00:00',
-  act_time timestamp(14) NOT NULL,
-  nombreFile VARCHAR(100),
-  tipoFile VARCHAR(25),
-  dirFile VARCHAR(255),
-  PRIMARY KEY  (id,id_ponente,id_administrador,id_orientacion,id_status,id_prop_tipo)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `tadmin`;
+CREATE TABLE `tadmin` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `descr` varchar(100) default NULL,
+  `tareas` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+);
+
+INSERT INTO `tadmin`(`descr`) VALUES ('Total');
+INSERT INTO `tadmin`(`descr`) VALUES ('Parcial');
+INSERT INTO `tadmin`(`descr`) VALUES ('Evaluador');
 
 --
--- Table structure for table 'tadmin'
+-- Table structure for table `tasistente`
 --
 
-DROP TABLE IF EXISTS tadmin;
-CREATE TABLE tadmin (
-  id int(10) unsigned NOT NULL auto_increment,
-  descr varchar(100) default NULL,
-  tareas varchar(100) default NULL,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
+DROP TABLE IF EXISTS `tasistente`;
+CREATE TABLE `tasistente` (
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `descr` varchar(100) default NULL,
+  PRIMARY KEY  (`id`)
+);
 
---
--- Dumping data for table 'tadmin'
---
-
-INSERT INTO tadmin VALUES (1,'Total',NULL);
-INSERT INTO tadmin VALUES (2,'Parcial',NULL);
-INSERT INTO tadmin VALUES (3,'Evaluador',NULL);
-
---
--- Table structure for table 'tasistente'
---
-
-DROP TABLE IF EXISTS tasistente;
-CREATE TABLE tasistente (
-  id int(10) unsigned NOT NULL auto_increment,
-  descr varchar(100) default NULL,
-  PRIMARY KEY  (id)
-) TYPE=MyISAM;
-
---
--- Dumping data for table 'tasistente'
---
-
-INSERT INTO tasistente VALUES (1,'Estudiante');
-INSERT INTO tasistente VALUES (2,'Academico');
-INSERT INTO tasistente VALUES (3,'Empresa');
-INSERT INTO tasistente VALUES (4,'Externo');
-
+INSERT INTO `tasistente` VALUES (1,'Estudiante');
+INSERT INTO `tasistente` VALUES (101,'Voluntario');
+INSERT INTO `tasistente` VALUES (102,'Organizador');
+INSERT INTO `tasistente` VALUES (2,'Acad√©mico');
+INSERT INTO `tasistente` VALUES (3,'Empresa');
+INSERT INTO `tasistente` VALUES (4,'Otro');
