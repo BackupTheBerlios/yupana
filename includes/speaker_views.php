@@ -37,7 +37,7 @@ elseif (preg_match('#^speaker/details$#', $q)) {
 elseif (preg_match('#^speaker/proposals/?$#', $q)) {
     define('Action', 'listproposals');
     //clear session return path
-    $_SESSION['return_path'] = get_url('speakers/proposals');
+    $_SESSION['return_path'] = get_url('speaker/proposals');
 
     do_header('Lista de propuestas enviadas');
 
