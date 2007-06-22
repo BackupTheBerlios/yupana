@@ -71,8 +71,11 @@ contacta a <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->confe
     $proposal->tipo = get_field('prop_tipo', 'descr', 'id', $proposal->id_prop_tipo);
     $proposal->orientacion = get_field('orientacion', 'descr', 'id', $proposal->id_orientacion);
     $proposal->status = get_field('prop_status', 'descr', 'id', $proposal->id_status);
-    //user login info
-    $proposal->login = $login;
+
+    if (Context == 'admin') {
+        //user login info
+        $proposal->login = $login;
+    }
 
     include($CFG->comdir . 'prop_display_info.php');
 ?>
