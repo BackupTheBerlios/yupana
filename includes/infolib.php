@@ -60,7 +60,8 @@ function get_info($where, $type='person', $limit='', $order='') {
     elseif ($type == 'proposal') {
         $query = '
             SELECT P.*, L.descr AS nivel, SP.login, SP.nombrep,
-            SP.apellidos, SP.org, SP.resume, T.descr AS tipo,
+            SP.apellidos, SP.org, SP.resume, SP.mail,
+            T.descr AS tipo,
             ADM.mail AS adminmail, ADM.login AS adminlogin,
             O.descr AS orientacion, S.descr AS status
             FROM propuesta P
