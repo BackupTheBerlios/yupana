@@ -8,7 +8,7 @@ require_once('includes/lib.php');
 
 $q = optional_param('q');
 
-if (empty($q)) {
+if (empty($q) || $q == '/') {
     // default index
     do_header();
     include($CFG->tpldir . 'main_index.tmpl.php');
