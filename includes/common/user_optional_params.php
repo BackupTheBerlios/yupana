@@ -8,7 +8,12 @@
         // shared values of all type of users
         $submit = optional_param('submit');
 
-        $login = strtolower(optional_param('S_login'));
+        if (Context == 'admin' && $USER->id == 1) {
+            $login = 'admin';
+        } else {
+            $login = strtolower(optional_param('S_login'));
+        }
+
         $passwd = optional_param('S_passwd');
         $passwd2 = optional_param('S_passwd2');
         $nombrep = optional_param('S_nombrep');
