@@ -105,6 +105,12 @@ elseif (preg_match('#^admin/proposals/\d+/?$#', $q)) {
     do_submit_cancel('', 'Regresar');
 }
 
+// download proposals files
+elseif (preg_match('#^admin/proposals/\d+/files/\d+/.+#', $q)) {
+    define('Action', 'downloadfile');
+    include($CFG->comdir . 'prop_files_download.php');
+}
+
 // update status of proposal
 elseif (level_admin(3) && preg_match('#^admin/proposals/\d+/status/\d+/?$#', $q)) {
     define('Action', 'viewproposal');
