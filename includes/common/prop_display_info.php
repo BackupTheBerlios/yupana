@@ -58,36 +58,22 @@
         do_table_values($values, 'narrow');
     }
 
-    if (Context == 'admin' && Action != 'newproposal' && Action != 'scheduleevent' && Action != 'editevent') {
-        $adminlogin = (empty($proposal->adminlogin)) ? 'Usuario' : $proposal->adminlogin;
-
-        $values = array(
-            'Fecha de registro' => $proposal->reg_time,
-            'Fecha de actualización' => $proposal->act_time,
-            'Actualizado por' => $adminlogin
-            );
-
-        do_table_values($values, 'narrow');
-    }
-
     if (empty($prop_noshow_resume)) {
         // reset values
         $values = array();
 
-        if (Context == 'ponente' || Context == 'admin') {
+        if (!empty($proposal->reqtecnicos) && (Context == 'ponente' || Context == 'admin')) {
             $values['Requisitos técnicos del taller'] = $proposal->reqtecnicos;
         }
 
-        if ((Context == 'ponente' || !empty($proposal->reqasistente)) || Context == 'admin') {
+        if (!empty($proposal->reqasistente) && (Context == 'ponente' || Context == 'admin')) {
             $values['Prerequisitos del Asistente'] = $proposal->reqasistente;
         }
 
-        if (Action == 'newproposal' || Action == 'updateproposal') {
-            //TODO: show file name
+        if (!empty($values)) {
+            // show proposal aditional info
+            do_table_values($values, 'narrow');
         }
-
-        // show proposal aditional info
-        do_table_values($values, 'narrow');
     }
 
     // show public files of proposals if it's programmed
@@ -147,4 +133,17 @@ END;
         }
 
     }
+
+    if (Context == 'admin' && Action != 'newproposal' && Action != 'scheduleevent' && Action != 'editevent') {
+        $adminlogin = (empty($proposal->adminlogin)) ? 'Usuario' : $proposal->adminlogin;
+
+        $values = array(
+            'Fecha de registro' => $proposal->reg_time,
+            'Fecha de actualización' => $proposal->act_time,
+            'Actualizado por' => $adminlogin
+            );
+
+        do_table_values($values, 'narrow');
+    }
+
 ?>
