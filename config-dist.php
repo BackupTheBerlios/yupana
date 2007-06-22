@@ -7,9 +7,9 @@
 // db settings
 //
 
-$CFG->dbname='yacomas';
-$CFG->dbuser='yacomas';
-$CFG->dbpass='yacomas';
+$CFG->dbname='yupana';
+$CFG->dbuser='yupana';
+$CFG->dbpass='yupana';
 $CFG->dbhost='localhost';
 
 // The place where the files from the speakers will be stored   
