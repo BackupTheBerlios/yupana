@@ -62,7 +62,37 @@ if (!empty($proposal)) {
 </ul>
 
 <?php
-     }
+        do_submit_cancel('', 'Regresar', $return_url);
+
+    } else {
+        //messages/comments
+?>
+
+<h3 class="center">Comentarios</h3>
+
+<?php
+        $submit = optional_param('submit');
+        include($CFG->comdir . 'prop_comments_submit.php');
+
+        include($CFG->comdir . 'prop_comments_display.php');
+?>
+
+<form method="POST" action="">
+
+<?php
+        if ($proposal->id_status < 6) {
+            include($CFG->comdir . 'prop_comments_input.php');
+            do_submit_cancel('Enviar', 'Regresar', $return_url);
+        } else {
+?>
+
+<div class="block"></div>
+
+<?php
+            do_submit_cancel('', 'Regresar', $return_url);
+        }
+    }
+
 } else {
 ?>
 
@@ -81,5 +111,7 @@ o no tengas acceso al registro.</p>
 
 <?php
     }
+
+    do_submit_cancel('', 'Regresar', $return_url);
 }
 ?>

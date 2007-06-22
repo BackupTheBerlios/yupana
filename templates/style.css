@@ -34,7 +34,7 @@ input, select {
 }
 
 input[type="button"], input[type="submit"]  {
-		width: 100px;
+		width: 110px;
         background-color: #f7f7f7;
 		background-color: #ddd;
         color: #000;
@@ -374,9 +374,18 @@ td.table1-result {
 	text-align: justify;
 }
 
-table.narrow, table.narrow-form {
+table.narrow, table.narrow-form, ul.narrow {
 	width: 60%;
 	min-width: 600px;
+}
+
+ul.narrow {
+	margin: 0 auto;
+}
+
+ul.narrow li {
+	width: 550px;
+	margin: 0 auto;
 }
 
 table.files td.column-3 {
@@ -552,13 +561,13 @@ div#messages {
 	border:1px solid #D3322A;
 	background:#F7DAD8;
 	color:#000;
-	padding: 3px 50px;
-	margin: 20px;
+	width: 550px;
+	margin: 20px auto;
+	padding: 10px 20px;
 }
 
 div#messages p{
-	padding:0px;
-	margin:2px;
+	padding: 0px;
 }
 
 div#messages ul li {
@@ -694,4 +703,13 @@ dt {
 
 dd {
 	margin-left: 5em;
+}
+
+ul#comments ul {
+	width: 430px;
+}
+
+ul#comments ul li {
+	background-color: #f0fade;
+	width: inherit;
 }
