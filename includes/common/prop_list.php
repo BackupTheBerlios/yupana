@@ -329,12 +329,12 @@ END;
 
 } else {
     if (Context == 'main') {
-        $return_url = get_url('general/proposals');
+        $return_url = get_url();
     } elseif (Context == 'admin') {
         if (Action == 'listdeletedproposals') {
             $return_url = get_url('admin');
         } else {
-            $return_url = get_url('admin/proposals');
+            $return_url = get_url('admin');
         }
     }
 ?>
