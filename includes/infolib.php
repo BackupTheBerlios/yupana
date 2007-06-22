@@ -251,7 +251,7 @@ function events_for($user_type, $user_id) {
     $result = 0;
 
     if ($user_type == 'speaker') {
-        $query = 'SELECT E.id FROM evento E
+        $query = 'SELECT COUNT(E.id) FROM evento E
                 JOIN propuesta P ON P.id = E.id_propuesta
                 JOIN ponente SP ON SP.id = P.id_ponente
                 WHERE SP.id = '.$user_id;
