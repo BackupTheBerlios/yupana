@@ -494,6 +494,59 @@ function beginSession($tipo) {
 	$_SESSION['YACOMASVARS'][$last] = time();
 }
 
+//implement user authentification
+//must return user object with all attributes
+function user_auth($login, $pass, $context) {
+    global $CFG;
+
+    switch ($context) {
+        case 'admin':
+            $user = get_admin(null, $login, $pass);
+            break;
+        case 'ponente':
+            $user = get_speaker(null, $login, $pass);
+            break;
+        case 'asistente':
+            $user = get_person(null, $login, $pass);
+            break;
+        default:
+            return null;
+    }
+
+    //check for external auth
+    //dont use external auth for main admin
+    if (empty($user) && !empty($CFG->auth) && $login != 'admin') {
+        $auth_include = $CFG->incdir . 'auth/' . $CFG->auth . '.php';
+
+        if (is_readable($auth_include)) {
+            include($auth_include);
+
+            $auth_func = $CFG->auth . '_user_auth';
+
+            // if external auth success
+            // load user info of context 
+            if (function_exists($auth_func)) {
+                if ($auth_func($login, $pass, $context)) {
+                    //load user info 
+                    switch ($context) {
+                        case 'admin':
+                            $user = get_admin(null, $login);
+                            break;
+                        case 'ponente':
+                            $user = get_speaker(null, $login);
+                            break;
+                        case 'asistente':
+                            $user = get_person(null, $login);
+                            break;
+                    }
+                }
+            }
+        }
+    }
+
+    return $user;
+}
+
 function verificaForm($id_tipo_usuario, $tabla){
 		   // Verificar si todos los campos obligatorios no estan vacios
 		  $errmsg="";

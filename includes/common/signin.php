@@ -14,19 +14,16 @@
     if (Context == 'admin') {
 
         $sess_id = 'rootid';
-        $table = 'administrador';
         $return_url = get_url('admin');
 
     } elseif (Context == 'ponente') {
 
         $sess_id = 'ponlogin';
-        $table = 'ponente';
         $return_url = get_url('speaker');
 
     } elseif (Context == 'asistente') {
 
         $sess_id = 'asiid';
-        $table = 'asistente';
         $return_url = get_url('person');
 
     } else { 
@@ -46,9 +43,9 @@
         if (empty($passwd) || !preg_match("/^\w{4,15}$/", $login)) {
             $errmsg[] = "Usuario y/o contraseña no válidos. Por favor trate de nuevo.";
         } else {
-            $user = get_record($table, 'login', $login);
+            $user = user_auth($login, $passwd, Context);
 
-            if (empty($user) || $user->passwd != md5($passwd)) {
+            if (empty($user->id)) {
                 $errmsg[] = "Usuario y/o contraseña incorrectos. Por favor intente de nuevo o puede ingresar a <a href=\"{$return_url}/reset.php\">Recuperar Contraseña</a>";
             } else {
                 // User ok, init session data
