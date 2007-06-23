@@ -31,6 +31,7 @@ INSERT INTO `datalists`(`name`,`value`) VALUES ('unique_mail', '0');
 INSERT INTO `datalists`(`name`,`value`) VALUES ('clean_url', '0');
 INSERT INTO `datalists`(`name`,`value`) VALUES ('public_proposals', '1');
 INSERT INTO `datalists`(`name`,`value`) VALUES ('public_schedule', '1');
+INSERT INTO `datalists`(`name`,`value`) VALUES ('auth', '');
 
 --
 -- Table structure for table `administrador`
