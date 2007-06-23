@@ -174,7 +174,13 @@ function get_admin($id, $login='', $pass='') {
         $id = (int) $id;
         return get_info('ADM.id='.$id, 'admin', 1);
     } else {
-        return get_info("ADM.login='{$login}' AND ADM.passwd=MD5('{$pass}')", 'admin', 1);
+        $where = "ADM.login='{$login}'";
+
+        if (!empty($pass)) {
+            $where .= " AND ADM.passwd=MD5('{$pass}')";
+        }
+
+        return get_info($where, 'admin', 1);
     }
 }
 
@@ -184,7 +190,13 @@ function get_speaker($id, $login='', $pass='') {
         $id = (int) $id;
         return get_info('SP.id='.$id, 'speaker', 1);
     } else {
-        return get_info("SP.login='{$login}' AND SP.passwd=MD5('{$pass}')", 'speaker', 1);
+        $where = "SP.login='{$login}'";
+
+        if (!empty($pass)) {
+            $where .= " AND SP.passwd=MD5('{$pass}')";
+        }
+
+        return get_info($where, 'speaker', 1);
     }
 }
 
@@ -194,7 +206,13 @@ function get_person($id, $login='', $pass='') {
         $id = (int) $id;
         return get_info('P.id='.$id, 'person', 1);
     } else {
-        return get_info("P.login='{$login}' AND P.passwd=MD5('{$pass}')", 'person', 1);
+        $where = "P.login='{$login}'";
+
+        if (!empty($pass)) {
+            $where .= " AND P.passwd=MD5('{$pass}')";
+        }
+
+        return get_info($where, 'person', 1);
     }
 }
 
