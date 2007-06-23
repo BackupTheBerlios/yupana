@@ -166,6 +166,19 @@ CREATE TABLE `evento_ocupa` (
 );
 
 --
+-- Table structure for table `extauth_hash`
+--
+
+DROP TABLE IF EXISTS `extauth_hash`;
+CREATE TABLE `extauth_hash` (
+  `id` int(11) NOT NULL auto_increment,
+  `login` varchar(15) NOT NULL default '',
+  `hash` varchar(32) NOT NULL default '',
+  `time` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id`)
+);
+
+--
 -- Table structure for table `fecha_evento`
 --
 
