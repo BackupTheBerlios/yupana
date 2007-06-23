@@ -168,10 +168,10 @@ elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/?$#', 
 elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/\d+$#', $q)) {
     define('Context', 'main');
     define('Action', 'viewproposal');
+    $return_url = get_url('general/proposals');
 
     do_header('Detalles de propuesta');
     include($CFG->comdir . 'prop_view.php');
-    do_submit_cancel('', 'Regresar');
 }
 
 // file download
