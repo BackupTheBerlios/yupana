@@ -216,10 +216,6 @@ img {
 	text-align: center;
 }
 
-.error {
-	color: #333;
-}
-
 .notice {
 	color: #333;
 	font-size: 0.8em;
@@ -555,14 +551,32 @@ p#buttons {
 	border: none;
 }
 
+#messages .error {
+	color: #333;
+	margin: 0;
+	padding: 0;
+}
 
+#messages ul.error {
+	margin-left: 20px;
+}
+
+#messages ul.error li {
+	margin: inherit;
+	padding: inherit;
+}
+
+.error {
+	color: #c00;
+	padding-top: 20px;
+}
 
 div#messages {
 	border:1px solid #D3322A;
 	background:#F7DAD8;
 	color:#000;
 	width: 550px;
-	margin: 20px auto;
+	margin: 0px auto;
 	padding: 10px 20px;
 }
 
@@ -643,32 +657,32 @@ div#messages ul li {
 }
 
 #schedule-table td.track-1, .track-1 {
-	background: #dd0;
+	background: #ffff88;
 }
 
 #schedule-table td.track-2, .track-2{
-	background: #d0d;
+	background: #cdeb8b;
 }
 
 #schedule-table td.track-3, .track-3{
-	background: #d0d;
+	background: #c3d9ff;
 }
 
-#schedule-table td.track-4, .track-4{
-	background: #d0d;
+#schedule-table td.track-4, .track-4, .track-4 a{
+	background: #f9f7ed;
 }
 
 
-#schedule-table td.track-5, .track-5{
-	background: #6cf;
+#schedule-table td.track-5, .track-5, .track-5 a{
+	background: #ccccff;
 }
 
-#schedule-table td.track-6, .track-6{
-	background: #d0d;
+#schedule-table td.track-6, .track-6, .track-6 a{
+	background: #ddd;
 }
 
-#schedule-table td.track-7, .track-7{
-	background: #d0d;
+#schedule-table td.track-7, .track-7, .track-7 a{
+	background: #6bba70;
 }
 #schedule-table tr.table-headers {
 	background: #900;
