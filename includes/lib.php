@@ -547,6 +547,21 @@ function user_auth($login, $pass, $context) {
     return $user;
 }
 
+//return array with available external auth system
+function user_auth_available () {
+    global $CFG;
+
+    $auths = array();
+    $auth_scripts = $CFG->incdir . 'auth/*.php';
+
+    foreach (glob($auth_scripts) as $auth) {
+        preg_match('#auth/(.+)\.php$#', $auth, $matches);
+        $auths[] = $matches[1];
+    }
+
+    return $auths;
+}
+
 function verificaForm($id_tipo_usuario, $tabla){
 		   // Verificar si todos los campos obligatorios no estan vacios
 		  $errmsg="";
