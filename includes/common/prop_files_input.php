@@ -38,6 +38,8 @@ if (Action == 'editfile') {
     $input_data = $file->name;
 } else {
     $input_data = do_get_output('do_input', array('S_filename', 'file', '', 'id=\'S_filename\''));
+
+    $input_data .= '<br /><span class="littleinfo">El tamaño máximo de subida es de <strong>2 Mb</strong>, si tu archivo es el límite<br /> por favor envíalo a <a href="mailto:' . $CFG->adminmail . '">' . $CFG->adminmail . '</a>';
 }
 
 $table_data[] = array(
