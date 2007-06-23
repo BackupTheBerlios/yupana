@@ -168,16 +168,34 @@ function get_proposals($where='1=1', $limit='', $order='') {
     return get_info($where, 'proposal', $limit, $order);
 }
 
-function get_admin($id) {
-    return get_info('ADM.id='.$id, 'admin', 1);
+function get_admin($id, $login='', $pass='') {
+    if (!empty($id)) {
+        //extra check
+        $id = (int) $id;
+        return get_info('ADM.id='.$id, 'admin', 1);
+    } else {
+        return get_info("ADM.login='{$login}' AND ADM.passwd=MD5('{$pass}')", 'admin', 1);
+    }
 }
 
-function get_speaker($id) {
-    return get_info('SP.id='.$id, 'speaker', 1);
+function get_speaker($id, $login='', $pass='') {
+    if (!empty($id)) {
+        //extra check
+        $id = (int) $id;
+        return get_info('SP.id='.$id, 'speaker', 1);
+    } else {
+        return get_info("SP.login='{$login}' AND SP.passwd=MD5('{$pass}')", 'speaker', 1);
+    }
 }
 
-function get_person($id) {
-    return get_info('P.id='.$id, 'person', 1);
+function get_person($id, $login='', $pass='') {
+    if (!empty($id)) {
+        //extra check
+        $id = (int) $id;
+        return get_info('P.id='.$id, 'person', 1);
+    } else {
+        return get_info("P.login='{$login}' AND P.passwd=MD5('{$pass}')", 'person', 1);
+    }
 }
 
 function get_proposal($id, $id_speaker=0) {
