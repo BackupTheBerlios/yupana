@@ -84,7 +84,7 @@ else {
     $tracks_input = do_get_output('do_input_select', array('filter_id_orientacion', $tracks, $id_orientacion, true, '', 0, $onChange));
 
     //headers
-    $table_data[] = array('', 'Tipo:', 'Orientacion:', 'Estado:');
+    $table_data[] = array('', 'Tipo:', 'Orientación:', 'Estado:');
     $table_data[] = array('Filtro:', $prop_type_input, $tracks_input, $status_input);
 }
 

@@ -97,7 +97,7 @@ if (!empty($proposals)) {
     }
 
     else {
-        $table_data[] = array('Ponencia', 'Tipo', 'Orientacion', 'Estado');
+        $table_data[] = array('Ponencia', 'Tipo', 'Orientación', 'Estado');
     }
 
 
