@@ -38,6 +38,17 @@ if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
             //add hidden input
             $input_data .= do_get_output('do_input', array('S_login', 'hidden', $user->login));
 
+            //add access hash
+            $access_hash = md5(time() . $login);
+            //insert record
+            $hash = new StdClass;
+            $hash->login = $user->login;
+            $hash->hash = $access_hash;
+            insert_record('extauth_hash', $hash);
+
+            //add hidden hash
+            $input_data .= do_get_output('do_input', array('access_hash', 'hidden', $access_hash));
+
         } else {
             $input_data = do_get_output('do_input', array('S_login', 'text', $user->login, 'size="15"'));
         }
