@@ -14,3 +14,4 @@ Yupana 0.1alpha1 (future release)
 - Added templates for common sections
 - New css stylesheet
 - Added external authentification support
+	* Added drupal auth example
