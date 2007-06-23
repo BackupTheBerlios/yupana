@@ -30,7 +30,17 @@ if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
 
         }
     } else {
-        $input_data = do_get_output('do_input', array('S_login', 'text', $user->login, 'size="15"'));
+
+        // cant change username if using external auth
+        if (!empty($CFG->auth)) {
+            $input_data = do_get_output('do_input', array('', 'text', $user->login, 'size="15" disabled="disabled"'));
+
+            //add hidden input
+            $input_data .= do_get_output('do_input', array('S_login', 'hidden', $user->login));
+
+        } else {
+            $input_data = do_get_output('do_input', array('S_login', 'text', $user->login, 'size="15"'));
+        }
     }
 
     $table_data[] = array(
@@ -39,23 +49,26 @@ if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
         ' 4 a 15 caracteres'
         );
 
-    // password
-    $input_data = do_get_output('do_input', array('S_passwd', 'password', '', 'size="15"'));
+    // no need password textboxes on external auth
+    if (empty($CFG->auth)) {
+        // password
+        $input_data = do_get_output('do_input', array('S_passwd', 'password', '', 'size="15"'));
 
-    $table_data[] = array(
-        'Contraseña: *',
-        $input_data,
-        ' 6 a 15 caracteres'
-        );
+        $table_data[] = array(
+            'Contraseña: *',
+            $input_data,
+            ' 6 a 15 caracteres'
+            );
 
-    // confirm password
-    $input_data = do_get_output('do_input', array('S_passwd2', 'password', '', 'size="15"'));
+        // confirm password
+        $input_data = do_get_output('do_input', array('S_passwd2', 'password', '', 'size="15"'));
 
-    $table_data[] = array(
-        'Confirmación de Contraseña: *',
-        $input_data,
-        ''
-        );
+        $table_data[] = array(
+            'Confirmación de Contraseña: *',
+            $input_data,
+            ''
+            );
+    }
 
     // first name
     $input_data = do_get_output('do_input', array('S_nombrep', 'text', $user->nombrep, 'size="30"'));

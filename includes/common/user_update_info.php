@@ -35,6 +35,11 @@
         unset($user->passwd);
     }
 
+    //force passwd value on external auth
+    if (!empty($CFG->auth)) {
+        $user->passwd = '!!';
+    }
+
     if (Context == 'admin' && Action == 'newadmin') {
         $user->id_tadmin = $id_tadmin;
     }

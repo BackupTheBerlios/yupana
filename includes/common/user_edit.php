@@ -59,7 +59,10 @@ if (!empty($submit)) {
     require($CFG->comdir . 'user_optional_params_check.php');
 
     if (!empty($errmsg)) {
-        show_error($errmsg);
+        // no show error message on first check of user on external auth
+        if ($submit != 'Iniciar') {
+            show_error($errmsg);
+        }
     } else {
         // update user
         require($CFG->comdir . 'user_update_info.php');

@@ -35,7 +35,12 @@ elseif (preg_match('#^speaker/register$#', $q)) {
     $return_url = get_url();
 
     do_header('Registro de Ponentes');
-    include($CFG->comdir . 'user_edit.php');
+
+    if (empty($CFG->auth)) {
+        include($CFG->comdir . 'user_edit.php');
+    } else {
+        include($CFG->comdir . 'user_register_external.php');
+    }
 }
 
 // person register
@@ -48,7 +53,12 @@ elseif (preg_match('#^person/register$#', $q)) {
     $return_url = get_url();
 
     do_header('Registro de Asistentes');
-    include($CFG->comdir . 'user_edit.php');
+
+    if (empty($CFG->auth)) {
+        include($CFG->comdir . 'user_edit.php');
+    } else {
+        include($CFG->comdir . 'user_register_external.php');
+    }
 }
 
 /*

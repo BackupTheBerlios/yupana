@@ -67,7 +67,8 @@
             $errmsg[] = "El login que elijas debe tener entre 4 y 15 caracteres.";
         }
 
-        if ($submit == 'Registrarme' || ($submit == 'Actualizar' && !empty($passwd))) {
+        // no need to check passwords on external auth
+        if (($submit == 'Registrarme' && empty($CFG->auth)) || ($submit == 'Actualizar' && !empty($passwd))) {
 
             // Verifica que el password sea de al menos 6 caracteres
             if (!preg_match("/^.{6,15}$/",$passwd)) {

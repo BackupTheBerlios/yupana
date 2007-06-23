@@ -1,4 +1,4 @@
-Yupana 0.1alpha1, 2007-05-23
+Yupana 0.1alpha1 (future release)
 ----------------------------
 - initial alpha release, based on Yacomas 0.3.5alpha
 - Mostly all functions/modules rewrited from scratch
@@ -13,3 +13,4 @@ Yupana 0.1alpha1, 2007-05-23
 - Added phpmailer library
 - Added templates for common sections
 - New css stylesheet
+- Added external authentification support
