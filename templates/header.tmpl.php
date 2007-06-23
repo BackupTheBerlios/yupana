@@ -14,7 +14,7 @@
     <meta name="revisit-after" content="1 days" />
     <meta name="description" content="<?=$CFG->conference_name ?>" />
     <meta name="keywords" content="congreso,bolivia,festival,software,libre,software libre,festival de software libre,linux,gnu,gpl,openbsd,freebsd,netbsd,gnu/linux, yupana, conference, management, system" />
-    <link rel="icon" href="<?=get_url() ?>/images/yacomas.ico" />
+    <link rel="icon" href="<?=get_url() ?>/images/yupana.ico" />
     <link rel="stylesheet" type="text/css" href="<?=$CFG->stylesheet ?>" media="all" />
 </head>
 
