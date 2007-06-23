@@ -48,7 +48,7 @@ Tu propuesta "{$proposal->nombre}" ha recibido un nuevo comentario del usuario {
 {$url}
 --
 Equipo {$CFG->conference_name}
-{$CFG->conference_url}
+{$CFG->conference_link}
 END;
                 send_mail($toname, $to, $subject, $message);
             }
