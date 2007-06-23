@@ -81,5 +81,24 @@ $input = do_get_output('do_input_yes_no', array('clean_url', $config->value, 'Ye
 
 $values[$desc] = $input;
 
+// external authentification
+$desc = 'Autentificación';
+$config = get_config('auth');
 
+$options = array();
+$auths = user_auth_available();
+
+foreach ($auths as $auth) {
+    $option = new StdClass;
+    $option->id = $auth;
+    $option->descr = $auth;
+
+    $options[] = $option;
+}
+
+$input = do_get_output('do_input_select', array('auth', $options, $config->value, true, 'Interna', '', 'style=\'width:100px;\''));
+
+$values[$desc] = $input;
+
+//show table input
 do_table_values($values, 'narrow');

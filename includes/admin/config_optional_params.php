@@ -19,7 +19,8 @@ $configs = array(
     'unique_mail' => 'integer',
     'clean_url' => 'integer',
     'public_proposals' => 'integer',
-    'public_schedule' => 'integer'
+    'public_schedule' => 'integer',
+    'auth' => 'string'
     );
 
 
