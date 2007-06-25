@@ -53,7 +53,7 @@
         $user->id_estudios = $id_estudios;
         $user->id_estado = $id_estado;
 
-        if (Action == 'newproposal') {
+        if (Action == 'register' || Action == 'newperson' || Action == 'newspeaker') {
             $user->reg_time = strftime('%Y%m%d%H%M%S');
         }
     }
