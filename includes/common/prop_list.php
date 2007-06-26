@@ -293,11 +293,13 @@ END;
             }
            
             elseif (Action == 'viewspeaker' || Action == 'deletespeaker') {
+                $l_files = (record_exists('prop_files', 'id_propuesta', $proposal->id)) ? 'Si' : 'No';
+
                 $table_data[] = array(
                     $l_ponencia,
                     $proposal->tipo,
                     $proposal->status,
-                    ''
+                    $l_files
                     );
             }
 
