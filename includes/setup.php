@@ -222,8 +222,12 @@ if (ini_get_bool('magic_quotes_gpc') ) {
     
 }
 
-// load config from db at end
-$CFG = get_config();
+//load metatables
+$METATABLES = $db->Metatables();
+if ($METATABLES) {
+    // load config from db at end
+    $CFG = get_config();
+}
 
 // load again config.php to override db configs values
 include($CFG->rootdir . 'config.php');
