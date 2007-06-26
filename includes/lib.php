@@ -2,6 +2,7 @@
 // run setup script 
 require_once(dirname(__FILE__).'/setup.php');
 require($CFG->incdir . 'displaylib.php');
+require($CFG->incdir . 'dbsetup.php');
 require($CFG->incdir . 'infolib.php');
 
 function set_config($name, $value) {

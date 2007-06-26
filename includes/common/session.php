@@ -14,6 +14,8 @@ switch (Context) {
         $USER = get_record('administrador', 'id', $sess_id);
         $CFG->home_url = get_url('admin');
         $CFG->logout_url = get_url('admin/logout');
+        //check for databse upgrades
+        dbsetup_upgrade();
         break;
 
     case 'ponente':
