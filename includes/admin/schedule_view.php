@@ -59,7 +59,7 @@ for ($h = $CFG->def_hora_ini; $h < $CFG->def_hora_fin; $h++) {
 
 $events = count_records('evento');
 
-if (true || !empty($events)) {
+if (!empty($events)) {
 
     $prop_query = '
         SELECT  P.id, P.nombre, PT.descr AS tipo,
