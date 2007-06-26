@@ -127,6 +127,258 @@ function commit_sql() {
 }
 
 /**
+ * Run an arbitrary sequence of semicolon-delimited SQL commands
+ *
+ * Assumes that the input text (file or string) consists of
+ * a number of SQL statements ENDING WITH SEMICOLONS.  The
+ * semicolons MUST be the last character in a line.
+ * Lines that are blank or that start with "#" or "--" (postgres) are ignored.
+ * Only tested with mysql dump files (mysqldump -p -d moodle)
+ *
+ * @uses $CFG
+ * @param string $sqlfile The path where a file with sql commands can be found on the server.
+ * @param string $sqlstring If no path is supplied then a string with semicolon delimited sql 
+ * commands can be supplied in this argument.
+ * @return bool Returns true if databse was modified successfully.
+ */
+function modify_database($sqlfile='', $sqlstring='') {
+
+    global $CFG, $METATABLES, $db;
+
+    $success = true;  // Let's be optimistic
+
+    if (!empty($sqlfile)) {
+        if (!is_readable($sqlfile)) {
+            $success = false;
+            echo '<p>Tried to modify database, but "'. $sqlfile .'" doesn\'t exist!</p>';
+            return $success;
+        } else {
+            $lines = file($sqlfile);
+        }
+    } else {
+        $sqlstring = trim($sqlstring);
+        if ($sqlstring{strlen($sqlstring)-1} != ";") {
+            $sqlstring .= ";"; // add it in if it's not there.
+        }
+        $lines[] = $sqlstring;
+    }
+
+    $command = '';
+
+    foreach ($lines as $line) {
+        $line = rtrim($line);
+        $length = strlen($line);
+
+        if ($length and $line[0] <> '#' and $line[0].$line[1] <> '--') {
+            if (substr($line, $length-1, 1) == ';') {
+                $line = substr($line, 0, $length-1);   // strip ;
+                $command .= $line;
+                $command = str_replace('prefix_', $CFG->prefix, $command); // Table prefixes
+                if (! execute_sql($command)) {
+                    $success = false;
+                }
+                $command = '';
+            } else {
+                $command .= $line;
+            }
+        }
+    }
+
+    $METATABLES = $db->Metatables();
+//    elggcache_purge();
+    
+    return $success;
+
+}
+
+/// FUNCTIONS TO MODIFY TABLES ////////////////////////////////////////////
+
+/**
+ * Add a new field to a table, or modify an existing one (if oldfield is defined).
+ *
+ * @uses $CFG
+ * @uses $db
+ * @param string $table ?
+ * @param string $oldfield ?
+ * @param string $field ?
+ * @param string $type ?
+ * @param string $size ?
+ * @param string $signed ?
+ * @param string $default ?
+ * @param string $null ?
+ * @todo Finish documenting this function
+ */
+
+function table_column($table, $oldfield, $field, $type='integer', $size='10',
+                      $signed='unsigned', $default='0', $null='not null', $after='') {
+    global $CFG, $db;
+    
+//    elggcache_cachepurgetype($table);
+
+    if (empty($oldfield) && !empty($field)) { //adding
+        // check it doesn't exist first.
+        if ($columns = $db->MetaColumns($CFG->prefix . $table)) {
+            foreach ($columns as $c) {
+                if ($c->name == $field) {
+                    $oldfield = $field;
+                }
+            }
+        }
+    }
+
+    switch (strtolower($CFG->dbtype)) {
+
+        case 'mysql':
+        case 'mysqlt':
+
+            switch (strtolower($type)) {
+                case 'text':
+                    $type = 'TEXT';
+                    $signed = '';
+                    break;
+                case 'integer':
+                    $type = 'INTEGER('. $size .')';
+                    break;
+                case 'varchar':
+                    $type = 'VARCHAR('. $size .')';
+                    $signed = '';
+                    break;
+                case 'char':
+                    $type = 'CHAR('. $size .')';
+                    $signed = '';
+                    break;
+            }
+
+            if (!empty($oldfield)) {
+                $operation = 'CHANGE '. $oldfield .' '. $field;
+            } else {
+                $operation = 'ADD '. $field;
+            }
+
+            $default = 'DEFAULT \''. $default .'\'';
+
+            if (!empty($after)) {
+                $after = 'AFTER `'. $after .'`';
+            }
+
+            return execute_sql('ALTER TABLE '. $CFG->prefix . $table .' '. $operation .' '. $type .' '. $signed .' '. $default .' '. $null .' '. $after);
+
+        case 'postgres7':        // From Petri Asikainen
+            //Check db-version
+            $dbinfo = $db->ServerInfo();
+            $dbver = substr($dbinfo['version'],0,3);
+
+            //to prevent conflicts with reserved words
+            $realfield = '"'. $field .'"';
+            $field = '"'. $field .'_alter_column_tmp"';
+            $oldfield = '"'. $oldfield .'"';
+
+            switch (strtolower($type)) {
+                case 'tinyint':
+                case 'integer':
+                    if ($size <= 4) {
+                        $type = 'INT2';
+                    }
+                    if ($size <= 10) {
+                        $type = 'INT';
+                    }
+                    if  ($size > 10) {
+                        $type = 'INT8';
+                    }
+                    break;
+                case 'varchar':
+                    $type = 'VARCHAR('. $size .')';
+                    break;
+                case 'char':
+                    $type = 'CHAR('. $size .')';
+                    $signed = '';
+                    break;
+            }
+
+            $default = '\''. $default .'\'';
+
+            //After is not implemented in postgesql
+            //if (!empty($after)) {
+            //    $after = "AFTER '$after'";
+            //}
+
+            //Use transactions
+            execute_sql('BEGIN');
+
+            //Always use temporary column
+            execute_sql('ALTER TABLE '. $CFG->prefix . $table .' ADD COLUMN '. $field .' '. $type);
+            //Add default values
+            execute_sql('UPDATE '. $CFG->prefix . $table .' SET '. $field .'='. $default);
+
+
+            if ($dbver >= '7.3') {
+                // modifying 'not null' is posible before 7.3
+                //update default values to table
+                if (strtoupper($null) == 'NOT NULL') {
+                    execute_sql('UPDATE '. $CFG->prefix . $table .' SET '. $field .'='. $default .' WHERE '. $field .' IS NULL');
+                    execute_sql('ALTER TABLE '. $CFG->prefix . $table .' ALTER COLUMN '. $field .' SET '. $null);
+                } else {
+                    execute_sql('ALTER TABLE '. $CFG->prefix . $table .' ALTER COLUMN '. $field .' DROP NOT NULL');
+                }
+            }
+
+            execute_sql('ALTER TABLE '. $CFG->prefix . $table .' ALTER COLUMN '. $field .' SET DEFAULT '. $default);
+
+            if ( $oldfield != '""' ) {
+
+                // We are changing the type of a column. This may require doing some casts...
+                $casting = '';
+                $oldtype = column_type($table, $oldfield);
+                $newtype = column_type($table, $field);
+
+                // Do we need a cast?
+                if($newtype == 'N' && $oldtype == 'C') {
+                    $casting = 'CAST(CAST('.$oldfield.' AS TEXT) AS REAL)';
+                }
+                else if($newtype == 'I' && $oldtype == 'C') {
+                    $casting = 'CAST(CAST('.$oldfield.' AS TEXT) AS INTEGER)';
+                }
+                else {
+                    $casting = $oldfield;
+                }
+
+                // Run the update query, casting as necessary
+                execute_sql('UPDATE '. $CFG->prefix . $table .' SET '. $field .' = '. $casting);
+                execute_sql('ALTER TABLE  '. $CFG->prefix . $table .' DROP COLUMN '. $oldfield);
+            }
+
+            execute_sql('ALTER TABLE '. $CFG->prefix . $table .' RENAME COLUMN '. $field .' TO '. $realfield);
+
+            return execute_sql('COMMIT');
+
+        default:
+            switch (strtolower($type)) {
+                case 'integer':
+                    $type = 'INTEGER';
+                    break;
+                case 'varchar':
+                    $type = 'VARCHAR';
+                    break;
+            }
+
+            $default = 'DEFAULT \''. $default .'\'';
+
+            if (!empty($after)) {
+                $after = 'AFTER '. $after;
+            }
+
+            if (!empty($oldfield)) {
+                execute_sql('ALTER TABLE '. $CFG->prefix . $table .' RENAME COLUMN '. $oldfield .' '. $field);
+            } else {
+                execute_sql('ALTER TABLE '. $CFG->prefix . $table .' ADD COLUMN '. $field .' '. $type);
+            }
+
+            execute_sql('ALTER TABLE '. $CFG->prefix . $table .' ALTER COLUMN '. $field .' SET '. $null);
+            return execute_sql('ALTER TABLE '. $CFG->prefix . $table .' ALTER COLUMN '. $field .' SET '. $default);
+    }
+}
+
+/**
  * Get the data type of a table column, using an ADOdb MetaType() call.
  *
  * @uses $CFG
