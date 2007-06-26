@@ -3,8 +3,10 @@
 //$prop_type = get_records_select('prop_tipo', 'id <= 100');
 $onChange = 'onChange=\'form.submit()\'';
 
-if (Context == 'admin') {
+if (Context == 'admin' && Action != 'listdeletedproposals') {
     $prop_select = ' AND P.id_status != 7';
+} elseif (Action == 'listdeletedproposals') {
+    $prop_select = ' AND P.id_status = 7';
 } else {
     $prop_select = '';
 }
@@ -12,9 +14,11 @@ if (Context == 'admin') {
 $prop_type = get_records_sql('SELECT PT.* FROM prop_tipo PT JOIN propuesta P ON P.id_prop_tipo=PT.id WHERE PT.id <= 100'.$prop_select);
 
 // dont show deleted status
-if (Context == 'admin') {
+if (Context == 'admin' && Action != 'listdeletedproposals') {
     //dont show programmed
     $status_select = 'S.id < 7';
+} elseif (Action == 'listdeletedproposals') {
+    $status_select = 'S.id = 7';
 } else {
     $status_select = 'S.id != 7';
 }
