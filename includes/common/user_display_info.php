@@ -110,4 +110,14 @@
    
     // show table with values
     do_table_values($values, 'narrow');
+
+    // show reg/act time
+    if (Context == 'admin') {
+        $values = array(
+            'Fecha de registro' => $user->reg_time,
+            'Fecha de actualización' => $user->act_time
+            );
+
+        do_table_values($values, 'narrow');
+    }
 ?>
