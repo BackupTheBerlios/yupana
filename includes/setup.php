@@ -250,6 +250,9 @@ $CFG->stylesheet =  $CFG->wwwroot . '/templates/style.css';
 // set global request_uri
 $request_uri = $_SERVER['REQUEST_URI'];
 
+//prevent warning
+$CFG->send_mail = (empty($CFG->send_mail)) ? false : $CFG->send_mail;
+
 //for backward compatibility
 define('SEND_MAIL', $CFG->send_mail);
 
