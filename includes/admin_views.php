@@ -51,6 +51,15 @@ elseif (preg_match('#^admin/persons/?$#', $q)) {
     do_submit_cancel('', 'Regresar', $return_url);
 }
 
+// view person details
+elseif (preg_match('#^admin/persons/\d+/?$#', $q)) {
+    define('Action', 'viewperson');
+
+    do_header('Detalles de asistente');
+    include($CFG->comdir . 'user_view.php');
+    do_submit_cancel('', 'Regresar');
+}
+
 // control persons
 elseif (level_admin(2) && preg_match('#^admin/persons/control/?$#', $q)) {
     define('Action', 'controlpersons');
