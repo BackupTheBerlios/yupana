@@ -77,7 +77,7 @@
     }
 
     // show public files of proposals if it's programmed
-    if (Action == 'viewproposal' && ($proposal->id_status == 8 || $proposal->id_ponente == $USER->id || Context == 'admin')) {
+    if ((Action == 'viewproposal' || Action == 'viewdeletedproposal') && ($proposal->id_status == 8 || $proposal->id_ponente == $USER->id || Context == 'admin')) {
         //show files
         $files = get_records('prop_files', 'id_propuesta', $proposal->id);
 
