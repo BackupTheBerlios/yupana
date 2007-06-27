@@ -252,7 +252,7 @@ CREATE TABLE `ponente` (
   `org` varchar(100) default NULL,
   `titulo` varchar(50) default NULL,
   `resume` text,
-  `domicilio` varchar(100) default NULL,
+  `domicilio` varchar(255) default NULL,
   `telefono` varchar(100) NOT NULL default '',
   `fecha_nac` date default NULL,
   `reg_time` datetime NOT NULL default '0000-00-00 00:00:00',

@@ -175,7 +175,7 @@ if (Context == 'ponente' || Action == 'newspeaker') {
         );
 
     // domicilio
-    $input_data = do_get_output('do_input', array('S_domicilio', 'text', $user->domicilio, 'size="50"'));
+    $input_data = do_get_output('do_input', array('S_domicilio', 'text', $user->domicilio, 'size="50" maxlength="255"'));
 
     $table_data[] = array(
         'Domicilio: &nbsp;',

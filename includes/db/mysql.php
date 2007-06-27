@@ -22,6 +22,10 @@ function main_upgrade($oldversion=0) {
         set_config('auth', '');
     }
    
+    if ($oldversion < 2007062602) {
+        table_column('ponente', 'domicilio', 'domicilio', 'varchar', '255', '', '');
+    }
+
     return $result;
 }
 ?>
