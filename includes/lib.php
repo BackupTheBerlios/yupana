@@ -563,47 +563,6 @@ function user_auth_available () {
     return $auths;
 }
 
-function verificaForm($id_tipo_usuario, $tabla){
-		   // Verificar si todos los campos obligatorios no estan vacios
-		  $errmsg="";
-		  if (empty($_POST['S_login']) || empty($_POST['S_nombrep']) || empty($_POST['S_apellidos']) ||
-		    	empty($_POST['C_sexo']) || empty($_POST['I_id_estudios']) || empty($_POST[$id_tipo_usuario]) || 
-			empty($_POST['I_id_estado'])) { 
-			$errmsg .= "<li>Verifica que los datos obligatorios los hayas introducido correctamente </li>";
-		  }
-		  if (!preg_match("/.+\@.+\..+/",$_POST['S_mail'])) {     		
-		  	$errmsg .= "<li>El correo electronico tecleado no es valido";
-		  }
-		  // Verifica que el login sea de al menos 4 caracteres
-		  if (!preg_match("/^\w{4,15}$/",$_POST['S_login'])) {
-		        $errmsg .= "<li>El login que elijas debe tener entre 4 y 15 caracteres";
-		  }
-		  // Verifica que el password sea de al menos 6 caracteres
-		  if (!preg_match("/^.{6,15}$/",$_POST['S_passwd'])) {
-		        $errmsg .= "<li>El password debe tener entre 6 y 15 caracteres";
-		  }
-		  // Verifica que el password usado no sea igual al login introducido por seguridad
-		  elseif ($_POST['S_passwd'] == $_POST['S_login']) {
-		        $errmsg .= "<li>El password no debe ser igual a tu login";
-		  }
-		  // Verifica que los password esten escritos correctamente para verificar que
-		  // la persona introducjo correcamente el password que eligio.
-		  if ($_POST['S_passwd'] != $_POST['S_passwd2']) {
-		        $errmsg .= "<li>Los passwords no concuerdan";
-		  }
-		  // Si no hay errores verifica que el login no este ya dado de alta en la tabla
-		  if (empty($errmsg)) {
-		      $lowlogin = strtolower($_POST['S_login']);
-		      $userQuery = 'SELECT * FROM '.$tabla.' WHERE login="'.$lowlogin.'"';
-		      $userRecords = mysql_query($userQuery) or err("No se pudo checar el login".mysql_errno($userRecords));
-		      if (mysql_num_rows($userRecords) != 0) {
-		        $errmsg .= "<li>El usuario que elegiste ya ha sido tomado; por favor elige otro";
-		      }
-		  }
-		  return $errmsg;
-		  // Si hubo error(es) muestra los errores que se acumularon.
-}	
-
 //initial gettext code
 //compatibility code
 //gettext workaround
