@@ -1,6 +1,10 @@
 <?php
 global $db, $METATABLES;
 
+//require for show errors
+//TODO: find better way to do this
+require_once($CFG->incdir . 'displaylib.php');
+
 /// Check if the main tables have been installed yet or not.
 if (!$METATABLES) {    // No tables yet at all.
     $maintables = false;

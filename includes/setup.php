@@ -224,13 +224,17 @@ if (ini_get_bool('magic_quotes_gpc') ) {
 
 //load metatables
 $METATABLES = $db->Metatables();
+
+//check db sanity
+require_once($CFG->incdir . 'dbsetup.php');
+
 if ($METATABLES) {
     // load config from db at end
     $CFG = get_config();
 }
 
 // load again config.php to override db configs values
-include($CFG->rootdir . 'config.php');
+require_once($CFG->rootdir . 'config.php');
 
 
 //try to guess correct wwwroot
