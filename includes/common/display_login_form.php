@@ -7,12 +7,12 @@
     $table_data = array();
 
     $table_data[] = array(
-        __('Nombre de Usuario: '),
+        __('Nombre de Usuario:'),
         do_get_output('do_input', array('S_login', 'text', $login, 'size="15"'))
         );
 
     $table_data[] = array(
-        __('Contraseña: '),
+        __('Contraseña:'),
         do_get_output('do_input', array('S_passwd', 'password', '', 'size="15"'))
         );
 ?>
