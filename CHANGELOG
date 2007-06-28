@@ -15,3 +15,5 @@ Yupana 0.1alpha1 (future release)
 - New css stylesheet
 - Added external authentification support
 	* Added drupal auth example
+- Support for multiple tables prefix on same database
+- Localization support with php-gettext
