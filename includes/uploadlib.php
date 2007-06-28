@@ -106,7 +106,7 @@ class upload_manager {
                     if (!$this->config->recoverifmultiple && count($this->files) > 1) {
                         $a->name = $this->files[$name]['originalname'];
                         $a->problem = $this->files[$name]['uploadlog'];
-                        $msg = sprintf(__('Your file upload has failed because there was a problem with one of the files, %s.<br /> Here is a log of the problems:<br />%s<br />Not recovering.'), $a->name, $a->problem);
+                        $msg = sprintf(__gettext('Your file upload has failed because there was a problem with one of the files, %s.<br /> Here is a log of the problems:<br />%s<br />Not recovering.'), $a->name, $a->problem);
                         if (!$this->config->silent) {
                             notify($msg);
                         }
@@ -132,7 +132,7 @@ class upload_manager {
                     if ($newname != $this->files[$name]['name']) {
                         $a->oldname = $this->files[$name]['name'];
                         $a->newname = $newname;
-                        $this->files[$name]['uploadlog'] .= sprintf(__('File was renamed from %s to %s because of invalid characters.'), $a->oldname, $a->newname);
+                        $this->files[$name]['uploadlog'] .= sprintf(__gettext('File was renamed from %s to %s because of invalid characters.'), $a->oldname, $a->newname);
                     }
                     $this->files[$name]['name'] = $newname;
                     $this->files[$name]['clear'] = true; // ok to save.
@@ -161,7 +161,7 @@ class upload_manager {
             return false;
         }
         if ($file['size'] > $this->config->maxbytes) {
-            $file['uploadlog'] .= "\n". sprintf(__('Sorry, but that file is too big (limit is %s)'), display_size($this->config->maxbytes));
+            $file['uploadlog'] .= "\n". sprintf(__gettext('Sorry, but that file is too big (limit is %s)'), display_size($this->config->maxbytes));
             return false;
         }
         return true;
@@ -213,7 +213,7 @@ class upload_manager {
                 if (move_uploaded_file($this->files[$i]['tmp_name'], $destination.'/'.$this->files[$i]['name'])) {
                     chmod($destination .'/'. $this->files[$i]['name'], $CFG->filepermissions);
                     $this->files[$i]['fullpath'] = $destination.'/'.$this->files[$i]['name'];
-                    $this->files[$i]['uploadlog'] .= "\n".__('File uploaded successfully');
+                    $this->files[$i]['uploadlog'] .= "\n".__gettext('File uploaded successfully');
                     $this->files[$i]['saved'] = true;
                     $exceptions[] = $this->files[$i]['name'];
                     // now add it to the log (this is important so we know who to notify if a virus is found later on)
@@ -228,7 +228,7 @@ class upload_manager {
         if (empty($savedsomething)) {
             $this->status = false;
             if ((empty($this->config->allownull) && !empty($this->inputname)) || (empty($this->inputname) && empty($this->config->allownullmultiple))) {
-                notify(__('No file was found - are you sure you selected one to upload?'));
+                notify(__gettext('No file was found - are you sure you selected one to upload?'));
             }
             return false;
         }
@@ -264,7 +264,7 @@ class upload_manager {
             }
         }
         if ($deletedsomething) {
-            $msg = __('The old file(s) in your upload area have been deleted');
+            $msg = __gettext('The old file(s) in your upload area have been deleted');
             if (!$this->config->silent) {
                 notify($msg);
             }
@@ -295,7 +295,7 @@ class upload_manager {
                 }
             }
             $a->newname = $file['name'];
-            $file['uploadlog'] .= "\n". sprintf(__('File was renamed from %s to %s because there was a filename conflict.'), $a->oldname, $a->newname);
+            $file['uploadlog'] .= "\n". sprintf(__gettext('File was renamed from %s to %s because there was a filename conflict.'), $a->oldname, $a->newname);
         }
     }
     
@@ -336,30 +336,30 @@ class upload_manager {
         switch ($file['error']) {
         case 0: // UPLOAD_ERR_OK
             if ($file['size'] > 0) {
-                $errmessage = sprintf(__('An unknown problem occurred while uploading the file \'%s\' (perhaps it was too large?)'), $file['name']);
+                $errmessage = sprintf(__gettext('An unknown problem occurred while uploading the file \'%s\' (perhaps it was too large?)'), $file['name']);
             } else {
-                $errmessage = __('No file was found - are you sure you selected one to upload?'); /// probably a dud file name
+                $errmessage = __gettext('No file was found - are you sure you selected one to upload?'); /// probably a dud file name
             }
             break;
             
         case 1: // UPLOAD_ERR_INI_SIZE
-            $errmessage = __('Uploaded file exceeded the maximum size limit set by the server');
+            $errmessage = __gettext('Uploaded file exceeded the maximum size limit set by the server');
             break;
             
         case 2: // UPLOAD_ERR_FORM_SIZE
-            $errmessage = __('Uploaded file exceeded the maximum size limit set by the form');
+            $errmessage = __gettext('Uploaded file exceeded the maximum size limit set by the form');
             break;
             
         case 3: // UPLOAD_ERR_PARTIAL
-            $errmessage = __('File was only partially uploaded');
+            $errmessage = __gettext('File was only partially uploaded');
             break;
             
         case 4: // UPLOAD_ERR_NO_FILE
-            $errmessage = __('No file was found - are you sure you selected one to upload?');
+            $errmessage = __gettext('No file was found - are you sure you selected one to upload?');
             break;
             
         default:
-            $errmessage = sprintf(__('An unknown problem occurred while uploading the file \'%s\' (perhaps it was too large?)'), $file['name']);
+            $errmessage = sprintf(__gettext('An unknown problem occurred while uploading the file \'%s\' (perhaps it was too large?)'), $file['name']);
         }
         return $errmessage;
     }
@@ -373,7 +373,7 @@ class upload_manager {
             if (count($this->files) > 1 && !empty($skipemptyifmultiple) && $this->files[$key]['error'] == 4) {
                 continue;
             }
-            $str .= '<strong>'. sprintf(__('Upload log for file %u'), $i+1) .' '
+            $str .= '<strong>'. sprintf(__gettext('Upload log for file %u'), $i+1) .' '
                 .((!empty($this->files[$key]['originalname'])) ? '('.$this->files[$key]['originalname'].')' : '')
                 .'</strong> :'. nl2br($this->files[$key]['uploadlog']) .'<br />';
         }
@@ -466,7 +466,7 @@ function upload_print_form_fragment($numfiles=1, $names=null, $descriptions=null
         $str .= '<input type="file" size="50" name="'. $name .'" alt="'. $name .'" /><br />'."\n";
         if ($uselabels) {
             $lname = ((is_array($labelnames) && !empty($labelnames[$i])) ? $labelnames[$i] : 'LABEL_'.$i);
-            $str .= __('Title:').' <input type="text" size="50" name="'. $lname .'" alt="'. $lname
+            $str .= __gettext('Title:').' <input type="text" size="50" name="'. $lname .'" alt="'. $lname
                 .'" /><br /><br />'."\n";
         }
     }
@@ -505,41 +505,41 @@ function clam_handle_infected_file($file, $userid=0, $basiconly=false) {
             $delete = false;
             clam_log_infected($file, $CFG->quarantinedir.'/'. $now .'-user-'. $userid .'-infected', $userid);
             if ($basiconly) {
-                $notice .= "\n". __('The file has been moved to a quarantine directory.');
+                $notice .= "\n". __gettext('The file has been moved to a quarantine directory.');
             }
             else {
-                $notice .= "\n". sprintf(__('The file has been moved to your specified quarantine directory, the new location is %s'), $CFG->quarantinedir.'/'. $now .'-user-'. $userid .'-infected');
+                $notice .= "\n". sprintf(__gettext('The file has been moved to your specified quarantine directory, the new location is %s'), $CFG->quarantinedir.'/'. $now .'-user-'. $userid .'-infected');
             }
         }
         else {
             if ($basiconly) {
-                $notice .= "\n". __('The file has been deleted');
+                $notice .= "\n". __gettext('The file has been deleted');
             }
             else {
-                $notice .= "\n". sprintf(__('Could not move the file into your specified quarantine directory, %s. You need to fix this as files are being deleted if they\'re found to be infected.'), $CFG->quarantinedir);
+                $notice .= "\n". sprintf(__gettext('Could not move the file into your specified quarantine directory, %s. You need to fix this as files are being deleted if they\'re found to be infected.'), $CFG->quarantinedir);
             }
         }
     }
     else {
         if ($basiconly) {
-            $notice .= "\n". __('The file has been deleted');
+            $notice .= "\n". __gettext('The file has been deleted');
         }
         else {
-            $notice .= "\n". sprintf(__('Could not move the file into your specified quarantine directory, %s. You need to fix this as files are being deleted if they\'re found to be infected.'), $CFG->quarantinedir);
+            $notice .= "\n". sprintf(__gettext('Could not move the file into your specified quarantine directory, %s. You need to fix this as files are being deleted if they\'re found to be infected.'), $CFG->quarantinedir);
         }
     }
     if ($delete) {
         if (unlink($file)) {
             clam_log_infected($file, '', $userid);
-            $notice .= "\n". __('The file has been deleted');
+            $notice .= "\n". __gettext('The file has been deleted');
         }
         else {
             if ($basiconly) {
                 // still tell the user the file has been deleted. this is only for admins.
-                $notice .= "\n". __('The file has been deleted');
+                $notice .= "\n". __gettext('The file has been deleted');
             }
             else {
-                $notice .= "\n". __('The file could not be deleted');
+                $notice .= "\n". __gettext('The file could not be deleted');
             }
         }
     }
@@ -555,7 +555,7 @@ function clam_handle_infected_file($file, $userid=0, $basiconly=false) {
  * @return boolean
  */
 function clam_replace_infected_file($file) {
-    $newcontents = __('This file that has been uploaded was found to contain a virus and has been moved or delted and the user notified.');
+    $newcontents = __gettext('This file that has been uploaded was found to contain a virus and has been moved or delted and the user notified.');
     if (!$f = fopen($file, 'w')) {
         return false;
     }
@@ -591,15 +591,15 @@ function clam_scan_file(&$file) {
 
     if (!$CFG->pathtoclam || !file_exists($CFG->pathtoclam) || !is_executable($CFG->pathtoclam)) {
         $newreturn = 1;
-        $notice = sprintf(__('Yupana is configured to run clam on file upload, but the path supplied to Clam AV, %s,  is invalid.'), $CFG->pathtoclam);
+        $notice = sprintf(__gettext('Yupana is configured to run clam on file upload, but the path supplied to Clam AV, %s,  is invalid.'), $CFG->pathtoclam);
         if ($CFG->clamfailureonupload == 'actlikevirus') {
-            $notice .= "\n". __('In addition, Yupana is configured so that if clam fails to run, files are treated like viruses.  This essentially means that no student can upload a file successfully until you fix this.');
+            $notice .= "\n". __gettext('In addition, Yupana is configured so that if clam fails to run, files are treated like viruses.  This essentially means that no student can upload a file successfully until you fix this.');
             $notice .= "\n". clam_handle_infected_file($fullpath);
             $newreturn = false; 
         }
         clam_mail_admins($notice);
         if ($appendlog) {
-            $file['uploadlog'] .= "\n". __('Your administrator has enabled virus checking for file uploads but has misconfigured something.<br />Your file upload was NOT successful. Your administrator has been emailed to notify them so they can fix it.<br />Maybe try uploading this file later.');
+            $file['uploadlog'] .= "\n". __gettext('Your administrator has enabled virus checking for file uploads but has misconfigured something.<br />Your file upload was NOT successful. Your administrator has been emailed to notify them so they can fix it.<br />Maybe try uploading this file later.');
             $file['clam'] = 1;
         }
         return $newreturn; // return 1 if we're allowing clam failures
@@ -617,19 +617,19 @@ function clam_scan_file(&$file) {
         return 1; // translate clam return code into reasonable return code consistent with everything else.
     case 1:  // bad wicked evil, we have a virus.
         $info->user = $USER->name;
-        $notice = sprintf(__('Attention administrator! Clam AV has found a virus in a file uploaded by %s. Here is the output of clamscan:'), $info->user);
+        $notice = sprintf(__gettext('Attention administrator! Clam AV has found a virus in a file uploaded by %s. Here is the output of clamscan:'), $info->user);
         $notice .= "\n\n". implode("\n", $output);
         $notice .= "\n\n". clam_handle_infected_file($fullpath); 
         clam_mail_admins($notice);
         if ($appendlog) {
             $info->filename = $file['originalname'];
-            $file['uploadlog'] .= "\n". sprintf(__('The file you have uploaded, %s, has been scanned by a virus checker and found to be infected! Your file upload was NOT successful.'), $info->filename);
+            $file['uploadlog'] .= "\n". sprintf(__gettext('The file you have uploaded, %s, has been scanned by a virus checker and found to be infected! Your file upload was NOT successful.'), $info->filename);
             $file['virus'] = 1;
         }
         return false; // in this case, 0 means bad.
     default: 
         // error - clam failed to run or something went wrong
-        $notice .= sprintf(__('Clam AV has failed to run.  The return error message was %s. Here is the output from Clam:'), get_clam_error_code($return));
+        $notice .= sprintf(__gettext('Clam AV has failed to run.  The return error message was %s. Here is the output from Clam:'), get_clam_error_code($return));
         $notice .= "\n\n". implode("\n", $output);
         $newreturn = true;
         if ($CFG->clamfailureonupload == 'actlikevirus') {
@@ -638,7 +638,7 @@ function clam_scan_file(&$file) {
         }
         clam_mail_admins($notice);
         if ($appendlog) {
-            $file['uploadlog'] .= "\n". __('Your administrator has enabled virus checking for file uploads but has misconfigured something.<br />Your file upload was NOT successful. Your administrator has been emailed to notify them so they can fix it.<br />Maybe try uploading this file later.');
+            $file['uploadlog'] .= "\n". __gettext('Your administrator has enabled virus checking for file uploads but has misconfigured something.<br />Your file upload was NOT successful. Your administrator has been emailed to notify them so they can fix it.<br />Maybe try uploading this file later.');
             $file['clam'] = 1;
         }
         return $newreturn; // return 1 if we're allowing failures.
@@ -654,10 +654,10 @@ function clam_mail_admins($notice) {
     
     global $CFG;
         
-    $subject = sprintf(__('%s :: Clam AV notification'), $CFG->sitename);
+    $subject = sprintf(__gettext('%s :: Clam AV notification'), $CFG->sitename);
     $user = new StdClass;
     $user->email = $CFG->sysadminemail;
-    $user->name = $CFG->sitename.' '.__('Administrator');
+    $user->name = $CFG->sitename.' '.__gettext('Administrator');
     email_to_user($user,$user,$subject,$notice);
     /*
     $admins = get_admins();
@@ -698,7 +698,7 @@ function get_clam_error_code($returncode) {
     $returncodes[71] = 'Can\'t allocate memory (malloc).';
     if ($returncodes[$returncode])
        return $returncodes[$returncode];
-    return __('There was an unknown error with clam.');
+    return __gettext('There was an unknown error with clam.');
 
 }
 
