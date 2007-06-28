@@ -222,6 +222,8 @@ function clean_param ($param, $options) {
 // send mail
 function send_mail($contactname, $contactemail, $subject, $message, $myname='', $mymail='', $bcc='', $replyto='', $replytoname='') {
     global $CFG;
+    global $release;
+
     // needed for compatibility
     $CFG->libdir = dirname(__FILE__);
 
@@ -230,7 +232,7 @@ function send_mail($contactname, $contactemail, $subject, $message, $myname='', 
 
     $mail = new phpmailer;
 
-    $mail->Version = 'Yacomas (Rho)';
+    $mail->Version = 'Yupana ' . $release;
     $mail->PluginDir = $CFG->libdir . '/phpmailer/';
 
     $mail->CharSet = 'UTF-8';
@@ -293,8 +295,12 @@ function request_password($login, $type) {
 
     if ($type == 'A') {
         $user_type = 'person';
+        $sUserType = __('asistente');
+        $table = 'asistente';
     } elseif ($type == 'P') {
         $user_type = 'speaker';
+        $sUserType = __('ponente');
+        $table = 'ponente';
     } else {
         // duh!
         return false;
@@ -308,7 +314,7 @@ function request_password($login, $type) {
 
     $pwreq = new StdClass;
     $pwreq->user_id = $user->id;
-    $pwreq->user_type = $table;
+    $pwreq->user_type = $user_type;
     $pwreq->code = 'req' . substr(base_convert(md5(time() . $user->login), 16, 24), 0, 30);
 
     if (!insert_record('password_requests', $pwreq)) {
