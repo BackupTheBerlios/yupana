@@ -12,7 +12,7 @@ $event = new StdClass;
 require($CFG->admdir . 'event_optional_params.php');
 ?>
 
-<h1>Registro de Evento</h1>
+<h1><?=__('Registro de Evento') ?></h1>
 
 <?php
 // process submit
@@ -30,7 +30,7 @@ if (!empty($submit) && !empty($event) && !empty($proposal)) {
 
 ?>
 
-<p class="error center">Evento organización agregado.</p>
+<p class="error center"><?=__('Evento organización agregado.') ?></p>
 
 <?php
         // refresh proposal
@@ -40,7 +40,7 @@ if (!empty($submit) && !empty($event) && !empty($proposal)) {
         // show proposal updated details
         include($CFG->comdir . 'prop_display_info.php');
 
-        do_submit_cancel('', 'Continuar', $return_url);
+        do_submit_cancel('', __('Continuar'), $return_url);
     }
 } 
 
@@ -49,13 +49,13 @@ if (empty($submit) || !empty($errmsg)) {
 
 <form method="POST" action="">
 
-    <p class="center"><em>Los campos marcados con asterisco(*) son obligatorios</em></p>
+    <p class="center"><em><?=__('Los campos marcados con asterisco(*) son obligatorios') ?></em></p>
 
 <?php
     // show input table
     include($CFG->admdir . 'event_input_table.php');
 
-    do_submit_cancel('Registrar', 'Cancelar', $return_url);
+    do_submit_cancel(__('Registrar'), __('Cancelar'), $return_url);
 ?>
 
 </form>

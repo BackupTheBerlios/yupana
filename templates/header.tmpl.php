@@ -32,8 +32,10 @@
 <?php if ($login_info) { ?>
 
     <div id="login-info">
-    <p>Usuario: <?=$USER->login ?> | <a class="verde" href="<?=$CFG->home_url ?>">Inicio</a> | <a class="precaucion" href="<?=$CFG->logout_url ?>">Cerrar Sesión</a>
-        </p>
+    <p><?=__('Usuario') ?>: <?=$USER->login ?> |
+        <a class="verde" href="<?=$CFG->home_url ?>"><?=__('Inicio') ?></a> |
+        <a class="precaucion" href="<?=$CFG->logout_url ?>"><?=__('Cerrar Sesión') ?></a>
+    </p>
     </div>
 
 <?php } ?>

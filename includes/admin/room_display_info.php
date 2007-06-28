@@ -7,12 +7,12 @@
     // initalize var
     $values = array();
 
-    $cupo = (empty($room->cupo)) ? 'Salón para conferencias' : $room->cupo . ' personas';
+    $cupo = (empty($room->cupo)) ? __('Salón para conferencias') : sprintf(__('%s personas'), $room->cupo);
 
     $values = array(
-        'Nombre: ' => $room->nombre_lug,
-        'Ubicación: ' => $room->ubicacion,
-        'Capacidad' => $cupo
+        __('Nombre') => $room->nombre_lug,
+        __('Ubicación') => $room->ubicacion,
+        __('Capacidad') => $cupo
         );
 
     do_table_values($values, 'narrow');

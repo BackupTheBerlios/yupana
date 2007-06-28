@@ -26,12 +26,12 @@ else { // want to update the page
 
     //FIXME:
     if ($event_id == -1) {
-        $errmsg[] = 'No puede modificar este evento. Es utilizado para reservar hora y lugar para eventos principales.';
+        $errmsg[] = __('No puede modificar este evento. Es utilizado para reservar hora y lugar para eventos principales.');
     } else {
         $event = get_record('evento', 'id', $event_id);
 
         if (empty($event)) {
-            $errmsg[] = 'Evento no encontrado.';
+            $errmsg[] = __('Evento no encontrado.');
         } else {
             
             // get date/hour/room
@@ -56,11 +56,11 @@ if (empty($errmsg)) {
 if (Action == 'scheduleevent') {
 ?>
 
-<h1>Registro de Evento</h1>
+<h1><?=__('Registrar Evento') ?></h1>
 
 <?php } else { ?>
 
-<h1>Modificar Evento</h1>
+<h1><?=__('Modificar Evento') ?></h1>
 
 <?php
 }
@@ -81,7 +81,7 @@ if (!empty($submit) && !empty($event) && !empty($proposal) && empty($errmsg)) {
         if (Action == 'scheduleevent') {
 ?>
 
-<p class="error center">Evento agregado, ahora ya esta disponible para inscripción en caso de ser taller/tutorial.</p>
+<p class="error center"><?=__('Evento agregado, ahora ya esta disponible para inscripción en caso de ser taller/tutorial.') ?></p>
 
 <?php
         }
@@ -89,7 +89,7 @@ if (!empty($submit) && !empty($event) && !empty($proposal) && empty($errmsg)) {
         elseif (Action == 'editevent') {
 ?>
 
-<p class="error center">Evento modificado.</p>
+<p class="error center"><?=__('Evento modificado.') ?></p>
 
 <?php
         }
@@ -99,7 +99,7 @@ if (!empty($submit) && !empty($event) && !empty($proposal) && empty($errmsg)) {
         // show proposal updated details
         include($CFG->comdir . 'prop_display_info.php');
 
-        do_submit_cancel('', 'Continuar', $return_url);
+        do_submit_cancel('', __('Continuar'), $return_url);
     }
 } 
 
@@ -110,7 +110,7 @@ if (Action == 'scheduleevent' && empty($proposal) || !empty($errmsg)) {
 <div class="block"></div>
 
 <?php
-    do_submit_cancel('', 'Regresar', get_url('admin/events/schedule'));
+    do_submit_cancel('', __('Regresar'), get_url('admin/events/schedule'));
 }
 
 elseif (empty($submit) || !empty($errmsg)) {
@@ -118,7 +118,7 @@ elseif (empty($submit) || !empty($errmsg)) {
 
 <form method="POST" action="">
 
-    <p class="center"><em>Los campos marcados con asterisco(*) son obligatorios</em></p>
+    <p class="center"><em><?=__('Los campos marcados con asterisco(*) son obligatorios') ?></em></p>
 
 <?php
     // show proposal data
@@ -132,9 +132,9 @@ elseif (empty($submit) || !empty($errmsg)) {
     //$return_url = get_url('admin/events/schedule');
 
     if (Action == 'scheduleevent') {
-        do_submit_cancel('Registrar', 'Cancelar', $return_url);
+        do_submit_cancel(__('Registrar'), __('Cancelar'), $return_url);
     } else {
-        do_submit_cancel('Guardar', 'Volver', $return_url);
+        do_submit_cancel(__('Guardar'), __('Regresar'), $return_url);
     }
 ?>
 

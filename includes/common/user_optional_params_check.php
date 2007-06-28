@@ -45,45 +45,46 @@
             || (Context == 'admin' && Action == 'newadmin' && empty($id_tadmin))
             || (Context == 'asistente' && empty($id_tasistente))) { 
 
-            $errmsg[] = "Verifica que los datos obligatorios los hayas introducido correctamente.";
+            $errmsg[] = __("Verifica que los datos obligatorios los hayas introducido correctamente.");
         }
 
         // main admin cant be changed
         if (Context == 'admin' && Action == 'editdetails' && $login != 'admin') {
-            $errmsg[] = "No puedes cambiar el usuario del administrador principal.";
+            $errmsg[] = __("No puedes cambiar el usuario del administrador principal.");
         }
 
         // users can't use admin username or similar
         if (Context != 'admin' && preg_match('#^admin.*?#', $login)) {
-            $errmsg[] = "El nombre de usuario que elegiste se encuentra reservado. Por favor elige otro.";
+            $errmsg[] = __("El nombre de usuario que elegiste se encuentra reservado. Por favor elige otro.");
         }
  
         if (!preg_match("/.+\@.+\..+/",$mail)) {
-            $errmsg[] = "El correo electrónico no es válido";
+            $errmsg[] = __("El correo electrónico no es válido");
         }
 
         // Verifica que el login sea de al menos 4 caracteres
         if (!preg_match("/^\w{4,15}$/",$login)) {
-            $errmsg[] = "El login que elijas debe tener entre 4 y 15 caracteres.";
+            $errmsg[] = __("El login que elijas debe tener entre 4 y 15 caracteres.");
         }
 
         // no need to check passwords on external auth
-        if (($submit == 'Registrarme' && empty($CFG->auth)) || ($submit == 'Actualizar' && !empty($passwd))) {
+        // FIXME: dont trust submit var
+        if (($submit == __('Registrarme') && empty($CFG->auth)) || ($submit == __('Actualizar') && !empty($passwd))) {
 
             // Verifica que el password sea de al menos 6 caracteres
             if (!preg_match("/^.{6,15}$/",$passwd)) {
-                $errmsg[] = "El password debe tener entre 6 y 15 caracteres.";
+                $errmsg[] = __("El password debe tener entre 6 y 15 caracteres.");
             }
 
             // Verifica que el password usado no sea igual al login introducido por seguridad
             elseif ($passwd == $login) {
-                $errmsg[] = "El password no debe ser igual a tu login.";
+                $errmsg[] = __("El password no debe ser igual a tu login.");
             }
 
             // Verifica que los password esten escritos correctamente para verificar que
             // la persona introducjo correcamente el password que eligio.
             if ($passwd != $passwd2) {
-                $errmsg[] = "Los passwords no concuerdan.";
+                $errmsg[] = __("Los passwords no concuerdan.");
             }
         }
 
@@ -91,17 +92,18 @@
         if (empty($errmsg)) {
             $testuser = get_record($dbtable, 'login', $login);
 
+            // FIXME: dont trust submit var
             if (!(empty($testuser))
-                && ($submit == 'Registrarme'
-                    || ($submit == 'Actualizar' 
+                && ($submit == __('Registrarme')
+                    || ($submit == __('Actualizar')
                         && $testuser->id != $USER->id))) {
-                $errmsg[] = 'El usuario que elegiste ya ha sido tomado; por favor elige otro';
+                $errmsg[] = __('El usuario que elegiste ya ha sido tomado; por favor elige otro');
             }
 
             // If unique_mail true, check user mail in db
             if (!empty($CFG->unique_mail)) {
                 if (record_exists($dbtable, 'mail', $mail)) {
-                    $errmsg[] = 'El correo electrónico que elegiste ya ha sido registrado.';
+                    $errmsg[] = __('El correo electrónico que elegiste ya ha sido registrado.');
                 }
             }
         }

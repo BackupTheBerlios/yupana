@@ -320,13 +320,13 @@ function request_password($login, $type) {
     if (!insert_record('password_requests', $pwreq)) {
         return false;
     } else {
-       $subject = "{$CFG->conference_name}: Cambio de contraseña {$table}";
+       $subject = sprintf(__('%s: Cambio de contraseña %s'), $CFG->conference_name, $sUserType);
 
        $url = get_url('recover_password/'.$pwreq->code);
 
        $message = "";
-       $message .= "Has solicitado un cambio de contraseña para el usuario {$user->login}\n";
-       $message .= "Para confirmarlo ingrese a la siguiente dirección:\n";
+       $message .= sprintf(__("Has solicitado cambio de contraseña para el usuario %s\n"), $user->login);
+       $message .= __("Para confirmarlo ingrese a la siguiente dirección:\n");
        $message .= "  {$url}\n\n";
        $message .= "--";
        $message .= "{$CFG->conference_name}\n";
@@ -357,39 +357,39 @@ function strftime_caste($formato, $fecha){
 // $fecha: tiemestamp correspondiente a la fecha y hora que se quiere mostrar
 $salida = strftime($formato,  $fecha);
 	    // reemplazo meses  
-	    $salida = ereg_replace("January","Enero",$salida);
-	    $salida = ereg_replace("February","Febrero",$salida);
-	    $salida = ereg_replace("March","Marzo",$salida);
-	    $salida = ereg_replace("April","Abril",$salida);
-	    $salida = ereg_replace("May","Mayo",$salida);
-	    $salida = ereg_replace("June","Junio",$salida);
-	    $salida = ereg_replace("July","Julio",$salida);
-	    $salida = ereg_replace("August","Agosto",$salida);
-	    $salida = ereg_replace("September","Septiembre",$salida);
-	    $salida = ereg_replace("October","Octubre",$salida);
-	    $salida = ereg_replace("November","Noviembre",$salida);
-	    $salida = ereg_replace("December","Diciembre",$salida);
+	    $salida = ereg_replace("January",__("Enero"),$salida);
+	    $salida = ereg_replace("February",__("Febrero"),$salida);
+	    $salida = ereg_replace("March",__("Marzo"),$salida);
+	    $salida = ereg_replace("April",__("Abril"),$salida);
+	    $salida = ereg_replace("May",__("Mayo"),$salida);
+	    $salida = ereg_replace("June",__("Junio"),$salida);
+	    $salida = ereg_replace("July",__("Julio"),$salida);
+	    $salida = ereg_replace("August",__("Agosto"),$salida);
+	    $salida = ereg_replace("September",__("Septiembre"),$salida);
+	    $salida = ereg_replace("October",__("Octubre"),$salida);
+	    $salida = ereg_replace("November",__("Noviembre"),$salida);
+	    $salida = ereg_replace("December",__("Diciembre"),$salida);
             // reemplazo meses cortos
-	    $salida = ereg_replace("Jan","ene",$salida);
-	    $salida = ereg_replace("Apr","abr",$salida);
-	    $salida = ereg_replace("Aug","ago",$salida);
-	    $salida = ereg_replace("Dec","dic",$salida);
+	    $salida = ereg_replace("Jan",__("Ene"),$salida);
+	    $salida = ereg_replace("Apr",__("Abr"),$salida);
+	    $salida = ereg_replace("Aug",__("Ago"),$salida);
+	    $salida = ereg_replace("Dec",__("Dic"),$salida);
 	    // reemplazo di'as
-	    $salida = ereg_replace("Monday","Lunes",$salida);
-	    $salida = ereg_replace("Tuesday","Martes",$salida);
-	    $salida = ereg_replace("Wednesday","Mi&eacute;rcoles",$salida);
-	    $salida = ereg_replace("Thursday","Jueves",$salida);
-	    $salida = ereg_replace("Friday","Viernes",$salida);
-	    $salida = ereg_replace("Saturday","S&aacute;bado",$salida);
-	    $salida = ereg_replace("Sunday","Domingo",$salida);
+	    $salida = ereg_replace("Monday",__("Lunes"),$salida);
+	    $salida = ereg_replace("Tuesday",__("Martes"),$salida);
+	    $salida = ereg_replace("Wednesday",__("Miércoles"),$salida);
+	    $salida = ereg_replace("Thursday",__("Jueves"),$salida);
+	    $salida = ereg_replace("Friday",__("Viernes"),$salida);
+	    $salida = ereg_replace("Saturday",__("Sábado"),$salida);
+	    $salida = ereg_replace("Sunday",__("Domingo"),$salida);
 	    // reemplazo dias cortos
-	    $salida = ereg_replace("Mon","Lun",$salida);
-	    $salida = ereg_replace("Tue","Mar",$salida);
-	    $salida = ereg_replace("Wed","Mie",$salida);
-	    $salida = ereg_replace("Thu","Jue",$salida);
-	    $salida = ereg_replace("Fri","Vie",$salida);
-	    $salida = ereg_replace("Sat","Sab",$salida);
-	    $salida = ereg_replace("Sun","Dom",$salida);
+	    $salida = ereg_replace("Mon",__("Lun"),$salida);
+	    $salida = ereg_replace("Tue",__("Mar"),$salida);
+	    $salida = ereg_replace("Wed",__("Mie"),$salida);
+	    $salida = ereg_replace("Thu",__("Jue"),$salida);
+	    $salida = ereg_replace("Fri",__("Vie"),$salida);
+	    $salida = ereg_replace("Sat",__("Sab"),$salida);
+	    $salida = ereg_replace("Sun",__("Dom"),$salida);
 	    // reemplazo cuando es 1 de algun mes
 	    $salida = ereg_replace(" 01 de "," 1&deg; de ",$salida);
 	    return $salida;
@@ -400,18 +400,18 @@ function month2name ($id) {
     $id = (int) $id;
 
     switch ($id) {
-        case  1: $result = 'Enero'; break;
-        case  2: $result = 'Febrero'; break;
-        case  3: $result = 'Marzo'; break;
-        case  4: $result = 'Abril'; break;
-        case  5: $result = 'Mayo'; break;
-        case  6: $result = 'Junio'; break;
-        case  7: $result = 'Julio'; break;
-        case  8: $result = 'Agosto'; break;
-        case  9: $result = 'Septiembre'; break;
-        case 10: $result = 'Octubre'; break;
-        case 11: $result = 'Noviembre'; break;
-        case 12: $result = 'Diciembre'; break;
+        case  1: $result = __('Enero'); break;
+        case  2: $result = __('Febrero'); break;
+        case  3: $result = __('Marzo'); break;
+        case  4: $result = __('Abril'); break;
+        case  5: $result = __('Mayo'); break;
+        case  6: $result = __('Junio'); break;
+        case  7: $result = __('Julio'); break;
+        case  8: $result = __('Agosto'); break;
+        case  9: $result = __('Septiembre'); break;
+        case 10: $result = __('Octubre'); break;
+        case 11: $result = __('Noviembre'); break;
+        case 12: $result = __('Diciembre'); break;
     }
 
     return $result;

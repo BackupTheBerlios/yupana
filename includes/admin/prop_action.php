@@ -29,9 +29,9 @@ if (!empty($prop_id) && !empty($prop_id_status) && $prop_id_status < 7) {
     $prop->id_administrador = $USER->id;
 
     if ($rs = update_record('propuesta', $prop)) {
-        $errmsg[] = 'Se ha actualizado el estado de la ponencia';
+        $errmsg[] = __('Se ha actualizado el estado de la ponencia');
     } else {
-        $errmsg[] = 'Ocurrió un error al cambiar el estado del registro';
+        $errmsg[] = __('Ocurrió un error al cambiar el estado del registro');
     }
 }
 

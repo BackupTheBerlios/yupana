@@ -551,7 +551,7 @@ function spitfile_with_mtime_check ($filepath, $mimetype, $handler = "elgg") {
     }
 
     if (!is_file($filepath)) {
-        die(__('File not longer exists.'));
+        die(__('El archivo ya no existe.'));
     }
     exit;
 }

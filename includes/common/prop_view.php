@@ -44,7 +44,7 @@ if (!empty($proposal)) {
 ?>
 
 <h1 class="proposal-title left"><?=$proposal->nombre ?></h1>
-<h2 class="proposal-details left">Detalles de la ponencia</h2>
+<h2 class="proposal-details left"><?=__('Detalles de la ponencia') ?></h2>
 
 <?php
     include($CFG->comdir . 'prop_display_info.php');
@@ -52,7 +52,7 @@ if (!empty($proposal)) {
     if (Context != 'ponente' && Context != 'admin') {
 ?>
 
-<h2 class="proposal-details left">Detalles de los autores</h2>
+<h2 class="proposal-details left"><?=__('Detalles de los autores') ?></h2>
 
 <ul class="speaker-details">
 <li>
@@ -62,13 +62,13 @@ if (!empty($proposal)) {
 </ul>
 
 <?php
-        do_submit_cancel('', 'Regresar', $return_url);
+        do_submit_cancel('', __('Regresar'), $return_url);
 
     } else {
         //messages/comments
 ?>
 
-<h3 class="center">Comentarios</h3>
+<h3 class="center"><?=__('Comentarios') ?></h3>
 
 <?php
         $submit = optional_param('submit');
@@ -82,36 +82,35 @@ if (!empty($proposal)) {
 <?php
         if ($proposal->id_status < 6) {
             include($CFG->comdir . 'prop_comments_input.php');
-            do_submit_cancel('Enviar', 'Regresar', $return_url);
+            do_submit_cancel(__('Enviar'), __('Regresar'), $return_url);
         } else {
 ?>
 
 <div class="block"></div>
 
 <?php
-            do_submit_cancel('', 'Regresar', $return_url);
+            do_submit_cancel('', __('Regresar'), $return_url);
         }
     }
 
 } else {
 ?>
 
-<h1>Propuesta no encontrada</h1>
+<h1><?=__('Propuesta no encontrada') ?></h1>
 
 <div class="block"></div>
 
 <?php if (Context == 'ponente') { ?>
 
-<p class="error center">No se encontro la propuesta en tus registros.</p>
+<p class="error center"><?=__('No se encontro la propuesta en tus registros.') ?></p>
 
 <?php } else { ?>
 
-<p class="error center">Registros de propuesta no encontrados. Posiblemente no exista
-o no tengas acceso al registro.</p>
+<p class="error center"><?=__('Registros de propuesta no encontrados. Posiblemente no exista o no tengas acceso al registro.') ?></p>
 
 <?php
     }
 
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 ?>

@@ -12,7 +12,7 @@
 
     if (!$rs) {
         // Fatal error
-        show_error('No se pudo insertar/actualizar los datos.');
+        show_error(__('No se pudo insertar/actualizar los datos.'));
     } else {
         // refresh date
         if (Action == 'newdate') {

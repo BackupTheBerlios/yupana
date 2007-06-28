@@ -19,8 +19,8 @@ if (Action == 'controlpersons') {
                                 JOIN '.$CFG->prefix.'asistente A ON A.id_tasistente = TA.id');
     $person_type_input = do_get_output('do_input_select', array('filter_id_tasistente', $person_type, $id_tasistente, true, '', 0, $onChange));
 
-    $table_data[] = array('', 'Apellidos:', 'Departamento:', 'Tipo de asistente:');
-    $table_data[] = array('Filtro:', $search_input, $state_input, $person_type_input);
+    $table_data[] = array('', __('Apellidos:'), __('Departamento:'), __('Tipo de asistente:'));
+    $table_data[] = array(__('Filtro:'), $search_input, $state_input, $person_type_input);
 } else {
 
      //$education = get_records('estudios');
@@ -29,8 +29,8 @@ if (Action == 'controlpersons') {
 
     $education_input = do_get_output('do_input_select', array('filter_id_estudios', $education, $id_estudios, true, '', 0, $onChange));
 
-    $table_data[] = array('', 'Apellidos:', 'Departamento:', 'Estudios:');
-    $table_data[] = array('Filtro:', $search_input, $state_input, $education_input);
+    $table_data[] = array('', __('Apellidos:'), __('Departamento:'), __('Estudios:'));
+    $table_data[] = array(__('Filtro:'), $search_input, $state_input, $education_input);
 }
 
 do_table($table_data, 'prop-filter wide');

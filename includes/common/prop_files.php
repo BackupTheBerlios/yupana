@@ -49,7 +49,7 @@ if (!empty($proposal) && ($proposal->id_status < 5 || $proposal->id_status = 6))
 
                 //insert into db
                 if ($rs = insert_record('prop_files', $f)) {
-                    $errmsg[] = 'Archivo registrado exitosamente.';
+                    $errmsg[] = __('Archivo registrado exitosamente.');
 
                     //reset file
                     $file = new StdClass;
@@ -58,12 +58,12 @@ if (!empty($proposal) && ($proposal->id_status < 5 || $proposal->id_status = 6))
                     $file->public = 0;
 
                 } else {
-                    $errmsg[] = 'Ocurrio un error al registrar el archivo.';
+                    $errmsg[] = __('Ocurrió un error al registrar el archivo.');
                 }
             }
 
             else {
-                $errmsg[] = 'Error al subir el archivo:';
+                $errmsg[] = __('Error al subir el archivo.');
                 $errmsg[] = $um->get_errors();
             }
 
@@ -76,7 +76,7 @@ if (!empty($proposal) && ($proposal->id_status < 5 || $proposal->id_status = 6))
     }
 ?>
 
-<h1>Archivos adjuntos de la propuesta</h1>
+<h1><?=__('Archivos adjuntos de la propuesta') ?></h1>
 
 <?php
     $prop_noshow_resume = true;
@@ -84,18 +84,18 @@ if (!empty($proposal) && ($proposal->id_status < 5 || $proposal->id_status = 6))
     include($CFG->comdir . 'prop_display_info.php');
 ?>
 
-<h3 class="center">Lista de Archivos</h3>
+<h3 class="center"><?=__('Lista de archivos') ?></h3>
 
 <?php include($CFG->comdir . 'prop_files_display.php'); ?>
 
-<h3 class="center">Subir Archivo</h3>
+<h3 class="center"><?=__('Subir Archivo') ?></h3>
 
 <form method="POST" action="" enctype="multipart/form-data">
 
 <?php
     include($CFG->comdir . 'prop_files_input.php'); 
 
-    do_submit_cancel('Subir', 'Regresar', $return_url);
+    do_submit_cancel(__('Subir'), __('Regresar'), $return_url);
 
 } else {
     
@@ -103,9 +103,9 @@ if (!empty($proposal) && ($proposal->id_status < 5 || $proposal->id_status = 6))
 
 
 <div class="block"></div>
-<p class="center">Registros de propuesta no encontrados. Posiblemente no existan o no tengas acceso para eliminar la propuesta.</p>
+<p class="center"><?=__('Registros de propuesta no encontrados. Posiblemente no existan o no tengas acceso para eliminar la propuesta.') ?></p>
 
 <?php
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 ?>

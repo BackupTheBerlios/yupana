@@ -17,7 +17,7 @@
             || empty($resumen)
             || empty($name))) {
 
-            $errmsg[] = "Verifica que los datos obligatorios los hayas introducido correctamente.";
+            $errmsg[] = __("Verifica que los datos obligatorios los hayas introducido correctamente.");
     }
 
     if (empty($errmsg) && Action == 'newevent') {
@@ -41,7 +41,7 @@
         $hora_fin = $event->hora + $proposal->duracion;
 
         if ($hora_fin > $CFG->def_hora_fin) {
-            $errmsg[] = 'La duración de esta ponencia supera la hora final del evento.';
+            $errmsg[] = __('La duración de esta ponencia supera la hora final del evento.');
         }
 
         // safe value for test
@@ -78,9 +78,9 @@
                             $conflict_proposal = get_record_sql($query);
 
                             $url = get_url('admin/proposals/'.$conflict_proposal->id);
-                            $event_link = "<a href=\"{$url}\" title=\"Evento en Conflicto\">{$conflict_proposal->nombre}</a>";
+                            $event_link = "<a href=\"{$url}\" title=\"" . __("Evento en Conflicto") . "\">{$conflict_proposal->nombre}</a>";
 
-                            $errmsg[] = 'No se puede reservar los demás lugares. Existe un conflicto en la hora y fecha escogida: ' . $event_link;
+                            $errmsg[] = __('No se puede reservar los demás lugares. Existe un conflicto en la hora y fecha escogida: ') . $event_link;
                             break;
                         }
                     }
@@ -111,9 +111,9 @@
                         $conflict_proposal = get_record_sql($query);
 
                         $url = get_url('admin/proposals/'.$conflict_proposal->id);
-                        $event_link = "<a href=\"{$url}\" title=\"Evento en Conflicto\">{$conflict_proposal->nombre}</a>";
+                        $event_link = "<a href=\"{$url}\" title=\"" . __("Evento en Conflicto") . "\">{$conflict_proposal->nombre}</a>";
 
-                        $errmsg[] = 'La fecha, hora y lugar que elegiste tiene conflictos con otro evento ya programado: ' . $event_link;
+                        $errmsg[] = __('La fecha, hora y lugar que elegiste tiene conflictos con otro evento ya programado: ') . $event_link;
                         break;
                     }
                 }

@@ -8,11 +8,11 @@ if (!empty($submit) && $proposal->id_status < 6) {
     $c->body = optional_param('S_c_body');
 
     if (empty($c->body)) {
-        show_error('El campo del comentario se encuentra vacío.');
+        show_error(__('El campo del comentario se encuentra vacío.'));
     }
 
     elseif (record_exists('prop_comments', 'body', $c->body)) {
-        show_error('El comentario ya ha sido enviado anteriormente.');
+        show_error(__('El comentario ya ha sido enviado anteriormente.'));
     } 
 
     else {
@@ -33,23 +33,26 @@ if (!empty($submit) && $proposal->id_status < 6) {
 
         //insert comment
         if ($rs = insert_record('prop_comments', $c)) {
-            show_error('Comentario registrado con éxito.', false);
+            show_error(__('Comentario registrado con éxito.'), false);
 
             //TODO: send mail notification
             if ($CFG->send_mail && $proposal->id_ponente != $USER->id) {
                 $toname = $user->nombrep . ' ' . $user->apellidos;
-                $subject = $CFG->conference_name . ': Nuevo comentario';
+                $subject = $CFG->conference_name . ': ' . __('Nuevo comentario');
                 $url = get_url('speaker/proposals/'.$proposal->id);
-                $message = <<< END
-Tu propuesta "{$proposal->nombre}" ha recibido un nuevo comentario del usuario {$c->login}:
+                $message = sprintf(__('
+Tu propuesta "%s" ha recibido un nuevo comentario del usuario %s:
 
-{$c->body}
+%s
 
-{$url}
+%s
+
 --
-Equipo {$CFG->conference_name}
-{$CFG->conference_link}
-END;
+Equipo %s
+%s
+
+'), $proposal->nombre, $c->login, $c->body, $url, $CFG->conference_name, $CFG->conference_link);
+
                 send_mail($toname, $to, $subject, $message);
             }
 
@@ -57,7 +60,7 @@ END;
             $c = new StdClass;
             $c->body = '';
         } else {
-            show_error('Ocurrió un error al registrar el comentario.');
+            show_error(__('Ocurrió un error al registrar el comentario.'));
         }
     }
 } else {
@@ -66,4 +69,3 @@ END;
     $c->body = '';
 }
 ?>
-

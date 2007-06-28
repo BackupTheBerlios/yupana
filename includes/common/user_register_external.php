@@ -41,11 +41,11 @@ if (!empty($login)) {
                 }
             }
         } else {
-            $errmsg[] = 'No se puede usar la autentificación externa. Por favor contacte al administrador.';
+            $errmsg[] = __('No se puede usar la autentificación externa. Por favor contacte al administrador.');
         }
 
         if (empty($auth_flag)) {
-            $errmsg[] = 'Usuario y/o contraseña incorrecto.';
+            $errmsg[] = __('Usuario y/o contraseña incorrecto.');
         } else {
             //check if user exists
             switch (Context) {
@@ -58,14 +58,14 @@ if (!empty($login)) {
             }
 
             if (record_exists($dbtable, 'login', $login)) {
-                $errmsg[] = 'El usuario ya ha sido dado de alta.';
+                $errmsg[] = __('El usuario ya ha sido dado de alta.');
                 // destroy auth_flag
                 unset($auth_flag);
             }
         }
 
     } else {
-        $errmsg[] = 'No se puede usar la autentificación externa. Por favor contacte al administrador.';
+        $errmsg[] = __('No se puede usar la autentificación externa. Por favor contacte al administrador.');
     }
 }
 
@@ -74,15 +74,15 @@ if (empty($auth_flag)) {
     if (Context == 'ponente') {
 ?>
 
-<h1>Registro de Ponente</h1>
+<h1><?=__('Registro de Ponente') ?></h1>
 
 <?php } elseif (Context == 'asistente') { ?>
 
-<h1>Registro de Asistente</h1>
+<h1><?=__('Registro de Asistente') ?></h1>
 
 <?php } ?>
 
-<p class="center">El sistema se encuentra utilizando autentificación externa. Por favor ingrese su usuario y contraseña para habilitarlo.</p>
+<p class="center"><?=__('El sistema se encuentra utilizando autentificación externa. Por favor ingrese su usuario y contraseña para habilitarlo.') ?></p>
 
 <?php
     if (!empty($errmsg)) {

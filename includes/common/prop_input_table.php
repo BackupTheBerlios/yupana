@@ -18,7 +18,7 @@ if (Context == 'admin') {
     $input_data = do_get_output('do_input', array('S_login', 'text', $login, 'size="15"'));
 
     $table_data[] = array(
-        'Usuario ponente: *',
+        __('Usuario ponente:') . ' *',
         $input_data,
         );
 }
@@ -27,7 +27,7 @@ if (Context == 'admin') {
 $input_data = do_get_output('do_input', array('S_nombreponencia', 'text', $proposal->nombre, 'size="50" maxlength="150"'));
 
 $table_data[] = array(
-    'Nombre de Ponencia: *',
+    __('Nombre de Ponencia:') . ' *',
     $input_data,
     );
 
@@ -37,7 +37,7 @@ $options = get_records('orientacion');
 $input_data = do_get_output('do_input_select', array('I_id_orientacion', $options, $proposal->id_orientacion));
 
 $table_data[] = array(
-    'Orientación: *',
+    __('Orientación:') . ' *',
     $input_data,
     );
 
@@ -47,7 +47,7 @@ $options = get_records('prop_nivel');
 $input_data = do_get_output('do_input_select', array('I_id_nivel', $options, $proposal->id_nivel));
 
 $table_data[] = array(
-    'Nivel: *',
+    __('Nivel:') . ' *',
     $input_data,
     );
 
@@ -61,7 +61,7 @@ if (Context == 'admin') {
 $input_data = do_get_output('do_input_select', array('I_id_tipo', $options, $proposal->id_prop_tipo));
 
 $table_data[] = array(
-    'Tipo de Propuesta: *',
+    __('Tipo de Propuesta:') . ' *',
     $input_data,
     );
 
@@ -69,7 +69,7 @@ $table_data[] = array(
 $input_data = do_get_output('do_input_number_select', array('I_duracion', 1, 4, $proposal->duracion, true, '', 0, true));
 
 $table_data[] = array(
-    'Duración: *',
+    __('Duración:') . ' *',
     $input_data,
     );
 
@@ -79,15 +79,15 @@ $input_data = <<< END
 END;
 
 $table_data[] = array(
-    'Resumen: *',
+    __('Resumen:') . ' *',
     $input_data,
     );
 
 // requisitos tecnicos
-$input_name = <<< END
-Requisitos técnicos de la ponencia: &nbsp;<br />
-<small>(Estos son los requisitos necesarios para impartir la ponencia)</small>
-END;
+$input_name = '' . 
+__('Requisitos técnicos de la ponencia:') .
+'&nbsp;<br /><small>' .
+__('(Estos son los requisitos necesarios para impartir la ponencia)') . '</small>';
 
 $input_data = <<< END
 <textarea name="S_reqtecnicos" cols="60" rows="5">{$proposal->reqtecnicos}</textarea>
@@ -104,7 +104,7 @@ $input_data = <<< END
 END;
 
 $table_data[] = array(
-    'Prerequisitos para el asistente: &nbsp;',
+    __('Prerequisitos para el asistente:') . ' &nbsp;',
     $input_data,
     );
 

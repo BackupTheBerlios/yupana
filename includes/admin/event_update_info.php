@@ -8,7 +8,7 @@
         $rs = insert_record('propuesta', $proposal);
 
         if (!$rs) {
-            show_error('No se pudo insertar los datos. Por favor contacte a su administrador.');
+            show_error(__('No se pudo insertar los datos. Por favor contacte a su administrador.'), false);
             die;
         }
 
@@ -25,8 +25,8 @@
 
         if (!$rs) {
             // Fatal error
-            show_error('No se pudo insertar los datos.');
-            do_submit_cancel('', 'Regresar', get_url('admin/events'));
+            show_error(__('No se pudo insertar los datos.'), false);
+            do_submit_cancel('', __('Regresar'), get_url('admin/events'));
             die; //exit
         }
 
@@ -34,7 +34,7 @@
         $event->id = (int)$rs;
 
         if (empty($event->id)) {
-            show_error('No se pudo insertar los datos. Por favor contacte su administrador.');
+            show_error(__('No se pudo insertar los datos. Por favor contacte su administrador.'), false);
             die;
         }
 
@@ -81,8 +81,8 @@
 
         if (!$rs) {
             // Fatal error
-            show_error('No se pudo actualizar los datos.');
-            do_submit_cancel('', 'Regresar', get_url('admin/events'));
+            show_error(__('No se pudo actualizar los datos.'));
+            do_submit_cancel('', __('Regresar'), get_url('admin/events'));
             die; //exit
         }
 

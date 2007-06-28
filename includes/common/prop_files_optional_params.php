@@ -15,14 +15,14 @@
     $filename = (empty($_FILES['S_filename']['name'])) ? '' : $_FILES['S_filename']['name'];
 
     if (empty($title) || empty($descr) || (empty($filename) && Action != 'editfile')) {
-        $errmsg[] = 'Verifica que los datos obligatorios los hayas introducido correctamente';
+        $errmsg[] = __('Verifica que los datos obligatorios los hayas introducido correctamente');
     }
 
     if (Action != 'editfile') {
         //check if name exists
         if (empty($errmsg)) {
             if (record_exists('prop_files', 'name', $filename)) {
-                $errmsg[] = 'El nombre del archivo ya existe.';
+                $errmsg[] = __('El nombre del archivo ya existe.');
             }
         }
 

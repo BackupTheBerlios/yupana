@@ -34,7 +34,7 @@ elseif (preg_match('#^speaker/register$#', $q)) {
     // return url
     $return_url = get_url();
 
-    do_header('Registro de Ponentes');
+    do_header(__('Registro de Ponentes'));
 
     if (empty($CFG->auth)) {
         include($CFG->comdir . 'user_edit.php');
@@ -52,7 +52,7 @@ elseif (preg_match('#^person/register$#', $q)) {
     // return url
     $return_url = get_url();
 
-    do_header('Registro de Asistentes');
+    do_header(__('Registro de Asistentes'));
 
     if (empty($CFG->auth)) {
         include($CFG->comdir . 'user_edit.php');
@@ -133,16 +133,18 @@ elseif (preg_match('#^logout$#', $q)) {
     @session_unset();
     @session_destroy();
 
-    do_header();
+    $title = __('Sesión Terminada');
+
+    do_header($title);
 ?>
 
-<h1>Sesión Terminada</h1>
+<h1><?=$title ?></h1>
 <div class="block"></div>
 
-<p class="error center">Tu sesión ha caducado o salido forzosamente.</p>
+<p class="error center"><?=__('Tu sesión ha caducado o salido forzosamente.') ?></p>
 
 <?php
-    do_submit_cancel('', 'Continuar', get_url());
+    do_submit_cancel('', __('Continuar'), get_url());
 }
 
 /*
@@ -155,9 +157,9 @@ elseif (!empty($CFG->public_schedule) && schedule_has_events() && preg_match('#^
     define('Context', 'main');
     define('Action', 'viewschedule');
 
-    do_header('Programa preliminar');
+    do_header(__('Programa preliminar'));
     include($CFG->admdir . 'schedule_view.php');
-    do_submit_cancel('', 'Regresar', get_url());
+    do_submit_cancel('', __('Regresar'), get_url());
 }
 
 // list proposals
@@ -166,12 +168,16 @@ elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/?$#', 
     define('Action', 'listproposals');
     $return_url = get_url();
 
-    do_header('Lista de propuestas enviadas');
+    $title = __('Lista de propuestas enviadas');
 
-?>  <h1>Lista de propuestas enviadas</h1> <?php
+    do_header($title);
+?>
 
+<h1><?=$title ?></h1>
+
+<?php
     include($CFG->comdir . 'prop_list.php');
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 
 // view some proposal
@@ -180,7 +186,7 @@ elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/\d+$#'
     define('Action', 'viewproposal');
     $return_url = get_url('general/proposals');
 
-    do_header('Detalles de propuesta');
+    do_header(__('Detalles de propuesta'));
     include($CFG->comdir . 'prop_view.php');
 }
 
@@ -194,9 +200,9 @@ elseif (!empty($CFG->public_proposals) && preg_match('#^general/proposals/\d+/fi
 // view info of kind of proposals
 elseif (preg_match('#^general/information$#', $q)) {
 
-    do_header('Modalidades de participación');
+    do_header(__('Modalidades de participación'));
     include($CFG->tpldir . 'proposals_info.tmpl.php');
-    do_submit_cancel('', 'Regresar', get_url());
+    do_submit_cancel('', __('Regresar'), get_url());
 }
 
 /*
@@ -241,9 +247,9 @@ elseif (preg_match('#^person/?.*#', $q)) {
  *
  */
 else {
-    do_header('Página no encontrada');
+    do_header(__('Página no encontrada'));
     include($CFG->tpldir . 'error_404.tmpl.php');
-    do_submit_cancel('', 'Volver');
+    do_submit_cancel('', __('Regresar'));
 }
 
 // finally

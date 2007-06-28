@@ -27,7 +27,7 @@ $submit = optional_param('submit');
 if (!empty($proposal) && !empty($file) && $proposal->id_status < 5)  {
 ?>
 
-<h1>Eliminar archivo</h1>
+<h1><?=__('Eliminar archivo') ?></h1>
 
 <?php
 
@@ -39,7 +39,7 @@ if (!empty($proposal) && !empty($file) && $proposal->id_status < 5)  {
 
 <?php
         include($CFG->comdir . 'prop_files_display_info.php');
-        do_submit_cancel('Eliminar', 'Cancelar', $return_url);
+        do_submit_cancel(__('Eliminar'), __('Cancelar'), $return_url);
 ?>
 
 </form>
@@ -55,21 +55,21 @@ if (!empty($proposal) && !empty($file) && $proposal->id_status < 5)  {
 
 <div class="block"></div>
 
-<p class="center">El archivo fue eliminado exitosamente.</p>
+<p class="center"><?=__('El archivo fue eliminado exitosamente.') ?></p>
 
 <?php 
-        do_submit_cancel('', 'Continuar', $return_url);
+        do_submit_cancel('', __('Continuar'), $return_url);
     }
 
 } else {
 ?>
 
-<h1>Propuesta y/o archivo no encontrado</h1>
+<h1><?=__('Propuesta y/o archivo no encontrado') ?></h1>
 
 <div class="block"></div>
-<p class="center">Registros de propuesta no encontrados. Posiblemente no existan o no tengas acceso para eliminar los archivos de la propuesta.</p>
+<p class="center"><?=__('Registros de propuesta no encontrados. Posiblemente no existan o no tengas acceso para eliminar los archivos de la propuesta.') ?></p>
 
 <?php
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 ?>

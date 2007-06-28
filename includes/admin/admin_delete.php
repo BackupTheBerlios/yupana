@@ -10,7 +10,7 @@ $admin_id = (!empty($matches)) ? (int) $matches[1] : 0;
 $submit = optional_param('submit');
 ?>
 
-<h1>Eliminar Administrador</h1>
+<h1><?=__('Eliminar Administrador') ?></h1>
 
 <?php
 //check owner and status, dont delete acepted, scheduled or deleted¿?
@@ -27,7 +27,7 @@ if (!empty($admin_id) && $admin_id != $USER->id && $admin_id != 1)  {
         $USER = get_admin($admin_id);
 
         include($CFG->comdir . 'user_display_info.php');
-        do_submit_cancel('Eliminar', 'Cancelar', $return_url);
+        do_submit_cancel(__('Eliminar'), __('Cancelar'), $return_url);
 ?>
 
 </form>
@@ -47,37 +47,37 @@ if (!empty($admin_id) && $admin_id != $USER->id && $admin_id != 1)  {
         $event_update = 'UPDATE evento SET id_administrador=1 WHERE id_administrador='.$admin_id;
 
         if (!execute_sql($prop_update, false) || !execute_sql($event_update, false)) {
-            show_error('Ocurrio un error al intentar eliminar el registro.');
+            show_error(__('Ocurrió un error al intentar eliminar el registro.'));
             $rs = null;
         } else {
             $rs = delete_records('administrador', 'id', $admin_id);
         }
 
         if (!$rs) {
-            show_error('Ocurrio un error al eleminar el registro.');
+            show_error(__('Ocurrio un error al eleminar el registro.'));
         } else {
 ?> 
 
 <div class="block"></div>
 
-<p class="center">El administrador fue eliminado exitosamente. Las propuestas que ha autorizado han sido asiganadas al administrador principal.</p>
+<p class="center"><?=__('El administrador fue eliminado exitosamente. Las propuestas que ha autorizado han sido asiganadas al administrador principal.') ?></p>
 
 <?php 
         }
 
-        do_submit_cancel('', 'Continuar', $return_url);
+        do_submit_cancel('', __('Continuar'), $return_url);
     }
 
 } else {
 ?>
 
-<h1>Administrador no encontrada</h1>
+<h1><?=__('Administrador no encontrada') ?></h1>
 
 <div class="block"></div>
-<p class="center">El usuario no existe.</p>
+<p class="center"><?=__('El usuario no existe.') ?></p>
 
 <?php
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 ?>
 

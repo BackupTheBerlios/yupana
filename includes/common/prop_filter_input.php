@@ -44,9 +44,9 @@ if (Context == 'admin') {
     $none->id = -1;
 
     if (Action == 'listproposals') {
-        $none->descr = 'Ninguno';
+        $none->descr = __('Ninguno');
     } else {
-        $none->descr = 'Usuario';
+        $none->descr = __('Usuario');
     }
 
     if (!empty($admins)) {
@@ -59,8 +59,8 @@ if (Context == 'admin') {
     $admins_input = do_get_output('do_input_select', array('filter_id_adminlogin', $admins, $id_admin, true, '', 0, $onChange));
 
     if (Action == "listproposals") {
-        $table_data[] = array('', 'Tipo:', 'Estado:', 'Asignado:');
-        $table_data[] = array('Filtro:', $prop_type_input, $status_input, $admins_input);
+        $table_data[] = array('', __('Tipo:'), __('Estado:'), __('Asignado:'));
+        $table_data[] = array(__('Filtro:'), $prop_type_input, $status_input, $admins_input);
     }
 
     elseif (Action == 'listdeletedproposals') {
@@ -70,8 +70,8 @@ if (Context == 'admin') {
 
         $speakers_input = do_get_output('do_input_select', array('filter_id_ponente', $speakers, $id_ponente, true, '', 0, $onChange));
 
-        $table_data[] = array('', 'Modificado por:', 'Tipo:', 'Ponente:');
-        $table_data[] = array('Filtro:', $admins_input, $prop_type_input, $speakers_input);
+        $table_data[] = array('', __('Modificado por:'), __('Tipo:'), __('Ponente:'));
+        $table_data[] = array(__('Filtro:'), $admins_input, $prop_type_input, $speakers_input);
     }
 
     elseif (Action == 'scheduleevent' || Action == 'addschedule') {
@@ -86,8 +86,8 @@ if (Context == 'admin') {
                             WHERE P.id_status=5');
         $track_input = do_get_output('do_input_select', array('filter_id_orientacion', $track, $id_orientacion, true, '', 0, $onChange));
 
-        $table_data[] = array('', 'Tipo:', 'Orientación:');
-        $table_data[] = array('Filtro:', $prop_type_input, $track_input);
+        $table_data[] = array('', __('Tipo:'), __('Orientación:'));
+        $table_data[] = array(__('Filtro:'), $prop_type_input, $track_input);
     }
 }
 
@@ -100,8 +100,8 @@ else {
     $tracks_input = do_get_output('do_input_select', array('filter_id_orientacion', $tracks, $id_orientacion, true, '', 0, $onChange));
 
     //headers
-    $table_data[] = array('', 'Tipo:', 'Orientación:', 'Estado:');
-    $table_data[] = array('Filtro:', $prop_type_input, $tracks_input, $status_input);
+    $table_data[] = array('', __('Tipo:'), __('Orientación:'), __('Estado:'));
+    $table_data[] = array(__('Filtro:'), $prop_type_input, $tracks_input, $status_input);
 }
 
 do_table($table_data, 'prop-filter wide');

@@ -12,7 +12,7 @@ $room = get_record('lugar', 'id', $room_id);
 $submit = optional_param('submit');
 ?>
 
-<h1>Eliminar lugar para eventos</h1>
+<h1><?=__('Eliminar lugar para eventos') ?></h1>
 
 <?php
 //check owner and status, dont delete acepted, scheduled or deleted¿?
@@ -26,7 +26,7 @@ if (!empty($room)) {
 
 <?php
         include($CFG->admdir . 'room_display_info.php');
-        do_submit_cancel('Eliminar', 'Cancelar', $return_url);
+        do_submit_cancel(__('Eliminar'), __('Cancelar'), $return_url);
 ?>
 
 </form>
@@ -63,30 +63,31 @@ if (!empty($room)) {
 
         // finally delete room
         if (!$rs = delete_records('lugar', 'id', $room->id)) {
-            show_error('Ocurrio un error al eleminar el registro.');
+            show_error(__('Ocurrio un error al eleminar el registro.'), false);
         } else {
 ?> 
 
 <div class="block"></div>
 
-<p class="center">El lugar para eventos fue eliminado exitosamente.
-Los espacios que ocupaban los asistentes inscritos en los talleres has sido liberados. Las ponencias registradas relacionadas con el lugar han sido cambiadas de estado a "Aceptada" para su nueva asignación.</p>
+<p class="center"><?=__('El lugar para eventos fue eliminado exitosamente.
+Los espacios que ocupaban los asistentes inscritos en los talleres has sido liberados.
+Las ponencias registradas relacionadas con el lugar han sido cambiadas de estado a "Aceptada" para su nueva asignación.') ?></p>
 
 <?php 
         }
 
-        do_submit_cancel('', 'Continuar', $return_url);
+        do_submit_cancel('', __('Continuar'), $return_url);
     }
 
 } else {
 ?>
 
-<h1>Lugar no encontrado</h1>
+<h1><?=__('Lugar no encontrado') ?></h1>
 
 <div class="block"></div>
-<p class="center">Registros del lugar no encontrados. Posiblemente no existan o no tengas acceso para eliminarlo.</p>
+<p class="center"><?=__('Registros del lugar no encontrados. Posiblemente no existan o no tengas acceso para eliminarlo.') ?></p>
 
 <?php
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 ?>

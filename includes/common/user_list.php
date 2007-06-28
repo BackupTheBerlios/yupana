@@ -7,6 +7,7 @@ if (empty($CFG) || Context != 'admin') {
 //FIXME: clearn return_path
 $_SESSION['return_path'] = '';
 
+// safe value
 $where = '1=1';
 
 // run filters
@@ -14,31 +15,31 @@ include($CFG->comdir . 'user_filter_optional_params.php');
 
 if (Action == 'listspeakers') {
     $users = get_speakers($where);
-    $desc = 'Ponentes';
+    $desc = __('Ponentes');
     $local_url = 'speakers';
 }
 
 elseif (Action == 'listpersons') {
     $users = get_persons($where);
-    $desc = 'Asistentes';
+    $desc = __('Asistentes');
     $local_url = 'persons';
 }
 
 elseif (Action == 'controlpersons') {
     $where .= ' AND P.id_tasistente < 100';
     $users = get_persons($where);
-    $desc = 'Control/Asistentes';
+    $desc = __('Control/Asistentes');
     $local_url = 'persons';
 }
 ?>
 
-<h1>Lista de <?=$desc ?></h1>
+<h1><?=__('Lista de') ?> <?=$desc ?></h1>
 
 <?php
 if (!empty($users)) {
 ?>
 
-<h4><?=$desc ?> registrados: <?=sizeof($users) ?></h4>
+<h4><?=$desc ?> <?=__('registrados') ?>: <?=sizeof($users) ?></h4>
 
 <?php
     // show filter form
@@ -48,9 +49,9 @@ if (!empty($users)) {
     $table_data = array();
 
     if (Action == 'controlpersons') {
-        $table_data[] = array('Nombre', 'Login', 'Estado', 'Tipo', 'Asistio?', '', '');
+        $table_data[] = array(__('Nombre'), __('Login'), __('Estado'), __('Tipo'), __('Asistio?'), '', '');
     } else {
-        $table_data[] = array('Nombre', 'Login', 'Departamento', 'Estudios', 'Registro', '');
+        $table_data[] = array(__('Nombre'), __('Login'), __('Departamento'), __('Estudios'), __('Registro'), '');
     }
 
     foreach ($users as $user) {
@@ -64,9 +65,7 @@ END;
 
         if (level_admin(2)) {
             $url = get_url('admin/'.$local_url.'/'.$user->id.'/delete');
-            $l_delete = <<< END
-    <a class="precaucion" href="{$url}">Eliminar</a>
-END;
+            $l_delete = "<a class=\"precaucion\" href=\"{$url}\">" . __('Eliminar') . "</a>";
         } else {
             $l_delete = '';
         }
@@ -77,16 +76,15 @@ END;
             $_SESSION['return_path'] = get_url('admin/persons/control');
 
             if (empty($user->asistencia)) {
-                $l_asistio = 'No';
-                $action_desc = '+Asistencia';
+                $l_asistio = __('No');
+                $action_desc = __('+Asistencia');
             } else {
                 $l_asistio = '<img src="'.get_url().'/images/checkmark.gif" />';
-                $action_desc = '-Asistencia';
+                $action_desc = __('-Asistencia');
             }
 
-            $l_action = <<< END
-<a class="verde" href="{$url}">{$action_desc}</a>
-END;
+            $l_action = "<a class=\"verde\" href=\"{$url}\">{$action_desc}</a>";
+
             $table_data[] = array(
                 $l_nombre,
                 $user->login,
@@ -115,7 +113,7 @@ END;
 ?>
 <div class="block"></div>
 
-<p class="error center">No se encontraron registros.</p>
+<p class="error center"><?=__('No se encontraron registros.') ?></p>
 
 <?php 
 }

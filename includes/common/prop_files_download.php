@@ -56,17 +56,18 @@ else {
 }
 
 if (empty($file)) {
-    do_header('Archivo no encontrado');
+    $title = __('Archivo no encontrado');
+    do_header($title);
 ?>
 
-<h1>Archivo no encontrado</h1>
+<h1><?=$title ?></h1>
 
-<p class="error center">El archivo que buscas no esta disponible.</p>
+<p class="error center"><?=__('El archivo que buscas no esta disponible.') ?></p>
 
 <div class="block"></div>
 
 <?php
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 
 } else {
 

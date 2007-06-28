@@ -5,11 +5,11 @@
     }
    
     $values = array(
-            'Propuesta' => $proposal->nombre,
-            'Título' => $file->title,
-            'Descripción' => $file->descr,
-            'Nombre de archivo' => $file->name,
-            'Publico' => (empty($file->public)) ? 'No' : 'Si'
+            __('Propuesta') => $proposal->nombre,
+            __('Título') => $file->title,
+            __('Descripción') => $file->descr,
+            __('Nombre de archivo') => $file->name,
+            __('Público') => (empty($file->public)) ? __('No') : __('Si')
         );
 
     do_table_values($values, 'narrow');

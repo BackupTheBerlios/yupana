@@ -7,7 +7,7 @@ if (empty($q) || empty($CFG) || $USER->id_tadmin != 1) {
 if (Action == 'deleteperson') {
     preg_match('#^admin/persons/(\d+)/delete$#', $q, $matches);
     $user_id = (!empty($matches)) ? (int) $matches[1] : 0;
-    $desc = 'Asistente';
+    $desc = __('Asistente');
     $dbtable = 'asistente';
     $user = get_person($user_id);
     $local_url = '/persons';
@@ -16,11 +16,11 @@ if (Action == 'deleteperson') {
 elseif (Action == 'deletespeaker') {
     preg_match('#^admin/speakers/(\d+)/delete$#', $q, $matches);
     $user_id = (!empty($matches)) ? (int) $matches[1] : 0;
-    $desc = 'Ponente';
+    $desc = __('Ponente');
     $dbtable = 'ponente';
     // protect event admin speaker
     if ($user_id == 1) {
-        $optional_message = 'No puedes eliminar este usuario, esta reservado como administrador de eventos.';
+        $optional_message = __('No puedes eliminar este usuario, esta reservado como administrador de eventos.');
     } else {
         $user = get_speaker($user_id);
     }
@@ -30,10 +30,10 @@ elseif (Action == 'deletespeaker') {
 elseif (Action == 'deleteadmin') {
     preg_match('#^admin/(\d+)/delete$#', $q, $matches);
     $user_id = (!empty($matches)) ? (int) $matches[1] : 0;
-    $desc = 'Administrador';
+    $desc = __('Administrador');
     $dbtable = 'administrador';
     if ($user_id == 1) {
-        $optional_message = 'No puedes eliminar al administrador principal.';
+        $optional_message = __('No puedes eliminar al administrador principal.');
     } else {
         $user = get_admin($user_id);
     }
@@ -62,14 +62,14 @@ if (!empty($user) && ($user_id != $USER->id || Action == 'deleteperson'))  {
 
         include($CFG->comdir . 'user_display_info.php');
 
-        do_submit_cancel('Eliminar', 'Cancelar', get_url('admin'.$local_url));
+        do_submit_cancel(__('Eliminar'), __('Cancelar'), get_url('admin'.$local_url));
 ?>
 
 </form>
 
 <?php
         if (Action == 'deletespeaker') {
-            $msg = 'Propuestas Enviadas';
+            $msg = __('Propuestas Enviadas');
         }
 ?>
 
@@ -82,7 +82,6 @@ if (!empty($user) && ($user_id != $USER->id || Action == 'deleteperson'))  {
 
     } else {
         // delete!
-        // (really change status to deleted)
 
         // this never should be happen
         if (Action == 'deleteadmin' && $user_id == 1) {
@@ -132,7 +131,7 @@ if (!empty($user) && ($user_id != $USER->id || Action == 'deleteperson'))  {
             // and... delete user
             $rs = delete_records('ponente', 'id', $user->id);
 
-            $desc_more = 'Las ponencias que el usuario ha enviado han sido eliminadas, los eventos relacionados y los inscritos a sus talleres.';
+            $desc_more = __('Las ponencias que el usuario ha enviado han sido eliminadas, los eventos relacionados y los inscritos a sus talleres.');
         }
 
         elseif (Action == 'deleteperson') {
@@ -149,34 +148,34 @@ if (!empty($user) && ($user_id != $USER->id || Action == 'deleteperson'))  {
             // delete user subscriptions
             delete_records('inscribe', 'id_asistente', $user->id);
 
-            $desc_more = 'Los espacios que ocupaba en los talleres han sido liberados.';
+            $desc_more = __('Los espacios que ocupaba en los talleres han sido liberados.');
         }
 
 
         if (!$rs) {
-            show_error('Ocurrio un error al eleminar el registro.');
+            show_error(__('Ocurrio un error al eleminar el registro.'), false);
         } else {
 ?> 
 
 <div class="block"></div>
 
-<p class="center"><?=$desc ?>fue eliminado exitosamente.</p>
+<p class="center"><?=$desc ?> <?=__('fue eliminado exitosamente.') ?></p>
 <p class="center"><?=$desc_more ?></p>
 
 <?php 
         }
 
-        do_submit_cancel('', 'Continuar', $return_url);
+        do_submit_cancel('', __('Continuar'), $return_url);
     }
 
 } else {
 ?>
 
 <div class="block"></div>
-<p class="center">El usuario no existe.</p>
+<p class="center"><?=__('El usuario no existe.') ?></p>
 <p class="center"><?=$optional_message ?></p>
 
 <?php
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 ?>

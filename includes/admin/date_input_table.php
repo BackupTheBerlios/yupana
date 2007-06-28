@@ -17,7 +17,7 @@ $startyear = (int) strftime('%Y');
 $input_data = do_get_output('do_input_date_select', array('I_e_day', 'I_e_month', 'I_e_year', $day, $month, $year, $startyear, $startyear+2));
 
 $table_data[] = array(
-    'Fecha de evento: *',
+    __('Fecha de evento:') . ' *',
     $input_data,
     );
 
@@ -25,7 +25,7 @@ $table_data[] = array(
 $input_data = do_get_output('do_input', array('S_descr', 'text', $date->descr, 'size="30"'));
 
 $table_data[] = array(
-    'Descripción: &nbsp;',
+    __('Descripción:') . ' &nbsp;',
     $input_data
     );
 

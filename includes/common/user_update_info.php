@@ -82,25 +82,25 @@
 
     if (!$rs) {
         // Fatal error
-        show_error('Error Fatal: No se puedo insertar/actualizar los datos.');
+        show_error(__('Error Fatal: No se puedo insertar/actualizar los datos.'));
         die;
     }
 
     if (Action == 'register') {
 ?>
 
-<p>Gracias por darte de alta, ahora ya podrás acceder a tu cuenta.</p>
+<p><?=__('Gracias por darte de alta, ahora ya podrás acceder a tu cuenta.') ?></p>
 
 <?php include($CFG->comdir . 'new_user_send_mail.php'); ?>
 
 <?php } else { ?>
         
-<p>Información actualizada.</p>
+<p><?=__('Información actualizada.') ?></p>
 
 <?php } ?>
 
-<p>Si tienes preguntas o la página no funciona correctamente, por favor
-contacta a <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->conference_name ?></a></p>
+<p><?=__('Si tienes preguntas o la página no funciona correctamente, por favor
+contacta a') ?> <a href="mailto:<?=$CFG->adminmail ?>"><?=__('Administración') ?> <?=$CFG->conference_name ?></a></p>
 
 <?php
     // refresh user data

@@ -11,7 +11,7 @@ $table_data = array();
 $input_data = do_get_output('do_input', array('S_title', 'text', $file->title, 'size="20" maxlength="50"'));
 
 $table_data[] = array(
-    'Título: *',
+    __('Título:') . ' *',
     $input_data
     );
 
@@ -21,7 +21,7 @@ $input_data = <<< END
 END;
 
 $table_data[] = array(
-    'Descripción: *',
+    __('Descripción:') . ' *',
     $input_data
     );
 
@@ -29,7 +29,7 @@ $table_data[] = array(
 $input_data = do_get_output('do_input_yes_no', array('I_public', $file->public));
 
 $table_data[] = array(
-    'Público: *',
+    __('Público:') . ' *',
     $input_data
     );
 
@@ -39,11 +39,11 @@ if (Action == 'editfile') {
 } else {
     $input_data = do_get_output('do_input', array('S_filename', 'file', '', 'id=\'S_filename\''));
 
-    $input_data .= '<br /><span class="littleinfo">El tamaño máximo de subida es de <strong>2 Mb</strong>, si tu archivo es el límite<br /> por favor envíalo a <a href="mailto:' . $CFG->adminmail . '">' . $CFG->adminmail . '</a>';
+    $input_data .= '<br /><span class="littleinfo">' . __('El tamaño máximo de subida es de <strong>2 Mb</strong>, si tu archivo supera el límite<br /> por favor envíalo a') . ' <a href="mailto:' . $CFG->adminmail . '">' . $CFG->adminmail . '</a>';
 }
 
 $table_data[] = array(
-    'Archivo: *',
+    __('Archivo:') . ' *',
     $input_data
     );
 

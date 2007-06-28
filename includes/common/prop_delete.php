@@ -26,7 +26,7 @@ $submit = optional_param('submit');
 if (!empty($proposal) && ($proposal->id_status < 5 || $proposal->id_status = 6))  {
 ?>
 
-<h1>Eliminar propuesta</h1>
+<h1><?=__('Eliminar propuesta') ?></h1>
 
 <?php
 
@@ -41,7 +41,7 @@ if (!empty($proposal) && ($proposal->id_status < 5 || $proposal->id_status = 6))
         $prop_noshow_resume = true;
         
         include($CFG->comdir . 'prop_display_info.php');
-        do_submit_cancel('Eliminar', 'Cancelar', $return_url);
+        do_submit_cancel(__('Eliminar'), __('Cancelar'), $return_url);
 ?>
 
 </form>
@@ -57,29 +57,29 @@ if (!empty($proposal) && ($proposal->id_status < 5 || $proposal->id_status = 6))
         $prop->id_status = 7;
 
         if (!$rs = update_record('propuesta', $prop)) {
-            show_error('Ocurrio un error al eleminar el registro.');
+            show_error(__('Ocurrio un error al eleminar el registro.'));
         } else {
 ?> 
 
 <div class="block"></div>
 
-<p class="center">La propuesta fue eliminada exitosamente.</p>
+<p class="center"><?=__('La propuesta fue eliminada exitosamente.') ?></p>
 
 <?php 
         }
 
-        do_submit_cancel('', 'Continuar', $return_url);
+        do_submit_cancel('', __('Continuar'), $return_url);
     }
 
 } else {
 ?>
 
-<h1>Propuesta no encontrada</h1>
+<h1><?=__('Propuesta no encontrada') ?></h1>
 
 <div class="block"></div>
-<p class="center">Registros de propuesta no encontrados. Posiblemente no existan o no tengas acceso para eliminar la propuesta.</p>
+<p class="center"><?=__('Registros de propuesta no encontrados. Posiblemente no existan o no tengas acceso para eliminar la propuesta.') ?></p>
 
 <?php
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 ?>

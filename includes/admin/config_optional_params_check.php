@@ -14,7 +14,7 @@ if (!empty($submit) && !empty($configs)) {
         || !preg_match('#.+\@.+\..+#', $cfg->general_mail)
         || !preg_match('#https?://\w+#', $cfg->wwwroot)) {
 
-        $errmsg[] = 'Asegúrate de llenar correctamente la información del sitio.';
+        $errmsg[] = __('Asegúrate de llenar correctamente la información del sitio.');
     }
 
     if (preg_match('#.+/$#', $cfg->wwwroot)) {

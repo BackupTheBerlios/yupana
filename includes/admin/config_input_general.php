@@ -21,11 +21,11 @@ foreach ($configs as $config) {
 }
 
 $values = array(
-    'Nombre del Evento' => $conference_name,
-    'URL del Evento' => $conference_link,
-    'Email de Contacto' => $adminmail,
-    'Email automático' => $general_mail,
-    'URL del Sistema' => $wwwroot
+    __('Nombre del Evento') => $conference_name,
+    __('URL del Evento') => $conference_link,
+    __('Email de Contacto') => $adminmail,
+    __('Email automático') => $general_mail,
+    __('URL del Sistema') => $wwwroot
     );
 
 do_table_values($values, 'narrow');

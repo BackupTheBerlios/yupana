@@ -5,7 +5,7 @@ if (empty($CFG)) {
 }
 
 if (empty($not_found_message)) {
-    $not_found_message = "No se encontro ninguna propuesta registrada.";
+    $not_found_message = __("No se encontro ninguna propuesta registrada.");
 }
 
 // default where
@@ -59,7 +59,7 @@ $proposals = get_proposals($where, '', $order);
 if (!empty($proposals)) {
 ?>
 
-<h4>Ponencias listadas: <?=sizeof($proposals) ?></h4>
+<h4><?=__('Ponencias listadas') ?>: <?=sizeof($proposals) ?></h4>
 
 <?php
     // show prop filter form
@@ -69,35 +69,35 @@ if (!empty($proposals)) {
     $table_data = array();
 
     if (Context == 'ponente') {
-        $table_data[] = array('Ponencia', 'Tipo', 'Estado', '');
+        $table_data[] = array(__('Ponencia'), __('Tipo'), __('Estado'), '');
     }
    
     elseif (Context == 'admin') {
         if (Action == 'listproposals') {
-            $table_data[] = array('Ponencia', 'Tipo', 'Archivos', 'Status', 'Asignado', '');
+            $table_data[] = array(__('Ponencia'), __('Tipo'), __('Archivos'), __('Status'), __('Asignado'), '');
         } 
 
         elseif (Action == 'listdeletedproposals') {
-            $table_data[] = array('Ponencia', 'Modificado por', 'Fecha de Modif.', 'Tipo', 'Ponente');
+            $table_data[] = array(__('Ponencia'), __('Modificado por'), __('Fecha de Modif.'), __('Tipo'), __('Ponente'));
         }
 
         elseif (Action == 'scheduleevent') {
-            $table_data[] = array('Ponencia', 'Tipo', 'Orientación', '');
+            $table_data[] = array(__('Ponencia'), __('Tipo'), __('Orientación'), '');
         }
 
         elseif (Action == 'addschedule') {
-            $table_data[] = array('Ponencia', 'Tipo', 'Orientación', 'Duración', '');
+            $table_data[] = array(__('Ponencia'), __('Tipo'), __('Orientación'), __('Duración'), '');
         }
 
         elseif (Action == 'viewspeaker' || Action == 'deletespeaker') {
-            $table_data[] = array('Ponencia', 'Tipo', 'Status', 'Archivos');
+            $table_data[] = array(__('Ponencia'), __('Tipo'), __('Status'), __('Archivos'));
         }
 
         $status_list = get_records_select('prop_status', 'id < 7');
     }
 
     else {
-        $table_data[] = array('Ponencia', 'Tipo', 'Orientación', 'Estado');
+        $table_data[] = array(__('Ponencia'), __('Tipo'), __('Orientación'), __('Estado'));
     }
 
 
@@ -114,9 +114,7 @@ END;
 
             // files management url
             $url = get_url('speaker/proposals/'.$proposal->id.'/files');
-            $l_files = <<< END
-<a class="verde" href="{$url}">Archivos</a>
-END;
+            $l_files = "<a class=\"verde\" href=\"{$url}\">" . __("Archivos") . "</a>";
 
             $l_delete = '';
             $l_modify = '';
@@ -124,16 +122,13 @@ END;
             if ($proposal->id_status < 5) {
                 $url = get_url('speaker/proposals/'.$proposal->id.'/delete');
 
-                $l_delete = <<< END
-&nbsp;|&nbsp;<a class="precaucion" href="{$url}">Eliminar</a>
-END;
+                $l_delete = "&nbsp;|&nbsp;<a class=\"precaucion\" href=\"{$url}\">" . __("Eliminar") . "</a>";
+
                 // dont update discarded proposals
                 if ($proposal->id_status != 3 || $proposal->id_status != 6) {
                     $url = get_url('speaker/proposals/'.$proposal->id.'/update');
 
-                    $l_modify = <<< END
-&nbsp;|&nbsp;<a class="verde" href="{$url}">Modificar</a>
-END;
+                    $l_modify = "&nbsp;|&nbsp;<a class=\"verde\" href=\"{$url}\">" . __("Modificar") . "</a>";
 
                 }
             }
@@ -226,34 +221,32 @@ END;
                 $n = count_records('prop_files', 'id_propuesta', $proposal->id);
 
                 if ($n > 0) {
-                    $prop_files = sprintf('Si <small>(%d)</small>', $n);
+                    $prop_files = sprintf(__('Si') . ' <small>(%d)</small>', $n);
                 } else {
-                    $prop_files = 'No';
+                    $prop_files = __('No');
                 }
             }
 
             if (Action == 'listdeletedproposals') {
-                $adminuser = empty($proposal->adminlogin) ? 'Usuario' : $proposal->adminlogin;
+                $adminuser = empty($proposal->adminlogin) ? __('Usuario') : $proposal->adminlogin;
             } else {
-                $adminuser = empty($proposal->adminlogin) ? 'Ninguno' : $proposal->adminlogin;
+                $adminuser = empty($proposal->adminlogin) ? __('Ninguno') : $proposal->adminlogin;
             }
 
             $l_delete = '';
             if (level_admin(2) && Action == 'listproposals') {
                 $url = get_url('admin/proposals/'.$proposal->id.'/delete');
-                $l_delete = <<< END
-    <a class="precaucion" href="{$url}">Eliminar</a>
-END;
+                $l_delete = "<a class=\"precaucion\" href=\"{$url}\">" . __("Eliminar") . "</a>";
             }
 
             if (Action == 'scheduleevent') {
                 $url = get_url('admin/events/schedule/'.$proposal->id);
-                $l_event = "<a class=\"verde\" href=\"{$url}\">Asignar lugar</a>";
+                $l_event = "<a class=\"verde\" href=\"{$url}\">" . __("Asignar lugar") . "</a>";
             }
 
             elseif (Action == 'addschedule') {
                 $url = get_url('admin/schedule/add/'.$room->id.'/'.$date->id.'/'.$hour.'/'.$proposal->id);
-                $l_event = "<a class=\"verde\" href=\"{$url}\">Añadir evento</a>";
+                $l_event = "<a class=\"verde\" href=\"{$url}\">" . __("Añadir evento") . "</a>";
             }
 
             if (Action == 'listproposals') {

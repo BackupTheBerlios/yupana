@@ -30,7 +30,7 @@
 
     if (!$rs) {
         // Fatal error
-        show_error('Error Fatal: No se puedo insertar/actualizar los datos.');
+        show_error(__('Error Fatal: No se puedo insertar/actualizar los datos.'));
         die;
     } else {
         // refresh proposal
@@ -45,18 +45,17 @@
     if (Action == 'newproposal') {
 ?>
 
-<p>Tu propuesta de ponencia ha sido registrada.</p>
+<p><?=__('Tu propuesta de ponencia ha sido registrada.') ?></p>
 
 <?php //include($CFG->comdir . 'new_user_send_mail.php'); ?>
 
 <?php } else { ?>
         
-<p>Tu propuesta de ponencia ha sido actualizada.</p>
+<p><?=__('Tu propuesta de ponencia ha sido actualizada.') ?></p>
 
 <?php } ?>
 
-<p>Si tienes preguntas o la página no funciona correctamente, por favor
-contacta a <a href="mailto:<?=$CFG->adminmail ?>">Administración <?=$CFG->conference_name ?></a></p>
+<p><?=__('Si tienes preguntas o la página no funciona correctamente, por favor contacta a') ?> <a href="mailto:<?=$CFG->adminmail ?>"><?=__('Administración') ?> <?=$CFG->conference_name ?></a></p>
 
 <?php
     // refresh proposal from db

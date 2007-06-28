@@ -9,39 +9,39 @@
 
     if (Context == 'admin' || Action == 'newproposal' || Action == 'updateproposal' || Action == 'deleteproposal' || Action == 'scheduleevent' || Action == 'editevent' || Action == 'cancelevent' || Action == 'proposalfiles') {
         if (Context == 'admin' && Action != 'scheduleevent' && Action != 'editevent') {
-            $values['Nombre de Usuario'] = $proposal->login;
+            $values[__('Nombre de Usuario')] = $proposal->login;
         }
 
-        $values['Nombre de ponencia'] = $proposal->nombre;
+        $values[__('Nombre de ponencia')] = $proposal->nombre;
 
         if (Action == 'scheduleevent' || Action == 'editevent') {
-            $values['Nombre de ponente'] = $proposal->nombrep . ' ' . $proposal->apellidos;
+            $values[__('Nombre de ponente')] = $proposal->nombrep . ' ' . $proposal->apellidos;
         }
     }
 
     // flag prop_noshow_resume
     if (empty($prop_noshow_resume)) {
-        $values['Resumen'] = nl2br(htmlspecialchars($proposal->resumen));
+        $values[__('Resumen')] = nl2br(htmlspecialchars($proposal->resumen));
     }
 
     if (Action != 'proposalfiles') {
         $values = array_merge($values, array(
-            'Tipo de Propuesta' => $proposal->tipo,
-            'Orientación' => $proposal->orientacion,
-            'Duración' => sprintf('%d Hrs.', $proposal->duracion),
-            'Nivel' => $proposal->nivel,
+            __('Tipo de Propuesta') => $proposal->tipo,
+            __('Orientación') => $proposal->orientacion,
+            __('Duración') => sprintf(__('%d Hrs.'), $proposal->duracion),
+            __('Nivel') => $proposal->nivel,
             ));
     }
 
     if (Action != 'newproposal' && Action != 'updateproposal' && Action != 'scheduleevent' && Action != 'editevent') {
-        $values['Status'] = '<b>' . $proposal->status . '</b>';
+        $values[__('Status')] = '<b>' . $proposal->status . '</b>';
     }
 
     if (Context == 'ponente' && !empty($proposal->adminmail) && Action != 'proposalfiles') {
         $contactmail = sprintf('<em>%s</em>', $proposal->adminmail);
 
         $values = array_merge($values, array(
-                'Correo de contacto' => $contactmail
+                __('Correo de contacto') => $contactmail
             ));
     }
 
@@ -50,9 +50,9 @@
     // if it's schedule merge date info
     if ($proposal->id_status == 8) {
         $values = array(
-                'Fecha' => $proposal->human_date,
-                'Lugar' => $proposal->lugar,
-                'Hora' => $proposal->time
+                __('Fecha') => $proposal->human_date,
+                __('Lugar') => $proposal->lugar,
+                __('Hora') => $proposal->time
             );
 
         do_table_values($values, 'narrow');
@@ -63,11 +63,11 @@
         $values = array();
 
         if (!empty($proposal->reqtecnicos) && (Context == 'ponente' || Context == 'admin')) {
-            $values['Requisitos técnicos del taller'] = $proposal->reqtecnicos;
+            $values[__('Requisitos técnicos del taller')] = $proposal->reqtecnicos;
         }
 
         if (!empty($proposal->reqasistente) && (Context == 'ponente' || Context == 'admin')) {
-            $values['Prerequisitos del Asistente'] = $proposal->reqasistente;
+            $values[__('Prerequisitos del Asistente')] = $proposal->reqasistente;
         }
 
         if (!empty($values)) {
@@ -124,23 +124,23 @@ END;
 
         if (!empty($USER) && Context == 'speaker' && $proposal->id_ponente == $USER->id) {
             $url = get_url('speaker/proposals/'.$proposal->id.'/files');
-            $filelist .= "<li><a class=\"verde\" href=\"{$url}\">Subir archivos</a></li>";
+            $filelist .= "<li><a class=\"verde\" href=\"{$url}\">" . __('Subir archivos') . "</a></li>";
         }
 
         if (!empty($filelist)) {
             $filelist = "<ul>{$filelist}</ul>";
-            do_table_values(array('Archivos' => $filelist), 'narrow');
+            do_table_values(array(__('Archivos') => $filelist), 'narrow');
         }
 
     }
 
     if (Context == 'admin' && Action != 'newproposal' && Action != 'scheduleevent' && Action != 'editevent') {
-        $adminlogin = (empty($proposal->adminlogin)) ? 'Usuario' : $proposal->adminlogin;
+        $adminlogin = (empty($proposal->adminlogin)) ? __('Usuario') : $proposal->adminlogin;
 
         $values = array(
-            'Fecha de registro' => $proposal->reg_time,
-            'Fecha de actualización' => $proposal->act_time,
-            'Actualizado por' => $adminlogin
+            __('Fecha de registro') => $proposal->reg_time,
+            __('Fecha de actualización') => $proposal->act_time,
+            __('Actualizado por') => $adminlogin
             );
 
         do_table_values($values, 'narrow');

@@ -6,7 +6,7 @@
 
     // check submit value
     if (empty($e_year) || empty($e_month) || empty($e_day)) {
-            $errmsg[] = "Verifica que los datos obligatorios los hayas introducido correctamente.";
+            $errmsg[] = __("Verifica que los datos obligatorios los hayas introducido correctamente.");
     }
 
     if (empty($errmsg)) {
@@ -14,7 +14,7 @@
 
         if (!empty($testdate)) {
             if (Action == 'newdate' || $date->id != $testdate->id) {
-                $errmsg[] = 'La fecha que elegiste ya ha sido dado de alta.';
+                $errmsg[] = __('La fecha que elegiste ya ha sido dado de alta.');
             }
         }
     }

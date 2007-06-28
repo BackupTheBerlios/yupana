@@ -6,17 +6,17 @@ if (empty($CFG)) {
 switch (Context) {
     case 'admin':
         $t = 'R';
-        $name = 'Administrador';
+        $name = __('Administrador');
         break;
 
     case 'ponente':
         $t = 'P';
-        $name = 'Ponente';
+        $name = __('Ponente');
         break;
 
     case 'asistente':
         $t = 'A';
-        $name = 'Asistente';
+        $name = __('Asistente');
         break;
 
     default:
@@ -34,11 +34,11 @@ beginSession($t);
 do_header();
 ?>
 
-<h1>Salida de Sesión <?=$name ?></h1>
+<h1><?=__('Salida de Sesión') ?> <?=$name ?></h1>
 <div class="block"></div>
 
-<p class="center">Ha salido exitosamente del sistema.</p>
+<p class="center"><?=__('Ha salido exitosamente del sistema.') ?></p>
 
 <?php
-do_submit_cancel('', 'Continuar', get_url());
+do_submit_cancel('', __('Continuar'), get_url());
 ?>

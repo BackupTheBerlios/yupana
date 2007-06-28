@@ -46,7 +46,7 @@ if (!$maintables) {
                 include_once($CFG->incdir . "version.php");
                 set_config('version', $version);
                 $db->debug = false;
-                notify($strdatabasesuccess, "green");
+                notify($strdatabasesuccess, "verde");
                 if (!isset($CFG->admininitialpassword) || empty($CFG->admininitialpassword)) {
                     notify("WARNING: the initial password for the admin account is 'admin'. This account has administrator privileges, and you should log in and change the password as soon as installation is complete.");
                 } else {
@@ -60,7 +60,8 @@ if (!$maintables) {
     } else {
         show_error("Error: Your database ($CFG->dbtype) is not yet fully supported.", false);
     }
-    do_submit_cancel('', 'Continuar', get_url());
+    // dont use gettext because is not defined to this point
+    do_submit_cancel('', 'Continue', get_url());
     die;
 }
 
@@ -93,8 +94,8 @@ function dbsetup_upgrade () {
                 $a->newversion = "$release ($version)";
 
                 if (empty($_GET['confirmupgrade'])) {
-                    notify('Su base de datos necesita actualizarse.');
-                    do_submit_cancel('', 'Actualizar BD', get_url('admin') . '&confirmupgrade=yes');
+                    notify(__('Su base de datos necesita actualizarse.'));
+                    do_submit_cancel('', __('Actualizar'), get_url('admin') . '&confirmupgrade=yes');
                     exit;
 
                 } else {
@@ -103,30 +104,30 @@ function dbsetup_upgrade () {
                         $db->debug=false;
                         if (set_config("version", $version)) {
                             notify($strdatabasesuccess, "green");
-                            do_submit_cancel('', 'Continuar', get_url('admin'));
+                            do_submit_cancel('', __('Continuar'), get_url('admin'));
                             exit;
                         } else {
-                            notify("Upgrade failed!  (Could not update version in config table)");
+                            notify(__("La actualización falló!  (No se puede actualizar la version en la tabla de configuración)"));
                         }
                     } else {
                         $db->debug=false;
-                        notify("Upgrade failed!  See /version.php");
+                        notify(__("La actualización falló!  Vea /includes/version.php"));
                     }
                 }
             } else if ($version < $CFG->version) {
-                notify("WARNING!!!  The code you are using is OLDER than the version that made these databases!");
+                notify(__("ADVERTENCIA!!!  El código que estas usando es más ANTIGUO que la version que instalo la base de datos!"));
             }
 
         } else {
             if (set_config("version", $version)) {
-                do_submit_cancel('', 'Continuar', get_url('admin'));
+                do_submit_cancel('', __('Continuar'), get_url('admin'));
                 die;
             } else {
                 $db->debug=true;
                 if (main_upgrade(0)) {
-                    do_submit_cancel('', 'Continuar', get_url('admin'));
+                    do_submit_cancel('', __('Continuar'), get_url('admin'));
                 } else {
-                    show_error("A problem occurred inserting current version into databases", false);
+                    show_error(__("Ocurrió un problema al insertar la versión actuali en la base de datos"), false);
                 }
                 $db->debug=false;
             }

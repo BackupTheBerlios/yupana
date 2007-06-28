@@ -10,15 +10,15 @@ if (!defined('Context') || empty($CFG)
 switch (Context) {
     case 'admin':
         if (Action == 'newadmin') {
-            $title = 'Registro de Administrador';
+            $title = __('Registro de Administrador');
         }
        
         elseif (Action == 'newspeaker') {
-            $title = 'Registro de Ponente';
+            $title = __('Registro de Ponente');
         }
 
         else {
-            $title = 'Modificar datos de Administrador';
+            $title = __('Modificar datos de Administrador');
             $user = get_admin($USER->id);
         }
 
@@ -26,18 +26,18 @@ switch (Context) {
 
     case 'ponente':
         if (Action == 'register') {
-            $title = 'Registro de Ponentes';
+            $title = __('Registro de Ponentes');
         } else {
-            $title = 'Modificar datos de Ponente';
+            $title = __('Modificar datos de Ponente');
             $user = get_speaker($USER->id);
         }
         break;
 
     case 'asistente':
         if (Action == 'register') {
-            $title = 'Registro de Asistentes';
+            $title = __('Registro de Asistentes');
         } else {
-            $title = 'Modificar datos de Asistente';
+            $title = __('Modificar datos de Asistente');
             $user = get_person($USER->id);
         }
         break;
@@ -60,7 +60,8 @@ if (!empty($submit)) {
 
     if (!empty($errmsg)) {
         // no show error message on first check of user on external auth
-        if ($submit != 'Iniciar') {
+        // FIXME: no trust submit var
+        if ($submit != __('Iniciar')) {
             show_error($errmsg);
         }
     } else {
@@ -68,7 +69,7 @@ if (!empty($submit)) {
         require($CFG->comdir . 'user_update_info.php');
 
         if (Action == 'register' || Action == 'newadmin') {
-            $action_name = 'Continuar';
+            $action_name = __('Continuar');
 
             if (Context == 'ponente') {
 
@@ -86,7 +87,7 @@ if (!empty($submit)) {
             }
 
         } else {
-            $action_name = 'Volver al Menu';
+            $action_name = __('Regresar al Menu');
         }
 
         do_submit_cancel('', $action_name, $return_url);
@@ -100,37 +101,34 @@ if (empty($submit) || !empty($errmsg)) { // show form
 
     <?php if (Context == 'ponente' || Context == 'asistente') { ?>
 
-    <p class="error">Asegúrate de escribir bien tus datos ya que estos serán
-    tomados para tu constancia de participación.
+    <p class="error"><?=__('Asegúrate de escribir bien tus datos ya que estos serán tomados para tu constancia de participación.') ?>
 
-        <?php if (Action != 'register') { ?>
-
-    Deja la contraseña vacía para no cambiarla.
-
-        <?php } ?>
+        <?php if (Action != 'register') {
+            __('Deja la contraseña vacía para no cambiarla.');
+        } ?>
 
     </p>
 
     <?php } ?>
 
-    <p class="center"><em>Los campos marcados con asterisco(*) son obligatorios</em></p>
+    <p class="center"><em><?=__('Los campos marcados con asterisco(*) son obligatorios') ?></em></p>
 
     <?php
     include($CFG->comdir . 'user_input_table.php');
 
     if (Action == 'register') {
-        $action_name = 'Registrarme';
+        $action_name = __('Registrarme');
     }
 
     elseif (Action == 'newadmin' || Action == 'newspeaker' || Action == 'newperson') {
-        $action_name = 'Registrar';
+        $action_name = __('Registrar');
     }
 
     else {
-        $action_name = 'Actualizar';
+        $action_name = __('Actualizar');
     }
 
-    do_submit_cancel($action_name, 'Cancelar', $return_url);
+    do_submit_cancel($action_name, __('Cancelar'), $return_url);
     ?>
 
 </form>

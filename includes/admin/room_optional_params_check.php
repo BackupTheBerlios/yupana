@@ -6,7 +6,7 @@
 
     // check submit value
     if (empty($room->nombre_lug) || empty($room->ubicacion)) {
-            $errmsg[] = "Verifica que los datos obligatorios los hayas introducido correctamente.";
+            $errmsg[] = __("Verifica que los datos obligatorios los hayas introducido correctamente.");
     }
 
     if (empty($errmsg)) {
@@ -14,7 +14,7 @@
 
         if (!empty($testroom)) {
             if (Action == 'newroom' || $room->id != $testroom->id) {
-                $errmsg[] = 'El nombre del lugar ya ha sido dado de alta.';
+                $errmsg[] = __('El nombre del lugar ya ha sido dado de alta.');
             }
         }
     }

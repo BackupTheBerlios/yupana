@@ -15,7 +15,7 @@ function drupal_user_auth ($login, $pass, $context) {
 
     // check conection
     if (!$dblink || !mysql_select_db($dbname)) {
-        $errmsg[] = 'Ocurrió un error al conectar a la base de datos de drupal.';
+        $errmsg[] = __('Ocurrió un error al conectar a la base de datos de drupal.');
         $errmsg[] = mysql_error();
         return false;
 

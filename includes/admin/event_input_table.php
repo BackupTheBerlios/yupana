@@ -13,7 +13,7 @@ if (Action == 'newevent') {
     $input_data = do_get_output('do_input', array('S_nombre', 'text', $proposal->nombre, 'size="43" maxlength="150"'));
 
     $table_data[] = array(
-        'Nombre del evento: *',
+        __('Nombre del evento:') . ' *',
         $input_data
         );
 
@@ -23,7 +23,7 @@ if (Action == 'newevent') {
 END;
 
     $table_data[] = array(
-        'Descripción: *',
+        __('Descripción:') . ' *',
         $input_data,
         );
 
@@ -32,7 +32,7 @@ END;
     $input_data = do_get_output('do_input_select', array('I_id_orientacion', $options, $proposal->id_orientacion));
 
     $table_data[] = array(
-        'Orientación: *',
+        __('Orientación:') . ' *',
         $input_data
         );
 
@@ -41,7 +41,7 @@ END;
     $input_data = do_get_output('do_input_select', array('I_id_prop_tipo', $options, $proposal->id_prop_tipo));
 
     $table_data[] = array(
-        'Tipo de evento: *',
+        __('Tipo de evento:') . ' *',
         $input_data
         );
 }
@@ -62,11 +62,11 @@ if (Action == 'newevent' || $proposal->id_prop_tipo > 100) {
 if (!empty($dates)) {
     $input_data = do_get_output('do_input_select', array('I_id_fecha', $dates, $event->id_fecha, true, $default_date, 0, $extra));
 } else {
-    $input_data = '<em>No se encuentra ninguna fecha registrada</em>';
+    $input_data = '<em>' . __('No se encuentra ninguna fecha registrada') . '</em>';
 }
 
 $table_data[] = array(
-    'Fecha de evento: *',
+    __('Fecha de evento:') . ' *',
     $input_data,
     );
 
@@ -88,11 +88,11 @@ if (Action == 'newevent' || $proposal->id_prop_tipo > 100) {
 if (!empty($rooms)) {
     $input_data = do_get_output('do_input_select', array('I_id_lugar', $rooms, $event->id_lugar, true, $default_lugar));
 } else {
-    $input_data = '<em>No se encuentra ningún lugar registrado</em>';
+    $input_data = '<em>' . __('No se encuentra ningún lugar registrado') . '</em>';
 }
 
 $table_data[] = array(
-    'Lugar de evento: *',
+    __('Lugar de evento:') . ' *',
     $input_data
     );
 
@@ -101,7 +101,7 @@ $table_data[] = array(
 $input_data = do_get_output('do_input_time_slot', array('I_hora', $CFG->def_hora_ini, $CFG->def_hora_fin-1, $event->hora, $proposal->duracion));
 
 $table_data[] = array(
-    'Hora: *',
+    __('Hora:') . ' *',
     $input_data
     );
 
@@ -110,7 +110,7 @@ if (Action == 'newevent') {
     $input_data = do_get_output('do_input_number_select', array('I_duracion', 1, 4, $proposal->duracion, true, '', 0, true));
 
     $table_data[] = array(
-        'Duración: *',
+        __('Duración:') . ' *',
         $input_data,
         );
 }
@@ -121,10 +121,10 @@ if (false && (Action == 'newevent' || $proposal->id_prop_tipo >= 100)) {
     // extraordinario
     $selected = (empty($extraordinario)) ? 0 : 1;
     $input_data = do_get_output('do_input_yes_no', array('I_extraordinario', $selected));
-    $desc = '<span class="littleinfo">Selecciona "YES" para reservar la hora en todos los lugares.</span>';
+    $desc = '<span class="littleinfo">' . __('Selecciona "Si" para reservar la hora en todos los lugares.') . '</span>';
 
     $table_data[] = array(
-        'Evento extraordinario: *',
+        __('Evento extraordinario:') . ' *',
         $input_data.$desc
         );
 }

@@ -11,7 +11,7 @@ $table_data = array();
 $input_data = do_get_output('do_input', array('S_nombre_lug', 'text', $room->nombre_lug, 'size="30"'));
 
 $table_data[] = array(
-    'Nombre: *',
+    __('Nombre:') . ' *',
     $input_data,
     );
 
@@ -19,16 +19,16 @@ $table_data[] = array(
 $input_data = do_get_output('do_input', array('S_ubicacion', 'text', $room->ubicacion, 'size="30"'));
 
 $table_data[] = array(
-    'Ubicación: *',
+    __('Ubicación:') . ' *',
     $input_data
     );
 
 // room size
 $input_data = do_get_output('do_input_number_select', array('I_cupo', $CFG->limite, 5, $room->cupo));
-$info = '<span class="littleinfo">' . 'Vacío si es lugar para conferencias' . '</span>';
+$info = '<span class="littleinfo">' . __('Vacío si es lugar para conferencias') . '</span>';
 
 $table_data[] = array(
-    'Capacidad: &nbsp;',
+    __('Capacidad:') . ' &nbsp;',
     $input_data . $info
     );
 

@@ -9,8 +9,8 @@ if (Action == 'viewspeaker') {
     $speaker_id = (!empty($matches)) ? (int) $matches[1] : 0;
 
     $user = get_speaker($speaker_id);
-    $desc = 'Ponente';
-    $prop_desc = 'Propuestas enviadas';
+    $desc = __('Ponente');
+    $prop_desc = __('Propuestas enviadas');
 }
 
 elseif (Action == 'viewperson') {
@@ -18,14 +18,14 @@ elseif (Action == 'viewperson') {
     $person_id = (!empty($matches)) ? (int) $matches[1] : 0;
 
     $user = get_person($person_id);
-    $desc = 'Asistente';
-    $prop_desc = 'Talleres/Tutoriales inscritos';
+    $desc = __('Asistente');
+    $prop_desc = __('Talleres/Tutoriales inscritos');
 }
 
 if (!empty($user)) {
 ?>
 
-<h1>Datos de <?=$desc ?></h1>
+<h1><?=__('Datos de') ?> <?=$desc ?></h1>
 
 <?php
     include($CFG->comdir . 'user_display_info.php');
@@ -38,11 +38,11 @@ if (!empty($user)) {
 } else {
 ?>
 
-<h1>Usuario no encontrado</h1>
+<h1><?=__('Usuario no encontrado') ?></h1>
 
 <div class="block"</div>
 
-<p class="error center">El usuario que buscas no existe.</p>
+<p class="error center"><?=__('El usuario que buscas no existe.') ?></p>
 
 <?php 
 }

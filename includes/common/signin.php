@@ -41,12 +41,12 @@
     if (!empty($submit)) {
 
         if (empty($passwd) || !preg_match("/^\w{4,15}$/", $login)) {
-            $errmsg[] = "Usuario y/o contraseña no válidos. Por favor trate de nuevo.";
+            $errmsg[] = __("Usuario y/o contraseña no válidos. Por favor trate de nuevo.");
         } else {
             $user = user_auth($login, $passwd, Context);
 
             if (empty($user->id)) {
-                $errmsg[] = "Usuario y/o contraseña incorrectos. Por favor intente de nuevo o puede ingresar a <a href=\"{$return_url}/reset.php\">Recuperar Contraseña</a>";
+                $errmsg[] = __("Usuario y/o contraseña incorrectos. Por favor intente de nuevo o puede ingresar a") . " <a href=\"{$return_url}/reset.php\">" . __("Recuperar Contraseña") . "</a>";
             } else {
                 // User ok, init session data
                 @session_start(); // ignore errors
@@ -56,15 +56,15 @@
                     $_SESSION['YACOMASVARS']['rootid'] = $user->id;
                     $_SESSION['YACOMASVARS']['rootlogin'] = $user->login;
                     $_SESSION['YACOMASVARS']['rootlevel'] = $user->id_tadmin;
-                    $_SESSION['YACOMASVARS']['rootlast'] = time();;
+                    $_SESSION['YACOMASVARS']['rootlast'] = time();
                 } elseif (Context == 'ponente') {
                     $_SESSION['YACOMASVARS']['ponid'] = $user->id;
                     $_SESSION['YACOMASVARS']['ponlogin'] = $user->login;
-                    $_SESSION['YACOMASVARS']['ponlast'] = time();;
+                    $_SESSION['YACOMASVARS']['ponlast'] = time();
                 } elseif (Context == 'asistente') {
                     $_SESSION['YACOMASVARS']['asiid'] = $user->id;
                     $_SESSION['YACOMASVARS']['asilogin'] = $user->login;
-                    $_SESSION['YACOMASVARS']['asilast'] = time();;
+                    $_SESSION['YACOMASVARS']['asilast'] = time();
                 }
 
                 // redirect to main menu

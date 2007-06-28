@@ -20,9 +20,9 @@ if (!empty($user_id)) {
     }
 
     if ($rs = update_record('asistente', $user)) {
-        $errmsg[] = 'Se ha actualizado el tipo de administrador para el usuario';
+        $errmsg[] = __('Se ha actualizado el tipo de administrador para el usuario');
     } else {
-        $errmsg[] = 'Ocurrió un error al actualizar cambiar el estado del registro';
+        $errmsg[] = __('Ocurrió un error al actualizar cambiar el estado del registro');
     }
 }
 //get return_path

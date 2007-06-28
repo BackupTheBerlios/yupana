@@ -55,9 +55,9 @@ if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
     }
 
     $table_data[] = array(
-        'Nombre de Usuario: *',
+        __('Nombre de Usuario:') . ' *',
         $input_data,
-        ' 4 a 15 caracteres'
+        __(' 4 a 15 caracteres')
         );
 
     // no need password textboxes on external auth
@@ -66,16 +66,16 @@ if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
         $input_data = do_get_output('do_input', array('S_passwd', 'password', '', 'size="15"'));
 
         $table_data[] = array(
-            'Contraseña: *',
+            __('Contraseña:') . ' *',
             $input_data,
-            ' 6 a 15 caracteres'
+            __(' 6 a 15 caracteres')
             );
 
         // confirm password
         $input_data = do_get_output('do_input', array('S_passwd2', 'password', '', 'size="15"'));
 
         $table_data[] = array(
-            'Confirmación de Contraseña: *',
+            __('Confirmación de Contraseña:') . ' *',
             $input_data,
             ''
             );
@@ -85,7 +85,7 @@ if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
     $input_data = do_get_output('do_input', array('S_nombrep', 'text', $user->nombrep, 'size="30"'));
 
     $table_data[] = array(
-        'Nombre(s): *',
+        __('Nombre(s):') . ' *',
         $input_data,
         ''
         );
@@ -94,7 +94,7 @@ if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
     $input_data = do_get_output('do_input', array('S_apellidos', 'text', $user->apellidos, 'size="30"'));
 
     $table_data[] = array(
-        'Apellidos: *',
+        __('Apellidos:') . ' *',
         $input_data,
         ''
         );
@@ -103,7 +103,7 @@ if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
     $input_data = do_get_output('do_input', array('S_mail', 'text', $user->mail, 'size="15"'));
 
     $table_data[] = array(
-        'Correo Electrónico: *',
+        __('Correo Electrónico:') . ' *',
         $input_data,
         ''
         );
@@ -115,7 +115,7 @@ if (Context == 'admin' && Action == 'newadmin') {
     $input_data = do_get_output('do_input_select', array('I_id_tadmin', $options, $user->id_tadmin));
 
     $table_data[] = array(
-        'Tipo administrador: *',
+        __('Tipo administrador:') . ' *',
         $input_data
         );
 }
@@ -126,20 +126,20 @@ if (Context == 'ponente' || Context == 'asistente' || Action == 'newspeaker' || 
 
     $option = new StdClass;
     $option->id = 'M';
-    $option->descr = 'Masculino';
+    $option->descr = __('Masculino');
 
     $options[] = $option;
 
     $option = new StdClass;
     $option->id = 'F';
-    $option->descr = 'Femenino';
+    $option->descr = __('Femenino');
 
     $options[] = $option;
 
     $input_data = do_get_output('do_input_select', array('C_sexo', $options, $user->sexo, true, '', ''));
 
     $table_data[] = array(
-        'Sexo: *',
+        __('Sexo:') . ' *',
         $input_data,
         ''
         );
@@ -148,7 +148,7 @@ if (Context == 'ponente' || Context == 'asistente' || Action == 'newspeaker' || 
     $input_data = do_get_output('do_input', array('S_org', 'text', $user->org, 'size="15"'));
 
     $table_data[] = array(
-        'Organización: &nbsp;',
+        __('Organización:') . ' &nbsp;',
         $input_data,
         ''
         );
@@ -158,7 +158,7 @@ if (Context == 'ponente' || Context == 'asistente' || Action == 'newspeaker' || 
     $input_data = do_get_output('do_input_select', array('I_id_estudios', $options, $user->id_estudios));
 
     $table_data[] = array(
-        'Estudios: *',
+        __('Estudios:') . ' *',
         $input_data,
         ''
         );
@@ -169,7 +169,7 @@ if (Context == 'ponente' || Action == 'newspeaker') {
     $input_data = do_get_output('do_input', array('S_titulo', 'text', $user->titulo, 'size="10"'));
 
     $table_data[] = array(
-        'Título: &nbsp;',
+        __('Título:') . ' &nbsp;',
         $input_data,
         ''
         );
@@ -178,7 +178,7 @@ if (Context == 'ponente' || Action == 'newspeaker') {
     $input_data = do_get_output('do_input', array('S_domicilio', 'text', $user->domicilio, 'size="50" maxlength="255"'));
 
     $table_data[] = array(
-        'Domicilio: &nbsp;',
+        __('Domicilio:') . ' &nbsp;',
         $input_data,
         ''
         );
@@ -187,7 +187,7 @@ if (Context == 'ponente' || Action == 'newspeaker') {
     $input_data = do_get_output('do_input', array('S_telefono', 'text', $user->telefono, 'size="15"'));
 
     $table_data[] = array(
-        'Teléfono: &nbsp;',
+        __('Teléfono:') . ' &nbsp;',
         $input_data,
         ''
         );
@@ -203,7 +203,7 @@ if (Context == 'asistente' || Action == 'newperson') {
     $input_data = do_get_output('do_input_select', array('I_id_tasistente', $options, $user->id_tasistente));
 
     $table_data[] = array(
-        'Tipo de Asistente: *',
+        __('Tipo de Asistente:') . ' *',
         $input_data,
         ''
         );
@@ -214,7 +214,7 @@ if (Context == 'ponente' || Context == 'asistente' || Action == 'newspeaker' || 
     $input_data = do_get_output('do_input', array('S_ciudad', 'text', $user->ciudad, 'size="15"'));
 
     $table_data[] = array(
-        'Ciudad: &nbsp;',
+        __('Ciudad:') . ' &nbsp;',
         $input_data,
         ''
         );
@@ -224,7 +224,7 @@ if (Context == 'ponente' || Context == 'asistente' || Action == 'newspeaker' || 
     $input_data = do_get_output('do_input_select', array('I_id_estado', $options, $user->id_estado));
 
     $table_data[] = array(
-        'Departamento: *',
+        __('Departamento:') . ' *',
         $input_data,
         ''
         );
@@ -233,7 +233,7 @@ if (Context == 'ponente' || Context == 'asistente' || Action == 'newspeaker' || 
     $input_data = do_get_output('do_input_birth_select', array('I_b_day', 'I_b_month', 'I_b_year', $user->b_day, $user->b_month, $user->b_year));
 
     $table_data[] = array(
-        'Fecha de Nacimiento: &nbsp;',
+        __('Fecha de Nacimiento:') . ' &nbsp;',
         $input_data,
         ''
         );
@@ -246,7 +246,7 @@ if (Context == 'ponente' || Action == 'newspeaker') {
 END;
 
     $table_data[] = array(
-        'Resumen Curricular: &nbsp;',
+        __('Resumen Curricular:') . ' &nbsp;',
         $input_data,
         ''
         );

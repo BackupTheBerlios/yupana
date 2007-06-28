@@ -14,11 +14,11 @@ if (!empty($event_id)) {
 $submit = optional_param('submit');
 ?>
 
-<h1>Cancelar evento</h1>
+<h1><?=__('Cancelar evento') ?></h1>
 
-<p class="error center">Esta acción liberará el espacio ocupado en el programa por este evento
+<p class="error center"><?=__('Esta acción liberará el espacio ocupado en el programa por este evento
 y le asignará el status de <em>Cancelada</em>. Las inscripciones de los asistentes que pudieran
-tener este evento serán eliminadas.</p>
+tener este evento serán eliminadas.') ?></p>
 
 <?php
 // process submit
@@ -31,21 +31,21 @@ if (Action == 'cancelevent' && !empty($submit) && !empty($event) && !empty($prop
     $rs = delete_records('evento_ocupa', 'id_evento', $event->id);
 
     if (!$rs) {
-        $errmsg[] = 'Ocurrió un error al eliminar los espacios ocupados.';
+        $errmsg[] = __('Ocurrió un error al eliminar los espacios ocupados.');
     } 
 
     //delete subscriptions
     $rs = delete_records('inscribe', 'id_evento', $event->id);
 
     if (!$rs) {
-        $errmsg[] = 'Ocurrió un error al eliminar las suscripciones.';
+        $errmsg[] = __('Ocurrió un error al eliminar las suscripciones.');
     }
 
     //delete event
     $rs = delete_records('evento', 'id', $event->id);
 
     if (!$rs) {
-        $errmsg[] = 'Ocurrió un error al eliminar el evento';
+        $errmsg[] = __('Ocurrió un error al eliminar el evento');
     }
 
     //update proposal status to cancel
@@ -56,17 +56,17 @@ if (Action == 'cancelevent' && !empty($submit) && !empty($event) && !empty($prop
     $rs = update_record('propuesta', $prop);
 
     if (!$rs) {
-        $errmsg[] = 'Ocurrió un error al cancelar la propuesta.';
+        $errmsg[] = __('Ocurrió un error al cancelar la propuesta.');
     }
 ?>
 
-<p class="error center">El evento ha sido cancelado. Los espacios e suscripciones han sido liberados.</p>
+<p class="error center"><?=__('El evento ha sido cancelado. Los espacios e suscripciones han sido liberados.') ?></p>
 
 <div class="block"></div>
 
 <?php
 
-    do_submit_cancel('', 'Continuar', $return_url);
+    do_submit_cancel('', __('Continuar'), $return_url);
 
 } else {
 ?>
@@ -78,7 +78,7 @@ if (Action == 'cancelevent' && !empty($submit) && !empty($event) && !empty($prop
     $prop_noshow_resume = true;
     include($CFG->comdir . 'prop_display_info.php');
 
-    do_submit_cancel('Cancelar', 'Regresar', $return_url);
+    do_submit_cancel(__('Cancelar'), __('Regresar'), $return_url);
 ?>
 
 </form>

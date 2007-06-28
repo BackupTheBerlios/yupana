@@ -5,9 +5,9 @@ if (empty($CFG)) {
 }
 ?>
 
-<h1>Programa Preliminar</h1>
+<h1><?=__('Programa Preliminar') ?></h1>
 
-<p class="center error"><em>Programa sujeto a cambios</em></p>
+<p class="center error"><em><?=__('* sujeto a cambios * ') ?></em></p>
 
 <div class="block"></div>
 
@@ -25,9 +25,9 @@ if (Context == 'admin') {
     $_SESSION['return_path'] = get_url('admin/schedule');
 
     if (empty($dates)) {
-        show_error('No se encuentra ninguna fecha registrada.', false);
+        show_error(__('No se encuentra ninguna fecha registrada.'), false);
     } elseif (empty($rooms)) {
-        show_error('No se encuentra ningún lugar registrado');
+        show_error(__('No se encuentra ningún lugar registrado'), false);
     }
 
 } else {
@@ -85,7 +85,7 @@ if (!empty($events)) {
         $table_data = array();
 
         $table_headers = array();
-        $table_headers[] = 'Hora\Lugar';
+        $table_headers[] = __('Hora\Lugar');
 
         foreach ($rooms as $room) {
             $table_headers[] = $room->nombre_lug;
@@ -130,7 +130,7 @@ if (!empty($events)) {
 
 <div class="block"></div>
 
-<p class="error center">Todavía no se tienen eventos programados.</p>
+<p class="error center"><?=__('Todavía no se tienen eventos programados.') ?></p>
 
 <?php 
 }

@@ -7,7 +7,7 @@ if (empty($CFG) || (Action != 'addschedule' && Action != 'addschedule_action')) 
 $errmsg = array();
 ?>
 
-<h1>Programar Evento</h1>
+<h1><?=__('Programar Evento') ?></h1>
 
 <?php
 if (Action == 'addschedule') {
@@ -27,11 +27,11 @@ if (Action == 'addschedule_action') {
     $proposal = get_record('propuesta', 'id', $proposal_id);
 
     if (empty($proposal)) {
-        $errmsg[] = 'La ponencia que seleccionaste no existe.';
+        $errmsg[] = __('La ponencia que seleccionaste no existe.');
     }
 
     elseif ($proposal->id_status != 5) {
-        $errmsg[] = 'No se puede asignar esta ponencia.';
+        $errmsg[] = __('No se puede asignar esta ponencia.');
     }
 }
 
@@ -39,22 +39,22 @@ $room = get_record('lugar', 'id', $room_id);
 $date = get_record('fecha_evento', 'id', $date_id);
 
 if (empty($room)) {
-    $errmsg[] = 'El lugar no existe.';
+    $errmsg[] = __('El lugar no existe.');
 }
 
 if (empty($date)) {
-    $errmsg[] = 'La fecha no existe.';
+    $errmsg[] = __('La fecha no existe.');
 
 }
 
 if ($hour < $CFG->def_hora_ini || $hour >= $CFG->def_hora_fin) {
-    $errmsg[] = 'La hora que elegiste queda fuera de la duración del evento.';
+    $errmsg[] = __('La hora que elegiste queda fuera de la duración del evento.');
 }
 
 $event_slot = get_record('evento_ocupa', 'id_fecha', $date->id, 'id_lugar', $room->id, 'hora', $hour);
 
 if (!empty($event_slot)) {
-    $errmsg[] = 'Esta fecha, hora y lugar ya tiene un evento programado.';
+    $errmsg[] = __('Esta fecha, hora y lugar ya tiene un evento programado.');
 }
 
 if (!empty($errmsg)) {
@@ -86,14 +86,14 @@ else {
             if (!empty($event->id)) {
 ?>
 
-<p class="error center">El evento ha sido añadido con éxito.</p>
+<p class="error center"><?=__('El evento ha sido añadido con éxito.') ?></p>
 
 <div class="block"></div>
 <?php
-                do_submit_cancel('', 'Continuar', get_url('admin/schedule'));
+                do_submit_cancel('', __('Continuar'), get_url('admin/schedule'));
             } else {
 
-                $errmsg[] = 'Ocurrió un error al insertar los datos.';
+                $errmsg[] = __('Ocurrió un error al insertar los datos.');
                 show_error($errmsg);
 
                 
@@ -110,25 +110,25 @@ else {
     else {
 
         $values = array(
-            'Lugar' => $room->nombre_lug,
-            'Fecha' => friendly_date($date->fecha),
-            'Hora' => sprintf('%02d:00 hrs.', $hour)
+            __('Lugar') => $room->nombre_lug,
+            __('Fecha') => friendly_date($date->fecha),
+            __('Hora') => sprintf('%02d:00 hrs.', $hour)
             );
 
         do_table_values($values, 'narrow');
 ?>
 
-<h2 class="center">Ponencias disponibles</h2>
+<h2 class="center"><?=__('Ponencias disponibles') ?></h2>
 
 <?php
 
         include($CFG->comdir . 'prop_list.php');
 
-        do_submit_cancel('', 'Regresar', get_url('admin/schedule'));
+        do_submit_cancel('', __('Regresar'), get_url('admin/schedule'));
     }
 }
 
 if (!empty($errmsg)) {
-    do_submit_cancel('', 'Regresar', get_url('admin/schedule'));
+    do_submit_cancel('', __('Regresar'), get_url('admin/schedule'));
 }
 ?>

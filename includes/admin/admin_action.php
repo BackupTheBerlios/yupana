@@ -16,9 +16,9 @@ if (!empty($admin_id) && !empty($admin_tadmin) && $admin_id != 1 && $admin_id !=
     $admin->id_tadmin = $admin_tadmin;
 
     if ($rs = update_record('administrador', $admin)) {
-        $errmsg[] = 'Se ha actualizado el tipo de administrador para el usuario';
+        $errmsg[] = __('Se ha actualizado el tipo de administrador para el usuario');
     } else {
-        $errmsg[] = 'Ocurrió un error al actualizar cambiar el estado del registro';
+        $errmsg[] = __('Ocurrió un error al actualizar el tipo de administrador del usuario');
     }
 }
 

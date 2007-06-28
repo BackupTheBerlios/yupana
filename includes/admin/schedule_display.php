@@ -66,9 +66,7 @@ foreach ($table_data as $row) {
                 $url .= '/add/'.$prop->room_id.'/'.$prop->date_id.'/'.$prop->hour;
 
                 if (level_admin(2)) {
-                    $column  = <<< END
-<a class="littleinfo" href="{$url}">Añadir Evento</a>
-END;
+                    $column  = "<a class=\"littleinfo\" href=\"{$url}\">" . __("Añadir Evento") . "</a>";
                 } else {
                     $column = '&nbsp;';
                 }
@@ -86,10 +84,7 @@ END;
 
                 if (level_admin(2)) {
                     $url = get_url('admin/events/'.$prop->id_evento.'/cancel');
-                    $column .= <<< END
-<a class="littleinfo precaucion" href="{$url}">Cancelar evento</a>
-END;
-
+                    $column .= "<a class=\"littleinfo precaucion\" href=\"{$url}\">". __("Cancelar evento") . "</a>";
                 }
             }
         } else {

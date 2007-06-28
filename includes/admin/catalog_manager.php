@@ -6,19 +6,19 @@ if (empty($CFG) || empty($q) || Context != 'admin' || $USER->id_tadmin != 1) {
 }
 
 $catalogs = array(
-    'tadmin' => 'Tipos de administradores',
-    'tasistente' => 'Tipos de asistentes',
-    'estado' => 'Estado/Procedencia',
-    'estudios' => 'Estudios',
-    'prop_tipo' => 'Tipos de propuestas',
-    'orientacion' => 'Orientación de propuestas',
-    'prop_nivel' => 'Niveles de propuestas',
-    'prop_status' => 'Estados de propuestas'
+    'tadmin' => __('Tipos de administrador'),
+    'tasistente' => __('Tipos de asistente'),
+    'estado' => __('Estado'),
+    'estudios' => __('Estudios'),
+    'prop_tipo' => __('Tipos de propuesta'),
+    'orientacion' => __('Orientaciones de propuesta'),
+    'prop_nivel' => __('Niveles de propuesta'),
+    'prop_status' => __('Estados de propuesta')
     );
 
 ?>
 
-<h1>Administrar Catalogos</h1>
+<h1><?=__('Administrar Catálogos') ?></h1>
 
 <form method="POST" action="">
 
@@ -50,7 +50,7 @@ foreach ($catalogs as $catalog => $desc) {
 
     include($CFG->admdir . 'catalog_display_input.php');
 
-    do_submit_cancel('Guardar', '', '', 'submit-'.$catalog);
+    do_submit_cancel(__('Guardar'), '', '', 'submit-'.$catalog);
 }
 ?>
 
@@ -59,5 +59,5 @@ foreach ($catalogs as $catalog => $desc) {
 <div class="block"></div>
 
 <?php
-do_submit_cancel('', 'Volver al Menu', get_url('admin'));
+do_submit_cancel('', __('Regresar al Menu'), get_url('admin'));
 ?>

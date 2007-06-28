@@ -7,5 +7,5 @@ foreach ($configs as $config => $type) {
     set_config($config, $cfg->$config);
 }
 
-$errmsg[] = 'Información actualizada.';
+$errmsg[] = __('Información actualizada.');
 ?>

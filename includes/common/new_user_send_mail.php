@@ -8,50 +8,48 @@
 
         if (Context == 'ponente') {
 
-            $registered_as = 'posible ponente';
+            $registered_as = __('posible ponente');
             $url = get_url('speaker');
 
         } elseif (Context == 'asistente') {
 
-            $registered_as = 'asistente';
+            $registered_as = __('asistente');
             $url = get_url('person');
 
         }
  
         $toname = $user->nombrep .' '. $user->apellidos;
         $to = $user->mail;
-        $subject = $CFG->conference_name . ': Registro de ' . Context;
+        $subject = $CFG->conference_name . ': ' . __('Registro de ') . $registered_as;
 
-        $message = <<< END
-Te has registrado como {$registered_as} al {$CFG->conference_name}
+        $message = sprintf(__('
+Te has registrado como %s al %s
 
-Usuario:    {$user->login}
-Contraseña: {$passwd}
+Usuario:    %s
+Contraseña: %s
 
 Puedes iniciar sesión entrando a la siguiente dirección:
 
-{$url}
+%s
 
 
 --
-Equipo {$CFG->conference_name}
-{$url}
+Equipo %s
+%s
 
-END;
+'), $registered_as, $CFG->conference_name, $user->login, $passwd, $url, $CFG->conference_name, $url);
 
         //3.. 2.. 1.. go!
         send_mail($toname, $to, $subject, $message);
 ?>
 
-<p>Los datos de tu usuario y password han sido enviados al correo que registraste.</p>
-<p>Es posible que algunos servidores de correo registren el correo como correo no deseado  o spam y no se encuentre en su carpeta INBOX.</p>
+<p><?=__('Los datos de tu usuario y password han sido enviados al correo que registraste.') ?></p>
+<p><?=__('Es posible que algunos servidores de correo registren el correo como correo no deseado  o spam y no se encuentre en su carpeta INBOX.') ?></p>
 
 <?php
     } else {
 ?>
 
-<p class="center">Por razones de seguridad deshabilitamos el envío de correo.</p>
+<p class="center error"><?=__('Por razones de seguridad deshabilitamos el envío de correo.') ?></p>
 
 <?php } ?>
-
-

@@ -20,10 +20,10 @@
         $estado = get_field('estado', 'descr', 'id', $user->id_estado);
         $sexo = '';
         if ($user->sexo == 'F') {
-            $sexo = 'Femenino';
+            $sexo = __('Femenino');
         }
         if ($user->sexo == 'M') {
-            $sexo = 'Masculino';
+            $sexo = __('Masculino');
         }
     }
 
@@ -43,11 +43,11 @@
         $tadmin = get_field('tadmin', 'descr', 'id', $user->id_tadmin);
 
         $values = array(
-            'Usuario Administrador' => $user->login,
-            'Nombre(s)' => $user->nombrep,
-            'Apellidos' => $user->apellidos,
-            'Correo electrónico' => $user->mail,
-            'Tipo administrador' => $tadmin
+            __('Usuario Administrador') => $user->login,
+            __('Nombre(s)') => $user->nombrep,
+            __('Apellidos') => $user->apellidos,
+            __('Correo electrónico') => $user->mail,
+            __('Tipo administrador') => $tadmin
             );
     }
 
@@ -58,20 +58,20 @@
         || Action == 'editspeaker') {
 
         $values = array(
-            'Nombre de Usuario' => $user->login,
-            'Nombre(s)' => $user->nombrep,
-            'Apellidos' => $user->apellidos,
-            'Correo electrónico' => $user->mail,
-            'Sexo' => $sexo,
-            'Organización' => $user->org,
-            'Estudios' => $estudios,
-            'Título' => $user->titulo,
-            'Domicilio' => $user->domicilio,
-            'Telefono' => chunk_split($user->telefono, 2),
-            'Ciudad' => $user->ciudad,
-            'Departamento' => $estado,
-            'Fecha de Nacimiento' => sprintf('%s', $user->fecha_nac),
-            'Resumen Curricular' => nl2br(htmlspecialchars($user->resume))
+            __('Nombre de Usuario') => $user->login,
+            __('Nombre(s)') => $user->nombrep,
+            __('Apellidos') => $user->apellidos,
+            __('Correo electrónico') => $user->mail,
+            __('Sexo') => $sexo,
+            __('Organización') => $user->org,
+            __('Estudios') => $estudios,
+            __('Título') => $user->titulo,
+            __('Domicilio') => $user->domicilio,
+            __('Telefono') => chunk_split($user->telefono, 2),
+            __('Ciudad') => $user->ciudad,
+            __('Departamento') => $estado,
+            __('Fecha de Nacimiento') => sprintf('%s', $user->fecha_nac),
+            __('Resumen Curricular') => nl2br(htmlspecialchars($user->resume))
         );
     }
 
@@ -82,28 +82,28 @@
         || Action == 'deleteperson') { // should be asistente
         if (defined('SubContext') && SubContext == 'kardex') {
             $values = array(
-                'Nombre de Usuario' => $user->login,
-                'Correo Electrónico' => $user->mail,
-                'Sexo' => $sexo,
-                'Organización' => $user->org,
-                'Estudios' => $estudios,
-                'Tipo Asistente' => $tasistente,
-                'Ciudad' => $user->ciudad,
-                'Estado' => $estado
+                __('Nombre de Usuario') => $user->login,
+                __('Correo Electrónico') => $user->mail,
+                __('Sexo') => $sexo,
+                __('Organización') => $user->org,
+                __('Estudios') => $estudios,
+                __('Tipo Asistente') => $tasistente,
+                __('Ciudad') => $user->ciudad,
+                __('Estado') => $estado
                 );
         } else {
             $values = array(
-                'Nombre de Usuario' => $user->login,
-                'Nombre(s)' => $user->nombrep,
-                'Apellidos' => $user->apellidos,
-                'Correo electrónico' => $user->mail,
-                'Sexo' => $sexo,
-                'Organización' => $user->org,
-                'Estudios' => $estudios,
-                'Tipo de Asistente' => $tasistente,
-                'Ciudad' => $user->ciudad,
-                'Departamento' => $estado,
-                'Fecha de Nacimiento' => sprintf('%s', $user->fecha_nac)
+                __('Nombre de Usuario') => $user->login,
+                __('Nombre(s)') => $user->nombrep,
+                __('Apellidos') => $user->apellidos,
+                __('Correo electrónico') => $user->mail,
+                __('Sexo') => $sexo,
+                __('Organización') => $user->org,
+                __('Estudios') => $estudios,
+                __('Tipo de Asistente') => $tasistente,
+                __('Ciudad') => $user->ciudad,
+                __('Departamento') => $estado,
+                __('Fecha de Nacimiento') => sprintf('%s', $user->fecha_nac)
                 );
         }
     }
@@ -114,8 +114,8 @@
     // show reg/act time
     if (Context == 'admin') {
         $values = array(
-            'Fecha de registro' => $user->reg_time,
-            'Fecha de actualización' => $user->act_time
+            __('Fecha de registro') => $user->reg_time,
+            __('Fecha de actualización') => $user->act_time
             );
 
         do_table_values($values, 'narrow');

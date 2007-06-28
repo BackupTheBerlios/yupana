@@ -9,7 +9,7 @@
     if (empty($comments)) {
 ?>
 
-<p class="error center">Esta propuesta no tiene comentarios</p>
+<p class="error center"><?=__('Esta propuesta no tiene comentarios') ?></p>
 
 <?php } else { ?>
 

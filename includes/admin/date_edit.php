@@ -19,11 +19,11 @@ require($CFG->admdir . 'date_optional_params.php');
 if (Action == 'newdate') {
 ?>
 
-<h1>Añadir fecha para eventos</h1>
+<h1><?=__('Añadir fecha para eventos') ?></h1>
 
 <?php } else { ?>
 
-<h1>Modificar fecha para eventos</h1>
+<h1><?=__('Modificar fecha para eventos') ?></h1>
 
 <?php
 }
@@ -40,7 +40,7 @@ if (!empty($submit)) {
     } else {
         // insert or update propuesta
         require($CFG->admdir . 'date_update_info.php');
-        do_submit_cancel('', 'Continuar', $return_url);
+        do_submit_cancel('', __('Continuar'), $return_url);
     }
 } 
 
@@ -49,15 +49,15 @@ if (empty($submit) || !empty($errmsg)) {
 
 <form method="POST" action="">
 
-    <p class="center"><em>Los campos marcados con asterisco(*) son obligatorios</em></p>
+    <p class="center"><em><?=__('Los campos marcados con asterisco(*) son obligatorios') ?></em></p>
 
 <?php
     include($CFG->admdir . 'date_input_table.php');
 
     if (Action == 'newdate') {
-        do_submit_cancel('Registrar', 'Cancelar', $return_url);
+        do_submit_cancel(__('Registrar'), __('Cancelar'), $return_url);
     } else {
-        do_submit_cancel('Guardar', 'Volver', $return_url);
+        do_submit_cancel(__('Guardar'), __('Regresar'), $return_url);
     }
 ?>
 

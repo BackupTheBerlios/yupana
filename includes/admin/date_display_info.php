@@ -6,8 +6,8 @@
 
     // initalize var
     $values = array(
-        'Fecha de evento: ' => friendly_date($date->fecha, true),
-        'Descripción: ' => $date->descr
+        __('Fecha de evento: ') => friendly_date($date->fecha, true),
+        __('Descripción: ') => $date->descr
         );
 
     do_table_values($values, 'narrow');

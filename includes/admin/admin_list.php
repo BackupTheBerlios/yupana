@@ -13,13 +13,13 @@ include($CFG->admdir . 'admin_filter_optional_params.php');
 $users = get_admins($where);
 ?>
 
-<h1>Lista de administradores</h1>
+<h1><?=__('Lista de administradores') ?></h1>
 
 <?php
 if (!empty($users)) {
 ?>
 
-<h4>Administradores registrados: <?=sizeof($users) ?></h4>
+<h4><?=__('Administradores registrados') ?>: <?=sizeof($users) ?></h4>
 
 <?php
     // show admin filter form
@@ -27,7 +27,7 @@ if (!empty($users)) {
 
     // build data table
     $table_data = array();
-    $table_data[] = array('Login', 'Nombre', 'Apellidos', 'Correo', 'Tipo admin', '');
+    $table_data[] = array(__('Login'), __('Nombre'), __('Apellidos'), __('Correo'), __('Tipo admin'), '');
 
     $tadmins = get_records('tadmin');
 
@@ -52,10 +52,9 @@ END;
         }
 
         $actions .= '</ul>';
+        $sDelete = __('Eliminar');
 
-        $delete = <<< END
-<a href="{$admin_url}/{$user->id}/delete" title="Eliminar">Eliminar</a>
-END;
+        $delete = "<a href=\"{$admin_url}/{$user->id}/delete\" title=\"{$sDelete}\">{$sDelete}</a>";
 
         $table_data[] = array(
             $login,
@@ -73,10 +72,10 @@ END;
 ?>
 <div class="block"></div>
 
-<p class="error center">No se encontro ningún usuario.</p>
+<p class="error center"><?=__('No se encontro ningún usuario.') ?></p>
 
 <?php 
 }
 
-do_submit_cancel('', 'Volver al Menu', get_url('admin'))
+do_submit_cancel('', __('Regresar al Menu'), get_url('admin'))
 ?>

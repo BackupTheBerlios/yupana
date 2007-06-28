@@ -12,7 +12,7 @@ $input_data = <<< END
 END;
 
 $table_data[] = array(
-    'Comentario: *',
+    __('Comentario:') . ' *',
     $input_data
     );
 

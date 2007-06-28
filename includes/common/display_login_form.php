@@ -7,12 +7,12 @@
     $table_data = array();
 
     $table_data[] = array(
-        'Nombre de Usuario: ',
+        __('Nombre de Usuario: '),
         do_get_output('do_input', array('S_login', 'text', $login, 'size="15"'))
         );
 
     $table_data[] = array(
-        'Contraseña: ',
+        __('Contraseña: '),
         do_get_output('do_input', array('S_passwd', 'password', '', 'size="15"'))
         );
 ?>
@@ -21,9 +21,9 @@
 
 <?php do_table_input($table_data); ?>
 
-    <p class="notice center">Las cookies deben estar habilitadas para pasar este punto.<br />
-    Su sesión caudará despues de 1 hora de inactividad.</p>
+<p class="notice center"><?=__('Las cookies deben estar habilitadas para pasar este punto.') ?>
+<br /><?=__('Su sesión caducará despues de 1 hora de inactividad.') ?></p>
 
-<?php do_submit_cancel('Iniciar', 'Cancelar', get_url()); ?>
+<?php do_submit_cancel(__('Iniciar'), __('Cancelar'), get_url()); ?>
 
 </form>

@@ -7,18 +7,18 @@ if (empty($CFG) || Context != 'admin') {
 $dates = get_records('fecha_evento', '', '', 'fecha');
 ?>
 
-<h1>Listado de fechas para eventos</h1>
+<h1><?=__('Listado de fechas para eventos') ?></h1>
 
 <?php
 if (!empty($dates)) {
 ?>
 
-<h4>Fechas registradas: <?=sizeof($dates) ?></h4>
+<h4><?=__('Fechas registradas') ?>: <?=sizeof($dates) ?></h4>
 
 <?php
     // build data table
     $table_data = array();
-    $table_data[] = array('Fecha', 'Descripción', '', '');
+    $table_data[] = array(__('Fecha'), __('Descripción'), '', '');
 
     foreach ($dates as $date) {
 
@@ -31,10 +31,10 @@ if (!empty($dates)) {
 END;
 
         $url = get_url('admin/dates/'.$date->id.'/events');
-        $l_event = "<a class=\"verde\" href=\"{$url}\">Eventos registrados</a>";
+        $l_event = "<a class=\"verde\" href=\"{$url}\">" . __("Eventos registrados") . "</a>";
 
         $url = get_url('admin/dates/'.$date->id.'/delete');
-        $l_delete = "<a class=\"precaucion\" href=\"{$url}\">Eliminar</a>";
+        $l_delete = "<a class=\"precaucion\" href=\"{$url}\">" . __("Eliminar") . "</a>";
         
         $table_data[] = array(
             $l_nombre,
@@ -51,7 +51,7 @@ END;
 
 <div class="block"></div>
 
-<p class="error center">No se encontraron lugares registrados.</p>
+<p class="error center"><?=__('No se encontraron lugares registrados.') ?></p>
 
 <?php 
 }

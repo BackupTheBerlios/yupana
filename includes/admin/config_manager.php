@@ -8,7 +8,7 @@ if (empty($CFG) || empty($q) || Context != 'admin' || $USER->id_tadmin != 1) {
 require($CFG->admdir . 'config_optional_params.php');
 ?>
 
-<h1>Configuración Yacomas</h1>
+<h1><?=__('Configuración de Yupana') ?></h1>
 
 <?php
 // show register open/close
@@ -25,7 +25,7 @@ if (!empty($submit)) {
 }
 ?>
 
-<h1>Valores del Sistema</h1>
+<h1><?=__('Valores del Sistema') ?></h1>
 
 <?php
 if (!empty($errmsg)) {
@@ -35,18 +35,18 @@ if (!empty($errmsg)) {
 
 <form method="POST" action="">
 
-    <h3>Información General</h3>
+    <h3><?=__('Información General') ?></h3>
 
 <?php
 require($CFG->admdir . 'config_input_general.php');
-do_submit_cancel('Guardar', '');
+do_submit_cancel(__('Guardar'), '');
 ?>
 
-    <h3>Configuración adicional</h3>
+    <h3><?=__('Configuración Adicional') ?></h3>
 
 <?php
 require($CFG->admdir . 'config_input_system.php');
-do_submit_cancel('Guardar', '');
+do_submit_cancel(__('Guardar'), '');
 ?>
 
 </form>
@@ -54,5 +54,5 @@ do_submit_cancel('Guardar', '');
 <div class="block"></div>
 
 <?php
-do_submit_cancel('', 'Volver al menu', $return_url);
+do_submit_cancel('', __('Regresar al Menu'), $return_url);
 ?>

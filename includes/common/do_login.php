@@ -16,21 +16,23 @@ $errmsg = array();
 
 require($CFG->comdir . 'signin.php');
 
+$title = __('Inicio de Sesión');
+
 // now we can start output content
-do_header('Inicio de Sesión');
+do_header($title);
 
 if (Context == 'admin') { ?>
 
-<h1>Módulo de administración</h1>
-<h2 class="center">Inicio de Sesión</h2> 
+<h1><?=__('Panel de administración') ?></h1>
+<h2 class="center"><?=$title ?></h2> 
 
 <?php } elseif (Context == 'ponente') { ?>
 
-<h1>Inicio de Sesión Ponente</h1>
+<h1><?=__('Inicio de Sesión Ponente') ?></h1>
 
 <?php } elseif (Context == 'asistente') { ?>
 
-<h1>Inicio de Sesión Asistente</h1>
+<h1><?=__('Inicio de Sesión Asistente') ?></h1>
 
 <?php
 }
@@ -38,7 +40,7 @@ if (Context == 'admin') { ?>
 if (!empty($errmsg)) {
     show_error($errmsg);
 } elseif ($exp == 'exp') {
-    show_error('Su sesión ha caducado o no incio correctamente. Por favor trate de nuevo');
+    show_error(__('Su sesión ha caducado o no incio correctamente. Por favor trate de nuevo'));
 }
 
 require($CFG->comdir . 'display_login_form.php');

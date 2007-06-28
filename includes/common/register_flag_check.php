@@ -35,10 +35,10 @@
 
 <div class="block"></div>
 
-<p class="error center">El registro de <?=$name ?> se encuentra cerrado. Gracias por tu interes</p>
+<p class="error center"><?=sprintf(__('El registro de %s se encuentra cerrado. Gracias por tu interés.'), $name) ?></p>
 
 <?php
-        do_submit_cancel('', 'Continuar', $return_url);
+        do_submit_cancel('', __('Continuar'), $return_url);
         do_footer();
         exit;
     }

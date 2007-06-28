@@ -16,7 +16,7 @@ $q= optional_param('q');
 // default index
 if (preg_match('#^admin/?$#', $q)) {
     // default index
-    do_header('Menu Administración');
+    do_header(__('Menu Administración'));
     include($CFG->tpldir . 'admin_menu.tmpl.php');
 }
 
@@ -29,7 +29,7 @@ if (preg_match('#^admin/?$#', $q)) {
 elseif (level_admin(2) && preg_match('#^admin/speakers/new$#', $q)) {
     define('Action', 'newspeaker');
 
-    do_header('Agregar ponente');
+    do_header(__('Agregar ponente'));
     include($CFG->comdir . 'user_edit.php');
 }
 
@@ -37,36 +37,36 @@ elseif (level_admin(2) && preg_match('#^admin/speakers/new$#', $q)) {
 elseif (preg_match('#^admin/speakers/?$#', $q)) {
     define('Action', 'listspeakers');
 
-    do_header('Listado de ponentes');
+    do_header(__('Listado de ponentes'));
     include($CFG->comdir . 'user_list.php');
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 
 // list persons
 elseif (preg_match('#^admin/persons/?$#', $q)) {
     define('Action', 'listpersons');
 
-    do_header('Listado de asistentes');
+    do_header(__('Listado de asistentes'));
     include($CFG->comdir . 'user_list.php');
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 
 // view person details
 elseif (preg_match('#^admin/persons/\d+/?$#', $q)) {
     define('Action', 'viewperson');
 
-    do_header('Detalles de asistente');
+    do_header(__('Detalles de asistente'));
     include($CFG->comdir . 'user_view.php');
-    do_submit_cancel('', 'Regresar');
+    do_submit_cancel('', __('Regresar'));
 }
 
 // control persons
 elseif (level_admin(2) && preg_match('#^admin/persons/control/?$#', $q)) {
     define('Action', 'controlpersons');
 
-    do_header('Control de asistentes');
+    do_header(__('Control de asistentes'));
     include($CFG->comdir . 'user_list.php');
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 
 // control persons
@@ -80,16 +80,16 @@ elseif (level_admin(2) && preg_match('#^admin/persons/control/\d+$#', $q)) {
 elseif (preg_match('#^admin/speakers/\d+/?$#', $q)) {
     define('Action', 'viewspeaker');
 
-    do_header('Detalles de ponente');
+    do_header(__('Detalles de ponente'));
     include($CFG->comdir . 'user_view.php');
-    do_submit_cancel('', 'Regresar');
+    do_submit_cancel('', __('Regresar'));
 }
 
 // add proposal
 elseif (level_admin(2) && preg_match('#^admin/proposals/new$#', $q)) {
     define('Action', 'newproposal');
 
-    do_header('Agregar ponencia');
+    do_header(__('Agregar ponencia'));
     include($CFG->comdir . 'prop_edit.php');
 }
 
@@ -97,12 +97,15 @@ elseif (level_admin(2) && preg_match('#^admin/proposals/new$#', $q)) {
 elseif (preg_match('#^admin/proposals/?$#', $q)) {
     define('Action', 'listproposals');
 
-    do_header('Listado de ponencias');
+    $title = __('Listado de propuestas enviadas');
+    do_header($title);
+?>
 
-?> <h1>Lista de propuestas enviadas</h1> <?php
+<h1><?=$title ?></h1>
 
+<?php
     include($CFG->comdir . 'prop_list.php');
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 
 // view proposal
@@ -110,7 +113,7 @@ elseif (preg_match('#^admin/proposals/\d+/?$#', $q)) {
     define('Action', 'viewproposal');
     $return_url = get_url('admin/proposals');
 
-    do_header('Detalles de ponencia');
+    do_header(__('Detalles de ponencia'));
     include($CFG->comdir . 'prop_view.php');
 }
 
@@ -132,12 +135,16 @@ elseif (level_admin(3) && preg_match('#^admin/proposals/\d+/status/\d+/?$#', $q)
 elseif (level_admin(2) && preg_match('#^admin/proposals/deleted/?$#', $q)) {
     define('Action', 'listdeletedproposals');
 
-    do_header('Ponencias eliminadas');
+    $title = __('Lista de ponencias eliminadas');
 
-?> <h1>Lista de ponencias eliminadas</h1> <?php
+    do_header($title);
+?>
+        
+<h1><?=$title ?></h1>
 
+<?php
     include($CFG->comdir . 'prop_list.php');
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 
 // view deleted proposal
@@ -145,7 +152,7 @@ elseif (level_admin(2) && preg_match('#^admin/proposals/deleted/\d+/?$#', $q)) {
     define('Action', 'viewdeletedproposal');
     $return_url = get_url('admin/proposals/deleted');
 
-    do_header('Detalles de ponencia');
+    do_header(__('Detalles de ponencia'));
     include($CFG->comdir . 'prop_view.php');
 }
 
@@ -159,7 +166,7 @@ elseif (level_admin(2) && preg_match('#^admin/proposals/deleted/\d+/status/\d+/?
 elseif (level_admin(2) && preg_match('#^admin/proposals/\d+/delete$#', $q)) {
     define('Action', 'deleteproposal');
 
-    do_header('Eliminar ponencia');
+    do_header(__('Eliminar ponencia'));
     include($CFG->comdir . 'prop_delete.php');
 }
 
@@ -172,7 +179,7 @@ elseif (level_admin(2) && preg_match('#^admin/proposals/\d+/delete$#', $q)) {
 elseif (level_admin(2) && preg_match('#^admin/rooms/new$#', $q)) {
     define('Action', 'newroom');
 
-    do_header('Agregar lugar');
+    do_header(__('Agregar lugar'));
     include($CFG->admdir . 'room_edit.php');
 }
 
@@ -180,9 +187,9 @@ elseif (level_admin(2) && preg_match('#^admin/rooms/new$#', $q)) {
 elseif (level_admin(2) && preg_match('#^admin/rooms/?$#', $q)) {
     define('Action', 'listrooms');
 
-    do_header('Lista de lugares para eventos');
+    do_header(__('Lista de lugares para eventos'));
     include($CFG->admdir . 'room_list.php');
-    do_submit_cancel('', 'Volver al Menu', get_url('admin'));
+    do_submit_cancel('', __('Regresar al Menu'), get_url('admin'));
 }
 
 // room edit
@@ -190,7 +197,7 @@ elseif (level_admin(2) && preg_match('#^admin/rooms/\d+/?$#', $q)) {
     define('Action', 'editroom');
     $return_url = get_url('admin/rooms');
 
-    do_header('Editar lugar');
+    do_header(__('Editar lugar'));
     include($CFG->admdir . 'room_edit.php');
 }
 
@@ -199,7 +206,7 @@ elseif (level_admin(2) && preg_match('#^admin/rooms/\d+/delete$#', $q)) {
     define('Action', 'deleteroom');
     $return_url = get_url('admin/rooms');
 
-    do_header('Eliminar lugar');
+    do_header(__('Eliminar lugar'));
     include($CFG->admdir . 'room_delete.php');
 }
 
@@ -208,12 +215,16 @@ elseif (preg_match('#^admin/rooms/\d+/events$#', $q)) {
     define('Action', 'eventsroom');
     $return_url = get_url('admin/rooms');
 
-    do_header('Eventos del lugar');
+    $title = __('Listado de eventos por lugar');
 
-?> <h1>Lista de eventos por lugar</h1> <?php
+    do_header($title);
+?>
 
+<h1><?=$title ?></h1>
+
+<?php
     include($CFG->admdir . 'event_list.php');
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 
 /*
@@ -225,7 +236,7 @@ elseif (preg_match('#^admin/rooms/\d+/events$#', $q)) {
 elseif (level_admin(2) && preg_match('#^admin/dates/new$#', $q)) {
     define('Action', 'newdate');
 
-    do_header('Agregar fecha');
+    do_header(__('Agregar fecha'));
     include($CFG->admdir . 'date_edit.php');
 }
 
@@ -233,9 +244,9 @@ elseif (level_admin(2) && preg_match('#^admin/dates/new$#', $q)) {
 elseif (level_admin(2) && preg_match('#^admin/dates/?$#', $q)) {
     define('Action', 'listdates');
 
-    do_header('Lista de fechas para eventos');
+    do_header(__('Lista de fechas para eventos'));
     include($CFG->admdir . 'date_list.php');
-    do_submit_cancel('', 'Volver al Menu', get_url('admin'));
+    do_submit_cancel('', __('Regresar al Menu'), get_url('admin'));
 }
 
 // date edit
@@ -243,7 +254,7 @@ elseif (level_admin(2) && preg_match('#^admin/dates/\d+/?$#', $q)) {
     define('Action', 'editdate');
     $return_url = get_url('admin/dates');
 
-    do_header('Editar fecha');
+    do_header(__('Editar fecha'));
     include($CFG->admdir . 'date_edit.php');
 }
 
@@ -252,7 +263,7 @@ elseif (level_admin(2) && preg_match('#^admin/dates/\d+/delete$#', $q)) {
     define('Action', 'deletedate');
     $return_url = get_url('admin/dates');
 
-    do_header('Eliminar fecha');
+    do_header(__('Eliminar fecha'));
     include($CFG->admdir . 'date_delete.php');
 }
 
@@ -261,12 +272,16 @@ elseif (level_admin(2) && preg_match('#^admin/dates/\d+/events$#', $q)) {
     define('Action', 'eventsdate');
     $return_url = get_url('admin/dates');
 
-    do_header('Eventos por fecha');
+    $title = __('Listado de eventos por fecha');
 
-?> <h1>Lista de eventos por fecha</h1> <?php
+    do_header($title);
+?>
+        
+<h1><?=$title ?></h1>
 
+<?php
     include($CFG->admdir . 'event_list.php');
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 
 /*
@@ -278,7 +293,7 @@ elseif (level_admin(2) && preg_match('#^admin/dates/\d+/events$#', $q)) {
 elseif (level_admin(2) && preg_match('#^admin/events/new/?#', $q)) {
     define('Action', 'newevent');
     $return_url = get_url('admin/events');
-    do_header('Añadir evento');
+    do_header(__('Añadir evento'));
     include($CFG->admdir . 'event_new.php');
 }
 
@@ -286,14 +301,18 @@ elseif (level_admin(2) && preg_match('#^admin/events/new/?#', $q)) {
 elseif (level_admin(2) && preg_match('#^admin/events/schedule/?$#', $q)) {
     define('Action', 'scheduleevent');
     $return_url = get_url('admin');
-    $not_found_message = 'No se encontro ninguna ponencia habilitada o ya se encuentran programadas.';
+    $not_found_message = __('No se encontro ninguna ponencia habilitada o ya se encuentran programadas.');
 
-    do_header('Listado de ponencias habilitadas');
+    $title = __('Listado de ponencias listas para ser programadas');
 
-?> <h1>Lista de ponencias listas para ser programadas</h1> <?php
+    do_header($title);
+?>
 
+<h1><?=$title ?></h1>
+
+<?php
     include($CFG->comdir . 'prop_list.php');
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 
 // add event
@@ -301,7 +320,7 @@ elseif (level_admin(2) && preg_match('#^admin/events/schedule/\d+?$#', $q)) {
     define('Action', 'scheduleevent');
     $return_url = get_url('admin/events/schedule');
 
-    do_header('Listado de ponencias habilitadas');
+    do_header(__('Listado de ponencias habilitadas'));
     include($CFG->admdir . 'event_edit.php');
 }
 
@@ -310,7 +329,7 @@ elseif (level_admin(2) && preg_match('#^admin/events/\d+/?$#', $q)) {
     define('Action', 'editevent');
     $return_url = get_url('admin/events');
 
-    do_header('Reprogramar Evento');
+    do_header(__('Reprogramar Evento'));
     include($CFG->admdir . 'event_edit.php');
 }
 
@@ -318,12 +337,16 @@ elseif (level_admin(2) && preg_match('#^admin/events/\d+/?$#', $q)) {
 elseif (preg_match('#^admin/events/?$#', $q)) {
     define('Action', 'listevents');
 
-    do_header('Lista de eventos');
+    $title = __('Listado de eventos programados');
 
-?> <h1>Lista de eventos programados</h1> <?php
+    do_header($title);
+?>
+        
+<h1><?=$title ?></h1>
 
+<?php
     include($CFG->admdir . 'event_list.php');
-    do_submit_cancel('', 'Volver al Menu', get_url('admin'));
+    do_submit_cancel('', __('Regresar al Menu'), get_url('admin'));
 }
 
 // events cancel
@@ -337,7 +360,7 @@ elseif (level_admin(2) && preg_match('#^admin/events/\d+/cancel$#', $q)) {
         $return_url = get_url('admin/events');
     }
 
-    do_header('Cancelar evento');
+    do_header(__('Cancelar evento'));
     include($CFG->admdir . 'event_cancel.php');
 }
 
@@ -350,7 +373,7 @@ elseif (level_admin(2) && preg_match('#^admin/events/\d+/cancel$#', $q)) {
 elseif (level_admin(1) && preg_match('#^admin/config/?$#', $q)) {
     define('Action', 'config');
 
-    do_header('Configuración del Sistema');
+    do_header(__('Configuración del Sistema'));
     include($CFG->admdir . 'config_manager.php');
 }
 
@@ -364,7 +387,7 @@ elseif (level_admin(1) && preg_match('#^admin/config/(open|close)/\d+$#', $q)) {
 elseif (level_admin(1) && preg_match('#^admin/catalog/?$#', $q)) {
     define('Action', 'catalog');
 
-    do_header('Administrar Catálogos del Sistema');
+    do_header(__('Administrar Catálogos del Sistema'));
     include($CFG->admdir . 'catalog_manager.php');
 }
 
@@ -372,7 +395,7 @@ elseif (level_admin(1) && preg_match('#^admin/catalog/?$#', $q)) {
 elseif (level_admin(1) && preg_match('#^admin/new$#', $q)) {
     define('Action', 'newadmin');
 
-    do_header('Nuevo administrador');
+    do_header(__('Nuevo administrador'));
     include($CFG->comdir . 'user_edit.php');
 }
 
@@ -380,7 +403,7 @@ elseif (level_admin(1) && preg_match('#^admin/new$#', $q)) {
 elseif (level_admin(1) && preg_match('#^admin/list$#', $q)) {
     define('Action', 'listadmins');
 
-    do_header('Lista de administradores');
+    do_header(__('Lista de administradores'));
     include($CFG->admdir . 'admin_list.php');
 }
 
@@ -398,24 +421,24 @@ elseif (level_admin(1) && preg_match('#^admin/\d+/type/\d+$#', $q)) {
 // admin delete
 elseif (level_admin(1) && preg_match('#^admin/\d+/delete$#', $q)) {
     define('Action', 'deleteadmin');
-    do_header('Eliminar administrador');
-//    include($CFG->admdir . 'admin_delete.php');
+
+    do_header(__('Eliminar administrador'));
     include($CFG->admdir . 'user_delete.php');
 }
 
 // admin delete
 elseif (level_admin(2) && preg_match('#^admin/speakers/\d+/delete$#', $q)) {
     define('Action', 'deletespeaker');
-    do_header('Eliminar ponente');
-//    include($CFG->admdir . 'admin_delete.php');
+
+    do_header(__('Eliminar ponente'));
     include($CFG->admdir . 'user_delete.php');
 }
 
 // admin delete
 elseif (level_admin(2) && preg_match('#^admin/persons/\d+/delete$#', $q)) {
     define('Action', 'deleteperson');
-    do_header('Eliminar asistente');
-//    include($CFG->admdir . 'admin_delete.php');
+
+    do_header(__('Eliminar asistente'));
     include($CFG->admdir . 'user_delete.php');
 }
 
@@ -423,7 +446,7 @@ elseif (level_admin(2) && preg_match('#^admin/persons/\d+/delete$#', $q)) {
 elseif (preg_match('#^admin/details$#', $q)) {
     define('Action', 'editdetails');
 
-    do_header('Modificar información personal');
+    do_header(__('Modificar información personal'));
     include($CFG->comdir . 'user_edit.php');
 }
 
@@ -436,16 +459,16 @@ elseif (preg_match('#^admin/details$#', $q)) {
 elseif (preg_match('#^admin/schedule$#', $q)) {
     define('Action', 'viewschedule');
 
-    do_header('Programa de Eventos');
+    do_header(__('Programa de Eventos'));
     include($CFG->admdir . 'schedule_view.php');
-    do_submit_cancel('', 'Regresar', $CFG->home_url);
+    do_submit_cancel('', __('Regresar'), $CFG->home_url);
 }
 
 // attach event to date
 elseif (level_admin(2) && preg_match('#^admin/schedule/add/\d+/\d+/\d+$#', $q)) {
     define('Action', 'addschedule');
 
-    do_header('Agregar evento');
+    do_header(__('Agregar evento'));
     include($CFG->admdir . 'schedule_add.php');
 }
 
@@ -453,7 +476,7 @@ elseif (level_admin(2) && preg_match('#^admin/schedule/add/\d+/\d+/\d+$#', $q)) 
 elseif (level_admin(2) && preg_match('#^admin/schedule/add/\d+/\d+/\d+/\d+$#', $q)) {
     define('Action', 'addschedule_action');
 
-    do_header('Agregar evento');
+    do_header(__('Agregar evento'));
     include($CFG->admdir . 'schedule_add.php');
 }
 
@@ -464,9 +487,9 @@ elseif (level_admin(2) && preg_match('#^admin/schedule/add/\d+/\d+/\d+/\d+$#', $
  */
 // page not found
 else {
-    do_header('Página no encontrada');
+    do_header(__('Página no encontrada'));
     include($CFG->tpldir . 'error_404.tmpl.php');
-    do_submit_cancel('', 'Regresar');
+    do_submit_cancel('', __('Regresar'));
 }
 
 // footer is called in main index

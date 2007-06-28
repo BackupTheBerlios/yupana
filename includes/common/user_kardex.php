@@ -6,9 +6,9 @@ if (!defined('Context') || empty($CFG) || Context != 'asistente') {
 $user = $USER;
 ?>
 
-<p class="error">No tires esta hoja, te servira para asistir a cualquier Conferencia y Platica Informal, Ademas de los talleres y tutoriales que tengas registrados. Tambien sirve para confirmar tus participaciones en eventos y extender tu constancia de asistencia.</p>
+<p class="error"><?=__('No tires esta hoja, te servira para asistir a cualquier Conferencia y Platica Informal, Ademas de los talleres y tutoriales que tengas registrados. Tambien sirve para confirmar tus participaciones en eventos y extender tu constancia de asistencia.') ?></p>
 
-<h1>Hoja de Registro</h1>
+<h1><?=__('Hoja de Registro') ?></h1>
 <h2 class="center"><?=$USER->apellidos ?> <?=$USER->nombrep ?></h2>
 
 <?php
@@ -54,12 +54,12 @@ $records = get_records_sql($query);
 if (!empty($records)) {
     $table_data = array();
     $table_data[] = array(
-        'Taller/Tutorial',
-        'Orientación',
-        'Fecha',
-        'Hora',
-        'Lugar',
-        'Fecha Inscripción'
+        __('Taller/Tutorial'),
+        __('Orientación'),
+        __('Fecha'),
+        __('Hora'),
+        __('Lugar'),
+        __('Fecha Inscripción')
         );
 
     foreach ($records as $record) {
@@ -83,5 +83,5 @@ END;
     do_table($table_data, 'wide');
 }
 
-do_submit_cancel('', 'Volver al Menu', $return_url);
+do_submit_cancel('', __('Regresar al Menu'), $return_url);
 ?>

@@ -14,12 +14,12 @@ if (Action == 'eventsroom') {
 
     $room = get_record('lugar', 'id', $room_id);
 
-    $tipo = (empty($room->cupo)) ? 'Salón para Conferencias' : 'Aula para Talleres y/o Tutoriales';
+    $tipo = (empty($room->cupo)) ? __('Salón para Conferencias') : __('Aula para Talleres y/o Tutoriales');
 
     $values = array(
-        'Nombre' => $room->nombre_lug,
-        'Ubicación' => $room->ubicacion,
-        'Tipo' => $tipo
+        __('Nombre') => $room->nombre_lug,
+        __('Ubicación') => $room->ubicacion,
+        __('Tipo') => $tipo
         );
 
     do_table_values($values, 'narrow');
@@ -34,8 +34,8 @@ elseif (Action == 'eventsdate') {
     $fecha = friendly_date($date->fecha, true);
 
     $values = array(
-        'Fecha' => $fecha,
-        'Descripción' => $date->descr
+        __('Fecha') => $fecha,
+        __('Descripción') => $date->descr
         );
 
     do_table_values($values, 'narrow');
@@ -55,23 +55,19 @@ if (Context == 'admin') {
 if (!empty($proposals)) {
     $table_data = array();
 
-    // lugar
-    $what = 'Fecha';
-//    $table_data[] = array('Ponencia', 'Tipo', $what, 'Hora', 'Disp.', 'Lugar', '');
-
     // initialize old date;
     $last_date = '';
 
     if (Action == 'listevents' || Action == 'eventsdate') {
-        $headers = array('Ponencia', 'Tipo', 'Hora', 'Cupo', 'Lugar', '');
+        $headers = array(__('Ponencia'), __('Tipo'), __('Hora'), __('Cupo'), __('Lugar'), '');
     }
 
     elseif (Action == 'eventsroom') {
-        $headers = array('Ponencia', 'Tipo', 'Fecha', 'Hora', 'Cupo', '');
+        $headers = array(__('Ponencia'), __('Tipo'), __('Fecha'), __('Hora'), __('Cupo'), '');
     }
 
     elseif ((Context == 'asistente' || Context == 'ponente') && Action == 'viewevents') {
-        $headers = array('Ponencia', 'Tipo', 'Hora', 'Lugar');
+        $headers = array(__('Ponencia'), __('Tipo'), __('Hora'), __('Lugar'));
     }
 
     // table headers
@@ -145,22 +141,22 @@ END;
         $time = sprintf('%02d:00 - %02d:50', $proposal->hora, $endhour);
 
         // availability
-        $disp = (empty($proposal->cupo)) ? '' : 'N de '.$proposal->cupo;
+        $disp = (empty($proposal->cupo)) ? '' : sprintf(__('%d de %d'), '0', $proposal->cupo);
 
         // friendly date
         $human_date = friendly_date($proposal->fecha);
 
         // attendes
         $url = get_url('admin/proposals/'.$proposal->id.'/persons');
-        $l_asistentes = "<a class=\"verde\" href=\"{$url}\">Asistentes</a>";
+        $l_asistentes = "<a class=\"verde\" href=\"{$url}\">" . __("Asistentes") . "</a>";
 
         // cancel
         $url = get_url('admin/events/'.$proposal->id_evento.'/cancel');
-        $l_cancel = "<a class=\"precaucion\" href=\"{$url}\">Cancelar</a>";
+        $l_cancel = "<a class=\"precaucion\" href=\"{$url}\">" . __("Cancelar") . "</a>";
 
         // reprogram
         $url = get_url('admin/events/'.$proposal->id_evento);
-        $l_edit = "<a class=\"verde\" href=\"{$url}\">Reprogramar</a>";
+        $l_edit = "<a class=\"verde\" href=\"{$url}\">" . __("Reprogramar") . "</a>";
 
         if (level_admin(2)) {
             // build menu
@@ -229,7 +225,7 @@ END;
 
 <div class="block"></div>
 
-<p class="error center">No se encontraron eventos registrados.</p>
+<p class="error center"><?=__('No se encontraron eventos registrados.') ?></p>
 
 <?php 
 }

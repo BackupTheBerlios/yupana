@@ -9,14 +9,14 @@ if (!empty($datas)) {
         $rs = update_record($catalog, $data);
 
         if (!$rs) {
-            $errmsg[] = 'Hubo un error al actualizar los datos.';
+            $errmsg[] = __('Hubo un error al actualizar los datos.');
         } else {
              $ok = true;
         }
     }
 
     if ($ok) {
-        $errmsg[] = 'Datos actualizados.';
+        $errmsg[] = __('Datos actualizados.');
     }
 }
 

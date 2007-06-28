@@ -241,8 +241,16 @@ function do_input_select ($name, $options, $selected=0, $unset=true, $unsetdesc=
     }
 }
 
-function do_input_yes_no($name, $selected=0, $yes_desc='Yes', $no_desc='No', $extra='') {
+function do_input_yes_no($name, $selected=0, $yes_desc='', $no_desc='', $extra='') {
     $options = array();
+
+    if (empty($yes_desc)) {
+        $yes_desc = __('Yes');
+    }
+
+    if (empty($no_desc)) {
+        $no_desc = __('No');
+    }
 
     $no = new StdClass;
     $no->id = 0;
@@ -333,13 +341,13 @@ function do_input_birth_select ($dayname, $monthname, $yearname, $dayselect=0, $
 function do_input_date_select($dayname, $monthname, $yearname, $dayselect=0, $monthselect=0, $yearselect=0, $startyear=1999, $endyear=1950, $startmonth=1, $endmonth=12, $startday=1, $endday=31) {
 
     //day select
-    do_input_number_select($dayname, $startday, $endday, $dayselect, true, 'Dia', 0, true);
+    do_input_number_select($dayname, $startday, $endday, $dayselect, true, __('Dia'), 0, true);
 
     //month select
-    do_input_number_select($monthname, $startmonth, $endmonth, $monthselect, true, 'Mes', 0, true, true);
+    do_input_number_select($monthname, $startmonth, $endmonth, $monthselect, true, __('Mes'), 0, true, true);
 
     //year select
-    do_input_number_select($yearname, $startyear, $endyear, $yearselect, true, 'Año', 0, true);
+    do_input_number_select($yearname, $startyear, $endyear, $yearselect, true, __('Año'), 0, true);
 }
 
 function do_submit_cancel($submit_value, $cancel_value, $url='', $name='submit') {
@@ -389,7 +397,7 @@ function show_error($errmsg, $error = true) {
     if ($error) {
 ?>
 
-    <p class="error">Por favor verifique lo siguiente:</p>
+    <p class="error"><?=__('Por favor verifique lo siguiente') ?>:</p>
     <ul class="error">
 
 <?php

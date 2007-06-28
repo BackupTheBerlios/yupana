@@ -16,7 +16,7 @@ $q= optional_param('q');
 // default index
 if (preg_match('#^person/?$#', $q)) {
     // default index
-    do_header('Menu asistentes');
+    do_header(__('Menu asistentes'));
     include($CFG->tpldir . 'person_menu.tmpl.php');
 }
 
@@ -29,7 +29,7 @@ if (preg_match('#^person/?$#', $q)) {
 elseif (preg_match('#^person/details$#', $q)) {
     define('Action', 'editdetails');
 
-    do_header('Modificar información personal');
+    do_header(__('Modificar información personal'));
     include($CFG->comdir . 'user_edit.php');
 }
 
@@ -42,21 +42,21 @@ elseif (preg_match('#^person/details$#', $q)) {
 elseif (preg_match('#^person/events/?$#', $q)) {
     define('Action', 'viewevents');
 
-    do_header('Programa preliminar');
+    do_header(__('Programa preliminar'));
 ?>
 
-<h1>Lista de eventos programados</h1>
+<h1><?=__('Lista de eventos programados') ?></h1>
 
 <?php
     include($CFG->admdir . 'event_list.php');
-    do_submit_cancel('', 'Regresar', $return_url);
+    do_submit_cancel('', __('Regresar'), $return_url);
 }
 
 // kardex events
 elseif (preg_match('#^person/kardex/?$#', $q)) {
     define('Action', 'userkardex');
 
-    do_header('Hoja de Registro');
+    do_header(__('Hoja de Registro'));
     include($CFG->comdir .'user_kardex.php');
 }
 
@@ -71,7 +71,7 @@ elseif (preg_match('#^person/proposals/\d+/?$#', $q)) {
         $return_url = get_url('person/events');
     }
 
-    do_header('Detalles de propuesta');
+    do_header(__('Detalles de propuesta'));
     include($CFG->comdir . 'prop_view.php');
 }
 
@@ -83,9 +83,9 @@ elseif (preg_match('#^person/proposals/\d+/files/\d+/.+$#', $q)) {
 
 // page not found
 else {
-    do_header('Página no encontrada');
+    do_header(__('Página no encontrada'));
     include($CFG->tpldir . 'error_404.tmpl.php');
-    do_submit_cancel('', 'Regresar');
+    do_submit_cancel('', __('Regresar'));
 }
 
 // footer is called in main index

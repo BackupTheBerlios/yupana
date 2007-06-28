@@ -17,21 +17,21 @@
     do_header();
 
     if ($type == 'R') {
-        $who = 'Administrador';
+        $who = __('Administrador');
     } elseif ($type == 'P') {
-        $who = 'Ponente';
+        $who = __('Ponente');
     } elseif ($type == 'A') {
-        $who = 'Asistente';
+        $who = __('Asistente');
     }
 ?>
 
-<h1>Salida de sesión <?=$who ?></h1>
+<h1><?=__('Salida de Sesión') ?> <?=$who ?></h1>
 
 <div class="block"></div>
 
-<p class="center">Ha salido exitosamente del sistema.</p>
+<p class="center"><?=__('Ha salido exitosamente del sistema.') ?></p>
 
 <?php
-    do_submit_cancel('', 'Regresar', get_url());
+    do_submit_cancel('', __('Regresar'), get_url());
     do_footer();
 ?>

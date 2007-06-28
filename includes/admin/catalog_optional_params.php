@@ -25,7 +25,7 @@ foreach ($records as $record) {
         $data->descr = $input;
 
         if (empty($data->descr)) {
-            $errmsg[] = 'No puedes dejar vacía ninguna descripción.';
+            $errmsg[] = __('No puedes dejar vacía ninguna descripción.');
         } else {
             $datas[] = $data;
         }
