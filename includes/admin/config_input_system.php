@@ -100,5 +100,26 @@ $input = do_get_output('do_input_select', array('auth', $options, $config->value
 
 $values[$desc] = $input;
 
+// language selection
+$desc = __('Lenguaje por defecto');
+$config = get_config('locale');
+
+$options = array();
+$langs = languages_available();
+
+foreach ($langs as $lang) {
+    $option = new StdClass;
+    $option->id = $lang;
+    $option->descr = $lang;
+
+    $options[] = $option;
+}
+
+$input = do_get_output('do_input_select', array('locale', $options, $config->value, true, 'es_BO', '', 'style=\'width:50px;\''));
+
+$values[$desc] = $input;
+
 //show table input
 do_table_values($values, 'narrow');
+
+?>

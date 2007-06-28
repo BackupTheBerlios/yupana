@@ -79,4 +79,18 @@ function load_default_textdomain() {
     load_textdomain('default', $mofile);
 }
 
+function languages_available() {
+    global $CFG;
+
+    $langs = array();
+    $lang_mos = $CFG->incdir . 'languages/*.mo';
+
+    foreach (glob($lang_mos) as $lang) {
+        preg_match('#languages/(.+)\.mo$#', $lang, $matches);
+        $langs[] = $matches[1];
+    }
+
+    return $langs;
+}
+
 ?>

@@ -20,7 +20,8 @@ $configs = array(
     'clean_url' => 'integer',
     'public_proposals' => 'integer',
     'public_schedule' => 'integer',
-    'auth' => 'string'
+    'auth' => 'string',
+    'locale' => 'string'
     );
 
 
