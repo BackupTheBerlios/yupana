@@ -387,12 +387,7 @@ $salida = strftime($formato,  $fecha);
 	    // reemplazo cuando es 1 de algun mes
 	    $salida = ereg_replace(" 01 de "," 1&deg; de ",$salida);
 	    return $salida;
-	    } // fin strftime_caste
-//--------------------------------
-function err ($errmsg) {
-  print "<p><span class=\"err\">Se han encontrado problemas : <i>$errmsg</i>.<p>Por favor conctacte al <a href=\"mailto:".$adminmail."?subject=Problema con Yacomas- $errmsg\">Administrador</a>.</span><p>";
-  exit;
-}
+} // fin strftime_caste
 
 function month2name ($id) {
     $result = $id;
@@ -414,20 +409,6 @@ function month2name ($id) {
     }
 
     return $result;
-}
-
-// DELETEME: BD conection moved to adodb
-function conectaBD()
-{
-    global $CFG;
-
-    if(!($link=mysql_pconnect($CFG->dbhost,$CFG->dbuser,$CFG->dbpass)))
-    {
-        print("No se puede hacer la conexion a la Base de Datos");
-        die();
-    } 
-    mysql_select_db($CFG->dbname) or die (mysql_error());
-
 }
 
 function beginSession($tipo) {
@@ -565,13 +546,6 @@ function user_auth_available () {
 //initial gettext code
 //compatibility code
 //gettext workaround
-//
-if (!function_exists('__')) {
-    function __($s) {
-        return $s;
-    }
-}
-
 if (!function_exists('__gettext')) {
     function __gettext($s) {
         return __($s);
