@@ -1,6 +1,8 @@
 <?php
 
 function get_info($where, $type='person', $limit='', $order='') {
+    global $CFG;
+
     $record = new StdClass;
 
     // hide deleted proposals to non admins
@@ -29,8 +31,8 @@ function get_info($where, $type='person', $limit='', $order='') {
     if ($type == 'admin') {
         $query = '
             SELECT ADM.*, T.descr AS tadmin, T.tareas
-            FROM administrador ADM
-            LEFT JOIN tadmin T ON ADM.id_tadmin = T.id
+            FROM '.$CFG->prefix.'administrador ADM
+            LEFT JOIN '.$CFG->prefix.'tadmin T ON ADM.id_tadmin = T.id
             WHERE ' . $where;
     }
 
@@ -38,9 +40,9 @@ function get_info($where, $type='person', $limit='', $order='') {
     elseif ($type == 'speaker') {
         $query = '
             SELECT SP.*, E.descr AS estudios, ST.descr AS estado
-            FROM ponente SP
-            LEFT JOIN estudios E ON SP.id_estudios = E.id
-            LEFT JOIN estado ST ON SP.id_estado = ST.id
+            FROM '.$CFG->prefix.'ponente SP
+            LEFT JOIN '.$CFG->prefix.'estudios E ON SP.id_estudios = E.id
+            LEFT JOIN '.$CFG->prefix.'estado ST ON SP.id_estado = ST.id
             WHERE ' . $where;
     }
 
@@ -49,10 +51,10 @@ function get_info($where, $type='person', $limit='', $order='') {
         $query = '
             SELECT P.*, E.descr AS estudios, ST.descr AS estado,
             T.descr AS tasistente
-            FROM asistente P
-            LEFT JOIN estudios E ON P.id_estudios = E.id
-            LEFT JOIN estado ST ON P.id_estado = ST.id
-            LEFT JOIN tasistente T ON P.id_tasistente = T.id
+            FROM '.$CFG->prefix.'asistente P
+            LEFT JOIN '.$CFG->prefix.'estudios E ON P.id_estudios = E.id
+            LEFT JOIN '.$CFG->prefix.'estado ST ON P.id_estado = ST.id
+            LEFT JOIN '.$CFG->prefix.'tasistente T ON P.id_tasistente = T.id
             WHERE ' . $where;
     }
 
@@ -64,13 +66,13 @@ function get_info($where, $type='person', $limit='', $order='') {
             T.descr AS tipo,
             ADM.mail AS adminmail, ADM.login AS adminlogin,
             O.descr AS orientacion, S.descr AS status
-            FROM propuesta P
-            LEFT JOIN prop_nivel L ON L.id = P.id_nivel
-            LEFT JOIN ponente SP ON SP.id = P.id_ponente
-            LEFT JOIN prop_tipo T ON T.id = P.id_prop_tipo
-            LEFT JOIN administrador ADM ON ADM.id = P.id_administrador
-            LEFT JOIN orientacion O ON O.id = P.id_orientacion
-            LEFT JOIN prop_status S ON S.id = P.id_status
+            FROM '.$CFG->prefix.'propuesta P
+            LEFT JOIN '.$CFG->prefix.'prop_nivel L ON L.id = P.id_nivel
+            LEFT JOIN '.$CFG->prefix.'ponente SP ON SP.id = P.id_ponente
+            LEFT JOIN '.$CFG->prefix.'prop_tipo T ON T.id = P.id_prop_tipo
+            LEFT JOIN '.$CFG->prefix.'administrador ADM ON ADM.id = P.id_administrador
+            LEFT JOIN '.$CFG->prefix.'orientacion O ON O.id = P.id_orientacion
+            LEFT JOIN '.$CFG->prefix.'prop_status S ON S.id = P.id_status
             WHERE ' . $where;
     }
 
@@ -81,14 +83,14 @@ function get_info($where, $type='person', $limit='', $order='') {
             L.cupo, L.nombre_lug AS lugar, L.ubicacion,
             FE.fecha, FE.descr AS date_desc,
             EO.hora, EO.id_evento
-            FROM evento E
-            LEFT JOIN propuesta P ON P.id = E.id_propuesta
-            LEFT JOIN ponente SP ON SP.id = P.id_ponente
-            LEFT JOIN prop_tipo PT ON PT.id = P.id_prop_tipo
-            LEFT JOIN orientacion O ON O.id = P.id_orientacion
-            LEFT JOIN evento_ocupa EO ON EO.id_evento = E.id
-            LEFT JOIN lugar L ON L.id = EO.id_lugar
-            LEFT JOIN fecha_evento FE ON FE.id = EO.id_fecha
+            FROM '.$CFG->prefix.'evento E
+            LEFT JOIN '.$CFG->prefix.'propuesta P ON P.id = E.id_propuesta
+            LEFT JOIN '.$CFG->prefix.'ponente SP ON SP.id = P.id_ponente
+            LEFT JOIN '.$CFG->prefix.'prop_tipo PT ON PT.id = P.id_prop_tipo
+            LEFT JOIN '.$CFG->prefix.'orientacion O ON O.id = P.id_orientacion
+            LEFT JOIN '.$CFG->prefix.'evento_ocupa EO ON EO.id_evento = E.id
+            LEFT JOIN '.$CFG->prefix.'lugar L ON L.id = EO.id_lugar
+            LEFT JOIN '.$CFG->prefix.'fecha_evento FE ON FE.id = EO.id_fecha
             WHERE ' . $where;
     }
 
@@ -100,10 +102,10 @@ function get_info($where, $type='person', $limit='', $order='') {
         if (!empty($records) && $type == 'proposal' && $records->id_status == 8) {
             $query = '
                 SELECT FE.fecha, R.nombre_lug AS lugar, EO.hora
-                FROM evento E
-                LEFT JOIN evento_ocupa EO ON EO.id_evento = E.id
-                LEFT JOIN lugar R ON R.id = EO.id_lugar
-                LEFT JOIN fecha_evento FE ON FE.id = EO.id_fecha
+                FROM '.$CFG->prefix.'evento E
+                LEFT JOIN '.$CFG->prefix.'evento_ocupa EO ON EO.id_evento = E.id
+                LEFT JOIN '.$CFG->prefix.'lugar R ON R.id = EO.id_lugar
+                LEFT JOIN '.$CFG->prefix.'fecha_evento FE ON FE.id = EO.id_fecha
                 WHERE E.id_propuesta=' . $records->id . ' GROUP BY EO.id_evento';
 
             $event = get_record_sql($query);
@@ -284,12 +286,14 @@ function level_admin($tadmin) {
 }
 
 function events_for($user_type, $user_id) {
+    global $CFG;
+
     $result = 0;
 
     if ($user_type == 'speaker') {
-        $query = 'SELECT COUNT(E.id) FROM evento E
-                JOIN propuesta P ON P.id = E.id_propuesta
-                JOIN ponente SP ON SP.id = P.id_ponente
+        $query = 'SELECT COUNT(E.id) FROM '.$CFG->prefix.'evento E
+                JOIN '.$CFG->prefix.'propuesta P ON P.id = E.id_propuesta
+                JOIN '.$CFG->prefix.'ponente SP ON SP.id = P.id_ponente
                 WHERE SP.id = '.$user_id;
         
         $result = count_records_sql($query);

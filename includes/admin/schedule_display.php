@@ -2,9 +2,9 @@
 // FIXME: ugly code
 
 //select tracks with programmed events
-$query = 'SELECT O.* FROM orientacion O
-        JOIN propuesta P ON P.id_orientacion = O.id
-        JOIN evento E ON E.id_propuesta = P.id';
+$query = 'SELECT O.* FROM '.$CFG->prefix.'orientacion O
+        JOIN '.$CFG->prefix.'propuesta P ON P.id_orientacion = O.id
+        JOIN '.$CFG->prefix.'evento E ON E.id_propuesta = P.id';
 
 $tracks = get_records_sql($query);
 

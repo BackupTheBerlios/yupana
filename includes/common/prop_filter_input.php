@@ -11,7 +11,9 @@ if (Context == 'admin' && Action != 'listdeletedproposals') {
     $prop_select = '';
 }
 
-$prop_type = get_records_sql('SELECT PT.* FROM prop_tipo PT JOIN propuesta P ON P.id_prop_tipo=PT.id WHERE PT.id <= 100'.$prop_select);
+$prop_type = get_records_sql('SELECT PT.* FROM '.$CFG->prefix.'prop_tipo PT
+                    JOIN '.$CFG->prefix.'propuesta P ON P.id_prop_tipo=PT.id
+                    WHERE PT.id <= 100'.$prop_select);
 
 // dont show deleted status
 if (Context == 'admin' && Action != 'listdeletedproposals') {
@@ -24,7 +26,9 @@ if (Context == 'admin' && Action != 'listdeletedproposals') {
 }
 
 //$status = get_records_select('prop_status', $select);
-$status = get_records_sql('SELECT S.* FROM prop_status S JOIN propuesta P ON P.id_status=S.id WHERE '.$status_select.' ORDER BY S.id');
+$status = get_records_sql('SELECT S.* FROM '.$CFG->prefix.'prop_status S
+                    JOIN '.$CFG->prefix.'propuesta P ON P.id_status=S.id
+                    WHERE '.$status_select.' ORDER BY S.id');
 
 $prop_type_input = do_get_output('do_input_select', array('filter_id_prop_tipo', $prop_type, $id_prop_tipo, true, '', 0, $onChange));
 
@@ -33,7 +37,8 @@ $status_input = do_get_output('do_input_select', array('filter_id_status', $stat
 $table_data = array();
 
 if (Context == 'admin') {
-    $admins = get_records_sql('SELECT ADM.id, ADM.login as descr FROM administrador ADM JOIN propuesta P ON P.id_administrador = ADM.id');
+    $admins = get_records_sql('SELECT ADM.id, ADM.login as descr FROM '.$CFG->prefix.'administrador ADM
+                            JOIN '.$CFG->prefix.'propuesta P ON P.id_administrador = ADM.id');
 
     $none = new StdClass;
     $none->id = -1;
@@ -59,7 +64,9 @@ if (Context == 'admin') {
     }
 
     elseif (Action == 'listdeletedproposals') {
-        $speakers = get_records_sql('SELECT SP.id, SP.login AS descr FROM ponente SP JOIN propuesta P ON P.id_ponente = SP.id WHERE P.id_status=7');
+        $speakers = get_records_sql('SELECT SP.id, SP.login AS descr FROM '.$CFG->prefix.'ponente SP
+                            JOIN '.$CFG->prefix.'propuesta P ON P.id_ponente = SP.id
+                            WHERE P.id_status=7');
 
         $speakers_input = do_get_output('do_input_select', array('filter_id_ponente', $speakers, $id_ponente, true, '', 0, $onChange));
 
@@ -69,10 +76,14 @@ if (Context == 'admin') {
 
     elseif (Action == 'scheduleevent' || Action == 'addschedule') {
         // acepted proposals
-        $prop_type = get_records_sql('SELECT PT.* FROM prop_tipo PT JOIN propuesta P ON P.id_prop_tipo=PT.id WHERE P.id_status=5');
+        $prop_type = get_records_sql('SELECT PT.* FROM '.$CFG->prefix.'prop_tipo PT
+                                JOIN '.$CFG->prefix.'propuesta P ON P.id_prop_tipo=PT.id
+                                WHERE P.id_status=5');
         $prop_type_input = do_get_output('do_input_select', array('filter_id_prop_tipo', $prop_type, $id_prop_tipo, true, '', 0, $onChange));
 
-        $track = get_records_sql('SELECT O.* FROM orientacion O JOIN propuesta P ON P.id_orientacion=O.id WHERE P.id_status=5');
+        $track = get_records_sql('SELECT O.* FROM '.$CFG->prefix.'orientacion O
+                            JOIN '.$CFG->prefix.'propuesta P ON P.id_orientacion=O.id
+                            WHERE P.id_status=5');
         $track_input = do_get_output('do_input_select', array('filter_id_orientacion', $track, $id_orientacion, true, '', 0, $onChange));
 
         $table_data[] = array('', 'Tipo:', 'Orientación:');
@@ -83,7 +94,8 @@ if (Context == 'admin') {
 else {
     // get all tracks
     //$tracks = get_records('orientacion');
-    $tracks = get_records_sql('SELECT O.* FROM orientacion O JOIN propuesta P ON P.id_orientacion=O.id');
+    $tracks = get_records_sql('SELECT O.* FROM '.$CFG->prefix.'orientacion O
+                        JOIN '.$CFG->prefix.'propuesta P ON P.id_orientacion=O.id');
 
     $tracks_input = do_get_output('do_input_select', array('filter_id_orientacion', $tracks, $id_orientacion, true, '', 0, $onChange));
 

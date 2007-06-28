@@ -35,7 +35,7 @@ if (!empty($date)) {
     } else {
         // delete!
         // first update references
-        $events = get_records_sql('SELECT id_evento FROM evento_ocupa WHERE id_fecha='. $date->id .' GROUP BY id_evento');
+        $events = get_records_sql('SELECT id_evento FROM '.$CFG->prefix.'evento_ocupa WHERE id_fecha='. $date->id .' GROUP BY id_evento');
 
         if (!empty($events)) {
             // delete events-dates

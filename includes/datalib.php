@@ -1344,7 +1344,7 @@ function update_record($table, $dataobject) {
         }
     }
 
-    $stmt = $db->Prepare('UPDATE '. $table .' SET '. $update .' WHERE id = \''. $dataobject->id .'\'');
+    $stmt = $db->Prepare('UPDATE '. $CFG->prefix . $table .' SET '. $update .' WHERE id = \''. $dataobject->id .'\'');
     if ($rs = $db->Execute($stmt,$ddd)) {
         return true;
     } else {

@@ -7,38 +7,36 @@ SET CHARSET 'utf8';
 -- Table structure for table `datalists`
 --
 
-DROP TABLE IF EXISTS `datalists`;
-CREATE TABLE `datalists` (
+CREATE TABLE `prefix_datalists` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `name` varchar(32) NOT NULL,
   `value` text NOT NULL,
   PRIMARY KEY  (`id`,`name`)
 );
 
-INSERT INTO `datalists`(`name`,`value`) VALUES ('conference_name', 'My conference');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('conference_link', 'http://www.my-conference.org');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('adminmail', 'admin@my-conference.org');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('general_mail', 'noreply@my-conference.org');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('limite', '100');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('def_hora_ini', '8');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('def_hora_fin', '22');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('max_inscripcionTA', '2');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('max_inscripcionTU', '3');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('send_mail', '0');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('smtp', '');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('wwwroot', '');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('unique_mail', '0');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('clean_url', '0');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('public_proposals', '1');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('public_schedule', '1');
-INSERT INTO `datalists`(`name`,`value`) VALUES ('auth', '');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('conference_name', 'My conference');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('conference_link', 'http://www.my-conference.org');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('adminmail', 'admin@my-conference.org');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('general_mail', 'noreply@my-conference.org');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('limite', '100');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('def_hora_ini', '8');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('def_hora_fin', '22');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('max_inscripcionTA', '2');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('max_inscripcionTU', '3');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('send_mail', '0');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('smtp', '');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('wwwroot', '');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('unique_mail', '0');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('clean_url', '0');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('public_proposals', '1');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('public_schedule', '1');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('auth', '');
 
 --
 -- Table structure for table `administrador`
 --
 
-DROP TABLE IF EXISTS `administrador`;
-CREATE TABLE `administrador` (
+CREATE TABLE `prefix_administrador` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `login` varchar(15) NOT NULL default '',
   `passwd` varchar(32) NOT NULL default '',
@@ -52,14 +50,13 @@ CREATE TABLE `administrador` (
 -- Default user:   admin
 -- Default passwd: admin
 
-INSERT INTO `administrador`(`login`,`passwd`,`nombrep`,`apellidos`,`mail`,`id_tadmin`) VALUES ('admin',md5('admin'),'Administrador','Principal','admin@softwarelibre.org.bo',1);
+INSERT INTO `prefix_administrador`(`login`,`passwd`,`nombrep`,`apellidos`,`mail`,`id_tadmin`) VALUES ('admin',md5('admin'),'Administrador','Principal','admin@softwarelibre.org.bo',1);
 
 --
 -- Table structure for table `asistente`
 --
 
-DROP TABLE IF EXISTS `asistente`;
-CREATE TABLE `asistente` (
+CREATE TABLE `prefix_asistente` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `login` varchar(15) NOT NULL default '',
   `passwd` varchar(32) NOT NULL default '',
@@ -83,8 +80,7 @@ CREATE TABLE `asistente` (
 -- Table structure for table `config`
 --
 
-DROP TABLE IF EXISTS `config`;
-CREATE TABLE `config` (
+CREATE TABLE `prefix_config` (
   `id` int(11) NOT NULL auto_increment,
   `descr` varchar(100) default NULL,
   `status` tinyint(4) NOT NULL default '0',
@@ -94,56 +90,53 @@ CREATE TABLE `config` (
 -- All open by default 
 -- 1 Open 0 Close 
 
-INSERT INTO `config`(`descr`,`status`) VALUES ('Registro ponentes',1);
-INSERT INTO `config`(`descr`,`status`) VALUES ('Registro asistentes',1);
-INSERT INTO `config`(`descr`,`status`) VALUES ('Registro ponencias',1);
-INSERT INTO `config`(`descr`,`status`) VALUES ('Inscripción Talleres',1);
+INSERT INTO `prefix_config`(`descr`,`status`) VALUES ('Registro ponentes',1);
+INSERT INTO `prefix_config`(`descr`,`status`) VALUES ('Registro asistentes',1);
+INSERT INTO `prefix_config`(`descr`,`status`) VALUES ('Registro ponencias',1);
+INSERT INTO `prefix_config`(`descr`,`status`) VALUES ('Inscripción Talleres',1);
 
 --
 -- Table structure for table `estado`
 --
 
-DROP TABLE IF EXISTS `estado`;
-CREATE TABLE `estado` (
+CREATE TABLE `prefix_estado` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `descr` varchar(100) default NULL,
   PRIMARY KEY  (`id`)
 );
 
-INSERT INTO `estado`(`descr`) VALUES ('Beni');
-INSERT INTO `estado`(`descr`) VALUES ('Chuquisaca');
-INSERT INTO `estado`(`descr`) VALUES ('Cochabamba');
-INSERT INTO `estado`(`descr`) VALUES ('La Paz');
-INSERT INTO `estado`(`descr`) VALUES ('Oruro');
-INSERT INTO `estado`(`descr`) VALUES ('Pando');
-INSERT INTO `estado`(`descr`) VALUES ('Potosi');
-INSERT INTO `estado`(`descr`) VALUES ('Santa Cruz');
-INSERT INTO `estado`(`descr`) VALUES ('Tarija');
+INSERT INTO `prefix_estado`(`descr`) VALUES ('Beni');
+INSERT INTO `prefix_estado`(`descr`) VALUES ('Chuquisaca');
+INSERT INTO `prefix_estado`(`descr`) VALUES ('Cochabamba');
+INSERT INTO `prefix_estado`(`descr`) VALUES ('La Paz');
+INSERT INTO `prefix_estado`(`descr`) VALUES ('Oruro');
+INSERT INTO `prefix_estado`(`descr`) VALUES ('Pando');
+INSERT INTO `prefix_estado`(`descr`) VALUES ('Potosi');
+INSERT INTO `prefix_estado`(`descr`) VALUES ('Santa Cruz');
+INSERT INTO `prefix_estado`(`descr`) VALUES ('Tarija');
 
 --
 -- Table structure for table `estudios`
 --
 
-DROP TABLE IF EXISTS `estudios`;
-CREATE TABLE `estudios` (
+CREATE TABLE `prefix_estudios` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `descr` varchar(100) default NULL,
   PRIMARY KEY  (`id`)
 );
 
-INSERT INTO `estudios`(`descr`) VALUES ('Ninguno');
-INSERT INTO `estudios`(`descr`) VALUES ('Técnico');
-INSERT INTO `estudios`(`descr`) VALUES ('Licenciatura');
-INSERT INTO `estudios`(`descr`) VALUES ('Maestría');
-INSERT INTO `estudios`(`descr`) VALUES ('Doctorado');
-INSERT INTO `estudios`(`descr`) VALUES ('Otro');
+INSERT INTO `prefix_estudios`(`descr`) VALUES ('Ninguno');
+INSERT INTO `prefix_estudios`(`descr`) VALUES ('Técnico');
+INSERT INTO `prefix_estudios`(`descr`) VALUES ('Licenciatura');
+INSERT INTO `prefix_estudios`(`descr`) VALUES ('Maestría');
+INSERT INTO `prefix_estudios`(`descr`) VALUES ('Doctorado');
+INSERT INTO `prefix_estudios`(`descr`) VALUES ('Otro');
 
 --
 -- Table structure for table `evento`
 --
 
-DROP TABLE IF EXISTS `evento`;
-CREATE TABLE `evento` (
+CREATE TABLE `prefix_evento` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `id_propuesta` int(10) unsigned NOT NULL default '0',
   `id_administrador` int(10) unsigned NOT NULL default '0',
@@ -156,8 +149,7 @@ CREATE TABLE `evento` (
 -- Table structure for table `evento_ocupa`
 --
 
-DROP TABLE IF EXISTS `evento_ocupa`;
-CREATE TABLE `evento_ocupa` (
+CREATE TABLE `prefix_evento_ocupa` (
   `id_evento` tinyint(4) NOT NULL default '0',
   `hora` tinyint(4) NOT NULL default '0',
   `id_fecha` int(11) NOT NULL default '0',
@@ -169,8 +161,7 @@ CREATE TABLE `evento_ocupa` (
 -- Table structure for table `extauth_hash`
 --
 
-DROP TABLE IF EXISTS `extauth_hash`;
-CREATE TABLE `extauth_hash` (
+CREATE TABLE `prefix_extauth_hash` (
   `id` int(11) NOT NULL auto_increment,
   `login` varchar(15) NOT NULL default '',
   `hash` varchar(32) NOT NULL default '',
@@ -182,8 +173,7 @@ CREATE TABLE `extauth_hash` (
 -- Table structure for table `fecha_evento`
 --
 
-DROP TABLE IF EXISTS `fecha_evento`;
-CREATE TABLE `fecha_evento` (
+CREATE TABLE `prefix_fecha_evento` (
   `id` int(11) NOT NULL auto_increment,
   `fecha` date default NULL,
   `descr` varchar(50) default NULL,
@@ -194,8 +184,7 @@ CREATE TABLE `fecha_evento` (
 -- Table structure for table `inscribe`
 --
 
-DROP TABLE IF EXISTS `inscribe`;
-CREATE TABLE `inscribe` (
+CREATE TABLE `prefix_inscribe` (
   `id_asistente` int(10) unsigned NOT NULL default '0',
   `id_evento` int(10) unsigned NOT NULL default '0',
   `reg_time` datetime NOT NULL default '0000-00-00 00:00:00',
@@ -207,8 +196,7 @@ CREATE TABLE `inscribe` (
 -- Table structure for table `lugar`
 --
 
-DROP TABLE IF EXISTS `lugar`;
-CREATE TABLE `lugar` (
+CREATE TABLE `prefix_lugar` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `cupo` int(11) NOT NULL default '99999',
   `nombre_lug` varchar(100) NOT NULL default '',
@@ -220,27 +208,25 @@ CREATE TABLE `lugar` (
 -- Table structure for table `orientacion`
 --
 
-DROP TABLE IF EXISTS `orientacion`;
-CREATE TABLE `orientacion` (
+CREATE TABLE `prefix_orientacion` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `descr` varchar(100) default NULL,
   PRIMARY KEY  (`id`)
 );
 
-INSERT INTO `orientacion`(`descr`) VALUES ('Desarrollo de Software');
-INSERT INTO `orientacion`(`descr`) VALUES ('Seguridad y Redes');
-INSERT INTO `orientacion`(`descr`) VALUES ('Aplicaciones');
-INSERT INTO `orientacion`(`descr`) VALUES ('Principiantes');
-INSERT INTO `orientacion`(`descr`) VALUES ('Negocios y Linux');
-INSERT INTO `orientacion`(`descr`) VALUES ('Educación');
-INSERT INTO `orientacion`(`descr`) VALUES ('Otro');
+INSERT INTO `prefix_orientacion`(`descr`) VALUES ('Desarrollo de Software');
+INSERT INTO `prefix_orientacion`(`descr`) VALUES ('Seguridad y Redes');
+INSERT INTO `prefix_orientacion`(`descr`) VALUES ('Aplicaciones');
+INSERT INTO `prefix_orientacion`(`descr`) VALUES ('Principiantes');
+INSERT INTO `prefix_orientacion`(`descr`) VALUES ('Negocios y Linux');
+INSERT INTO `prefix_orientacion`(`descr`) VALUES ('Educación');
+INSERT INTO `prefix_orientacion`(`descr`) VALUES ('Otro');
 
 --
 -- Table structure for table `ponente`
 --
 
-DROP TABLE IF EXISTS `ponente`;
-CREATE TABLE `ponente` (
+CREATE TABLE `prefix_ponente` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `login` varchar(15) NOT NULL default '',
   `passwd` varchar(32) NOT NULL default '',
@@ -266,8 +252,7 @@ CREATE TABLE `ponente` (
 -- Table structure for table `prop_comments`
 --
 
-DROP TABLE IF EXISTS `prop_comments`;
-CREATE TABLE `prop_comments` (
+CREATE TABLE `prefix_prop_comments` (
   `id` int(11) NOT NULL auto_increment,
   `id_propuesta` int(11) NOT NULL default '0',
   `login` varchar(15) NOT NULL,
@@ -282,8 +267,7 @@ CREATE TABLE `prop_comments` (
 -- Table structure for table `prop_files`
 --
 
-DROP TABLE IF EXISTS `prop_files`;
-CREATE TABLE `prop_files` (
+CREATE TABLE `prefix_prop_files` (
   `id` int(11) NOT NULL auto_increment,
   `id_propuesta` int(11) NOT NULL default '0',
   `name` varchar(255) NOT NULL,
@@ -301,8 +285,7 @@ CREATE TABLE `prop_files` (
 -- Table structure for table `prop_nivel`
 --
 
-DROP TABLE IF EXISTS `prop_nivel`;
-CREATE TABLE `prop_nivel` (
+CREATE TABLE `prefix_prop_nivel` (
   `id` int(11) NOT NULL auto_increment,
   `descr` varchar(100) default NULL,
   PRIMARY KEY  (`id`)
@@ -310,54 +293,51 @@ CREATE TABLE `prop_nivel` (
 
 -- Modify or add options as you need
 
-INSERT INTO `prop_nivel`(`descr`) VALUES ('Básico');
-INSERT INTO `prop_nivel`(`descr`) VALUES ('Intermedio');
-INSERT INTO `prop_nivel`(`descr`) VALUES ('Avanzado');
+INSERT INTO `prefix_prop_nivel`(`descr`) VALUES ('Básico');
+INSERT INTO `prefix_prop_nivel`(`descr`) VALUES ('Intermedio');
+INSERT INTO `prefix_prop_nivel`(`descr`) VALUES ('Avanzado');
 
 --
 -- Table structure for table `prop_status`
 --
 
-DROP TABLE IF EXISTS `prop_status`;
-CREATE TABLE `prop_status` (
+CREATE TABLE `prefix_prop_status` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `descr` varchar(100) default NULL,
   PRIMARY KEY  (`id`)
 );
 
-INSERT INTO `prop_status`(`descr`) VALUES ('Nueva');
-INSERT INTO `prop_status`(`descr`) VALUES ('Detalles Requeridos');
-INSERT INTO `prop_status`(`descr`) VALUES ('Rechazada');
-INSERT INTO `prop_status`(`descr`) VALUES ('Por Aceptar');
-INSERT INTO `prop_status`(`descr`) VALUES ('Aceptada');
-INSERT INTO `prop_status`(`descr`) VALUES ('Cancelada');
-INSERT INTO `prop_status`(`descr`) VALUES ('Eliminada');
-INSERT INTO `prop_status`(`descr`) VALUES ('Programada');
+INSERT INTO `prefix_prop_status`(`descr`) VALUES ('Nueva');
+INSERT INTO `prefix_prop_status`(`descr`) VALUES ('Detalles Requeridos');
+INSERT INTO `prefix_prop_status`(`descr`) VALUES ('Rechazada');
+INSERT INTO `prefix_prop_status`(`descr`) VALUES ('Por Aceptar');
+INSERT INTO `prefix_prop_status`(`descr`) VALUES ('Aceptada');
+INSERT INTO `prefix_prop_status`(`descr`) VALUES ('Cancelada');
+INSERT INTO `prefix_prop_status`(`descr`) VALUES ('Eliminada');
+INSERT INTO `prefix_prop_status`(`descr`) VALUES ('Programada');
 
 --
 -- Table structure for table `prop_tipo`
 --
 
-DROP TABLE IF EXISTS `prop_tipo`;
-CREATE TABLE `prop_tipo` (
+CREATE TABLE `prefix_prop_tipo` (
   `id` int(10) unsigned NOT NULL default '0',
   `descr` varchar(100) NOT NULL default '',
   PRIMARY KEY  (`id`)
 );
 
-INSERT INTO `prop_tipo` VALUES (1, 'Conferencia');
-INSERT INTO `prop_tipo` VALUES (50, 'Taller');
-INSERT INTO `prop_tipo` VALUES (51, 'Tutorial');
-INSERT INTO `prop_tipo` VALUES (100, 'Conferencia Magistral');
-INSERT INTO `prop_tipo` VALUES (101, 'Evento Organización');
-INSERT INTO `prop_tipo` VALUES (2, 'Plática Informal');
+INSERT INTO `prefix_prop_tipo` VALUES (1, 'Conferencia');
+INSERT INTO `prefix_prop_tipo` VALUES (50, 'Taller');
+INSERT INTO `prefix_prop_tipo` VALUES (51, 'Tutorial');
+INSERT INTO `prefix_prop_tipo` VALUES (100, 'Conferencia Magistral');
+INSERT INTO `prefix_prop_tipo` VALUES (101, 'Evento Organización');
+INSERT INTO `prefix_prop_tipo` VALUES (2, 'Plática Informal');
 
 --
 -- Table structure for table `propuesta`
 --
 
-DROP TABLE IF EXISTS `propuesta`;
-CREATE TABLE `propuesta` (
+CREATE TABLE `prefix_propuesta` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `nombre` varchar(150) NOT NULL default '',
   `id_nivel` int(10) NOT NULL default '0',
@@ -382,32 +362,30 @@ CREATE TABLE `propuesta` (
 -- Table structure for table `tadmin`
 --
 
-DROP TABLE IF EXISTS `tadmin`;
-CREATE TABLE `tadmin` (
+CREATE TABLE `prefix_tadmin` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `descr` varchar(100) default NULL,
   `tareas` varchar(100) default NULL,
   PRIMARY KEY  (`id`)
 );
 
-INSERT INTO `tadmin`(`descr`) VALUES ('Total');
-INSERT INTO `tadmin`(`descr`) VALUES ('Parcial');
-INSERT INTO `tadmin`(`descr`) VALUES ('Evaluador');
+INSERT INTO `prefix_tadmin`(`descr`) VALUES ('Total');
+INSERT INTO `prefix_tadmin`(`descr`) VALUES ('Parcial');
+INSERT INTO `prefix_tadmin`(`descr`) VALUES ('Evaluador');
 
 --
 -- Table structure for table `tasistente`
 --
 
-DROP TABLE IF EXISTS `tasistente`;
-CREATE TABLE `tasistente` (
+CREATE TABLE `prefix_tasistente` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `descr` varchar(100) default NULL,
   PRIMARY KEY  (`id`)
 );
 
-INSERT INTO `tasistente` VALUES (1,'Estudiante');
-INSERT INTO `tasistente` VALUES (101,'Voluntario');
-INSERT INTO `tasistente` VALUES (102,'Organizador');
-INSERT INTO `tasistente` VALUES (2,'Académico');
-INSERT INTO `tasistente` VALUES (3,'Empresa');
-INSERT INTO `tasistente` VALUES (4,'Otro');
+INSERT INTO `prefix_tasistente` VALUES (1,'Estudiante');
+INSERT INTO `prefix_tasistente` VALUES (101,'Voluntario');
+INSERT INTO `prefix_tasistente` VALUES (102,'Organizador');
+INSERT INTO `prefix_tasistente` VALUES (2,'Académico');
+INSERT INTO `prefix_tasistente` VALUES (3,'Empresa');
+INSERT INTO `prefix_tasistente` VALUES (4,'Otro');

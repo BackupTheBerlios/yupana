@@ -3,7 +3,8 @@
 //$state = get_records('estado');
 $onChange = 'onChange=\'form.submit()\'';
 
-$state = get_records_sql('SELECT D.* FROM estado D JOIN ponente SP ON SP.id_estado=D.id');
+$state = get_records_sql('SELECT D.* FROM '.$CFG->prefix.'estado D
+                       JOIN '.$CFG->prefix.'ponente SP ON SP.id_estado=D.id');
 
 $state_input = do_get_output('do_input_select', array('filter_id_estado', $state, $id_estado, true, '', 0, $onChange));
 
@@ -14,7 +15,8 @@ $table_data = array();
 
 if (Action == 'controlpersons') {
     // person type
-    $person_type = get_records_sql('SELECT TA.* FROM tasistente TA JOIN asistente A ON A.id_tasistente = TA.id');
+    $person_type = get_records_sql('SELECT TA.* FROM '.$CFG->prefix.'tasistente TA
+                                JOIN '.$CFG->prefix.'asistente A ON A.id_tasistente = TA.id');
     $person_type_input = do_get_output('do_input_select', array('filter_id_tasistente', $person_type, $id_tasistente, true, '', 0, $onChange));
 
     $table_data[] = array('', 'Apellidos:', 'Departamento:', 'Tipo de asistente:');
@@ -22,7 +24,8 @@ if (Action == 'controlpersons') {
 } else {
 
      //$education = get_records('estudios');
-    $education = get_records_sql('SELECT ST.* FROM estudios ST JOIN ponente SP ON SP.id_estudios=ST.id');
+    $education = get_records_sql('SELECT ST.* FROM '.$CFG->prefix.'estudios ST
+                            JOIN '.$CFG->prefix.'ponente SP ON SP.id_estudios=ST.id');
 
     $education_input = do_get_output('do_input_select', array('filter_id_estudios', $education, $id_estudios, true, '', 0, $onChange));
 

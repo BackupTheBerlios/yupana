@@ -26,16 +26,16 @@ $query ='SELECT  AI.reg_time,
             P.duracion, 
             PT.descr AS prop_tipo,
             L.nombre_lug 
-        FROM    fecha_evento AS F, 
-            ponente AS PO, 
-            lugar AS L, 
-            orientacion AS O, 
-            inscribe AS AI, 
-            evento AS E, 
-            propuesta AS P, 
-            evento_ocupa AS EO, 
-            prop_tipo AS PT,
-            prop_nivel AS N  
+        FROM '.$CFG->prefix.'fecha_evento AS F, 
+            '.$CFG->prefix.'ponente AS PO, 
+            '.$CFG->prefix.'lugar AS L, 
+            '.$CFG->prefix.'orientacion AS O, 
+            '.$CFG->prefix.'inscribe AS AI, 
+            '.$CFG->prefix.'evento AS E, 
+            '.$CFG->prefix.'propuesta AS P, 
+            '.$CFG->prefix.'evento_ocupa AS EO, 
+            '.$CFG->prefix.'prop_tipo AS PT,
+            '.$CFG->prefix.'prop_nivel AS N  
         WHERE   EO.id_fecha=F.id AND 
             AI.id_evento=E.id AND 
             E.id_propuesta=P.id AND 

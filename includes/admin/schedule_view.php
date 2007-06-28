@@ -33,14 +33,14 @@ if (Context == 'admin') {
 } else {
     // only show dates and rooms with programmed events 
     // dates
-    $query = 'SELECT FE.* FROM fecha_evento FE
-            JOIN evento_ocupa EO ON EO.id_fecha = FE.id ORDER BY FE.fecha';
+    $query = 'SELECT FE.* FROM '.$CFG->prefix.'fecha_evento FE
+            JOIN '.$CFG->prefix.'evento_ocupa EO ON EO.id_fecha = FE.id ORDER BY FE.fecha';
 
     $dates = get_records_sql($query);
 
     // rooms
-    $query = 'SELECT L.* FROM lugar L 
-            JOIN evento_ocupa EO ON EO.id_lugar = L.id ORDER BY L.id';
+    $query = 'SELECT L.* FROM '.$CFG->prefix.'lugar L 
+            JOIN '.$CFG->prefix.'evento_ocupa EO ON EO.id_lugar = L.id ORDER BY L.id';
 
     $rooms = get_records_sql($query);
 }
@@ -66,11 +66,11 @@ if (!empty($events)) {
         P.duracion,
         P.id_orientacion, SP.nombrep, SP.apellidos,
         E.id AS id_evento
-        FROM propuesta P 
-        LEFT JOIN ponente SP ON SP.id = P.id_ponente
-        LEFT JOIN prop_tipo PT ON PT.id = P.id_prop_tipo
-        LEFT JOIN evento E ON E.id_propuesta = P.id
-        LEFT JOIN evento_ocupa EO ON EO.id_evento = E.id
+        FROM '.$CFG->prefix.'propuesta P 
+        LEFT JOIN '.$CFG->prefix.'ponente SP ON SP.id = P.id_ponente
+        LEFT JOIN '.$CFG->prefix.'prop_tipo PT ON PT.id = P.id_prop_tipo
+        LEFT JOIN '.$CFG->prefix.'evento E ON E.id_propuesta = P.id
+        LEFT JOIN '.$CFG->prefix.'evento_ocupa EO ON EO.id_evento = E.id
         WHERE   EO.id_fecha = ? 
             AND EO.id_lugar = ?
             AND EO.hora = ?';

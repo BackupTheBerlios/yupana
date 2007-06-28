@@ -50,7 +50,7 @@ END;
 $extra = 'style=\'width:110px;\'';
 $default_date = '';
 
-$dates = get_records_sql('SELECT id, fecha AS descr FROM fecha_evento ORDER BY descr');
+$dates = get_records_sql('SELECT id, fecha AS descr FROM '.$CFG->prefix.'fecha_evento ORDER BY descr');
 
 //organizational events can assign to all dates
 if (Action == 'newevent' || $proposal->id_prop_tipo > 100) {
@@ -77,7 +77,7 @@ if ($proposal->id_prop_tipo < 50 || $proposal->id_prop_tipo >= 100) {
     $where = 'cupo<>0';
 }
 
-$rooms = get_records_sql('SELECT id, nombre_lug AS descr FROM lugar WHERE '.$where.' ORDER BY nombre_lug');
+$rooms = get_records_sql('SELECT id, nombre_lug AS descr FROM '.$CFG->prefix.'lugar WHERE '.$where.' ORDER BY nombre_lug');
 
 $default_lugar = '';
 //organizational events can assign to no room

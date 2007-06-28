@@ -35,7 +35,7 @@ else { // want to update the page
         } else {
             
             // get date/hour/room
-            $event_place = get_record_sql('SELECT * FROM evento_ocupa WHERE id_evento='.$event->id.' GROUP BY id_evento');
+            $event_place = get_record_sql('SELECT * FROM '.$CFG->prefix.'evento_ocupa WHERE id_evento='.$event->id.' GROUP BY id_evento');
 
             $event->id_fecha = (int)$event_place->id_fecha;
             $event->id_lugar = (int)$event_place->id_lugar;

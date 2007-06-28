@@ -55,8 +55,8 @@
             if (!empty($extraordinario) && !empty($event->id_fecha) && !empty($event->id_lugar)) {
                 // main event, reserves needs all rooms at it's hour
                 // look for events ocurrences in all rooms at same date and hour
-                $query = 'SELECT EO.id_evento FROM evento_ocupa EO
-                        LEFT JOIN lugar L ON L.id = EO.id_lugar
+                $query = 'SELECT EO.id_evento FROM '.$CFG->prefix.'evento_ocupa EO
+                        LEFT JOIN '.$CFG->prefix.'lugar L ON L.id = EO.id_lugar
                         WHERE EO.hora = ? AND EO.id_fecha ='.$event->id_fecha.' AND EO.id_evento<>'.$event_id;
 
                 // check for availability
@@ -71,8 +71,8 @@
                         if (Action == 'newevent' || Action == 'scheduleevent' || $event->id != $testevent->id_evento) {
 
                             // get conflict proposals details
-                            $query = 'SELECT P.id, P.nombre FROM propuesta P
-                                JOIN evento E ON E.id='.$testevent->id_evento.'
+                            $query = 'SELECT P.id, P.nombre FROM '.$CFG->prefix.'propuesta P
+                                JOIN '.$CFG->prefix.'evento E ON E.id='.$testevent->id_evento.'
                                 WHERE P.id=E.id_propuesta GROUP BY E.id';
 
                             $conflict_proposal = get_record_sql($query);
@@ -104,8 +104,8 @@
                     if (Action == 'newevent' || Action == 'scheduleevent' || $event->id != $testevent_place->id_evento) {
 
                         // get conflict proposals details
-                        $query = 'SELECT P.id, P.nombre FROM propuesta P
-                            JOIN evento E ON E.id='.$testevent_place->id_evento.'
+                        $query = 'SELECT P.id, P.nombre FROM '.$CFG->prefix.'propuesta P
+                            JOIN '.$CFG->prefix.'evento E ON E.id='.$testevent_place->id_evento.'
                             WHERE P.id=E.id_propuesta GROUP BY E.id';
 
                         $conflict_proposal = get_record_sql($query);
