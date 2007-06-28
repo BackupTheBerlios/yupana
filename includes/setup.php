@@ -260,6 +260,14 @@ $CFG->send_mail = (empty($CFG->send_mail)) ? false : $CFG->send_mail;
 //for backward compatibility
 define('SEND_MAIL', $CFG->send_mail);
 
+// l10n/gettext support
+include($CFG->incdir . 'php-gettext/streams.php');
+include($CFG->incdir . 'php-gettext/gettext.php');
+require($CFG->incdir . 'l10n.php');
+
+// load gettext language
+load_default_textdomain();
+
 function ini_get_bool ($ini_get_arg) {
     $temp = ini_get($ini_get_arg);
 
