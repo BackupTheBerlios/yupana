@@ -591,9 +591,9 @@ function clam_scan_file(&$file) {
 
     if (!$CFG->pathtoclam || !file_exists($CFG->pathtoclam) || !is_executable($CFG->pathtoclam)) {
         $newreturn = 1;
-        $notice = sprintf(__('Elgg is configured to run clam on file upload, but the path supplied to Clam AV, %s,  is invalid.'), $CFG->pathtoclam);
+        $notice = sprintf(__('Yupana is configured to run clam on file upload, but the path supplied to Clam AV, %s,  is invalid.'), $CFG->pathtoclam);
         if ($CFG->clamfailureonupload == 'actlikevirus') {
-            $notice .= "\n". __('In addition, Elgg is configured so that if clam fails to run, files are treated like viruses.  This essentially means that no student can upload a file successfully until you fix this.');
+            $notice .= "\n". __('In addition, Yupana is configured so that if clam fails to run, files are treated like viruses.  This essentially means that no student can upload a file successfully until you fix this.');
             $notice .= "\n". clam_handle_infected_file($fullpath);
             $newreturn = false; 
         }
