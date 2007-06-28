@@ -74,7 +74,7 @@ function load_default_textdomain() {
     if (empty($locale) )
         $locale = 'es_BO';
 
-    $mofile = $CFG->incdir . "languages/{$locale}.mo";
+    $mofile = $CFG->incdir . "languages/{$locale}/yupana.mo";
 
     load_textdomain('default', $mofile);
 }
@@ -83,10 +83,10 @@ function languages_available() {
     global $CFG;
 
     $langs = array();
-    $lang_mos = $CFG->incdir . 'languages/*.mo';
+    $lang_mos = $CFG->incdir . 'languages/*/yupana.mo';
 
     foreach (glob($lang_mos) as $lang) {
-        preg_match('#languages/(.+)\.mo$#', $lang, $matches);
+        preg_match('#languages/(.+)/yupana\.mo$#', $lang, $matches);
         $langs[] = $matches[1];
     }
 
