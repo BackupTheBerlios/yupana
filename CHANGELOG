@@ -17,3 +17,4 @@ Yupana 0.1alpha1 (future release)
 	* Added drupal auth example
 - Support for multiple tables prefix on same database
 - Localization support with php-gettext
+	* Added english translation
