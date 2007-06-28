@@ -39,7 +39,7 @@ function execute_sql($command, $feedback=true) {
 
     if ($result) {
         if ($feedback) {
-            notify(__('Success'), 'notifysuccess');
+            notify(__('Exito'), 'notifysuccess');
         }
         return true;
     } else {
@@ -622,13 +622,13 @@ function get_record_sql($sql, $values=null, $expectmultiple=false, $nolimit=fals
         return (object)$rs->fields;
 
     } else {                          // Error: found more than one record
-        notify(__('Error:  Turn off debugging to hide this error.'));
+        notify(__gettext('Error:  Turn off debugging to hide this error.'));
         notify($sql . $limit);
         if ($records = elgg_GetAssoc($rs)) {
-            notify(__('Found more than one record in get_record_sql !'));
+            notify(__gettext('Found more than one record in get_record_sql !'));
             print_object($records);
         } else {
-            notify(__('Very strange error in get_record_sql !'));
+            notify(__gettext('Very strange error in get_record_sql !'));
             print_object($rs);
         }
 //        print_continue("$CFG->wwwroot/$CFG->admin/config.php");
