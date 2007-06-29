@@ -101,7 +101,7 @@ function get_info($where, $type='person', $limit='', $order='') {
         //get event if programmed 
         if (!empty($records) && $type == 'proposal' && $records->id_status == 8) {
             $query = '
-                SELECT FE.fecha, R.nombre_lug AS lugar, EO.hora
+                SELECT FE.fecha, R.nombre_lug AS lugar, EO.hora, EO.id_evento
                 FROM '.$CFG->prefix.'evento E
                 LEFT JOIN '.$CFG->prefix.'evento_ocupa EO ON EO.id_evento = E.id
                 LEFT JOIN '.$CFG->prefix.'lugar R ON R.id = EO.id_lugar
@@ -111,6 +111,7 @@ function get_info($where, $type='person', $limit='', $order='') {
             $event = get_record_sql($query);
             $endhour = $event->hora + $records->duracion -1;
 
+            $records->id_evento = $event->id_evento;
             $records->fecha = $event->fecha;
             $records->human_date = friendly_date($event->fecha);
             $records->lugar = $event->lugar;
