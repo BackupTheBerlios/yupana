@@ -140,15 +140,20 @@ END;
         $endhour = $proposal->hora + $proposal->duracion -1;
         $time = sprintf('%02d:00 - %02d:50', $proposal->hora, $endhour);
 
-        // availability
-        $disp = (empty($proposal->cupo)) ? '' : sprintf(__('%d de %d'), '0', $proposal->cupo);
-
         // friendly date
         $human_date = friendly_date($proposal->fecha);
 
-        // attendes
-        $url = get_url('admin/proposals/'.$proposal->id.'/persons');
-        $l_asistentes = "<a class=\"verde\" href=\"{$url}\">" . __("Asistentes") . "</a>";
+        if ($proposal->id_prop_tipo >= 50 && $proposal->id_prop_tipo < 100) {
+            // attendes
+            $url = get_url('admin/proposals/'.$proposal->id.'/persons');
+            $l_asistentes = "<li class=\"admin-actions\"><a class=\"verde\" href=\"{$url}\">" . __("Asistentes") . "</a></li>";
+
+            $attendees = count_records('inscribe', 'id_evento', $proposal->id_evento);
+            $disp = $proposal->cupo - $attendees;
+        } else {
+            $l_asistentes = '';
+            $disp = '';
+        }
 
         // cancel
         $url = get_url('admin/events/'.$proposal->id_evento.'/cancel');
@@ -162,7 +167,7 @@ END;
             // build menu
             $l_vmenu = <<< END
 <ul class="list-vmenu">
-<li class="admin-actions">{$l_asistentes}</li>
+{$l_asistentes}
 <li class="admin-actions">{$l_edit}</li>
 <li class="admin-actions">{$l_cancel}</li>
 </ul>
