@@ -32,10 +32,11 @@ if ($workshop->id_prop_tipo < 50 || $workshop->id_prop_tipo >= 100 || ($action =
 if (!empty($workshop) && !empty($workshop->id_evento) && !empty($action)) {
 
     if ($action == 'subscribe') {
-        $query = 'INSERT INTO '.$CFG->prefix.'inscribe VALUES(%d,%d,%d,%d)';
+        $query = 'INSERT INTO '.$CFG->prefix.'inscribe(id_asistente,id_evento,reg_time) VALUES(%d,%d,%s)';
 
+        $time = strftime('%Y%m%d%H%M%S');
         // build query
-        $query = sprintf($query, $userid, $workshop->id_evento, time(), time());
+        $query = sprintf($query, $userid, $workshop->id_evento, $time);
 
         $rs = execute_sql($query, false);
     }
