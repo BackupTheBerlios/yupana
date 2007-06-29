@@ -4,6 +4,8 @@ if (empty($CFG)) {
     die;
 }
 
+require($CFG->comdir . 'register_flag_check.php');
+
 if (Context == 'asistente') {
     $workshops = get_events(0, 0, '', 0, true);
     $workshops_limit = count_records('inscribe', 'id_asistente', $USER->id);
