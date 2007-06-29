@@ -1316,7 +1316,7 @@ function update_record($table, $dataobject) {
     if (is_array($table_columns) && array_key_exists($table,$table_columns)) {
         $columns = $table_columns[$table];
     } else {
-        if (!$columns = $db->MetaColumns($table)) {
+        if (!$columns = $db->MetaColumns($CFG->prefix . $table)) {
             return false;
         }
         $table_columns[$table] = $columns;
