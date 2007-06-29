@@ -54,7 +54,20 @@ elseif (Context == 'main') {
 //run prop filters
 include($CFG->comdir . 'prop_filter_optional_params.php');
 
-$proposals = get_proposals($where, '', $order);
+if (Action == 'viewperson') {
+    if (Context == 'asistente') {
+        $userid = $USER->id;
+    }
+
+    else {
+        $userid = $person_id;
+    }
+
+    // get subscribed proposals
+    $proposals = get_events(0, 0, '', 0, true, $userid);
+} else {
+    $proposals = get_proposals($where, '', $order);
+}
 
 if (!empty($proposals)) {
 ?>
@@ -62,8 +75,10 @@ if (!empty($proposals)) {
 <h4><?=__('Ponencias listadas') ?>: <?=sizeof($proposals) ?></h4>
 
 <?php
-    // show prop filter form
-    include($CFG->comdir . 'prop_filter.php');
+    if (Action != 'viewperson') {
+        // show prop filter form
+        include($CFG->comdir . 'prop_filter.php');
+    }
 
     // build data table
     $table_data = array();
@@ -72,6 +87,10 @@ if (!empty($proposals)) {
         $table_data[] = array(__('Ponencia'), __('Tipo'), __('Estado'), '');
     }
    
+    elseif (Context == 'asistente') {
+            $table_data[] = array(__('Taller/Tutorial'), __('Lugar'), __('Fecha'), __('Hora'), __('Fecha Insc.'));
+    }
+
     elseif (Context == 'admin') {
         if (Action == 'listproposals') {
             $table_data[] = array(__('Ponencia'), __('Tipo'), __('Archivos'), __('Status'), __('Asignado'), '');
@@ -91,6 +110,10 @@ if (!empty($proposals)) {
 
         elseif (Action == 'viewspeaker' || Action == 'deletespeaker') {
             $table_data[] = array(__('Ponencia'), __('Tipo'), __('Status'), __('Archivos'));
+        }
+
+        elseif (Action == 'viewperson' || Action == 'deleteperson') {
+            $table_data[] = array(__('Taller/Tutorial'), __('Lugar'), __('Fecha'), __('Hora'), __('Fecha Insc.'));
         }
 
         $status_list = get_records_select('prop_status', 'id < 7');
@@ -144,11 +167,34 @@ END;
 
         }
        
+        //person
+        elseif (Context == 'asistente') {
+            $url = get_url('speaker/proposals/'.$proposal->id);
+
+            $l_ponencia = <<< END
+<ul class="proposal">
+<li><a href="{$url}">{$proposal->nombre}</a></li>
+<ul class="speaker">
+<li>{$proposal->nombrep} {$proposal->apellidos}</li>
+</ul>
+</ul>
+END;
+            $hora = sprintf('%2d:00 - %2d:50', $proposal->hora, $proposal->hora + $proposal->duracion -1);
+
+            $table_data[] = array(
+                $l_ponencia,
+                $proposal->lugar,
+                $proposal->fecha,
+                $hora,
+                $proposal->reg_time
+                );
+        }
+
         // admin
         elseif (Context == 'admin') {
             $urlp = get_url('admin/speakers/'.$proposal->id_ponente);
 
-            if (Action == 'listproposals' || Action == 'scheduleevent' || Action == 'addschedule' || Action == 'viewspeaker' || Action == 'deletespeaker') {
+            if (Action == 'listproposals' || Action == 'scheduleevent' || Action == 'addschedule' || Action == 'viewspeaker' || Action == 'deletespeaker' || Action == 'viewperson' || Action == 'deleteperson') {
 
                 $url = get_url('admin/proposals/'.$proposal->id);
 
@@ -190,7 +236,7 @@ END;
             }
 
             //show admin actions
-            if (Action != 'scheduleevent' && Action != 'addschedule' && Action != 'viewspeaker' && Action != 'deletespeaker') {
+            if (Action != 'scheduleevent' && Action != 'addschedule' && Action != 'viewspeaker' && Action != 'deletespeaker' && Action != 'viewperson' && Action != 'deleteperson') {
                 $actions = '<ul class="list-vmenu">';
 
                 foreach ($status_list as $stat) {
@@ -293,6 +339,18 @@ END;
                     $proposal->tipo,
                     $proposal->status,
                     $l_files
+                    );
+            }
+
+            elseif (Action == 'viewperson' || Action == 'deleteperson') {
+                $hora = sprintf('%2d:00 - %2d:50', $proposal->hora, $proposal->hora + $proposal->duracion -1);
+
+                $table_data[] = array(
+                    $l_ponencia,
+                    $proposal->lugar,
+                    $proposal->fecha,
+                    $hora,
+                    $proposal->reg_time
                     );
             }
 
