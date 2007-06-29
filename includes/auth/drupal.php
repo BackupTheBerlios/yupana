@@ -1,5 +1,5 @@
 <?php
-// drupal
+// drupal auth 
 function drupal_user_auth ($login, $pass, $context) {
     global $errmsg;
 
@@ -9,7 +9,8 @@ function drupal_user_auth ($login, $pass, $context) {
     $dbpass = 'drupal';                 //drupal database password
     $dbhost = 'localhost';              //drupal database hostname
 
-    $dbusers_table = 'drupal1_users';   //drupal users table
+    $dbprefix = 'prefix_';              // drupal database prefix
+    //end settings
 
     $dblink = mysql_connect($dbhost, $dbuser, $dbpass);
 
@@ -21,7 +22,8 @@ function drupal_user_auth ($login, $pass, $context) {
 
     } else {
 
-        $query = "SELECT uid FROM {$dbusers_table} WHERE name='{$login}' AND pass=MD5('{$pass}')";
+        // get user id from users table
+        $query = "SELECT uid FROM {$dbprefix}users WHERE name='{$login}' AND pass=MD5('{$pass}')";
         $rs = mysql_query($query);
 
         //fetch result
