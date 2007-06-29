@@ -126,7 +126,9 @@ function get_info($where, $type='person', $limit='', $order='') {
     return $records;
 }
 
-function get_events($date_id=0, $room_id=0, $date='', $user_id=0, $workshop=false) {
+function get_events($date_id=0, $room_id=0, $date='', $user_id=0, $workshop=false, $workshop_userid=0) {
+    global $CFG;
+
     // where, safe value
     $where = '1=1';
 
@@ -153,6 +155,11 @@ function get_events($date_id=0, $room_id=0, $date='', $user_id=0, $workshop=fals
     if (!empty($workshop)) {
         // get workshop/tutorials and so on
         $where .= ' AND P.id_prop_tipo >= 50 AND P.id_prop_tipo < 100';
+    }
+
+    if (!empty($workshop_userid)) {
+        // select user's subscribed workshop
+        $where .= ' AND EO.id_evento IN (SELECT id_evento FROM '.$CFG->prefix.'inscribe WHERE id_asistente = '. $workshop_userid .')';
     }
 
     $where .= ' GROUP BY EO.id_evento';
