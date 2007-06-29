@@ -9,7 +9,7 @@
         <ul>
 
         <li><a href="<?=get_url('person/details') ?>"><?=__('Modificar mis datos') ?></a></li> 
-        <li><a href="<?=get_url('person/kardex') ?>"><?=__('Hoja de registro') ?></a></li>
+        <li><a href="<?=get_url('person/record') ?>"><?=__('Hoja de registro') ?></a></li>
 
         </ul>
 

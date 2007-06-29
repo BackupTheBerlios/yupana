@@ -53,11 +53,12 @@ elseif (preg_match('#^person/events/?$#', $q)) {
 }
 
 // kardex events
-elseif (preg_match('#^person/kardex/?$#', $q)) {
-    define('Action', 'userkardex');
+elseif (preg_match('#^person/record/?$#', $q)) {
+    define('Action', 'viewperson');
 
     do_header(__('Hoja de Registro'));
-    include($CFG->comdir .'user_kardex.php');
+    include($CFG->comdir .'user_view.php');
+    do_submit_cancel('', __('Regresar'));
 }
 
 // view proposals details
@@ -79,6 +80,25 @@ elseif (preg_match('#^person/proposals/\d+/?$#', $q)) {
 elseif (preg_match('#^person/proposals/\d+/files/\d+/.+$#', $q)) {
     define('Action', 'downloadfile');
     include($CFG->comdir . 'prop_files_download.php');
+}
+
+// workshops
+elseif (preg_match('#^person/workshops/?$#', $q)) {
+    define('Action', 'workshopregister');
+    $title = __('Registro a Talleres/Tutoriales');
+
+    do_header($title);
+
+?> <h1><?=$title ?></h1> <?php
+
+    include($CFG->comdir . 'workshop_list.php');
+    do_submit_cancel('', __('Regresar'));
+}
+
+// un/subscribe workshop
+elseif (preg_match('#^person/workshops/\d+/.+$#', $q)) {
+    define('Action', 'workshopaction');
+    include($CFG->comdir . 'workshop_action.php');
 }
 
 // page not found
