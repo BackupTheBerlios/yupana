@@ -112,7 +112,7 @@
     do_table_values($values, 'narrow');
 
     // show reg/act time
-    if (Context == 'admin') {
+    if (Context == 'admin' && (Action != 'newadmin' && Action != 'editadmin' && Action != 'editdetails')) {
         $values = array(
             __('Fecha de registro') => $user->reg_time,
             __('Fecha de actualización') => $user->act_time
