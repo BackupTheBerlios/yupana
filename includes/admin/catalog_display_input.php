@@ -22,6 +22,13 @@ if (!empty($datas)) {
 
     }
 
+    if (in_array($catalog, $catalogs_addremove_field)) {
+        // add input for new option
+        $input_descr = do_get_output('do_input', array($catalog.'-new', 'text', '', 'size="50"'));
+
+        $table_data[] = array('+', $input_descr);
+    }
+
     do_table($table_data, 'catalog');
 }
 ?>

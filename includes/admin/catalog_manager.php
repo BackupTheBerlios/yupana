@@ -16,11 +16,11 @@ $catalogs = array(
     'prop_status' => __('Estados de propuesta')
     );
 
+$catalogs_addremove_field = array('estado', 'orientacion');
+
 ?>
 
 <h1><?=__('Administrar Catálogos') ?></h1>
-
-<form method="POST" action="">
 
 <?php
 foreach ($catalogs as $catalog => $desc) {
@@ -28,6 +28,7 @@ foreach ($catalogs as $catalog => $desc) {
 
 <h2><?=$desc ?></h2>
 
+<form method="POST" action="">
 <?php
     // restet messages
     $errmsg = array();
@@ -51,10 +52,11 @@ foreach ($catalogs as $catalog => $desc) {
     include($CFG->admdir . 'catalog_display_input.php');
 
     do_submit_cancel(__('Guardar'), '', '', 'submit-'.$catalog);
-}
 ?>
 
 </form>
+
+<?php } ?>
 
 <div class="block"></div>
 

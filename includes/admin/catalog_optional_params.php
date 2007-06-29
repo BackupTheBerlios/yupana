@@ -25,11 +25,33 @@ foreach ($records as $record) {
         $data->descr = $input;
 
         if (empty($data->descr)) {
-            $errmsg[] = __('No puedes dejar vacía ninguna descripción.');
-        } else {
+
+            // if flagged catalog, and empty descr mark to delete
+            if (in_array($catalog, $catalogs_addremove_field)) {
+                $data->delete = true;
+            } else {
+                $errmsg[] = __('No puedes dejar vacía ninguna descripción.');
+            }
+        }
+       
+        if (empty($errmsg)) {
             $datas[] = $data;
         }
     }
 
 }
+
+// get new option
+if (in_array($catalog, $catalogs_addremove_field)) {
+    $new_desc = optional_param($catalog.'-new');
+
+    if (!empty($new_desc)) {
+        $data = new StdClass;
+        $data->new = true;
+        $data->descr = $new_desc;
+
+        $datas[] = $data;
+    }
+}
+
 ?>
