@@ -61,7 +61,7 @@ if (Context == 'admin' || Context == 'ponente' || Context == 'asistente') {
         );
 
     // no need password textboxes on external auth
-    if (empty($CFG->auth)) {
+    if (empty($CFG->auth) || (Context == 'admin' && $user->id == 1)) {
         // password
         $input_data = do_get_output('do_input', array('S_passwd', 'password', '', 'size="15"'));
 

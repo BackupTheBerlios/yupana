@@ -36,7 +36,7 @@
     }
 
     //force passwd value on external auth
-    if (!empty($CFG->auth)) {
+    if (!empty($CFG->auth) && (Context != 'admin' || $user->id != 1)) {
         $user->passwd = '!!';
     }
 
