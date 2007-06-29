@@ -69,7 +69,7 @@
 
         // no need to check passwords on external auth
         // FIXME: dont trust submit var
-        if (($submit == __('Registrarme') && empty($CFG->auth)) || ($submit == __('Actualizar') && !empty($passwd))) {
+        if ((empty($CFG->auth) && (Action == 'register' || Action == 'newspeaker' || Action == 'newadmin')) || (Action == 'editdetails' && !empty($passwd))) {
 
             // Verifica que el password sea de al menos 6 caracteres
             if (!preg_match("/^.{6,15}$/",$passwd)) {
@@ -101,7 +101,7 @@
             }
 
             // If unique_mail true, check user mail in db
-            if (!empty($CFG->unique_mail)) {
+            if (!empty($CFG->unique_mail) && Action != 'editdetails') {
                 if (record_exists($dbtable, 'mail', $mail)) {
                     $errmsg[] = __('El correo electrónico que elegiste ya ha sido registrado.');
                 }
