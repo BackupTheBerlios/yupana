@@ -6,16 +6,16 @@
 
     if (Context == 'ponente' && Action == 'register') {
         $id = 1; // REGPONENTES
-        $name = 'ponentes';
+        $name = __('ponentes');
     } elseif (Context == 'asistente' && Action == 'register') {
         $id = 2; // REGASISTENTES
-        $name = 'asistentes';
+        $name = __('asistentes');
     } elseif (Context == 'ponente' && Action == 'newproposal') {
         $id = 3; // REGPONENCIAS
-        $name = 'ponencias';
+        $name = __('ponencias');
     } elseif (Context == 'asistente' && Action == 'workshopregister') {
         $id = 4; // INSCRIP
-        $name = 'talleres/tutoriales';
+        $name = __('talleres/tutoriales');
     } else {
         if (Context == 'admin') {
             $open_flag = true;
