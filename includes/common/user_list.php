@@ -31,9 +31,30 @@ elseif (Action == 'controlpersons') {
     $desc = __('Control/Asistentes');
     $local_url = 'persons';
 }
+
+elseif (Action == 'workshopattendees') {
+    preg_match('#^admin/proposals/(\d+)/persons$#', $q, $matches);
+    $proposal_id = (!empty($matches)) ? (int) $matches[1] : 0;
+
+    $proposal = get_proposal($proposal_id);
+
+    $where .= ' AND P.id IN (SELECT id_asistente FROM '.$CFG->prefix.'inscribe WHERE id_evento = '.$proposal->id_evento.')';
+
+    $desc = __('Asistentes');
+
+    $local_url = 'persons';
+
+    $users = get_persons($where);
+}
 ?>
 
 <h1><?=__('Lista de') ?> <?=$desc ?></h1>
+
+<?php if (Action == 'workshopattendees') { ?>
+
+<h2 class="center"><?=$proposal->nombre ?></h2>
+
+<?php } ?>
 
 <?php
 if (!empty($users)) {
@@ -63,7 +84,7 @@ if (!empty($users)) {
 </li></ul>
 END;
 
-        if (level_admin(2)) {
+        if (level_admin(2) && Action != 'workshopattendees') {
             $url = get_url('admin/'.$local_url.'/'.$user->id.'/delete');
             $l_delete = "<a class=\"precaucion\" href=\"{$url}\">" . __('Eliminar') . "</a>";
         } else {

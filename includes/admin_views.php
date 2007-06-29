@@ -315,6 +315,16 @@ elseif (level_admin(2) && preg_match('#^admin/events/schedule/?$#', $q)) {
     do_submit_cancel('', __('Regresar'), $return_url);
 }
 
+// list attendees to workshops
+elseif (level_admin(2) && preg_match('#^admin/proposals/\d+/persons$#', $q)) {
+    define('Action', 'workshopattendees');
+    $return_url = get_url('admin/events');
+
+    do_header(__('Lista de asistentes'));
+    include($CFG->comdir . 'user_list.php');
+    do_submit_cancel('', __('Regresar', $return_url));
+}
+
 // add event
 elseif (level_admin(2) && preg_match('#^admin/events/schedule/\d+?$#', $q)) {
     define('Action', 'scheduleevent');
