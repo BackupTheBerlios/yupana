@@ -31,6 +31,7 @@ INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('clean_url', '0');
 INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('public_proposals', '1');
 INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('public_schedule', '1');
 INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('auth', '');
+INSERT INTO `prefix_datalists`(`name`,`value`) VALUES ('locale', '');
 
 --
 -- Table structure for table `administrador`
