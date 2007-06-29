@@ -94,8 +94,8 @@
 
             // FIXME: dont trust submit var
             if (!(empty($testuser))
-                && ($submit == __('Registrarme')
-                    || ($submit == __('Actualizar')
+                && ((Action == 'register' || Action == 'newspeaker' || Action == 'newadmin')
+                    || (Action == 'editdetails'
                         && $testuser->id != $USER->id))) {
                 $errmsg[] = __('El usuario que elegiste ya ha sido tomado; por favor elige otro');
             }
