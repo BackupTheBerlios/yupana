@@ -1,8 +1,27 @@
 <?php
+
+global $CFG;
+
+// Set includes dir
+$CFG->rootdir = dirname(dirname(__FILE__)) . '/';
+$CFG->incdir = $CFG->rootdir . 'includes/';
+$CFG->admdir = $CFG->incdir . 'admin/';
+$CFG->comdir = $CFG->incdir . 'common/';
+$CFG->tpldir = $CFG->rootdir . 'templates/';
+
+// includes
+include($CFG->incdir . 'datalib.php');
+include($CFG->incdir . 'constants.php');
+include($CFG->incdir . 'displaylib.php');
+include($CFG->incdir . 'infolib.php');
+
+// l10n/gettext support
+include($CFG->incdir . 'php-gettext/streams.php');
+include($CFG->incdir . 'php-gettext/gettext.php');
+include($CFG->incdir . 'l10n.php');
+
 // run setup script 
-require_once(dirname(__FILE__).'/setup.php');
-require_once($CFG->incdir . 'displaylib.php');
-require_once($CFG->incdir . 'infolib.php');
+require($CFG->incdir . 'setup.php');
 
 function set_config($name, $value) {
     global $CFG;

@@ -8,13 +8,6 @@ global $errmsg;
 // messages holder
 $errmsg = array();
 
-// Set includes dir
-$CFG->rootdir = dirname(dirname(__FILE__)) . '/';
-$CFG->incdir = $CFG->rootdir . 'includes/';
-$CFG->admdir = $CFG->incdir . 'admin/';
-$CFG->comdir = $CFG->incdir . 'common/';
-$CFG->tpldir = $CFG->rootdir . 'templates/';
-
 if (!is_readable($CFG->rootdir . 'config.php')) {
     echo '<html><body>';
     echo '<table align="center"><tr>';
@@ -29,10 +22,8 @@ if (!is_readable($CFG->rootdir . 'config.php')) {
 
 }
 
-require($CFG->rootdir . 'config.php');
-require($CFG->incdir . 'datalib.php');
-require($CFG->incdir . 'constants.php');
-
+// load config
+include($CFG->rootdir . 'config.php');
 
 /// First try to detect some attacks on older buggy PHP versions
 if (isset($_REQUEST['GLOBALS']) || isset($_COOKIE['GLOBALS']) || isset($_FILES['GLOBALS'])) {
@@ -83,9 +74,9 @@ header('P3P:CP="IDC DSP COR ADM DEVi TAIi PSA PSD IVAi IVDi CONi HIS OUR IND CNT
 
 // set up our database connection
 if ($CFG->debug & E_USER_ERROR) {
-    require_once('adodb/adodb-errorhandler.inc.php');
+    include('adodb/adodb-errorhandler.inc.php');
 }
-require_once('adodb/adodb.inc.php'); // Database access functions
+require('adodb/adodb.inc.php'); // Database access functions
 
 if (empty($CFG->dbtype)) {
     $CFG->dbtype = 'mysql';
@@ -232,15 +223,18 @@ if (ini_get_bool('magic_quotes_gpc') ) {
 $METATABLES = $db->Metatables();
 
 //check db sanity
-require_once($CFG->incdir . 'dbsetup.php');
+require($CFG->incdir . 'dbsetup.php');
 
 if ($METATABLES) {
     // load config from db at end
     $CFG = get_config();
 }
 
+// Now can load gettext language based on $CFG->locale
+load_default_textdomain();
+
 // load again config.php to override db configs values
-require_once($CFG->rootdir . 'config.php');
+include($CFG->rootdir . 'config.php');
 
 
 //try to guess correct wwwroot
@@ -265,14 +259,6 @@ $CFG->send_mail = (empty($CFG->send_mail)) ? false : $CFG->send_mail;
 
 //for backward compatibility
 define('SEND_MAIL', $CFG->send_mail);
-
-// l10n/gettext support
-include($CFG->incdir . 'php-gettext/streams.php');
-include($CFG->incdir . 'php-gettext/gettext.php');
-require($CFG->incdir . 'l10n.php');
-
-// load gettext language
-load_default_textdomain();
 
 function ini_get_bool ($ini_get_arg) {
     $temp = ini_get($ini_get_arg);
