@@ -66,7 +66,11 @@ function get_config($name=NULL) {
 function get_url($path='') {
     global $CFG;
 
-    $url = $CFG->wwwroot;
+    if (empty($CFG->wwwroot)) {
+        $url = $_SERVER['REQUEST_URI'];
+    } else {
+        $url = $CFG->wwwroot;
+    }
 
     if (!empty($path)) {
         // using mod rewrite?
