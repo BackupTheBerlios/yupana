@@ -49,6 +49,12 @@ if (!is_dir($CFG->files) || !is_writable($CFG->files)) {
     die("Fatal: Can't write in directory $CFG->files'");
 }
 
+// sanity check of files path
+if (substr($CFG->files, strlen($CFG->files)-1, 1) != '/') {
+    // trailing slash
+    $CFG->files .= '/';
+}
+
 //for uploadlib compatibility
 $CFG->dataroot = $CFG->files;
 
