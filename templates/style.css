@@ -472,7 +472,7 @@ table.left {
 	margin: 20px 40px;
 }
 
-.littleinfo {
+.littleinfo, .speaker {
 	color: #333;
 	font-size: 0.8em;
 }
